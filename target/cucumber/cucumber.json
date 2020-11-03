@@ -1,0 +1,87 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2020-11-02T15:55:33.739Z",
+        "before": [
+          {
+            "result": {
+              "duration": 5825000000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "stepDefinition.Hooks.Initialize(io.cucumber.java.Scenario)"
+            }
+          }
+        ],
+        "line": 4,
+        "name": "Salesforce test",
+        "description": "",
+        "id": "test-salesforce;salesforce-test",
+        "after": [
+          {
+            "result": {
+              "duration": 1356000000,
+              "status": "passed"
+            },
+            "match": {
+              "location": "stepDefinition.Hooks.CloseDriver(io.cucumber.java.Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 44000000,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "Login page",
+            "match": {
+              "location": "stepDefinition.salesforce.SalesforceLogin.login_page()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 717000000,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "Enter an Username and Password",
+            "match": {
+              "location": "stepDefinition.salesforce.SalesforceLogin.enter_an_username_and_password()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 11638000000,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "The HomePage is displayed",
+            "match": {
+              "location": "stepDefinition.salesforce.SalesforceLogin.the_homepage()"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@Prueba"
+          }
+        ]
+      }
+    ],
+    "name": "Test Salesforce",
+    "description": "",
+    "id": "test-salesforce",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/features/salesforce/Salesforce.feature",
+    "tags": []
+  }
+]
