@@ -5,6 +5,8 @@ import factory.threadsafe.CurrentWebDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import utils.FileReading;
 
 public class Hooks {
@@ -18,6 +20,11 @@ public class Hooks {
 
     @After
     public void CloseDriver(Scenario scenario){
+        if(scenario.isFailed()) {
+            TakesScreenshot ts = (TakesScreenshot) CurrentWebDriver.getInstance().getWebDriver();
+            byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "");
+        }
         if(CurrentWebDriver.getInstance().getWebDriver() != null){
             CurrentWebDriver.getInstance().getWebDriver().quit();
             CurrentWebDriver.getInstance().removeWebDriver();
