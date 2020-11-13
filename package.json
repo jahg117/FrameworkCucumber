@@ -1,0 +1,19 @@
+{
+  "name": "pep-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "report": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kjbj453@bitbucket.org/csdc/pep-automation.git"
+  },
+  "author": "Alejandro",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/csdc/pep-automation#readme",
+  "devDependencies": {
+    "multiple-cucumber-html-reporter": "^1.18.0"
+  }
+}
