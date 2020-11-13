@@ -21,8 +21,7 @@ public class Hooks {
     @After
     public void CloseDriver(Scenario scenario){
         if(scenario.isFailed()) {
-            TakesScreenshot ts = (TakesScreenshot) CurrentWebDriver.getInstance().getWebDriver();
-            byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+            byte[] screenshot = ((TakesScreenshot) CurrentWebDriver.getInstance().getWebDriver()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "");
         }
         if(CurrentWebDriver.getInstance().getWebDriver() != null){
