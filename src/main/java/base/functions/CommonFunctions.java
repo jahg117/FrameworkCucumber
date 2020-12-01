@@ -1,6 +1,6 @@
-package selenium.functions;
+package base.functions;
 
-import factory.threadsafe.CurrentWebDriver;
+import base.DriverFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,16 +10,11 @@ import utils.FileReading;
 
 import java.time.Duration;
 
-public class Wrapper {
+public class CommonFunctions {
 
-    private WebDriver webDriver=null;
-
-    public Wrapper(WebDriver webDriverThreadLocal){
-        this.webDriver =  webDriverThreadLocal;
-    }
+    private WebDriver webDriver = DriverFactory.getDriver();
 
     public FileReading fileReading = new FileReading();
-    private WebDriver driver = CurrentWebDriver.getInstance().getWebDriver();
 
     private FluentWait<WebDriver> getWebDriverWait(int timeOutInSeconds, int pollingEvery){
         FluentWait<WebDriver> wait = new FluentWait<>(webDriver);

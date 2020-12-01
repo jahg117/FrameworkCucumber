@@ -1,9 +1,9 @@
-package factory;
+package base.factory;
 
 import org.openqa.selenium.WebDriver;
 
 public class WebDriverFactory {
-    public static WebDriver getDriver(String browser, String seleniumGridUrl) throws Exception {
+    public WebDriver getDriver(String browser, String seleniumGridUrl) throws Exception {
         switch (browser){
             case "chrome":
                 ChromeDriverCreator chromeDriverCreator = new ChromeDriverCreator();
