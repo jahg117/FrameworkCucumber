@@ -5,3 +5,9 @@ Feature: Test Salesforce
     Given Login page
     When Enter an Username and Password
     Then The HomePage is displayed
+
+  @Prueba
+  Scenario: Salesforce test prueba
+    Given Login page
+    When Enter an Username and Password
+    Then The HomePage is displayed

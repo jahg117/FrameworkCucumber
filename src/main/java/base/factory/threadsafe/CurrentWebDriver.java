@@ -1,4 +1,4 @@
-package factory.threadsafe;
+package base.factory.threadsafe;
 
 import org.openqa.selenium.WebDriver;
 
