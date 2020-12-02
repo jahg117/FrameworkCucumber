@@ -3,6 +3,7 @@ package stepDefinition.salesforce;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.testng.Assert;
 import pageObject.application.Salesforce;
 
 public class SalesforceLoginTest {
@@ -17,6 +18,7 @@ public class SalesforceLoginTest {
     @When("^Enter an Username and Password$")
     public void enter_an_username_and_password() throws Throwable {
         salesforceScreen.getLoginPage().EnterUserPassword("edna.moreno@astrazeneca.com.ba.azuspep01.uat","automation2");
+        //Assert.assertTrue(false);
     }
 
     @Then("^The HomePage is displayed$")
