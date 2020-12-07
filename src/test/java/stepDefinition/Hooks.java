@@ -1,7 +1,7 @@
 package stepDefinition;
 
-import base.DriverFactory;
-import base.SharedDriver;
+import base.driverInitialize.DriverFactory;
+import base.driverInitialize.SharedDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
