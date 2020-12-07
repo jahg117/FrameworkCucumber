@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 public class WebDriverFactory {
     public WebDriver getDriver(String browser, String seleniumGridUrl) throws Exception {
         switch (browser){
+            case "browserstack":
+                BrowserstackDriverCreator browserstackDriverCreator = new BrowserstackDriverCreator();
+                return browserstackDriverCreator.createWebDriver();
             case "chrome":
                 ChromeDriverCreator chromeDriverCreator = new ChromeDriverCreator();
                 return chromeDriverCreator.createWebDriver();
