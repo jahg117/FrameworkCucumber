@@ -1,6 +1,6 @@
 package base.functions;
 
-import base.DriverFactory;
+import base.driverInitialize.DriverFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
