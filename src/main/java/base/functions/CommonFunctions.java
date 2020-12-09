@@ -370,24 +370,38 @@ public class CommonFunctions {
         }catch (NoSuchElementException | StaleElementReferenceException e){
             return false;
         }
-    }	
+    }
+
     /**
      * @author J.Ruano
-     * @apiNote this method it is used to click on an element with the different click options in selenium
-     * @param elementToClick it contains the WebElement to be clicked
+     * @apiNote method use to click an element and if there is an "ElementClickInterceptedException" it will click again
+     * with the Actions Class and if theres again the same exception it will use the JS method.
+     * @param wElement contains the Element to do click
+     * @return returns true if the click was done successfully
+     * @throws Exception
      */
-    public void clickMethods(WebElement elementToClick) throws Exception {
-        boolean operationStatus = scrollToElementByCoordinates(elementToClick);
-        if(!operationStatus){
-            operationStatus = scrollMethodToWebElement(elementToClick);
-            if(!operationStatus){
-                operationStatus = scrollMethodToWebElementByActions(elementToClick);
-                if (!operationStatus) {
+    public boolean clickMethod(WebElement wElement) throws Exception {
+        boolean statusOperation = scrollToElementByCoordinates(wElement);
+        if (!statusOperation) {
+            statusOperation = scrollMethodToWebElement(wElement);
+            if (!statusOperation) {
+                statusOperation = scrollMethodToWebElementByActions(wElement);
+                if (!statusOperation) {
                     //logger.info("NONE OF THE METHODS DID WORK TO SCROLL DOWN USING PIXELS");
                 }
             }
         }
+        if (waitForElementClickable(wElement, 10) && statusOperation) {
+            try {
+                wElement.click();
+                statusOperation = true;
+            } catch (ElementClickInterceptedException e) {
+                statusOperation = clickElementActions(wElement);
+            }
+        }
+        return statusOperation;
     }
+
     /**
      * @author J.Ruano
      * @apiNote This method will scroll to the Element using the scroll into view at Top of the element With JS
@@ -513,5 +527,37 @@ public class CommonFunctions {
         } catch (NoSuchElementException | StaleElementReferenceException e) {
             return false;
         }
+    }
+
+    /**
+     * @author J.Ruano
+     * @apiNote click to an element with the Actions Class
+     * @param wElement contains the Element to do click
+     * @return returns true if the click was done successfully
+     * @throws Exception
+     */
+    public boolean clickElementActions(WebElement wElement) throws Exception {
+        boolean statusOperation = false;
+        Actions actions = new Actions(webDriver);
+        try {
+            actions.click(wElement).build().perform();
+            statusOperation = true;
+        } catch (ElementClickInterceptedException e) {
+            statusOperation = clickElementJS(wElement);
+        }
+        return statusOperation;
+    }
+
+    /**
+     * @author J.Ruano
+     * @apiNote click to an element with JavaScript
+     * @param wElement contains the Element to do click
+     * @return returns true if the click was done successfully
+     * @throws Exception
+     */
+    public boolean clickElementJS(WebElement wElement) throws Exception {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor)webDriver;
+        jsExecutor.executeScript("arguments[0].click();", wElement);
+        return true;
     }
 }
