@@ -2,7 +2,9 @@ package base.driverInitialize;
 
 import org.openqa.selenium.WebDriver;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class DriverFactory {
@@ -13,6 +15,8 @@ public final class DriverFactory {
 	private static List<WebDriver> storedDrivers = new ArrayList<>();
 
 	static {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss.SSS");
+		System.setProperty("current.date.time", dateFormat.format(new Date()));
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				storedDrivers.forEach(WebDriver::quit);

@@ -1,14 +1,12 @@
 package base.functions;
 
 import base.driverInitialize.DriverFactory;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;														 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;												
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import sun.plugin.viewer.LifeCycleManager;										  
 import utils.FileReading;
 
 import java.time.Duration;
@@ -94,8 +92,10 @@ public class CommonFunctions {
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(element));
+            fileReading.loggerInfo("Element +"+element.toString()+" was found");
             return true;
         }catch (Exception e){
+            fileReading.loggerInfo("Element +"+element.toString()+" was not found");
             return false;
         }
     }

@@ -3,4 +3,6 @@ target/
 test output/
 package-lock.json
 *.class
+*.log
+logs/
 build/
