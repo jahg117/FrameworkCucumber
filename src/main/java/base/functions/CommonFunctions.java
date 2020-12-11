@@ -18,7 +18,7 @@ public class CommonFunctions {
 
     private WebDriver webDriver = DriverFactory.getDriver();
 
-    public FileReading fileReading = new FileReading();
+    protected FileReading fileReading = new FileReading();
 
     /**
      * Return true if a WebElement is found or false if it's not found
@@ -28,7 +28,7 @@ public class CommonFunctions {
      * @param pollingEvery Seconds to search a WebElement every specific second.
      * @return boolean
      */
-    private boolean waitForElementFluentMinutes(int timeOutInMinutes, int pollingEvery){
+    protected boolean waitForElementFluentMinutes(int timeOutInMinutes, int pollingEvery){
         try {
             FluentWait<WebDriver> wait = new FluentWait<>(webDriver);
             wait.withTimeout(Duration.ofMinutes(timeOutInMinutes));
@@ -50,7 +50,7 @@ public class CommonFunctions {
      * @param pollingEvery Seconds to search a WebElement every specific second.
      * @return boolean
      */
-    private boolean waitForElementFluentSeconds(int timeOutInSeconds, int pollingEvery){
+    protected boolean waitForElementFluentSeconds(int timeOutInSeconds, int pollingEvery){
         try {
             FluentWait<WebDriver> wait = new FluentWait<>(webDriver);
             wait.withTimeout(Duration.ofSeconds(timeOutInSeconds));
@@ -72,7 +72,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementClickable(WebElement element, int timeOutInSeconds){
+    protected boolean waitForElementClickable(WebElement element, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -90,7 +90,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementVisibility(WebElement element, int timeOutInSeconds){
+    protected boolean waitForElementVisibility(WebElement element, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(element));
@@ -108,7 +108,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementNotVisible(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
+    protected boolean waitForElementNotVisible(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOf(element));
@@ -126,7 +126,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementsNotVisible(List<WebElement> elements, int timeOutInSeconds){
+    protected boolean waitForElementsNotVisible(List<WebElement> elements, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
@@ -144,7 +144,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementsVisible(List<WebElement> elements, int timeOutInSeconds){
+    protected boolean waitForElementsVisible(List<WebElement> elements, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOfAllElements(elements));
@@ -161,7 +161,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for an Alert.
      * @return boolean
      */
-    public boolean waitForAlertVisible(int timeOutInSeconds){
+    protected boolean waitForAlertVisible(int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.alertIsPresent());
@@ -181,7 +181,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementAttributeContains(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
+    protected boolean waitForElementAttributeContains(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeContains(element, attribute, attributeValue));
@@ -200,7 +200,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementAttributeNotEmpty(WebElement element, String attribute,int timeOutInSeconds){
+    protected boolean waitForElementAttributeNotEmpty(WebElement element, String attribute,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeToBeNotEmpty(element,attribute));
@@ -220,7 +220,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementAttributeToBe(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
+    protected boolean waitForElementAttributeToBe(WebElement element, String attribute, String attributeValue,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeToBe(element,attribute,attributeValue));
@@ -238,7 +238,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for an expected title.
      * @return boolean
      */
-    public boolean waitForElementPageTitle(String title,int timeOutInSeconds){
+    protected boolean waitForElementPageTitle(String title,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.titleIs(title));
@@ -255,7 +255,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a URL.
      * @return boolean
      */
-    public boolean waitForElementUrlToBe(String url, int timeOutInSeconds){
+    protected boolean waitForElementUrlToBe(String url, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.urlToBe(url));
@@ -273,7 +273,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for an expected frame.
      * @return boolean
      */
-    public boolean waitForElementFrameAndSwitchToIt(WebElement element, int timeOutInSeconds){
+    protected boolean waitForElementFrameAndSwitchToIt(WebElement element, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
@@ -291,7 +291,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementSelected(WebElement element, int timeOutInSeconds){
+    protected boolean waitForElementSelected(WebElement element, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.elementToBeSelected(element));
@@ -310,7 +310,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementTextPresent(WebElement element, String textElement, int timeOutInSeconds){
+    protected boolean waitForElementTextPresent(WebElement element, String textElement, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.textToBePresentInElement(element, textElement));
@@ -329,7 +329,7 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    public boolean waitForElementTextPresentValue(WebElement element, String textElementValue, int timeOutInSeconds){
+    protected boolean waitForElementTextPresentValue(WebElement element, String textElementValue, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.textToBePresentInElementValue(element, textElementValue));
@@ -339,7 +339,7 @@ public class CommonFunctions {
         }
     }
 
-    public void waitForPageToLoad(int timeOutInSeconds){
+    protected void waitForPageToLoad(int timeOutInSeconds){
         WebDriverWait wait= new WebDriverWait(webDriver, 30);
         JavascriptExecutor jsExecutor = (JavascriptExecutor)webDriver;
 
@@ -356,31 +356,15 @@ public class CommonFunctions {
     }
 	
     /**
+     * Method used to click an element and if there is an "ElementClickInterceptedException" it will click again
+     *
      * @author J.Ruano
-     * @apiNote Return true if a WebElement is presence on the Dom not necessarily visible
-     * @param locator it contains the locator (path) to search the element
-     * @param timeOutInSeconds Seconds to wait for the WebElement.
-     * @return
-     */
-    public boolean waitForElementPresence(By locator, int timeOutInSeconds){
-        try{
-            WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
-            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-            return true;
-        }catch (NoSuchElementException | StaleElementReferenceException e){
-            return false;
-        }
-    }
-
-    /**
-     * @author J.Ruano
-     * @apiNote method use to click an element and if there is an "ElementClickInterceptedException" it will click again
      * with the Actions Class and if theres again the same exception it will use the JS method.
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
      */
-    public boolean clickMethod(WebElement wElement) throws Exception {
+    protected boolean clickMethod(WebElement wElement) throws Exception {
         boolean statusOperation = scrollToElementByCoordinates(wElement);
         if (!statusOperation) {
             statusOperation = scrollMethodToWebElement(wElement);
@@ -403,12 +387,13 @@ public class CommonFunctions {
     }
 
     /**
+     * This method will scroll to the Element using the scroll into view at Top of the element With JS
+     *
      * @author J.Ruano
-     * @apiNote This method will scroll to the Element using the scroll into view at Top of the element With JS
      * @param wElement It contains the WebElement
      * @throws Exception
      */
-    public boolean scrollMethodToWebElement(WebElement wElement) throws Exception {
+    protected boolean scrollMethodToWebElement(WebElement wElement) throws Exception {
         //Arguments to get into the middle of the WebElement, using as arguments in the java script
         String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
                 + "var elementTop = arguments[0].getBoundingClientRect().top;"
@@ -425,13 +410,14 @@ public class CommonFunctions {
     }
 
     /**
+     * Scroll into the page Up or Down using amount of pixels
+     *
      * @author J.Ruano
-     * @apiNote use to scroll into the page Up or Down using amount of pixels
      * @param scrollDirection can be Top or Bottom of the page
      * @param pixels Is an integer that contains the amount of pixels to scroll up or down when "up" or "down" word are use in the "scrollDirection"
      * @throws Exception
      */
-    public boolean scrollMethodByPixels(String scrollDirection,int pixels) throws Exception {
+    protected boolean scrollMethodByPixels(String scrollDirection,int pixels) throws Exception {
         JavascriptExecutor jsExecutor = (JavascriptExecutor)webDriver;
         String strPixels = String.valueOf(pixels);
         boolean statusOperation = false;
@@ -468,7 +454,7 @@ public class CommonFunctions {
      * @param wElement contains the Element to get the coordinates X,Y and scroll base on coordinates
      * @throws Exception
      */
-    public boolean scrollToElementByCoordinates(WebElement wElement) throws Exception {
+    protected boolean scrollToElementByCoordinates(WebElement wElement) throws Exception {
         Point point = wElement.getLocation();
         int x_coordinate = point.getX();
         int y_coordinate = point.getY();
@@ -478,12 +464,13 @@ public class CommonFunctions {
     }
 
     /**
+     * This method contains all the methods to scroll to TOP or to BOTTOM of the page
+     *
      * @author J.Ruano
-     * @apiNote This method contains all the methods to scroll to TOP or to BOTTOM of the page
      * @param topBottom it requires to put "top" or "bottom" to scroll to those directions
      * @throws Exception
      */
-    public boolean scrollMethodTopBottom(String topBottom) throws Exception {
+    protected boolean scrollMethodTopBottom(String topBottom) throws Exception {
         //===========================================================================
         boolean statusOperation = false;
         JavascriptExecutor jsExecutor = (JavascriptExecutor)webDriver;
@@ -514,12 +501,13 @@ public class CommonFunctions {
     }
 
     /**
+     * Move to an element by Action Class
+     *
      * @author J.Ruano
-     * @apiNote it used to move to an element by Action Class
      * @param wElement it contains the WebElement To Move
      * @throws Exception
      */
-    public boolean scrollMethodToWebElementByActions(WebElement wElement) throws Exception {
+    protected boolean scrollMethodToWebElementByActions(WebElement wElement) throws Exception {
         Actions actions = new Actions(webDriver);
         try {
             actions.moveToElement(wElement).build().perform();
@@ -530,13 +518,14 @@ public class CommonFunctions {
     }
 
     /**
+     * Click an element with the Actions Class
+     *
      * @author J.Ruano
-     * @apiNote click to an element with the Actions Class
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
      */
-    public boolean clickElementActions(WebElement wElement) throws Exception {
+    protected boolean clickElementActions(WebElement wElement) throws Exception {
         boolean statusOperation = false;
         Actions actions = new Actions(webDriver);
         try {
@@ -549,13 +538,14 @@ public class CommonFunctions {
     }
 
     /**
+     * Click to an element with JavaScript
+     *
      * @author J.Ruano
-     * @apiNote click to an element with JavaScript
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
      */
-    public boolean clickElementJS(WebElement wElement) throws Exception {
+    protected boolean clickElementJS(WebElement wElement) throws Exception {
         JavascriptExecutor jsExecutor = (JavascriptExecutor)webDriver;
         jsExecutor.executeScript("arguments[0].click();", wElement);
         return true;
