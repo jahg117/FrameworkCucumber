@@ -1,14 +1,15 @@
 package utils;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class FileReading {
-    private String GlobalPath = Paths.get("").toAbsolutePath().toString() +
+    protected static String GlobalPath = Paths.get("").toAbsolutePath().toString() +
                             File.separator + "src"+ File.separator+ "main" + "" +
                             File.separator + "java" + File.separator + "config" + File.separator;
 
