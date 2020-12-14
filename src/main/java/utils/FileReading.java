@@ -6,14 +6,14 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class FileReading {
-    protected static String GlobalPath = Paths.get("").toAbsolutePath().toString() +
+    public static String GlobalPath = Paths.get("").toAbsolutePath().toString() +
                             File.separator + "src"+ File.separator+ "main" + "" +
                             File.separator + "java" + File.separator + "config" + File.separator;
-
-    private Logger logger = Logger.getLogger("");
 
     public String getField(String fieldName) {
         try {
@@ -28,7 +28,7 @@ public class FileReading {
         }
     }
 
-    public void loggerInfo(String message){
+    public void setLog4jFile() {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(GlobalPath+"log4j.properties"));
@@ -36,6 +36,5 @@ public class FileReading {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info(message);
     }
 }

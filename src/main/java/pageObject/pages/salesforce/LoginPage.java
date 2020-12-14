@@ -16,7 +16,7 @@ public class LoginPage extends CommonFunctions {
 
     public void EnterUserPassword(String userName, String password)
     {
-        waitForElementVisibility(input_Password,20);
+        waitForElementVisibility(input_Username,20);
         input_Username.sendKeys(userName);
         input_Password.sendKeys(password);
     }
