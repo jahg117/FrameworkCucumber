@@ -22,7 +22,6 @@ public class Hooks {
 
     @Before
     public void Initialize(Scenario scenario) throws Exception {
-        driver.manage().window().maximize();
         logger.info("Scenario started: "+scenario.getName());
     }
 

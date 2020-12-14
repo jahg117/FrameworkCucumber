@@ -2,6 +2,7 @@
 <suite name="Suite" thread-count="2" data-provider-thread-count="2" parallel="tests">
 <test name="Cucumber suite">
     <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="false"/>
     <packages>
         <package name=".*"/>
     </packages>
