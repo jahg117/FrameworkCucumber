@@ -23,9 +23,9 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
     }
 
     @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser"})
-    public void setUpDriver(String browser) throws Exception {
-        SharedDriver df = new SharedDriver(browser);
+    @Parameters({"browser","headless"})
+    public void setUpDriver(String browser, boolean headless) throws Exception {
+        SharedDriver df = new SharedDriver(browser, headless);
     }
 
     @Test(dataProvider = "features", priority = 0)
