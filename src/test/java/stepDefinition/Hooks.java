@@ -5,24 +5,34 @@ import base.driverInitialize.SharedDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import utils.FileReading;
 
 public class Hooks {
+    private FileReading fileReading = new FileReading();
+    private WebDriver driver = DriverFactory.getDriver();
+
+    private Logger logger = Logger.getLogger(Hooks.class);
+    public Hooks() {
+        fileReading.setLog4jFile();
+    }
 
     @Before
     public void Initialize(Scenario scenario) throws Exception {
-        SharedDriver df = new SharedDriver();
-        DriverFactory.getDriver().manage().window().maximize();
+        driver.manage().window().maximize();
+        logger.info("Scenario started: "+scenario.getName());
     }
 
     @After
     public void CloseDriver(Scenario scenario){
         if(scenario.isFailed()) {
-            byte[] screenshot = ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+            logger.error("Scenario failed: "+scenario.getName());
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "");
         }
-        DriverFactory.getDriver().quit();
-        DriverFactory.removeDriver();
+        logger.info("Scenario completed: "+scenario.getName());
     }
 }

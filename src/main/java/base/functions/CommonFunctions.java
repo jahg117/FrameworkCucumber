@@ -1,12 +1,15 @@
 package base.functions;
 
 import base.driverInitialize.DriverFactory;
+
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;												
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import utils.FileReading;
 
 import java.time.Duration;
@@ -17,6 +20,35 @@ public class CommonFunctions {
     private WebDriver webDriver = DriverFactory.getDriver();
 
     protected FileReading fileReading = new FileReading();
+
+    private Logger logger = Logger.getLogger(CommonFunctions.class);
+
+    public CommonFunctions() {
+        fileReading.setLog4jFile();
+    }
+
+    /**
+     * Return the WebElement locator string
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param elementFound True if the element was found, false if it wasn't found.
+     * @return WebElement locator string.
+     * @throws null if the webElement is empty, null or the string has a different format.
+     */
+    private String getWebElementLocatorPath(WebElement webElement, boolean elementFound){
+        try{
+            if(elementFound){
+                return webElement.toString().split("-> ")[1].replace("]","");
+            }else{
+                return webElement.toString().split("DefaultElementLocator")[1].replace("'","");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            logger.error("WebElement is empty or null");
+            return null;
+        }
+    }
 
     /**
      * Return true if a WebElement is found or false if it's not found
@@ -92,10 +124,10 @@ public class CommonFunctions {
         try{
             WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(element));
-            fileReading.loggerInfo("Element +"+element.toString()+" was found");
+            logger.info("Element found "+getWebElementLocatorPath(element, true));
             return true;
         }catch (Exception e){
-            fileReading.loggerInfo("Element +"+element.toString()+" was not found");
+            logger.warn("Element was not found "+getWebElementLocatorPath(element, false));
             return false;
         }
     }
