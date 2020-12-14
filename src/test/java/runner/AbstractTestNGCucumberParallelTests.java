@@ -33,7 +33,7 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
         testNGCucumberRunner.runScenario(pickleWrapper.getPickle());
     }
 
-    @DataProvider(name = "features", parallel = false)
+    @DataProvider(name = "features", parallel = true)
     public Object[][] features() {
         return testNGCucumberRunner.provideScenarios();
     }

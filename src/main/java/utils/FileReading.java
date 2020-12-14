@@ -15,9 +15,11 @@ public class FileReading {
                             File.separator + "src"+ File.separator+ "main" + "" +
                             File.separator + "java" + File.separator + "config" + File.separator;
 
+    private String fileName;
+
     public String getField(String fieldName) {
         try {
-            InputStream input = new FileInputStream(GlobalPath+"GlobalConfig.properties");
+            InputStream input = new FileInputStream(GlobalPath+""+this.fileName);
             Properties prop = new Properties();
             prop.load(input);
             return prop.getProperty(fieldName);
@@ -26,6 +28,10 @@ public class FileReading {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void setFileName(String fileName){
+        this.fileName = fileName;
     }
 
     public void setLog4jFile() {
