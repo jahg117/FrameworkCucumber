@@ -6,8 +6,14 @@
         1. [Multi Browser support.](#multiBrowserSupport)
         2. [Parallel test execution.](#parallelTestExecution)
         3. [Report Generation.](#reportGeneration)
-2. Environment setup.
-3. How to start.     
+2. [Environment setup.](#environmentSetup)
+    1. Install Java.
+    2. Install and Configure IntelliJIDEA.
+    3. How to clone the project.
+3. How to use this Framework.
+    1. Create a new test case.
+    2. How to run tests in local.
+    3. How to execute tests in parallel and browserstack.     
 
 <a name="technologiesInvolved"></a>
 ## Technologies Involved
@@ -19,7 +25,6 @@
 | [Cucumber](https://cucumber.io/)          | ![Cucumber icon](.img/icons/cucumber-icon.png) |
 | [TestNG](https://testng.org/doc/documentation-main.html)          | ![TestNG icon](.img/icons/testng-icon.png) |
 | [BrowserStack](https://www.browserstack.com/)          | ![BrowserStack icon](.img/icons/browserstack-icon.png) |
------------------------
 
 <a name="features"></a>
 ## Features
@@ -48,3 +53,9 @@ in any browser and one of them is a PDF report.
 The reports support parallel execution and screenshot attachment.
 
 -----------------------  
+<a name="environmentSetup"></a>
+# Environment Setup
+
+<a name="installJava"></a>
+## Install Java
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
