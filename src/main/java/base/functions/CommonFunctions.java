@@ -387,11 +387,28 @@ public class CommonFunctions {
         }
     }
 	
+	    /**
+     * @author J.Ruano
+     * @apiNote Return true if a WebElement is presence on the Dom not necessarily visible
+     * @param locator it contains the locator (path) to search the element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
+    protected boolean waitForElementPresence(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(webDriver, timeOutInSeconds);
+            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        }catch (NoSuchElementException | StaleElementReferenceException e){
+            return false;
+        }
+    }
+	
     /**
      * Method used to click an element and if there is an "ElementClickInterceptedException" it will click again
      *
      * @author J.Ruano
-     * with the Actions Class and if theres again the same exception it will use the JS method.
+     * @apiNote method use to click an element and if there is an "ElementClickInterceptedException" it will click again
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
@@ -420,7 +437,7 @@ public class CommonFunctions {
 
     /**
      * This method will scroll to the Element using the scroll into view at Top of the element With JS
-     *
+     * @apiNote This method will scroll to the Element using the scroll into view at Top of the element With JS
      * @author J.Ruano
      * @param wElement It contains the WebElement
      * @throws Exception
@@ -443,8 +460,8 @@ public class CommonFunctions {
 
     /**
      * Scroll into the page Up or Down using amount of pixels
-     *
      * @author J.Ruano
+     * @apiNote use to scroll into the page Up or Down using amount of pixels
      * @param scrollDirection can be Top or Bottom of the page
      * @param pixels Is an integer that contains the amount of pixels to scroll up or down when "up" or "down" word are use in the "scrollDirection"
      * @throws Exception
@@ -496,9 +513,8 @@ public class CommonFunctions {
     }
 
     /**
-     * This method contains all the methods to scroll to TOP or to BOTTOM of the page
-     *
      * @author J.Ruano
+	 * @apiNote This method contains all the methods to scroll to TOP or to BOTTOM of the page
      * @param topBottom it requires to put "top" or "bottom" to scroll to those directions
      * @throws Exception
      */
@@ -533,9 +549,8 @@ public class CommonFunctions {
     }
 
     /**
-     * Move to an element by Action Class
-     *
      * @author J.Ruano
+	 * @apiNote it used to move to an element by Action Class
      * @param wElement it contains the WebElement To Move
      * @throws Exception
      */
@@ -550,9 +565,8 @@ public class CommonFunctions {
     }
 
     /**
-     * Click an element with the Actions Class
-     *
      * @author J.Ruano
+     * @apiNote click to an element with the Actions Class
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
@@ -570,9 +584,8 @@ public class CommonFunctions {
     }
 
     /**
-     * Click to an element with JavaScript
-     *
      * @author J.Ruano
+     * @apiNote click to an element with JavaScript
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
