@@ -30,12 +30,6 @@ public class Hooks {
         logger.info("Scenario started: "+scenario.getName());
     }
 
-    private String getFeatureFileNameFromScenarioId(Scenario scenario) {
-        String []rawFeatureName = scenario.getId().split("/");
-        String featureName = rawFeatureName[rawFeatureName.length-1].split(":")[0].replace("feature","");
-        return "Test suite: "+featureName;
-    }
-
     @After
     public void CloseDriver(Scenario scenario){
         if(scenario.isFailed()) {
@@ -46,5 +40,11 @@ public class Hooks {
         logger.info("Scenario completed: "+scenario.getName());
         DriverFactory.getDriver().quit();
         DriverFactory.removeDriver();
+    }
+
+    private String getFeatureFileNameFromScenarioId(Scenario scenario) {
+        String []rawFeatureName = scenario.getId().split("/");
+        String featureName = rawFeatureName[rawFeatureName.length-1].split(":")[0].replace("feature","");
+        return "Test suite: "+featureName;
     }
 }
