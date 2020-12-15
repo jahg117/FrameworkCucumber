@@ -7,11 +7,11 @@ import java.util.Date;
 
 public class SharedDriver {
 
-	public SharedDriver(String browser, boolean headless) throws Exception {
+	public SharedDriver(String browser, String scenarioDetails) throws Exception {
 		setGlobalVariableTime();
 		if (DriverFactory.getDriver() == null) {
 			WebDriverFactory driver = new WebDriverFactory();
-			DriverFactory.addDriver(driver.getDriver(browser,headless,""));
+			DriverFactory.addDriver(driver.getDriver(browser, scenarioDetails, ""));
 		} 
 	}
 

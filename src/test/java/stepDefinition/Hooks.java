@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import runner.AbstractTestNGCucumberParallelTests;
 import utils.FileReading;
 
 public class Hooks {
@@ -16,13 +17,23 @@ public class Hooks {
     private WebDriver driver = DriverFactory.getDriver();
 
     private Logger logger = Logger.getLogger(Hooks.class);
+
     public Hooks() {
         fileReading.setLog4jFile();
     }
 
     @Before
     public void Initialize(Scenario scenario) throws Exception {
+        String featureName = getFeatureFileNameFromScenarioId(scenario);
+        String browser = AbstractTestNGCucumberParallelTests.browser;
+        SharedDriver df = new SharedDriver(browser,featureName+","+scenario.getName());
         logger.info("Scenario started: "+scenario.getName());
+    }
+
+    private String getFeatureFileNameFromScenarioId(Scenario scenario) {
+        String []rawFeatureName = scenario.getId().split("/");
+        String featureName = rawFeatureName[rawFeatureName.length-1].split(":")[0].replace("feature","");
+        return "Test suite: "+featureName;
     }
 
     @After
@@ -33,5 +44,7 @@ public class Hooks {
             scenario.attach(screenshot, "image/png", "");
         }
         logger.info("Scenario completed: "+scenario.getName());
+        DriverFactory.getDriver().quit();
+        DriverFactory.removeDriver();
     }
 }
