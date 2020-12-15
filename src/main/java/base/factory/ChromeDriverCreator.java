@@ -5,14 +5,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class ChromeDriverCreator {
+public class ChromeDriverCreator extends WebDriverCreator{
 
-    public WebDriver createWebDriver(boolean headless) {
+    @Override
+    public WebDriver createWebDriver() {
         System.setProperty("webdriver.chrome.driver","resource/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation","load-extension"});
         options.addArguments("start-maximized");
-        options.setHeadless(headless);
+        options.setHeadless(false);
         return new ChromeDriver(options);
     }
 }
