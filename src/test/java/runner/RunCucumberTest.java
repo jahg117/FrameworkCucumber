@@ -8,7 +8,8 @@ import io.cucumber.testng.CucumberOptions;
                 "pretty",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "rerun:target/rerun.txt"},
-        publish = true)
+        publish = true,
+tags="@TestMethods")
 
 public class RunCucumberTest extends AbstractTestNGCucumberParallelTests {
 
