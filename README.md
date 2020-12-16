@@ -12,8 +12,8 @@
     3. How to clone the project.
 3. How to use this Framework.
     1. Create a new test case.
-    2. How to run tests in local.
-    3. How to execute tests in parallel and browserstack.     
+    2. Run tests in local.
+    3. Run tests in parallel in local and browserstack.     
 
 <a name="technologiesInvolved"></a>
 ## Technologies Involved
@@ -58,4 +58,29 @@ The reports support parallel execution and screenshot attachment.
 
 <a name="installJava"></a>
 ## Install Java
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## Install IntelliJ IDEA
+Find the related documentation here. [Install IntelliJ IDEA Documentation](docs/setup/java/README.md)
+
+## How to clone the project
+Find the related documentation here. [Clone Documentation](docs/setup/java/README.md)
+
+-----------------------  
+<a name="environmentSetup"></a>
+# How to use the framework.
+
+## Create a new test case.
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## Create a new test case.
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## Run tests in local.
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## Run tests in parallel in local and browserstack.
+Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## Known issues.
 Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
