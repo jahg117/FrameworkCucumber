@@ -1,4 +1,12 @@
 # Framework Content
+<div class="toc">
+  <ul>
+    <li><a href="#header-1">Header 1</a></li>
+      <ul>
+        <li><a href="#header-2">Header 2</a></li>
+      </ul>
+  </ul>
+</div>
 
 1. Template
     1. [Technologies Involved.](#technologiesInvolved)
@@ -84,3 +92,7 @@ Find the related documentation here. [Install Java Documentation](docs/setup/jav
 
 ## Known issues.
 Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+
+## markdown header configuration
+<h1 id="header-1">Header 1</h1>
+<h2 id="header-2">Header 2</h2>
