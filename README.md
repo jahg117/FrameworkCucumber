@@ -31,7 +31,7 @@
 
 <a name="multiBrowserSupport"></a>
 ### Multi browser support
-The framework supports Chrome & Firefox browsers, 
+:boom: The framework supports Chrome & Firefox browsers, 
 but if you want to add a new browser you can download 
 the driver and add the configuration in the WebDriverFactory 
 class.
@@ -71,7 +71,7 @@ Find the related documentation here. [Clone Documentation](docs/setup/java/READM
 # How to use the framework.
 
 ## Create a new test case.
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+Find the related documentation here :point_right: [Install Java Documentation](docs/setup/java/README.md)
 
 ## Create a new test case.
 Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
