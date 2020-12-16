@@ -1,35 +1,40 @@
 # Table of Contents
 
-1. [Install Java](#install-java)
-    1. [Java version](#javaVersion)
-        1. [How can I know what Java version I have?](#how-can-i-know-what-java-version-i-have)
-    2. [Oracle account](#oracleAccount)
-    3. [Download Java](#downloadJava)
-
+1. Install Java
+    1. Java version
+        1. How can I know what Java version I have?
+    2. Oracle account
+    3. Download Java
 -----------------------
 
 
 ### Install Java
 
-<a name="javaVersion"></a>
 ## Java version
 :exclamation: The minimum version required is `Java 8`
 
 ### How can I know what Java version I have?
 
-Refer to the official documentation :point_right: [here](https://www.java.com/en/download/help/version_manual.xml)
+If you are using windows, open the terminal and type `java -version`,
+then if you have java installed in your machine, the java version will be displayed
 
-<a name="oracleAccount"></a>
 ## Oracle account
-In order to download Java from the official page you need to have an Oracle account.
+To download Java from the official page you need to have an Oracle account.
 Use the following link to create the account:
 
 - [Create an Oracle account](https://profile.oracle.com/myprofile/account/create-account.jspx)
 
-<a name="downloadJava"></a>
 ## Download Java
-Once you've created the `Oracle account` proceed to download `Java` from the official site according your OS:
+Once you've created the `Oracle account` proceed to download `Java` from the official site according to your OS:
 
 - [Download Java JDK 8](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
+
+If you are using windows after to get java, you must add an environment variable.
+:pushpin: In the windows search bar type `Edit the system environment variables`
+and hit enter.  
+:pushpin: Click on environment variables.
+:pushpin: Click on New(Second window).
+:pushpin: Add the variable name `JAVA_HOME` and the java installation path.
+:pushpin: Save the changes and review the correct java version was installing.
 
 > In this step you will need your **Oracle account**
