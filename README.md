@@ -31,7 +31,7 @@
 
 <a name="multiBrowserSupport"></a>
 ### Multi browser support
-The framework supports Chrome & Firefox browsers, 
+:boom: The framework supports Chrome & Firefox browsers, 
 but if you want to add a new browser you can download 
 the driver and add the configuration in the WebDriverFactory 
 class.
