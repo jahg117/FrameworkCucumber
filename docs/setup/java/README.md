@@ -1,22 +1,20 @@
 # Table of Contents
 
-1. [Install Java](#installJava)
+1. [Install Java](#install-java)
     1. [Java version](#javaVersion)
-        1. [How can I know what Java version I have?](#howCanIKnowWhatJavaVersionIHave)
+        1. [How can I know what Java version I have?](#how-can-i-know-what-java-version-i-have)
     2. [Oracle account](#oracleAccount)
     3. [Download Java](#downloadJava)
 
 -----------------------
 
 
-<a name="installJava"></a>
-# Install Java
+### Install Java
 
 <a name="javaVersion"></a>
 ## Java version
 :exclamation: The minimum version required is `Java 8`
 
-<a name="howCanIKnowWhatJavaVersionIHave"></a>
 ### How can I know what Java version I have?
 
 Refer to the official documentation :point_right: [here](https://www.java.com/en/download/help/version_manual.xml)
