@@ -1,39 +1,26 @@
 # Table of contents
 
-1. [Clone the repository](#cloneTheRepository)
-    1. [Tools](#tools)
-        1. [For Windows](#forWindows)
-        2. [For MacOS](#forMacOS)
-    2. [Git Configuration](#gitConfiguration)
-    3. [By HTTPS](#byHTTPS)
-    4. [By SSH](#bySSH)
-        1. [Generate SSH for Windows](#generateSSHKeyForWindows)
-        2. [Generate SSH for MacOS](#generateSSHKeyForMacOS)
-
+1. Clone the repository
+    1. Tools
+        1. For Windows
+    2. Git Configuration
+    3. By HTTPS
+    4. By SSH
+        1. Generate SSH for Windows
+        
 -----------------------
 
 
-<a name="cloneTheRepository"></a>
 # Clone the repository
 
 <a name="tools"></a>
 ## Tools
 
-<a name="forWindows"></a>
 ### For Windows
 Download the `Git CMD` tool in order to clone this repository from terminal
 
 - [Download Git CMD](https://git-scm.com/downloads)
 
-<a name="forMacOS"></a>
-### For MacOS
-A very good alternative to the default Mac's terminal is `iTerm`, also install brew for manage the terminal's packages.
-
-- [Download iTerm](https://www.iterm2.com/downloads.html)
-- [Download Brew](https://brew.sh/)
-
-
-<a name="gitConfiguration"></a>
 ## Git Configuration
 Apply the following command if you have not configured `Git` in your machine:
 
@@ -90,8 +77,3 @@ git clone ssh://git@bitbucket.astrazeneca.net:7999/dev-templates/selenium-ui-tes
 ### Generate SSH for Windows
 Follow this :point_right: [guide](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows#git-bash)
 in order to generate an SSH key for Windows.
-
-<a name="generateSSHKeyForMacOS"></a>
-### Generate SSH for MacOS
-Follow this :point_right: [guide](https://secure.vexxhost.com/billing/index.php/knowledgebase/171/How-can-I-generate-SSH-keys-on-Mac-OS-X.html)
-in order to generate an SSH key for MacOS.

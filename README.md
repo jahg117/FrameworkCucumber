@@ -57,7 +57,7 @@ in any browser and one of them is a PDF report.
 :pushpin: Find the related documentation here :point_right: [Install IntelliJ IDEA Documentation](docs/setup/ide/README.md)
 
 ## How to clone the project
-:pushpin: Find the related documentation here :point_right: [Clone Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Clone Documentation](docs/setup/bitbucket/README.md)
 
 -----------------------  
 # How to use the framework.

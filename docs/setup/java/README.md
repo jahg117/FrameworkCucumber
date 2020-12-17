@@ -1,4 +1,4 @@
-# Table of Contents
+# Content
 
 1. Install Java
     1. Java version
@@ -9,14 +9,13 @@
 
 
 ### Install Java
-
 ## Java version
 :exclamation: The minimum version required is `Java 8`
 
 ### How can I know what Java version I have?
 
 If you are using windows, open the terminal and type `java -version`,
-then if you have java installed in your machine, the java version will be displayed
+then if you have java installed in your machine, the java version should be displayed
 
 ## Oracle account
 To download Java from the official page you need to have an Oracle account.
@@ -43,3 +42,5 @@ and hit enter.
 :pushpin: Save the changes and review the correct java version was installing.
 
 > In this step, you will need your **Oracle account**
+
+![javaHome](../../../.img/java/javahome.PNG)

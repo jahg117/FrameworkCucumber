@@ -12,18 +12,18 @@ Download the **Community Version** :point_right: [Download IntelliJ IDEA](https:
 ## Importing a Project
 
 1 - Open `IntelliJ IDEA` and select the option **Import Project**, then select the repository downloaded, or
-    if you can download the project using an existing repository path.
+    you can download the project using an existing repository path in the option `Get from Version Control`.
 
 ![importProject](../../../.img/intellij/importProject.png)
 
-2 - If you already have an opened project, you cna follow the next steps:
+2 - If you already have an opened project, you can follow the next steps:
     
     `File -> Project From Existing Sources -> Open the project -> Import as Maven`
     
     `File -> Project From Version Control -> Clone the project with the repository path`
 
 # Project Structure
-A project structure needs to be setup on `IntellIJ`.
+A project structure needs to be setup on `IntelliJ`.
 
 :bangbang: The minimum Java Version supported is `Java 8` and you have to set it in the Project Structure.
 
