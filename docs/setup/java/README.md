@@ -29,12 +29,17 @@ Once you've created the `Oracle account` proceed to download `Java` from the off
 
 - [Download Java JDK 8](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
 
-If you are using windows after to get java, you must add an environment variable.
+For windows after to install java, you must add an environment variable.
+
 :pushpin: In the windows search bar type `Edit the system environment variables`
 and hit enter.  
+
 :pushpin: Click on environment variables.
+
 :pushpin: Click on New(Second window).
+
 :pushpin: Add the variable name `JAVA_HOME` and the java installation path.
+
 :pushpin: Save the changes and review the correct java version was installing.
 
-> In this step you will need your **Oracle account**
+> In this step, you will need your **Oracle account**
