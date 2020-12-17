@@ -1,4 +1,4 @@
-# Table of Contents
+# Content
 1. Download Intellij IDE
 1. Importing a Project
 2. Project Structure

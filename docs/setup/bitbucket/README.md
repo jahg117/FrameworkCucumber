@@ -1,19 +1,14 @@
-# Table of contents
+# Content
 
-1. Clone the repository
-    1. Tools
-        1. For Windows
-    2. Git Configuration
-    3. By HTTPS
-    4. By SSH
-        1. Generate SSH for Windows
-        
+Clone the repository for windows
+1. Tools
+2. Git Configuration
+3. By HTTPS
 -----------------------
 
 
-# Clone the repository
+# Clone the repository for windows
 
-<a name="tools"></a>
 ## Tools
 
 ### For Windows
@@ -44,36 +39,18 @@ git config --global --unset <variable>
 
 > Where `<variable>` could be either "**user.name**" or "**user.email**"
 
-<a name="byHTTPS"></a>
 ## By HTTPS
-Cloning the repository by `HTTPS` protocol mean every time you need to upload a change or clone 
+Cloning the repository by `HTTPS` protocol means that every time you need to upload a change or clone 
 this repository it will ask you for your credentials
 
 Type the following command in the terminal:
 
 ```bash
-git clone https://bitbucket.astrazeneca.net/scm/dev-templates/selenium-ui-tests-framework-template.git
+git clone https://kjbj453@bitbucket.org/csdc/automation-gdl.git
 ```
 
 :eyes: The credentials are your `PRID` (without astrazeneca domain) and your current password
 
-> Note: If you typed wrong credentials on Windows you can change it from [Credential Manager](https://support.microsoft.com/en-us/help/4026814/windows-accessing-credential-manager) 
+> Note: If you typed wrong credentials on Windows you can change it from [Credential Manager](https://support.microsoft.com/en-us/help/4026814/windows-accessing-credential-manager)
 
-<a name="bySSH"></a>
-## By SSH
-Cloning the repository by `SSH` protocol mean every time you need to upload a change or clone
-this repository it will not ask you for credentials.
-In order to clone by `SSH` first you need to add your personal `SSH Key` to bitbucket in the following link:
-
-- [Bitbucket SSH Key](https://bitbucket.astrazeneca.net/plugins/servlet/ssh/account/keys/add)
-
-Once the previous step is done, type the following command in terminal:
-
-```bash
-git clone ssh://git@bitbucket.astrazeneca.net:7999/dev-templates/selenium-ui-tests-framework-template.git
-```
-
-<a name="generateSSHKeyForWindows"></a>
-### Generate SSH for Windows
-Follow this :point_right: [guide](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows#git-bash)
-in order to generate an SSH key for Windows.
+![credentialManager](../../../.img/java/credentials.PNG)
