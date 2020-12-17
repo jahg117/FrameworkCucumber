@@ -1,8 +1,11 @@
 # Content
 
 Clone the repository for windows
+
 1. Tools
+
 2. Git Configuration
+
 3. By HTTPS
 -----------------------
 

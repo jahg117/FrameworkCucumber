@@ -1,8 +1,11 @@
 # Content
 
 How to create a new Test Case
+
 1. Features
+
 2. Page Object
+
 3. Step Definition
 -----------------------
 
@@ -12,10 +15,9 @@ The _features_ folder contain the description for each test case
 in [gherkin language](https://cucumber.io/docs/gherkin/reference/),
 you should follow the next steps to add new content:
  
-1. Add a package for each application that you are going 
-to automate with a description name `example: Salesforce`.
-2. Right click inside the folder and add a new file  `example: SalesforceLogin.feature`
-3. Inside the file you can add the list of test cases that belong to _Login_,
+1. Add a package for each application with a description name `example: Salesforce`.
+2. Right-click inside the folder and add a new file  `example: SalesforceLogin.feature`
+3. Inside the file, you can add the list of test cases that belong to _log in_,
 if you want to add test cases for a new feature or user story, you should add 
 a new feature file with the description name.
 
@@ -27,14 +29,14 @@ a new feature file with the description name.
 The page object contain the application and pages folders, follow
 the next steps:
 
-1. In the application folder you  can create a class with the application name,
-in this class you must initialize and return the page types.
-    1. The constructor make the instance of the page factory and WebDriver for
+1. In the application folder, you  can create a class with the application name,
+in this class, you must initialize and return the page types.
+    1. The constructor makes the instance of the page factory and WebDriver for
     each page.
-    2. The getters return the page with their own methods.
+    2. The getters return the page with their methods.
 ![application](../../../.img/cucumber/application.PNG)
 
-2. In the _pages_ folder you should add a new package for each application.
+2. In the _pages_ folder, you should add a new package for each application.
     1. Create a new class with the page name `example: LoginPage`
     2. The class extends from _CommonFunctions_, that class contains 
     the generic selenium methods to manipulate web elements.
