@@ -7,6 +7,7 @@ How to create a new Test Case
 2. Page Object
 
 3. Step Definition
+
 -----------------------
 
 # Features
