@@ -67,6 +67,3 @@ and two HTML files in the directory to open in any browser.
 
 ## Run tests in local.
 :pushpin: Find the related documentation here :point_right: [Run tests Documentation](docs/project/runtests/README.md)
-
-## Run tests in parallel in local and browserstack.
-:pushpin: Find the related documentation here :point_right: [Run tests in parallel Documentation](docs/project/parallel/README.md)
