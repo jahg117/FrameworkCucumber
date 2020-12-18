@@ -42,8 +42,8 @@ you can do it with BrowserStack.
 
 ### Report Generation
 :pushpin: The reports are going to be generated in the folders 
-"target & test output"; you can open two of the reports 
-in any browser and one of them is a PDF report.
+`target and test output`; you will find a PDF file as a report
+and two HTML files in the directory to open in any browser.
 
 :pushpin: The reports support parallel execution and screenshot attachment.
 
