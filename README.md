@@ -28,51 +28,45 @@
 ## Features
 
 ### Multi browser support
-:boom: The framework supports Chrome & Firefox browsers, 
+:pushpin: The framework supports Chrome & Firefox browsers, 
 but if you want to add a new browser you can download 
 the driver and add the configuration in the WebDriverFactory 
 class.
 
 ### Parallel test execution
-Parallel test execution lets you run different test cases on 
+:pushpin: Parallel test execution lets you run different test cases on 
 the same machine simultaneously, but if you want to execute 
 in different devices or browsers at the same time, 
 you can do it with BrowserStack.
 
 
 ### Report Generation
-The reports are going to be generated in the folders 
-"target & test output"; you can open two of the reports 
-in any browser and one of them is a PDF report.
+:pushpin: The reports are going to be generated in the folders 
+`target and test output`; you will find a PDF file as a report
+and two HTML files in the directory to open in any browser.
 
-The reports support parallel execution and screenshot attachment.
+:pushpin: The reports support parallel execution and screenshot attachment.
 
 -----------------------  
 # Environment Setup
 
 ## Install Java
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Install Java Documentation](docs/setup/java/README.md)
 
 ## Install IntelliJ IDEA
-Find the related documentation here. [Install IntelliJ IDEA Documentation](docs/setup/ide/README.md)
+:pushpin: Find the related documentation here :point_right: [Install IntelliJ IDEA Documentation](docs/setup/ide/README.md)
 
 ## How to clone the project
-Find the related documentation here. [Clone Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Clone Documentation](docs/setup/bitbucket/README.md)
 
 -----------------------  
 # How to use the framework.
 
 ## Create a new test case.
-Find the related documentation here :point_right: [Install Java Documentation](docs/setup/java/README.md)
-
-## Create a new test case.
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Create Test Cases Documentation](docs/project/testcase/README.md)
 
 ## Run tests in local.
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Run tests Documentation](docs/project/runtests/README.md)
 
 ## Run tests in parallel in local and browserstack.
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
-
-## Known issues.
-Find the related documentation here. [Install Java Documentation](docs/setup/java/README.md)
+:pushpin: Find the related documentation here :point_right: [Run tests in parallel Documentation](docs/project/parallel/README.md)
