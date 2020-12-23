@@ -1,12 +1,12 @@
 # Content
 
-Clone the repository for windows
+Clone the repository for windows.
 
-1. Tools
+1. Tools.
 
-2. Git Configuration
+2. Git configuration.
 
-3. By HTTPS
+3. By HTTPS.
 
 -----------------------
 
@@ -20,8 +20,8 @@ Download the `Git CMD` tool in order to clone this repository from terminal
 
 - [Download Git CMD](https://git-scm.com/downloads)
 
-## Git Configuration
-Apply the following command if you have not configured `Git` in your machine:
+## Git configuration
+Apply the following command if you have not configured `Git` in your computer:
 
 ```bash
 git config --global user.name "<YOUR NAME>"
@@ -35,7 +35,7 @@ git config --list | grep user
 ```
 
 ### Removing an entry global configuration
-If you made a mistake writing any `git global variables` type the following command:
+If you made a mistake writing any `git global variables`, type the following command:
 
 ```bash
 git config --global --unset <variable>
@@ -45,7 +45,7 @@ git config --global --unset <variable>
 
 ## By HTTPS
 Cloning the repository by `HTTPS` protocol means that every time you need to upload a change or clone 
-this repository it will ask you for your credentials
+this repository, it will ask you for your credentials
 
 Type the following command in the terminal:
 
