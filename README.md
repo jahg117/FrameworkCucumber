@@ -1,16 +1,16 @@
-# Framework Content
+# Framework Content.
 
-1. Template
-    1. Technologies Involved
-    2. Features
-        1. Multi Browser support.
+1. Template.
+    1. Technologies involved.
+    2. Features.
+        1. Multi browser support.
         2. Parallel test execution.
-        3. Report Generation.
+        3. Report generation.
 2. Environment setup.
     1. Install Java.
     2. Install and Configure IntelliJIDEA.
     3. How to clone the project.
-3. How to use this Framework.
+3. How to use this framework.
     1. Create a new test case.
     2. Run tests in local.
     3. Run tests in parallel in local and browserstack.     

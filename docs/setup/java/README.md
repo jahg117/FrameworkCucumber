@@ -2,7 +2,7 @@
 
 1. Install Java
     1. Java version
-        1. How can I know what Java version I have?
+        1. How do I know what Java version I have?
     2. Oracle account
     3. Download Java
 -----------------------
@@ -12,10 +12,10 @@
 ## Java version
 :exclamation: The minimum version required is `Java 8`
 
-### How can I know what Java version I have?
+### How do I know what Java version I have?
 
 If you are using windows, open the terminal and type `java -version`,
-then if you have java installed in your machine, the java version should be displayed
+then if you have Java installed in your machine, the Java version should be displayed
 
 ## Oracle account
 To download Java from the official page you need to have an Oracle account.
@@ -28,7 +28,7 @@ Once you've created the `Oracle account` proceed to download `Java` from the off
 
 - [Download Java JDK 8](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
 
-For windows after to install java, you must add an environment variable.
+For windows, after to install Java, you must add an environment variable.
 
 :pushpin: In the windows search bar type `Edit the system environment variables`
 and hit enter.  
