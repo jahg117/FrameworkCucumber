@@ -1,23 +1,23 @@
 # How to run scenarios
 
-1. Running with maven
+1. Running with Maven
 2. Running with XML file
 3. Chose a browser to execute 
-4. Running tests with browserstack
+4. Running tests with Browserstack
 5. Running tests in parallel
 -----------------------
 
-# Running with maven.
+# Running with Maven.
 
 :pushpin: To execute the framework with maven, you can open the
 maven bar displayed on the right side.  
-:pushpin: After to open the maven bar, you can select 
+:pushpin: After opening the maven bar, you can select 
 any maven life cycle command.
 
 ![maven](../../../.img/maven/maven.PNG)
 
 :pushpin: If you want to execute with the terminal, just type 
-`mvn test + enter` or whatever command you need.  
+`mvn test + enter` or any command you need.  
 
 ![mavenCommand](../../../.img/maven/mavenCommand.PNG)
 
@@ -32,7 +32,7 @@ Chose the option to run/debug with TestNG/Cucumber.
 :pushpin: In the XML file you can type the parameter chrome/firefox.
 `path: src/test/java/testng.xml`
 
-:pushpin: This step is optional, to run the tests in headless mode, you can
+:pushpin: This step is optional: To run the tests in headless mode, you can
 enable the option in the GlobalConfig.properties file.
 `path: src/main/java/config/GlobalConfig.properties`
 
@@ -47,8 +47,8 @@ enable the option in the GlobalConfig.properties file.
 
 # Run tests in parallel
 
-:pushpin: You can execute tests in parallel in your local machine or remotely
+:pushpin: You can execute tests in parallel in your local computer or remotely
 using browserstack, you can add the configuration in the XML file
-and modifying the runner class using a data provider or only tests in different clasess.
+and modify the runner class using a data provider or only tests in different clasess.
 
 For more reference, [click here](https://testng.org/doc/documentation-main.html#parallel-running)  
