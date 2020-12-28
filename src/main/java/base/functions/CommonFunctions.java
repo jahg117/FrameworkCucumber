@@ -4,11 +4,8 @@ import base.driverInitialize.DriverFactory;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;												
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.*;
 
 import utils.FileReading;
 
@@ -26,37 +23,6 @@ public class CommonFunctions {
 
     public CommonFunctions() {
         fileReading.setLog4jFile();
-    }
-
-    /**
-     * Return the WebElement locator string
-     *
-     * @author Alejandro Hernandez
-     * @param webElement
-     * @return WebElement locator string.
-     * @throws null if the webElement is empty, null or the string has a different format.
-     */
-    private String getWebElementLocatorPath(WebElement webElement){
-        try{
-            return webElement.toString().split("-> ")[1].replace("]","");
-        }catch(Exception e){
-            return webElement.toString().split("DefaultElementLocator")[1].replace("'","");
-        }
-    }
-    /**
-     * Return the WebElement locator string
-     *
-     * @author Alejandro Hernandez
-     * @param webElement
-     * @return WebElement locator string.
-     * @throws null if the webElement is empty, null or the string has a different format.
-     */
-    private String getWebElementLocatorPath(List<WebElement> webElement){
-        try{
-            return webElement.toString().split("-> ")[1].replace("]","");
-        }catch(Exception e){
-            return webElement.toString().split("DefaultElementLocator")[1].replace("'","");
-        }
     }
 
     /**
@@ -153,10 +119,10 @@ public class CommonFunctions {
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(element));
-            logger.info("Element found "+getWebElementLocatorPath(element));
+            logger.info("Element found: "+getWebElementLocatorPath(element));
             return true;
         }catch (Exception e){
-            logger.warn("Element was not found "+getWebElementLocatorPath(element));
+            logger.warn("Element was not found: "+getWebElementLocatorPath(element));
             return false;
         }
     }
@@ -363,7 +329,6 @@ public class CommonFunctions {
             return false;
         }
     }
-
     /**
      * Return true if a WebElement is selected or false if it's not selected
      *
@@ -383,7 +348,6 @@ public class CommonFunctions {
             return false;
         }
     }
-
     /**
      * Return true if a WebElement has a specific text or false if it's not present
      *
@@ -469,8 +433,7 @@ public class CommonFunctions {
      */
     protected void clickElementClickable(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.click(webElement).build().perform();
+            clickWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element is not clickable");
@@ -488,8 +451,7 @@ public class CommonFunctions {
      */
     protected void clickElementVisible(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.click(webElement).build().perform();
+            clickWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -505,10 +467,9 @@ public class CommonFunctions {
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void doubleClickToElementVisible(WebElement webElement, int waitTime) throws Exception {
+    protected void doubleClickElementVisible(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.doubleClick(webElement).build().perform();
+            doubleClickWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -526,8 +487,7 @@ public class CommonFunctions {
      */
     protected void doubleClickAndMoveToElementVisible(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).doubleClick(webElement).build().perform();
+            doubleClickAndMoveToWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -543,10 +503,9 @@ public class CommonFunctions {
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void doubleClickToElementClickable(WebElement webElement, int waitTime) throws Exception {
+    protected void doubleClickElementClickable(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).doubleClick(webElement).build().perform();
+            doubleClickWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -564,8 +523,7 @@ public class CommonFunctions {
      */
     protected void doubleClickAndMoveToElementClickable(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).doubleClick(webElement).build().perform();
+            doubleClickAndMoveToWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -583,8 +541,7 @@ public class CommonFunctions {
      */
     protected void clickAndMoveToElementVisible(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).click(webElement).build().perform();
+            clickAndMoveToWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element was not found");
@@ -602,8 +559,7 @@ public class CommonFunctions {
      */
     protected void clickAndMoveToElementClickable(WebElement webElement, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).click(webElement).build().perform();
+            clickAndMoveToWebElementByActions(webElement);
             logger.info("WebElement clicked");
         }else{
             logger.error("The Web Element is not clickable");
@@ -771,6 +727,36 @@ public class CommonFunctions {
         }
     }
     /**
+     * This method is used to move to a visible element by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement contains the WebElement to move
+     * @param timeSeconds to wait
+     * @throws Exception
+     */
+    protected void scrollToWebElementVisibleByAction(WebElement wElement, int timeSeconds) throws Exception {
+        if(waitForElementVisibility(wElement, timeSeconds)){
+            scrollToWebElementByAction(wElement);
+        }else{
+            new NoSuchElementException("Element not found");
+        }
+    }
+    /**
+     * This method is used to move to a clickable element by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement contains the WebElement to move
+     * @param timeSeconds to wait
+     * @throws Exception
+     */
+    protected void scrollToWebElementClickableByAction(WebElement wElement, int timeSeconds) throws Exception {
+        if(waitForElementClickable(wElement, timeSeconds)){
+            scrollToWebElementByAction(wElement);
+        }else{
+            new NoSuchElementException("Element not found");
+        }
+    }
+    /**
      * Click to an element with the Actions Class
      *
      * @author J.Ruano
@@ -789,6 +775,7 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
+
     /**
      * Click to an element with JavaScript
      *
@@ -803,36 +790,32 @@ public class CommonFunctions {
         return true;
     }
     /**
-     * Method used to sendkeys, move and wait for a visible WebElement
+     * Method used to sendKeys, move and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
      * @param webElement contains the Element to select
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void sendkeysAndMoveToElementVisible(WebElement webElement, String text, int waitTime) throws Exception {
+    protected void sendKeysAndMoveToElementVisible(WebElement webElement, String text, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).sendKeys(webElement,text).build().perform();
-            logger.info("The keys were sent");
+            sendKeysAndMoveToWebElementByActions(webElement, text);
         }else{
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
         }
     }
     /**
-     * Method used to sendkeys, move and wait for a visible WebElement
+     * Method used to sendKeys, move and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
      * @param webElement contains the Element to select
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void sendkeysAndMoveToElementClickable(WebElement webElement, String text, int waitTime) throws Exception {
+    protected void sendKeysAndMoveToElementClickable(WebElement webElement, String text, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement).sendKeys(webElement,text).build().perform();
-            logger.info("The keys were sent");
+            sendKeysAndMoveToWebElementByActions(webElement, text);
         }else{
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
@@ -840,40 +823,397 @@ public class CommonFunctions {
     }
 
     /**
-     * Method used to sendkeys and wait for a visible WebElement
+     * Method used to sendKeys and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
      * @param webElement contains the Element to select
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void sendkeysElementVisible(WebElement webElement, String text, int waitTime) throws Exception {
+    protected void sendKeysElementVisible(WebElement webElement, String text, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.sendKeys(webElement,text).build().perform();
-            logger.info("The keys were sent");
+            sendKeysWebElementByActions(webElement, text);
         }else{
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
         }
     }
-
     /**
-     * Method used to sendkeys and wait for a visible WebElement
+     * Method used to sendKeys and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
      * @param webElement contains the Element to select
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void sendkeysElementClickable(WebElement webElement, String text, int waitTime) throws Exception {
+    protected void sendKeysElementClickable(WebElement webElement, String text, int waitTime) throws Exception {
         if(waitForElementClickable(webElement, waitTime)){
-            Actions actions = new Actions(driver);
-            actions.sendKeys(webElement,text).build().perform();
-            logger.info("The keys were sent");
+            sendKeysWebElementByActions(webElement, text);
         }else{
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownByText(WebElement webElement, String text, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            selectDropDownByText(webElement, text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownByText(WebElement webElement, String text, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            selectAndMoveToDropDownByText(webElement, text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownByIndex(WebElement webElement, int index, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            selectDropDownByIndex(webElement, index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownByIndex(WebElement webElement, int index, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            selectAndMoveToDropDownByIndex(webElement, index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableByText(WebElement webElement, String text, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            selectDropDownByText(webElement, text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownClickableByText(WebElement webElement, String text, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            selectAndMoveToDropDownByText(webElement, text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableByIndex(WebElement webElement, int index, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            selectDropDownByIndex(webElement, index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownClickableByIndex(WebElement webElement, int index, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            selectAndMoveToDropDownByIndex(webElement, index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    //***********************************************************************
+    // private methods
+
+    /**
+     * This method is used to SendKeys to a WebElement by Action
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void sendKeysWebElementByActions(WebElement wElement, String text) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.sendKeys(wElement, text).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+            logger.info("Keys sent: "+text);
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to move and SendKeys to a WebElement by Action
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void sendKeysAndMoveToWebElementByActions(WebElement wElement, String text) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(wElement).sendKeys(wElement, text).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+            logger.info("Keys sent: "+text);
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to move and click a WebElement by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void clickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(wElement).click(wElement).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to click a WebElement by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void clickWebElementByActions(WebElement wElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.click(wElement).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to move and double click a WebElement by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void doubleClickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(wElement).doubleClick(wElement).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to double click a WebElement by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement
+     */
+    private void doubleClickWebElementByActions(WebElement wElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.doubleClick(wElement).build().perform();
+            logger.info("Element found: "+getWebElementLocatorPath(wElement));
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable: "+getWebElementLocatorPath(wElement));
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Return the WebElement locator string
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @return WebElement locator string.
+     * @throws null if the webElement is empty, null or the string has a different format.
+     */
+    private String getWebElementLocatorPath(WebElement webElement){
+        try{
+            return webElement.toString().split("-> ")[1].replace("]","");
+        }catch(Exception e){
+            return webElement.toString().split("DefaultElementLocator")[1].replace("'","");
+        }
+    }
+    /**
+     * Return the WebElement locator string
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @return WebElement locator string.
+     */
+    private String getWebElementLocatorPath(List<WebElement> webElement){
+        try{
+            return webElement.toString().split("-> ")[1].replace("]","");
+        }catch(Exception e){
+            return webElement.toString().split("DefaultElementLocator")[1].replace("'","");
+        }
+    }
+    /**
+     * This method is used to move to a visible element by Action Class
+     *
+     * @author Alejandro Hernandez
+     * @param wElement contains the WebElement to move
+     * @throws Exception
+     */
+    private void scrollToWebElementByAction(WebElement wElement) throws Exception {
+        Actions actions = new Actions(driver);
+        try {
+            actions.moveToElement(wElement).build().perform();
+        } catch (Exception e) {
+            logger.error("The element was not found");
+            logger.error(e.getMessage());
+        }
+    }
+    /**
+     * This method is used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param text to select from dropdown
+     * @throws Exception
+     */
+    private void selectAndMoveToDropDownByText(WebElement webElement, String text) {
+        try{
+            scrollToWebElementByAction(webElement);
+            Select select = new Select(webElement);
+            select.selectByVisibleText(text);
+            logger.info("Selected option: "+text);
+        }catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
+        }
+    }
+    /**
+     * This method is used to move and select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param index to select from dropdown
+     * @throws Exception
+     */
+    private void selectAndMoveToDropDownByIndex(WebElement webElement, int index) {
+        try{
+            scrollToWebElementByAction(webElement);
+            Select select = new Select(webElement);
+            select.selectByIndex(index);
+            logger.info("Selected option: "+index);
+        }catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
+        }
+    }
+    /**
+     * This method is used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param text to select from dropdown
+     * @throws Exception
+     */
+    private void selectDropDownByText(WebElement webElement, String text) {
+        try{
+            Select select = new Select(webElement);
+            select.selectByVisibleText(text);
+            logger.info("Selected option: "+text);
+        }catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
+        }
+    }
+    /**
+     * This method is used to select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param index to select from index
+     * @throws Exception
+     */
+    private void selectDropDownByIndex(WebElement webElement, int index) {
+        try{
+            Select select = new Select(webElement);
+            select.selectByIndex(index);
+            logger.info("Selected option: "+index);
+        }catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
         }
     }
 }
