@@ -1,6 +1,7 @@
 package base.factory;
 
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,7 +13,7 @@ public class ChromeDriverCreator extends WebDriverCreator{
     public WebDriver createWebDriver() {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
-        System.setProperty("webdriver.chrome.driver","resource/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation","load-extension"});
         options.addArguments("start-maximized");
