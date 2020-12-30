@@ -11,6 +11,7 @@ import utils.FileReading;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Function;
 
 public class CommonFunctions {
@@ -988,6 +989,28 @@ public class CommonFunctions {
         }else{
             logger.error("The Web Element was not found");
             throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to return a random webElement from a List<WebElement>
+     *
+     * @author Alejandro Hernandez
+     * @param webElementList
+     * @param timeSeconds to wait for visible elements
+     * @throws Exception
+     */
+    protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeSeconds) throws IllegalAccessException {
+        try {
+            if(waitForElementListVisible(webElementList, timeSeconds)) {
+                Random random = new Random();
+                return webElementList.get(random.nextInt(webElementList.size()));
+            } else{
+                logger.error("The list of WebElements was not found/visible");
+                throw new NoSuchElementException("WebElements are not visible");
+            }
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
         }
     }
     //***********************************************************************
