@@ -1,5 +1,6 @@
 package stepDefinition.salesforce;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -28,8 +29,8 @@ public class SalesforceMethodsTest {
         salesforceScreen.getHomePage().IsSearchBarVisible();
     }
 
-    @Then("^The Correct AppPage is displayed$")
-    public void the_AppPage() throws Throwable {
-        salesforceScreen.getAppLauncherPage().searchAppName(fileReading.getField("appNameSF"));
+    @And("^I search the \"([^\"]*)\" app$")
+    public void the_AppPage(String appName) throws Throwable {
+        salesforceScreen.getAppLauncherPage().searchAppName(appName);
     }
 }
