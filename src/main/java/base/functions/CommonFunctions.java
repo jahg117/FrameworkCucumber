@@ -1013,6 +1013,114 @@ public class CommonFunctions {
             throw new IllegalAccessException("List<WebElement> type invalid");
         }
     }
+    /**
+     * Method used to validate if a visible webElement is selected or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is selected or false if it is not selected
+     * @throws Exception
+     */
+    protected boolean isVisibleElementSelected(WebElement webElement, int timeSeconds){
+        if(waitForElementVisibility(webElement, timeSeconds)){
+            logger.info("WebElement selected: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isSelected();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is selected or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is clickable or false if it is not selected
+     * @throws Exception
+     */
+    protected boolean isClickableElementSelected(WebElement webElement, int timeSeconds){
+        if(waitForElementClickable(webElement, timeSeconds)){
+            logger.info("WebElement selected: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isSelected();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is displayed or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is displayed or false if it is not
+     * @throws Exception
+     */
+    protected boolean isVisibleElementDisplayed(WebElement webElement, int timeSeconds){
+        if(waitForElementVisibility(webElement, timeSeconds)){
+            logger.info("WebElement displayed: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isDisplayed();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a clickable webElement is displayed or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is displayed or false if it is not
+     * @throws Exception
+     */
+    protected boolean isClickableElementDisplayed(WebElement webElement, int timeSeconds){
+        if(waitForElementClickable(webElement, timeSeconds)){
+            logger.info("WebElement displayed: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isDisplayed();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is enabled or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is enabled or false if it is not
+     * @throws Exception
+     */
+    protected boolean isVisibleElementEnabled(WebElement webElement, int timeSeconds){
+        if(waitForElementVisibility(webElement, timeSeconds)){
+            logger.info("WebElement enabled: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isEnabled();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a clickable webElement is enabled or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is enabled or false if it is not
+     * @throws Exception
+     */
+    protected boolean isClickableElementEnabled(WebElement webElement, int timeSeconds){
+        if(waitForElementClickable(webElement, timeSeconds)){
+            logger.info("WebElement enabled: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
+            return webElement.isDisplayed();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
     //***********************************************************************
     // private methods
 
