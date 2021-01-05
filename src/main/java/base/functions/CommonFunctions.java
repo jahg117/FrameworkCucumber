@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.*;
 import utils.FileReading;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
@@ -739,6 +740,7 @@ public class CommonFunctions {
         if(waitForElementVisibility(wElement, timeSeconds)){
             scrollToWebElementByAction(wElement);
         }else{
+            logger.error("WebElement not located");
             new NoSuchElementException("Element not found");
         }
     }
@@ -1050,42 +1052,6 @@ public class CommonFunctions {
         }
     }
     /**
-     * Method used to validate if a visible webElement is displayed or not
-     *
-     * @author Alejandro Hernandez
-     * @param webElement
-     * @param timeSeconds
-     * @return true if a webElement is displayed or false if it is not
-     * @throws Exception
-     */
-    protected boolean isVisibleElementDisplayed(WebElement webElement, int timeSeconds){
-        if(waitForElementVisibility(webElement, timeSeconds)){
-            logger.info("WebElement displayed: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
-            return webElement.isDisplayed();
-        }else{
-            logger.error("The Web Element was not found");
-            throw new NoSuchElementException("Element not valid");
-        }
-    }
-    /**
-     * Method used to validate if a clickable webElement is displayed or not
-     *
-     * @author Alejandro Hernandez
-     * @param webElement
-     * @param timeSeconds
-     * @return true if a webElement is displayed or false if it is not
-     * @throws Exception
-     */
-    protected boolean isClickableElementDisplayed(WebElement webElement, int timeSeconds){
-        if(waitForElementClickable(webElement, timeSeconds)){
-            logger.info("WebElement displayed: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
-            return webElement.isDisplayed();
-        }else{
-            logger.error("The Web Element was not found");
-            throw new NoSuchElementException("Element not valid");
-        }
-    }
-    /**
      * Method used to validate if a visible webElement is enabled or not
      *
      * @author Alejandro Hernandez
@@ -1121,6 +1087,142 @@ public class CommonFunctions {
             throw new NoSuchElementException("Element not valid");
         }
     }
+    /**
+     * Method used to switch in a frame By WebElement, Index or Name
+     *
+     * @author Alejandro Hernandez
+     * @param frame WebElement, int or String
+     * @param timeSeconds wait only if the WebElement option is used.
+     * @throws Exception
+     */
+    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeSeconds){
+        try{
+            String frameType = frame.getClass().getName();
+            if(frameType.contains("Integer")) {
+                driver.switchTo().frame((Integer) frame);
+            }else{
+                if(frameType.contains("String")) {
+                    driver.switchTo().frame(frame.toString());
+                }else{
+                    if(waitForElementVisibility((WebElement) frame, timeSeconds)){
+                        driver.switchTo().frame((WebElement) frame);
+                    }else{
+                        logger.error("The Web Element was not found");
+                        throw new NoSuchElementException("Element not valid");
+                    }
+                }
+            }
+        }catch(Exception e){
+            logger.error(e);
+        }
+    }
+    /**
+     * Method used to switch to the parent frame
+     *
+     * @author Alejandro Hernandez
+     * @throws Exception
+     */
+    protected void switchToParentFrame(){
+        driver.switchTo().parentFrame();
+    }
+    /**
+     * Method used to accept an alert
+     *
+     * @author Alejandro Hernandez
+     * @param timeSeconds wait for an alter to be visible
+     * @throws Exception
+     */
+    protected void switchToAlertAccept(int timeSeconds){
+        if(waitForAlertVisible(timeSeconds)){
+            driver.switchTo().alert().accept();
+        } else{
+            logger.error("The alert is not displayed");
+            new NoSuchElementException("Element not found");
+        }
+    }
+    /**
+     * Method used to dismiss an alert
+     *
+     * @author Alejandro Hernandez
+     * @param timeSeconds wait for an alter to be visible
+     * @throws Exception
+     */
+    protected void switchToAlertDismiss(int timeSeconds){
+        if(waitForAlertVisible(timeSeconds)){
+            driver.switchTo().alert().dismiss();
+        } else{
+            logger.error("The alert is not displayed");
+            new NoSuchElementException("Element not found");
+        }
+    }
+    /**
+     * Method used to get text from an alert
+     *
+     * @author Alejandro Hernandez
+     * @param timeSeconds wait for an alter to be visible
+     * @return String
+     * @throws Exception
+     */
+    protected String switchToAlertGetText(int timeSeconds){
+        if(waitForAlertVisible(timeSeconds)){
+            return driver.switchTo().alert().getText();
+        } else{
+            logger.error("The alert is not displayed");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+    /**
+     * Method used to accept an alert
+     *
+     * @author Alejandro Hernandez
+     * @param text to be send in the alert
+     * @param timeSeconds wait for an alter to be visible
+     * @throws Exception
+     */
+    protected void switchToAlertSendKeys(String text, int timeSeconds){
+        if(waitForAlertVisible(timeSeconds)){
+            driver.switchTo().alert().sendKeys(text);
+        } else{
+            logger.error("The alert is not displayed");
+            new NoSuchElementException("Element not found");
+        }
+    }
+    /**
+     * Method used to switch to a window tab by index
+     *
+     * @author Alejandro Hernandez
+     * @param tabIndex tab number to switch
+     * @throws Exception
+     */
+    protected void switchToWindow(int tabIndex) {
+        try {
+            ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(tabIndex));
+            logger.info("Change to tab: "+tabIndex);
+        } catch (Exception e) {
+            logger.error("The tab was not found");
+            throw new IndexOutOfBoundsException("Tab index not found");
+        }
+    }
+    /**
+     * Method used to get the number of windows open
+     *
+     * @author Alejandro Hernandez
+     * @return int
+     */
+    protected int getOpenTabsSize(){
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        return tabs.size();
+    }
+    /**
+     * Method used to close the current window
+     *
+     * @author Alejandro Hernandez
+     */
+    protected void closeWindow(){
+        driver.close();
+    }
+
     //***********************************************************************
     // private methods
 
