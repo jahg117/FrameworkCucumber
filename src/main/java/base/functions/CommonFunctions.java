@@ -994,6 +994,72 @@ public class CommonFunctions {
         }
     }
     /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownVisibleRandomOption(WebElement webElement, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            selectRandomDropDownOption(webElement);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropDownVisibleRandomOption(WebElement webElement, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            scrollMethodToWebElementByActions(webElement);
+            selectRandomDropDownOption(webElement);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableRandomOption(WebElement webElement, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            selectRandomDropDownOption(webElement);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropDownClickableRandomOption(WebElement webElement, int waitTime) throws Exception {
+        if(waitForElementClickable(webElement, waitTime)){
+            scrollMethodToWebElementByActions(webElement);
+            selectRandomDropDownOption(webElement);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
      * Method used to return a random webElement from a List<WebElement>
      *
      * @author Alejandro Hernandez
@@ -1444,6 +1510,25 @@ public class CommonFunctions {
             Select select = new Select(webElement);
             select.selectByIndex(index);
             logger.info("Selected option: "+index);
+        }catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
+        }
+    }
+    /**
+     * This method is used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @throws Exception
+     */
+    private void selectRandomDropDownOption(WebElement webElement) {
+        try{
+            Random random = new Random();
+            Select select = new Select(webElement);
+            int optionIndex = random.nextInt(select.getOptions().size() - 1);
+            select.selectByIndex(optionIndex++);
+            logger.info("Selected option: "+optionIndex++);
         }catch (Exception e) {
             logger.error("Element not clickable");
             logger.error(e.getMessage());
