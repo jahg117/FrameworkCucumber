@@ -19,7 +19,7 @@ public class SalesforceMethodsTest {
 
     @When("^Enter an Username and Password in SF$")
     public void enter_an_username_and_password() throws Throwable {
-        salesforceScreen.getLoginPage().EnterUserPassword("test.admin@astrazeneca.net.azusacs01.intacs","Test@123");
+        salesforceScreen.getLoginPage().EnterUserPassword("admininttest@astrazeneca.net.azusacs01.intacs","Test@124");
         //Assert.assertTrue(false);
     }
 
