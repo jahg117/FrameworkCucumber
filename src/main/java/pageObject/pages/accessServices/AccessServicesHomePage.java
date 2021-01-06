@@ -1,11 +1,10 @@
-package pageObject.pages.salesforce;
+package pageObject.pages.accessServices;
 
 import base.functions.CommonFunctions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class AccessServicesPage extends CommonFunctions {
-
+public class AccessServicesHomePage extends CommonFunctions {
     @FindBy(css = ".slds-truncate[title='Access Services']")
     private WebElement accessServices_Title;
 
@@ -15,14 +14,8 @@ public class AccessServicesPage extends CommonFunctions {
     @FindBy(css = "input.slds-input[placeholder^='Search app']")
     private WebElement appLaucher_SearchBar;
 
-    public void IsAccessServicesTitleVisible()
+    public void isAccessServicesTitleVisible()
     {
         waitForElementVisibility(accessServices_Title, 30);
     }
-
-    public void EnterAppNameForSearch(String userName, String password)
-    {
-
-    }
-
 }
