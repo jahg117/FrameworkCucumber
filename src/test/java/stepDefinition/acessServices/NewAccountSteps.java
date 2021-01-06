@@ -3,10 +3,9 @@ package stepDefinition.acessServices;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pageObject.application.AccessServices;
+import pageObject.ApplicationInstance;
 
-public class NewAccountSteps {
-    AccessServices accessServices = new AccessServices();
+public class NewAccountSteps extends ApplicationInstance {
 
     @Given("^I click on new Account$")
     public void clickNewAccount() {
