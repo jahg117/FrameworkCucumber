@@ -27,10 +27,10 @@ public class AppLauncherPage extends CommonFunctions {
             if (waitForElementVisibility(label_AppNameTitle, 20)) {
                 statusOperation = true;
             } else {
-                System.out.println("The Page: " + label_AppNameTitle.getAttribute("title") + " Does Not Match: "
-                        + " appName");
                 statusOperation = false;
             }
+        } else{
+            statusOperation = false;
         }
         return statusOperation;
     }
