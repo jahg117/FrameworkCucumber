@@ -2,10 +2,10 @@ package stepDefinition.salesforce;
 
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
+import pageObject.ApplicationInstance;
 import pageObject.application.Salesforce;
 
-public class SalesforceSearchAppSteps {
-    private Salesforce salesforce = new Salesforce();
+public class SalesforceSearchAppSteps extends ApplicationInstance {
 
     @Then("^I search the \"([^\"]*)\" app$")
     public void the_AppPage(String appName) throws Throwable {
