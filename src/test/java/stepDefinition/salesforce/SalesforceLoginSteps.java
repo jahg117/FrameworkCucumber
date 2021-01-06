@@ -1,14 +1,10 @@
 package stepDefinition.salesforce;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.testng.Assert;
-import pageObject.application.Salesforce;
+import pageObject.ApplicationInstance;
 
-public class SalesforceLoginSteps {
-    private Salesforce salesforce = new Salesforce();
+public class SalesforceLoginSteps extends ApplicationInstance {
 
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
