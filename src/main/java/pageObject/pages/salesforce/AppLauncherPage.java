@@ -29,7 +29,6 @@ public class AppLauncherPage extends CommonFunctions {
         } else {
             appOpen = false;
         }
-
         return appOpen;
     }
 }
