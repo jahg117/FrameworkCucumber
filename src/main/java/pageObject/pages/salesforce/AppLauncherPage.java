@@ -18,21 +18,19 @@ public class AppLauncherPage extends CommonFunctions {
 
 
     public boolean searchAppName(String appName) throws Exception {
-        boolean statusOperation = false;
-        if (waitForElementVisibility(button_AppLauncher, 20)) {
-            clickAndMoveToElementVisible(button_AppLauncher, 20);
-            waitForElementVisibility(input_AppLauncher, 20);
-            sendKeysElementVisible(input_AppLauncher, appName, 10);
-            sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
-            if (waitForElementVisibility(label_AppNameTitle, 20)) {
-                statusOperation = true;
-            } else {
-                statusOperation = false;
-            }
-        } else{
-            statusOperation = false;
+        boolean appOpen = false;
+        waitForElementFluentMinutes(button_AppLauncher, 2, 1);
+        clickAndMoveToElementVisible(button_AppLauncher, 20);
+        waitForElementVisibility(input_AppLauncher, 20);
+        sendKeysElementVisible(input_AppLauncher, appName, 10);
+        sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
+        if (waitForElementVisibility(label_AppNameTitle, 20)) {
+            appOpen = true;
+        } else {
+            appOpen = false;
         }
-        return statusOperation;
+
+        return appOpen;
     }
 }
 

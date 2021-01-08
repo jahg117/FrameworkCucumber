@@ -39,7 +39,7 @@ public class CommonFunctions {
     protected void waitForElementFluentMinutes(WebElement webElement,int timeOutInMinutes, int pollingEvery){
         try {
             FluentWait<WebDriver> wait = new FluentWait<>(driver);
-            wait.withTimeout(Duration.ofSeconds(timeOutInMinutes));
+            wait.withTimeout(Duration.ofMinutes(timeOutInMinutes));
             wait.pollingEvery(Duration.ofSeconds(pollingEvery));
             wait.ignoring(NoSuchElementException.class);
             wait.ignoring(TimeoutException.class);
@@ -53,7 +53,7 @@ public class CommonFunctions {
             });
 
         }catch (Exception e) {
-            logger.error("The WebElement was not found");
+            logger.error("The WebElement "+getWebElementLocatorPath(webElement)+" was not found");
             new NoSuchElementException("The WebElement was not found");
         }
     }
@@ -184,7 +184,7 @@ public class CommonFunctions {
             logger.info("List of web elements is visible "+getWebElementLocatorPath(elements));
             return true;
         }catch (Exception e){
-            logger.warn("List of web elements is not visible "+getWebElementLocatorPath(elements));
+            logger.warn("List of web elements is not visible");
             return false;
         }
     }
@@ -392,7 +392,7 @@ public class CommonFunctions {
         }
     }
 
-    protected void waitForPageToLoad(int timeOutInSeconds){
+    protected void waitForPageToLoad(){
         WebDriverWait wait= new WebDriverWait(driver, 30);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
