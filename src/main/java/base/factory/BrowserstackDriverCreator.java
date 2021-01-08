@@ -13,10 +13,14 @@ import java.net.URL;
 public class BrowserstackDriverCreator {
 
     public WebDriver createWebDriver(String scenarioDetails) throws MalformedURLException {
-        ChromeOptions options = new ChromeOptions();
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
         String URL = "https://" + fileReading.getField("AUTOMATE_USERNAME") + ":" + fileReading.getField("AUTOMATE_ACCESS_KEY") + "@hub-cloud.browserstack.com/wd/hub";
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-notifications");
+
         DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("os_version", "10");
         caps.setCapability("resolution", "1920x1080");
@@ -27,8 +31,7 @@ public class BrowserstackDriverCreator {
         caps.setCapability("name", scenarioDetails.split(",")[1]); // test name
         caps.setCapability("build", "PEP Automation"); // CI/CD job or build name
         caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-notifications");
+        caps.setCapability(ChromeOptions.CAPABILITY, options);
         return new RemoteWebDriver(new URL(URL), caps);
     }
 }
