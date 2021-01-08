@@ -28,6 +28,7 @@ public class BrowserstackDriverCreator {
         caps.setCapability("build", "PEP Automation"); // CI/CD job or build name
         caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
         options.addArguments("--start-maximized");
+        options.addArguments("--disable-notifications");
         return new RemoteWebDriver(new URL(URL), caps);
     }
 }
