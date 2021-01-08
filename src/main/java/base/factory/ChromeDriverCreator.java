@@ -17,6 +17,7 @@ public class ChromeDriverCreator extends WebDriverCreator{
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation","load-extension"});
         options.addArguments("start-maximized");
+        options.addArguments("--disable-notifications");
         options.setHeadless(Boolean.parseBoolean(fileReading.getField("headless")));
         return new ChromeDriver(options);
     }

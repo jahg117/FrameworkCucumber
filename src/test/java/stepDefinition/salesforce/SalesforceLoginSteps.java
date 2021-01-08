@@ -13,8 +13,9 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     }
 
     @When("^the salesforce page is displayed$")
-    public void setSalesforcePageDisplayed() {
-        salesforce.getHomePage().IsSearchBarVisible();
+    public void setSalesforcePageDisplayed() throws Exception {
+        salesforce.getHomePage().isSalesforcePageVisible();
+        salesforce.getHomePage().closeOpenTabs();
     }
 
 }
