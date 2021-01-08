@@ -1,6 +1,8 @@
 package base.factory;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import utils.FileReading;
@@ -11,6 +13,7 @@ import java.net.URL;
 public class BrowserstackDriverCreator {
 
     public WebDriver createWebDriver(String scenarioDetails) throws MalformedURLException {
+        ChromeOptions options = new ChromeOptions();
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
         String URL = "https://" + fileReading.getField("AUTOMATE_USERNAME") + ":" + fileReading.getField("AUTOMATE_ACCESS_KEY") + "@hub-cloud.browserstack.com/wd/hub";
@@ -20,9 +23,11 @@ public class BrowserstackDriverCreator {
         caps.setCapability("browser", "Chrome");
         caps.setCapability("browser_version", "latest");
         caps.setCapability("os", "Windows");
+        caps.setCapability("project", scenarioDetails.split(",")[0]);
         caps.setCapability("name", scenarioDetails.split(",")[1]); // test name
-        caps.setCapability("build", scenarioDetails.split(",")[0]); // CI/CD job or build name
-
+        caps.setCapability("build", "PEP Automation"); // CI/CD job or build name
+        caps.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+        options.addArguments("--start-maximized");
         return new RemoteWebDriver(new URL(URL), caps);
     }
 }
