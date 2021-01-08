@@ -20,7 +20,7 @@ public class HomePage extends CommonFunctions {
     }
 
     public void closeOpenTabs() throws Exception {
-        if(waitForElementListVisible(button_closeTabs, 10)&&button_closeTabs.size()>0){
+        if(waitForElementListVisible(button_closeTabs, 30)&&button_closeTabs.size()>0){
             for(WebElement close : button_closeTabs){
                 clickElementVisible(close, 10);
             }

@@ -26,6 +26,7 @@ public class AppLauncherPage extends CommonFunctions {
         sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
         if (waitForElementVisibility(label_AppNameTitle, 20)) {
             appOpen = true;
+            waitForElementNotVisible(input_AppLauncher, 10);
         } else {
             appOpen = false;
         }
