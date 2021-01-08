@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.salesforce.AppLauncherPage;
 import pageObject.pages.salesforce.HomePage;
 import pageObject.pages.salesforce.LoginPage;
+import utils.FileReading;
 
 public class Salesforce {
     private WebDriver driver;
@@ -32,6 +33,8 @@ public class Salesforce {
     public AppLauncherPage getAppLauncherPage(){ return appLauncherPage; }
 
     public void goTo() {
-        driver.get("https://test.salesforce.com/");
+        FileReading fileReading = new FileReading();
+        fileReading.setFileName("SalesforceCredentials.properties");
+        driver.get(fileReading.getField("URL"));
     }
 }
