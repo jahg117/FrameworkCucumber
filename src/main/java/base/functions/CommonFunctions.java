@@ -1082,6 +1082,31 @@ public class CommonFunctions {
         }
     }
     /**
+     * Method used to return a webElement with specific attribute value from a List<WebElement>
+     *
+     * @author Alejandro Hernandez
+     * @param webElementList
+     * @param attribute to handle
+     * @param attributeValue to search
+     * @throws Exception
+     */
+    protected WebElement getWebElementByAttributeFromList(List<WebElement> webElementList, String attribute, String attributeValue) throws IllegalAccessException {
+        WebElement element=null;
+        for(WebElement elementList : webElementList){
+            if(elementList.getAttribute(attribute).equalsIgnoreCase(attributeValue)){
+                element = elementList;
+                break;
+            }
+        }
+
+        if(element!=null){
+            return element;
+        }else{
+            logger.error("Not element found with attribute: "+attribute+" and value: "+attributeValue);
+            throw new NoSuchElementException("Not element found");
+        }
+    }
+    /**
      * Method used to validate if a visible webElement is selected or not
      *
      * @author Alejandro Hernandez

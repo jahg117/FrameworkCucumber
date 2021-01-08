@@ -4,6 +4,7 @@ Feature: Setup configurable consents
     Given I login as an "admin" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
+    And I select the "Accounts" menu option
 
   Scenario: Create AZ product enrollment consent
     Given I click on new Account
