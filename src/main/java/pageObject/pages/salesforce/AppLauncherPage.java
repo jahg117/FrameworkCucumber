@@ -19,6 +19,7 @@ public class AppLauncherPage extends CommonFunctions {
 
     public boolean searchAppName(String appName) throws Exception {
         boolean appOpen = false;
+        waitForPageToLoad();
         waitForElementFluentMinutes(button_AppLauncher, 2, 1);
         clickAndMoveToElementVisible(button_AppLauncher, 20);
         waitForElementVisibility(input_AppLauncher, 20);
@@ -26,6 +27,7 @@ public class AppLauncherPage extends CommonFunctions {
         sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
         if (waitForElementVisibility(label_AppNameTitle, 20)) {
             appOpen = true;
+            waitForElementNotVisible(input_AppLauncher, 10);
         } else {
             appOpen = false;
         }

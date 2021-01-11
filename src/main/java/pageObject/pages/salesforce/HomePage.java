@@ -16,15 +16,19 @@ public class HomePage extends CommonFunctions {
     public void isSalesforcePageVisible()
     {
         waitForPageToLoad();
+        reloadPage();
         waitForElementVisibility(input_SearchBar, 30);
     }
 
     public void closeOpenTabs() throws Exception {
-        if(waitForElementListVisible(button_closeTabs, 10)&&button_closeTabs.size()>0){
-            for(WebElement close : button_closeTabs){
-                clickElementVisible(close, 10);
-            }
-        }
+        waitForPageToLoad();
+                if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
+                    for (WebElement close : button_closeTabs) {
+                        clickElementVisible(close, 10);
+                    }
+                }
+
+
     }
 
 }

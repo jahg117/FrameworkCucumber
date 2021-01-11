@@ -407,7 +407,12 @@ public class CommonFunctions {
             logger.info("Page is ready !");
         }
     }
-	
+
+    protected void reloadPage() {
+        DriverFactory.getDriver().navigate().refresh();
+        waitForPageToLoad();
+    }
+
     /**
      * @author J.Ruano
      * @apiNote Return true if a WebElement is presence on the Dom not necessarily visible
@@ -1172,7 +1177,7 @@ public class CommonFunctions {
     protected boolean isClickableElementEnabled(WebElement webElement, int timeSeconds){
         if(waitForElementClickable(webElement, timeSeconds)){
             logger.info("WebElement enabled: "+getWebElementLocatorPath(webElement)+": "+webElement.isSelected());
-            return webElement.isDisplayed();
+            return webElement.isEnabled();
         }else{
             logger.error("The Web Element was not found");
             throw new NoSuchElementException("Element not valid");
