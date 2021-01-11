@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class CommonFunctions {
@@ -392,7 +393,7 @@ public class CommonFunctions {
         }
     }
 
-    protected void waitForPageToLoad(){
+    protected void waitForPageToLoad() throws InterruptedException {
         WebDriverWait wait= new WebDriverWait(driver, 30);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
@@ -405,10 +406,11 @@ public class CommonFunctions {
             wait.until(jsLoad);
         }else {
             logger.info("Page is ready !");
+            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         }
     }
 
-    protected void reloadPage() {
+    protected void reloadPage() throws InterruptedException {
         DriverFactory.getDriver().navigate().refresh();
         waitForPageToLoad();
     }
