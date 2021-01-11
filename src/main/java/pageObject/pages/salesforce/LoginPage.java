@@ -20,7 +20,7 @@ public class LoginPage extends CommonFunctions {
         fileReading.setFileName("SalesforceCredentials.properties");
         String username = fileReading.getField(salesforceUser);
         String password = fileReading.getField(salesforceUser+"Password");
-
+        waitForPageToLoad();
         waitForElementVisibility(input_Username,20);
         sendKeysElementVisible(input_Username, username,10);
         sendKeysElementVisible(input_Password, password, 10);

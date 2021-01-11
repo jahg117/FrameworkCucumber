@@ -30,6 +30,7 @@ public class AccessServicesHomePage extends CommonFunctions {
     }
 
     public void selectMenuOption(String menuOption) throws Exception {
+        waitForPageToLoad();
         clickElementVisible(button_navigationMenu, 10);
         if(!waitForElementVisibility(list_navigationMenu, 10)){
             clickElementVisible(button_navigationMenu, 15);
