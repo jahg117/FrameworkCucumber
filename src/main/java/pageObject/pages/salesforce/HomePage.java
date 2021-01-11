@@ -13,22 +13,21 @@ public class HomePage extends CommonFunctions {
     @FindBy(xpath = "//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]")
     private List<WebElement> button_closeTabs;
 
-    public void isSalesforcePageVisible()
-    {
-        waitForPageToLoad();
-        reloadPage();
+    @FindBy(xpath = "//div[contains(@class,'lafPageHost')]")
+    private WebElement label_panelTab;
+
+    public void isSalesforcePageVisible() throws InterruptedException {
         waitForElementVisibility(input_SearchBar, 30);
+        waitForPageToLoad();
+        waitForElementAttributeContains(label_panelTab,"data-aura-class","lafPageHost", 30);
     }
 
     public void closeOpenTabs() throws Exception {
-        waitForPageToLoad();
-                if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
-                    for (WebElement close : button_closeTabs) {
-                        clickElementVisible(close, 10);
-                    }
-                }
-
-
+        if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
+            for (WebElement close : button_closeTabs) {
+                    clickElementVisible(close, 10);
+            }
+        }
     }
 
 }
