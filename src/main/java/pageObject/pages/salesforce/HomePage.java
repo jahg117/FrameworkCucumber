@@ -4,15 +4,31 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import base.functions.CommonFunctions;
 
+import java.util.List;
+
 public class HomePage extends CommonFunctions {
     @FindBy(css = ".uiAutocomplete")
     private WebElement input_SearchBar;
 
-    @FindBy(css = "li[role='presentation'] svg[data-key='close']")
-    private WebElement button_CloseTabs;
+    @FindBy(xpath = "//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]")
+    private List<WebElement> button_closeTabs;
 
-    public void IsSearchBarVisible()
-    {
+    @FindBy(xpath = "//div[contains(@class,'lafPageHost')]")
+    private WebElement label_panelTab;
+
+    public void isSalesforcePageVisible() throws InterruptedException {
+        waitForPageToLoad();
         waitForElementVisibility(input_SearchBar, 30);
+        waitForElementAttributeContains(label_panelTab,"data-aura-class","lafPageHost", 30);
     }
+
+    public void closeOpenTabs() throws Exception {
+        waitForPageToLoad();
+        if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
+            for (WebElement close : button_closeTabs) {
+                    clickElementVisible(close, 10);
+            }
+        }
+    }
+
 }
