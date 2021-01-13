@@ -21,7 +21,9 @@ public class AppLauncherPage extends CommonFunctions {
         boolean appOpen = false;
         waitForElementFluentMinutes(button_AppLauncher, 2, 1);
         clickAndMoveToElementVisible(button_AppLauncher, 20);
-        waitForElementVisibility(input_AppLauncher, 20);
+        if(!waitForElementVisibility(input_AppLauncher, 20)){
+            clickAndMoveToElementVisible(button_AppLauncher, 20);
+        }
         sendKeysElementVisible(input_AppLauncher, appName, 10);
         sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
         waitForElementNotVisible(input_AppLauncher, 10);
