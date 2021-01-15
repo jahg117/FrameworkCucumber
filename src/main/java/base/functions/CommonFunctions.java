@@ -2,6 +2,8 @@ package base.functions;
 
 import base.driverInitialize.DriverFactory;
 
+import com.github.javafaker.Faker;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -9,8 +11,10 @@ import org.openqa.selenium.support.ui.*;
 
 import utils.FileReading;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +31,15 @@ public class CommonFunctions {
     public CommonFunctions() {
         fileReading.setLog4jFile();
     }
+
+    public WebElement getWebElement(By locator) {
+        return driver.findElement(locator);
+    }
+
+    public List<WebElement> getWebElementList(By locator) {
+        return driver.findElements(locator);
+    }
+
 
     /**
      * Return true if a WebElement is found or false if it's not found
@@ -118,14 +131,14 @@ public class CommonFunctions {
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    protected boolean waitForElementVisibility(WebElement element, int timeOutInSeconds){
+    protected <Element> boolean waitForElementVisibility(Element element, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
-            wait.until(ExpectedConditions.visibilityOf(element));
-            logger.info("Element found: "+getWebElementLocatorPath(element));
+            wait.until(ExpectedConditions.visibilityOf((WebElement) element));
+            logger.info("Element found: "+getWebElementLocatorPath((WebElement) element));
             return true;
         }catch (Exception e){
-            logger.warn("Element was not found: "+getWebElementLocatorPath(element));
+            logger.warn("Element was not found: "+getWebElementLocatorPath((WebElement) element));
             return false;
         }
     }
@@ -719,6 +732,14 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
+    public void scrollBottomJS() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+    public void scrollTopJS() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
     /**
      * This method is used to move to an element by Action Class
      *
@@ -999,6 +1020,20 @@ public class CommonFunctions {
             logger.error("The Web Element was not found");
             throw new NoSuchElementException("Element not valid");
         }
+    }
+    /**
+     * Method used to get a random date with format mm/dd/yyyy
+     *
+     * @author Alejandro Hernandez
+     * @return String with the date format
+     * @throws Exception
+     */
+    protected String getRandomDate() {
+        Faker faker = new Faker();
+        Date randomDate = faker.date().birthday(18,70);
+        String pattern = "MM/dd/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(randomDate);
     }
     /**
      * Method used to select a random dropdown option by index
@@ -1564,6 +1599,20 @@ public class CommonFunctions {
         }catch (Exception e) {
             logger.error("Element not clickable");
             logger.error(e.getMessage());
+        }
+    }
+
+    private <Element> WebElement getLocatorType(Element webElement) {
+        try {
+            String wElement = webElement.getClass().getName();
+            if (wElement.contains("By")) {
+                return getWebElement((By) webElement);
+            } else {
+                return (WebElement) webElement;
+            }
+        } catch(Exception e) {
+            logger.error("Element type not valid");
+            throw new InvalidElementStateException("The web element type is invalid");
         }
     }
 }
