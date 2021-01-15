@@ -31,4 +31,11 @@ public class HomePage extends CommonFunctions {
         }
     }
 
+    public void closePreviousTab() throws Exception {
+        waitForPageToLoad();
+        if (waitForElementListVisible(button_closeTabs, 10) && button_closeTabs.size() > 0) {
+            clickElementVisible(button_closeTabs.get(button_closeTabs.size()-2),20);
+        }
+    }
+
 }
