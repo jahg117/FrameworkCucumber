@@ -2,6 +2,8 @@ package base.functions;
 
 import base.driverInitialize.DriverFactory;
 
+import com.github.javafaker.Faker;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -9,8 +11,10 @@ import org.openqa.selenium.support.ui.*;
 
 import utils.FileReading;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +31,15 @@ public class CommonFunctions {
     public CommonFunctions() {
         fileReading.setLog4jFile();
     }
+
+    public WebElement getWebElement(By locator) {
+        return driver.findElement(locator);
+    }
+
+    public List<WebElement> getWebElementList(By locator) {
+        return driver.findElements(locator);
+    }
+
 
     /**
      * Return true if a WebElement is found or false if it's not found
@@ -114,18 +127,18 @@ public class CommonFunctions {
      * Return true if a WebElement is visible or false if it's not visible
      *
      * @author Alejandro Hernandez
-     * @param element WebElement to find.
+     * @param webElement WebElement to find.
      * @param timeOutInSeconds Seconds to wait for a WebElement.
      * @return boolean
      */
-    protected boolean waitForElementVisibility(WebElement element, int timeOutInSeconds){
-        try{
-            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
-            wait.until(ExpectedConditions.visibilityOf(element));
-            logger.info("Element found: "+getWebElementLocatorPath(element));
+    protected boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds){
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.visibilityOf(webElement));
+            logger.info("Element found: " + getWebElementLocatorPath(webElement));
             return true;
-        }catch (Exception e){
-            logger.warn("Element was not found: "+getWebElementLocatorPath(element));
+        } catch (Exception e) {
+            logger.warn("Element was not found: " + getWebElementLocatorPath(webElement));
             return false;
         }
     }
@@ -223,7 +236,7 @@ public class CommonFunctions {
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeContains(element, attribute, attributeValue));
-            logger.warn("Element found "+getWebElementLocatorPath(element));
+            logger.info("Element found "+getWebElementLocatorPath(element));
             return true;
         }catch (Exception e){
             logger.warn("Element not found "+getWebElementLocatorPath(element));
@@ -385,15 +398,19 @@ public class CommonFunctions {
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.textToBePresentInElementValue(element, textElementValue));
-            logger.warn("WebElement "+getWebElementLocatorPath(element)+" with text in attribute "+textElementValue+" is displayed");
+            logger.info("WebElement "+getWebElementLocatorPath(element)+" with text in attribute "+textElementValue+" is displayed");
             return true;
         }catch (Exception e){
             logger.warn("WebElement "+getWebElementLocatorPath(element)+" with text in attribute "+textElementValue+" is not displayed");
             return false;
         }
     }
-
-    protected void waitForPageToLoad() throws InterruptedException {
+    /**
+     * This method is to give wait time to load a page.
+     *
+     * @author Alejandro Hernandez
+     */
+    protected void waitForPageToLoad() {
         WebDriverWait wait= new WebDriverWait(driver, 30);
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
@@ -409,29 +426,348 @@ public class CommonFunctions {
             driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         }
     }
-
+    /**
+     * This method is to refresh a page and give a time to load.
+     *
+     * @author Alejandro Hernandez
+     */
     protected void reloadPage() throws InterruptedException {
         DriverFactory.getDriver().navigate().refresh();
         waitForPageToLoad();
     }
-
     /**
+     * Return true if a WebElement is presence on the Dom not necessarily visible
+     *
      * @author J.Ruano
-     * @apiNote Return true if a WebElement is presence on the Dom not necessarily visible
      * @param locator it contains the locator (path) to search the element
      * @param timeOutInSeconds Seconds to wait for the WebElement.
      * @return
      */
-    protected boolean waitForElementPresence(By locator, int timeOutInSeconds){
+    protected boolean waitForElementPresenceBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            logger.info("Element found: " + locator.toString());
             return true;
-        }catch (NoSuchElementException | StaleElementReferenceException e){
+        }catch (Exception e){
+            logger.warn("Element was not found: " + locator.toString());
+            return false;
+        }
+    }
+    /**
+     * Return true if a WebElement is displayed with a specific text
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search the element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
+    protected boolean waitForElementTextToBeBy(By locator, String text, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.textToBe(locator, text));
+            logger.info("Element found: " + locator.toString());
+            return true;
+        }catch (Exception e){
+            logger.warn("Element not found: " + locator.toString());
             return false;
         }
     }
 
+    protected boolean waitForElementTextToBePresentInElementValueBy(By locator, String text, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.textToBePresentInElementValue(locator, text));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementToBeSelectedBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.elementToBeSelected(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementFrameToBeAvailableAndSwitchToItBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementAttributeToBeBy(By locator, String attribute, String value, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.attributeToBe(locator, attribute, value));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementAttributeContainsBy(By locator, String attribute, String value, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.attributeContains(locator, attribute, value));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementToBeClickableBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementVisibilityOfElementLocatedBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementSelectionStateToBeBy(By locator, boolean selectionState, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.elementSelectionStateToBe(locator, selectionState));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementInvisibilityOfElementLocatedBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForElementInvisibilityOfElementWithTextBy(By locator, String text,int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.invisibilityOfElementWithText(locator, text));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForNumberOfElementsToBe(By locator, int numberElements,int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.numberOfElementsToBe(locator, numberElements));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForNumberOfElementsToBeLessThanBy(By locator, int numberElements,int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.numberOfElementsToBeLessThan(locator, numberElements));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForNumberOfElementsToBeMoreThanBy(By locator, int numberElements,int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, numberElements));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForPresenceOfAllElementsLocatedBy(By locator, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    protected boolean waitForTextToBePresentInElementLocatedBy(By locator, String text, int timeOutInSeconds){
+        try{
+            WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+
+    /**
+     * Method used to click and wait for a clickable WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void clickElementClickable(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            clickWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element is not clickable");
+            throw new NoSuchElementException("Element not clickable");
+        }
+    }
+
+    /**
+     * Method used to click and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void clickElementVisible(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            clickWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to double click and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void doubleClickElementVisible(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            doubleClickWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to double click, move and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void doubleClickAndMoveToElementVisible(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to double click and wait for a clickable WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void doubleClickElementClickable(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            doubleClickWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to double click, move and wait for a clickable WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void doubleClickAndMoveToElementClickable(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to click, move and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void clickAndMoveToElementVisible(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            clickAndMoveToWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method used to click, move and wait for a clickable WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the By Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void clickAndMoveToElementClickable(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            clickAndMoveToWebElementByActions(getWebElement(webElement));
+            logger.info("WebElement clicked");
+        }else{
+            logger.error("The Web Element is not clickable");
+            throw new NoSuchElementException("Element not clickable");
+        }
+    }
     /**
      * Method used to click and wait for a clickable WebElement
      *
@@ -807,6 +1143,391 @@ public class CommonFunctions {
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
+    protected void sendKeysAndMoveToElementVisible(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to sendKeys, move and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void sendKeysAndMoveToElementClickable(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+
+    /**
+     * Method used to sendKeys and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void sendKeysElementVisible(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            sendKeysWebElementByActions(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to sendKeys and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void sendKeysElementClickable(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            sendKeysWebElementByActions(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownByText(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            selectDropDownByText(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownByText(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            selectAndMoveToDropDownByText(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownByIndex(By webElement, int index, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            selectDropDownByIndex(getWebElement(webElement), index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownByIndex(By webElement, int index, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableByText(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            selectDropDownByText(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by text
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param text to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownClickableByText(By webElement, String text, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            selectAndMoveToDropDownByText(getWebElement(webElement), text);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableByIndex(By webElement, int index, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            selectDropDownByIndex(getWebElement(webElement), index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to move and select a dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param index to select from a dropdown
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropdownClickableByIndex(By webElement, int index, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownVisibleRandomOption(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            selectRandomDropDownOption(getWebElement(webElement));
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropDownVisibleRandomOption(By webElement, int waitTime) throws Exception {
+        if(waitForElementPresenceBy(webElement, waitTime)){
+            scrollMethodToWebElementByActions(getWebElement(webElement));
+            selectRandomDropDownOption(getWebElement(webElement));
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectDropDownClickableRandomOption(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            selectRandomDropDownOption(getWebElement(webElement));
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void selectAndMoveDropDownClickableRandomOption(By webElement, int waitTime) throws Exception {
+        if(waitForElementToBeClickableBy(webElement, waitTime)){
+            scrollMethodToWebElementByActions(getWebElement(webElement));
+            selectRandomDropDownOption(getWebElement(webElement));
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to return a random webElement from a List<WebElement>
+     *
+     * @author Alejandro Hernandez
+     * @param webElementList
+     * @param timeSeconds to wait for visible elements
+     * @throws Exception
+     */
+    protected WebElement getRandomWebElementFromList(By webElementList, int timeSeconds) throws IllegalAccessException {
+        try {
+            if(waitForPresenceOfAllElementsLocatedBy(webElementList, timeSeconds)) {
+                Random random = new Random();
+                return getWebElementList(webElementList).get(random.nextInt(getWebElementList(webElementList).size()));
+            } else{
+                logger.error("The list of WebElements was not found/visible");
+                throw new NoSuchElementException("WebElements are not visible");
+            }
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
+        }
+    }
+    /**
+     * Method used to return a webElement with specific attribute value from a List<WebElement>
+     *
+     * @author Alejandro Hernandez
+     * @param webElementList
+     * @param attribute to handle
+     * @param attributeValue to search
+     * @throws Exception
+     */
+    protected WebElement getWebElementByAttributeFromList(By webElementList, String attribute, String attributeValue) throws IllegalAccessException {
+        WebElement element=null;
+        for(WebElement elementList : getWebElementList(webElementList)){
+            if(elementList.getAttribute(attribute).equalsIgnoreCase(attributeValue)){
+                element = elementList;
+                break;
+            }
+        }
+        if(element!=null){
+            return element;
+        }else{
+            logger.error("Not element found with attribute: "+attribute+" and value: "+attributeValue);
+            throw new NoSuchElementException("Not element found");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is selected or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is selected or false if it is not selected
+     * @throws Exception
+     */
+    protected boolean isVisibleElementSelected(By webElement, int timeSeconds){
+        if(waitForElementPresenceBy(webElement, timeSeconds)){
+            logger.info("WebElement selected: "+getWebElementLocatorPath(getWebElement(webElement))+": "+getWebElement(webElement).isSelected());
+            return getWebElement(webElement).isSelected();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is selected or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is clickable or false if it is not selected
+     * @throws Exception
+     */
+    protected boolean isClickableElementSelected(By webElement, int timeSeconds){
+        if(waitForElementToBeClickableBy(webElement, timeSeconds)){
+            logger.info("WebElement selected: "+getWebElementLocatorPath(getWebElement(webElement))+": "+getWebElement(webElement).isSelected());
+            return getWebElement(webElement).isSelected();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a visible webElement is enabled or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is enabled or false if it is not
+     * @throws Exception
+     */
+    protected boolean isVisibleElementEnabled(By webElement, int timeSeconds){
+        if(waitForElementPresenceBy(webElement, timeSeconds)){
+            logger.info("WebElement enabled: "+getWebElementLocatorPath(getWebElement(webElement))+": "+getWebElement(webElement).isSelected());
+            return getWebElement(webElement).isEnabled();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to validate if a clickable webElement is enabled or not
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param timeSeconds
+     * @return true if a webElement is enabled or false if it is not
+     * @throws Exception
+     */
+    protected boolean isClickableElementEnabled(By webElement, int timeSeconds){
+        if(waitForElementToBeClickableBy(webElement, timeSeconds)){
+            logger.info("WebElement enabled: "+getWebElementLocatorPath(getWebElement(webElement))+": "+getWebElement(webElement).isSelected());
+            return getWebElement(webElement).isEnabled();
+        }else{
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+    /**
+     * Method used to sendKeys, move and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
     protected void sendKeysAndMoveToElementVisible(WebElement webElement, String text, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
             sendKeysAndMoveToWebElementByActions(webElement, text);
@@ -999,6 +1720,20 @@ public class CommonFunctions {
             logger.error("The Web Element was not found");
             throw new NoSuchElementException("Element not valid");
         }
+    }
+    /**
+     * Method used to get a random date with format mm/dd/yyyy
+     *
+     * @author Alejandro Hernandez
+     * @return String with the date format
+     * @throws Exception
+     */
+    protected String getRandomDate() {
+        Faker faker = new Faker();
+        Date randomDate = faker.date().birthday(18,70);
+        String pattern = "MM/dd/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(randomDate);
     }
     /**
      * Method used to select a random dropdown option by index

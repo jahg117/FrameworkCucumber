@@ -25,6 +25,13 @@ public class AccessServicesHomePage extends CommonFunctions {
     @FindBy(css = "#navMenuList a.menuItem")
     private List<WebElement> list_navigationOptions;
 
+    @FindBy(css = "a[title='New']")
+    private WebElement button_NewAccount;
+
+    public void clickNewAccount() throws Exception {
+        clickAndMoveToElementClickable(button_NewAccount, 30);
+    }
+
     public void isAccessServicesTitleVisible(){
         waitForElementVisibility(label_accessServicesTitle, 30);
     }
