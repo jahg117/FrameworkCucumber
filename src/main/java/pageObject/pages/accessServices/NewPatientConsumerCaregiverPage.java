@@ -33,7 +33,6 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementVisible(input_lastName, faker.name().lastName(), 10);
         //clickElementVisible(input_dateOfBirth, 5);
         //sendKeysAndMoveToElementVisible(input_dateOfBirth, getRandomDate(), 10);
-        scrollBottomJS();
         //scrollMethodTopBottom("bottom");
         scrollToWebElementVisibleByAction(input_emailAddress, 5);
         sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
