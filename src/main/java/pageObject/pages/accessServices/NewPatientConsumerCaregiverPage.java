@@ -1,8 +1,10 @@
 package pageObject.pages.accessServices;
 
+import base.driverInitialize.DriverFactory;
 import base.functions.CommonFunctions;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 public class NewPatientConsumerCaregiverPage extends CommonFunctions {
@@ -31,14 +33,12 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         String firstName = faker.name().firstName();
         sendKeysAndMoveToElementVisible(input_firstName, firstName, 10);
         sendKeysAndMoveToElementVisible(input_lastName, faker.name().lastName(), 10);
-        //clickElementVisible(input_dateOfBirth, 5);
-        //sendKeysAndMoveToElementVisible(input_dateOfBirth, getRandomDate(), 10);
-        //scrollMethodTopBottom("bottom");
-        scrollToWebElementVisibleByAction(input_emailAddress, 5);
+        sendKeysElementVisibleWithCoordinates(input_dateOfBirth, 5, 5 , 20);
+        scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
-        clickAndMoveToElementVisible(button_saveAccount, 10);
-        clickElementJS(button_saveAccount);
+        scrollToWebElementJS(button_saveAccount);
+        clickElementVisible(button_saveAccount, 10);
     }
 
 }
