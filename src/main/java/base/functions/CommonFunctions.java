@@ -32,11 +32,11 @@ public class CommonFunctions {
         fileReading.setLog4jFile();
     }
 
-    public WebElement getWebElement(By locator) {
+    protected WebElement getWebElement(By locator) {
         return driver.findElement(locator);
     }
 
-    public List<WebElement> getWebElementList(By locator) {
+    protected List<WebElement> getWebElementList(By locator) {
         return driver.findElements(locator);
     }
 
@@ -1148,7 +1148,6 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
-
     /**
      * @author J.Ruano
      * @param wElement contains the Element to get the coordinates X,Y and scroll base on coordinates
@@ -1162,42 +1161,52 @@ public class CommonFunctions {
         jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
         return waitForElementVisibility(wElement,10);
     }
-
     /**
-     * This method contains all the methods to scroll to TOP or to BOTTOM of the page
+     * Scroll to the BOTTOM of the page
      *
-     * @author J.Ruano
-	 * @param topBottom it requires to put "top" or "bottom" to scroll to those directions
+     * @author Alejandro Hernandez
+	 * @throws Exception
+     */
+    protected void scrollBottom() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+            logger.info("Scrolled to the bottom page");
+        } catch (Exception e) {
+            logger.error("Unable to scroll to the bottom");
+            throw new NoSuchElementException("Unable to scroll to the bottom");
+        }
+    }
+    /**
+     * Scroll to the TOP of the page
+     *
+     * @author Alejandro Hernandez
      * @throws Exception
      */
-    protected boolean scrollMethodTopBottom(String topBottom) throws Exception {
-        //===========================================================================
-        boolean statusOperation = false;
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        double startPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-        double endPositionY = 0;
-        try{
-            switch (topBottom.toLowerCase().trim()) {
-                case "top":
-                    //logger.info("USING " + usedMethod + " TO SCROLL DOWN USING PIXELS");
-                    jsExecutor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
-                    endPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-                    break;
-                case "bottom":
-                    //logger.info("USING " + usedMethod + " TO SCROLL UP USING PIXELS");
-                    jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-                    endPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-                    break;
-            }
-            if (endPositionY != startPositionY) {
-                statusOperation = true;
-            }else{
-                statusOperation = false;
-            }
-        }catch (NoSuchElementException | StaleElementReferenceException e){
-                return false;
+    protected void scrollTop() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+            logger.info("Scrolled to the top page");
+        } catch (Exception e) {
+            logger.error("Unable to scroll to the top");
+            throw new NoSuchElementException("Unable to scroll to the top");
         }
-        return statusOperation;
+    }
+    /**
+     * This method is to scroll to a webElement in specific with JS
+     *
+     * @author Alejandro Hernandez
+     * @param webElement to scroll
+     * @throws Exception
+     */
+    protected void scrollToWebElementJS(WebElement webElement) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
+        } catch (Exception e) {
+            logger.error("Web Element not found or invalid");
+            throw new NoSuchElementException("Web Element not found or invalid");
+        }
     }
     /**
      * This method is used to move to an element by Action Class
@@ -1275,9 +1284,15 @@ public class CommonFunctions {
      * @throws Exception
      */
     protected boolean clickElementJS(WebElement wElement) throws Exception {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        jsExecutor.executeScript("arguments[0].click();", wElement);
-        return true;
+        try {
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("arguments[0].click();", wElement);
+            logger.info("Web Element selected");
+            return true;
+        }catch (Exception e) {
+            logger.error("Web element not found");
+            throw new NoSuchElementException("Web Element not found");
+        }
     }
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
@@ -1696,7 +1711,23 @@ public class CommonFunctions {
             throw new NoSuchElementException("Element not valid");
         }
     }
-
+    /**
+     * Method used to sendKeys and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, int xOffset, int yOffset, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            Actions actions = new Actions(driver);
+            actions.moveToElement(webElement, 5, 5).click().sendKeys(getRandomDate()).perform();
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
