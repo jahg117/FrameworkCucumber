@@ -1071,7 +1071,7 @@ public class CommonFunctions {
             if (!statusOperation) {
                 statusOperation = scrollMethodToWebElementByActions(wElement);
                 if (!statusOperation) {
-                    //logger.info("NONE OF THE METHODS DID WORK TO SCROLL DOWN USING PIXELS");
+                    logger.info("NONE OF THE METHODS DID WORK TO SCROLL DOWN USING PIXELS");
                 }
             }
         }
