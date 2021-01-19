@@ -31,8 +31,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         Faker faker = new Faker();
         waitForElementVisibility(input_firstName, 20);
         String firstName = faker.name().firstName();
-        sendKeysAndMoveToElementVisible(input_firstName, firstName, 10);
-        sendKeysAndMoveToElementVisible(input_lastName, faker.name().lastName(), 10);
+        sendKeysElementVisible(input_firstName, firstName, 10);
+        sendKeysElementVisible(input_lastName, faker.name().lastName(), 10);
         sendKeysElementVisibleWithCoordinates(input_dateOfBirth, 5, 5 , 20);
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
@@ -40,5 +40,4 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(button_saveAccount);
         clickElementVisible(button_saveAccount, 10);
     }
-
 }

@@ -8,6 +8,5 @@ public class OpenMenuOptionSteps extends ApplicationInstance {
     @And("^I select the \"([^\"]*)\" menu option$")
     public void clickMenuOption(String menuOption) throws Exception{
         accessServices.getAccessServicesHomePage().selectMenuOption(menuOption);
-        salesforce.getHomePage().closeOpenTabs();
     }
 }
