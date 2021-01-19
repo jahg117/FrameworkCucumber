@@ -1,5 +1,6 @@
 package pageObject.pages.salesforce;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import base.functions.CommonFunctions;
@@ -12,6 +13,7 @@ public class HomePage extends CommonFunctions {
 
     @FindBy(xpath = "//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]")
     private List<WebElement> button_closeTabs;
+    private By button_closeTabsBy = By.xpath("//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]");
 
     @FindBy(xpath = "//div[contains(@class,'lafPageHost')]")
     private WebElement label_panelTab;
@@ -24,11 +26,14 @@ public class HomePage extends CommonFunctions {
 
     public void closeOpenTabs() throws Exception {
         waitForPageToLoad();
+        waitForElementVisibilityOfElementLocatedBy(button_closeTabsBy, 10);
+        waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 3, 15);
         if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
             for (WebElement close : button_closeTabs) {
                     clickElementVisible(close, 10);
             }
         }
+
     }
 
     public void closePreviousTab() throws Exception {
