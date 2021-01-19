@@ -2243,7 +2243,7 @@ public class CommonFunctions {
     private void sendKeysWebElementByActions(WebElement wElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
-            actions.sendKeys(wElement, text).build().perform();
+            actions.click(wElement).sendKeys(wElement, text).build().perform();
             logger.info("Element found: "+getWebElementLocatorPath(wElement));
             logger.info("Keys sent: "+text);
         } catch (Exception e) {
