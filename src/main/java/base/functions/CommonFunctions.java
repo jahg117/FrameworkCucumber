@@ -32,11 +32,11 @@ public class CommonFunctions {
         fileReading.setLog4jFile();
     }
 
-    public WebElement getWebElement(By locator) {
+    protected WebElement getWebElement(By locator) {
         return driver.findElement(locator);
     }
 
-    public List<WebElement> getWebElementList(By locator) {
+    protected List<WebElement> getWebElementList(By locator) {
         return driver.findElements(locator);
     }
 
@@ -473,147 +473,291 @@ public class CommonFunctions {
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is displayed with a specific text in an element value
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param text to search in element value
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementTextToBePresentInElementValueBy(By locator, String text, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.textToBePresentInElementValue(locator, text));
+            logger.info("Element found: " + locator.toString()+" with value: "+text);
             return true;
         }catch (Exception e){
+            logger.warn("Element not found: " + locator.toString()+" with value: "+text);
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is selected or false if it's not
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementToBeSelectedBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.elementToBeSelected(locator));
+            logger.info("Element already selected: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.warn("Element is not selected: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true and switch if a frame is available or false if it's not
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementFrameToBeAvailableAndSwitchToItBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+            logger.info("iFrame found and switch to it: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.warn("iFrame not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is displayed with a specific attribute value
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param attribute to handle
+     * @param value to find
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementAttributeToBeBy(By locator, String attribute, String value, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeToBe(locator, attribute, value));
+            logger.info("Element found: " + locator.toString()+" with attribute: "+attribute+" and value: "+value);
             return true;
         }catch (Exception e){
+            logger.warn("Element not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is displayed contains an attribute value
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param attribute to handle
+     * @param value to find
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementAttributeContainsBy(By locator, String attribute, String value, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.attributeContains(locator, attribute, value));
+            logger.info("Element found: " + locator.toString()+" with attribute: "+attribute+" and value: "+value);
             return true;
         }catch (Exception e){
+            logger.info("Element found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is clickable or false if it's not
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementToBeClickableBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.elementToBeClickable(locator));
+            logger.info("Element found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.info("Element not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is visible or false if it's not
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementVisibilityOfElementLocatedBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            logger.info("Element found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.info("Element not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement has a specific selection state true/false
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param selectionState true/false
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementSelectionStateToBeBy(By locator, boolean selectionState, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.elementSelectionStateToBe(locator, selectionState));
+            logger.info("Element found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.warn("Element not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a WebElement is not visible or false if it is visible
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForElementInvisibilityOfElementLocatedBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            logger.info("Element not found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.warn("Element found: " + locator.toString());
             return false;
         }
     }
-
-    protected boolean waitForElementInvisibilityOfElementWithTextBy(By locator, String text,int timeOutInSeconds){
+    /**
+     * Return true if a WebElement is not visible  with a specific text or false if it is visible
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param text to search
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
+    protected boolean waitForElementInvisibilityOfElementWithTextBy(By locator, String text, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOfElementWithText(locator, text));
+            logger.info("Element not found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.warn("Element found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true if a specific number of elements are displayed or false if it is visible
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param numberElements to search
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForNumberOfElementsToBe(By locator, int numberElements,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.numberOfElementsToBe(locator, numberElements));
+            logger.info("Elements found: " + locator.toString()+ " number of elements: "+numberElements);
             return true;
         }catch (Exception e){
+            logger.warn("Expected number of elements not found");
             return false;
         }
     }
-
+    /**
+     * Return true if the number of elements is less than the expected
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param numberElements to search
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForNumberOfElementsToBeLessThanBy(By locator, int numberElements,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.numberOfElementsToBeLessThan(locator, numberElements));
+            logger.info("Elements found: " + locator.toString()+ " number of elements less than: "+numberElements);
             return true;
         }catch (Exception e){
+            logger.warn("Expected number of elements not found");
             return false;
         }
     }
-
+    /**
+     * Return true if the number of elements is more than the expected
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param numberElements to search
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForNumberOfElementsToBeMoreThanBy(By locator, int numberElements,int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, numberElements));
+            logger.info("Elements found: " + locator.toString()+ " number of elements more than: "+numberElements);
             return true;
         }catch (Exception e){
+            logger.warn("Expected number of elements not found");
             return false;
         }
     }
-
+    /**
+     * Return true if all the elements were found
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForPresenceOfAllElementsLocatedBy(By locator, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+            logger.info("Elements found: " + locator.toString());
             return true;
         }catch (Exception e){
+            logger.info("Elements not found: " + locator.toString());
             return false;
         }
     }
-
+    /**
+     * Return true a specific text is displayed in an element found
+     *
+     * @author Alejandro Hernandez
+     * @param locator it contains the locator (path) to search an element
+     * @param text to found
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     */
     protected boolean waitForTextToBePresentInElementLocatedBy(By locator, String text, int timeOutInSeconds){
         try{
             WebDriverWait wait= new WebDriverWait(driver, timeOutInSeconds);
@@ -1004,7 +1148,6 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
-
     /**
      * @author J.Ruano
      * @param wElement contains the Element to get the coordinates X,Y and scroll base on coordinates
@@ -1018,42 +1161,52 @@ public class CommonFunctions {
         jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
         return waitForElementVisibility(wElement,10);
     }
-
     /**
-     * This method contains all the methods to scroll to TOP or to BOTTOM of the page
+     * Scroll to the BOTTOM of the page
      *
-     * @author J.Ruano
-	 * @param topBottom it requires to put "top" or "bottom" to scroll to those directions
+     * @author Alejandro Hernandez
+	 * @throws Exception
+     */
+    protected void scrollBottom() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+            logger.info("Scrolled to the bottom page");
+        } catch (Exception e) {
+            logger.error("Unable to scroll to the bottom");
+            throw new NoSuchElementException("Unable to scroll to the bottom");
+        }
+    }
+    /**
+     * Scroll to the TOP of the page
+     *
+     * @author Alejandro Hernandez
      * @throws Exception
      */
-    protected boolean scrollMethodTopBottom(String topBottom) throws Exception {
-        //===========================================================================
-        boolean statusOperation = false;
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        double startPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-        double endPositionY = 0;
-        try{
-            switch (topBottom.toLowerCase().trim()) {
-                case "top":
-                    //logger.info("USING " + usedMethod + " TO SCROLL DOWN USING PIXELS");
-                    jsExecutor.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
-                    endPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-                    break;
-                case "bottom":
-                    //logger.info("USING " + usedMethod + " TO SCROLL UP USING PIXELS");
-                    jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-                    endPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
-                    break;
-            }
-            if (endPositionY != startPositionY) {
-                statusOperation = true;
-            }else{
-                statusOperation = false;
-            }
-        }catch (NoSuchElementException | StaleElementReferenceException e){
-                return false;
+    protected void scrollTop() {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+            logger.info("Scrolled to the top page");
+        } catch (Exception e) {
+            logger.error("Unable to scroll to the top");
+            throw new NoSuchElementException("Unable to scroll to the top");
         }
-        return statusOperation;
+    }
+    /**
+     * This method is to scroll to a webElement in specific with JS
+     *
+     * @author Alejandro Hernandez
+     * @param webElement to scroll
+     * @throws Exception
+     */
+    protected void scrollToWebElementJS(WebElement webElement) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
+        } catch (Exception e) {
+            logger.error("Web Element not found or invalid");
+            throw new NoSuchElementException("Web Element not found or invalid");
+        }
     }
     /**
      * This method is used to move to an element by Action Class
@@ -1131,9 +1284,15 @@ public class CommonFunctions {
      * @throws Exception
      */
     protected boolean clickElementJS(WebElement wElement) throws Exception {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        jsExecutor.executeScript("arguments[0].click();", wElement);
-        return true;
+        try {
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("arguments[0].click();", wElement);
+            logger.info("Web Element selected");
+            return true;
+        }catch (Exception e) {
+            logger.error("Web element not found");
+            throw new NoSuchElementException("Web Element not found");
+        }
     }
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
@@ -1552,7 +1711,23 @@ public class CommonFunctions {
             throw new NoSuchElementException("Element not valid");
         }
     }
-
+    /**
+     * Method used to sendKeys and wait for a visible WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement contains the Element to select
+     * @param waitTime time to wait for a WebElement
+     * @throws Exception
+     */
+    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, int xOffset, int yOffset, int waitTime) throws Exception {
+        if(waitForElementVisibility(webElement, waitTime)){
+            Actions actions = new Actions(driver);
+            actions.moveToElement(webElement, 5, 5).click().sendKeys(getRandomDate()).perform();
+        }else{
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
@@ -2068,7 +2243,7 @@ public class CommonFunctions {
     private void sendKeysWebElementByActions(WebElement wElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
-            actions.sendKeys(wElement, text).build().perform();
+            actions.click(wElement).sendKeys(wElement, text).build().perform();
             logger.info("Element found: "+getWebElementLocatorPath(wElement));
             logger.info("Keys sent: "+text);
         } catch (Exception e) {
