@@ -10,7 +10,7 @@ public class NewAccountSteps extends ApplicationInstance {
     @Given("^I click on new Account$")
     public void clickNewAccount() throws Exception {
         accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-        salesforce.getHomePage().closeOpenTabs();
+        //salesforce.getHomePage().closeOpenTabs();
         accessServices.getCustomerLookupPage().clickNewAccount();
     }
 
