@@ -1,16 +1,15 @@
-package stepDefinition.acessServices;
+package stepDefinition.acessServices.us1372;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObject.ApplicationInstance;
 
-public class NewAccountSteps extends ApplicationInstance {
+public class CreateAZProductEnrollmentConsent extends ApplicationInstance {
 
     @Given("^I click on new Account$")
     public void clickNewAccount() throws Exception {
         accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-        //salesforce.getHomePage().closeOpenTabs();
         accessServices.getCustomerLookupPage().clickNewAccount();
     }
 
