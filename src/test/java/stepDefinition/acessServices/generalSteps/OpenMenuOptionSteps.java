@@ -1,4 +1,4 @@
-package stepDefinition.acessServices;
+package stepDefinition.acessServices.generalSteps;
 
 import io.cucumber.java.en.And;
 import pageObject.ApplicationInstance;
