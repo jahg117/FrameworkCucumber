@@ -1,5 +1,6 @@
 package stepDefinition.acessServices.us1372;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,6 +21,11 @@ public class CreateAZProductEnrollmentConsent extends ApplicationInstance {
 
     @Then("^I fill the mandatory fields from the account form$")
     public void mandatoryFieldsAccountForm() throws Exception{
+        accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+    }
+
+    @And("^I search a patient$")
+    public void searchPatient() throws Exception{
         accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
     }
 }
