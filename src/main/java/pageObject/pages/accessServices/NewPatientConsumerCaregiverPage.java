@@ -30,6 +30,12 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//input[@placeholder='Search Places']")
     private WebElement input_searchPlaces;
 
+    @FindBy(xpath = "//input[@data-name='street1']")
+    private WebElement input_addressLine1;
+
+    @FindBy(xpath = "//input[@data-name='city']")
+    private WebElement input_city;
+
     @FindBy(xpath = "//div[@role='listbox']//li")
     private List<WebElement> label_searchOptions;
 
@@ -49,9 +55,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(input_searchAccounts);
         sendKeysElementVisible(input_phoneNumber, faker.phoneNumber().cellPhone().replace(".","").replace("-",""), 10);
         scrollToWebElementJS(input_searchPlaces);
-        sendKeysElementVisible(input_searchPlaces, faker.address().cityName(), 10);
-        waitForElementListVisible(label_searchOptions, 5);
-        clickElementVisible(label_searchOptions.get(0), 10);
+        sendKeysElementVisible(input_addressLine1, faker.address().streetName(), 10);
+        sendKeysElementVisible(input_city, faker.address().cityName(), 10);
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);

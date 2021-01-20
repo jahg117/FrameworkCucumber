@@ -28,12 +28,18 @@ public class HomePage extends CommonFunctions {
         waitForPageToLoad();
         waitForElementVisibilityOfElementLocatedBy(button_closeTabsBy, 10);
         waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 3, 15);
-        if (waitForElementListVisible(button_closeTabs, 7) && button_closeTabs.size() > 0) {
-            for (WebElement close : button_closeTabs) {
+        try {
+            if(!waitForNumberOfElementsToBe(button_closeTabsBy, 0, 2)) {
+                for (WebElement close : button_closeTabs) {
                     clickElementVisible(close, 10);
+                }
             }
         }
-
+        catch (Exception e) {
+            if (waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 0, 5)) {
+                closeOpenTabs();
+            }
+        }
     }
 
     public void closePreviousTab() throws Exception {
