@@ -3,10 +3,7 @@ package pageObject.application;
 import base.driverInitialize.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import pageObject.pages.accessServices.AccessServicesHomePage;
-import pageObject.pages.accessServices.CustomerLookupPage;
-import pageObject.pages.accessServices.NewAccountPage;
-import pageObject.pages.accessServices.NewPatientConsumerCaregiverPage;
+import pageObject.pages.accessServices.*;
 
 public class AccessServices {
     private WebDriver driver;
@@ -15,6 +12,9 @@ public class AccessServices {
     private CustomerLookupPage customerLookupPage;
     private NewAccountPage newAccountPage;
     private NewPatientConsumerCaregiverPage newPatientConsumerCaregiverPage;
+    private PersonAccountPage personAccountPage;
+    private CreateNewEnrollmentPage createNewEnrollmentPage;
+    private ProductEnrollmentPage productEnrollmentPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -22,21 +22,20 @@ public class AccessServices {
         customerLookupPage = PageFactory.initElements(driver, CustomerLookupPage.class);
         newAccountPage = PageFactory.initElements(driver, NewAccountPage.class);
         newPatientConsumerCaregiverPage = PageFactory.initElements(driver, NewPatientConsumerCaregiverPage.class);
+        personAccountPage = PageFactory.initElements(driver, PersonAccountPage.class);
+        createNewEnrollmentPage = PageFactory.initElements(driver, CreateNewEnrollmentPage.class);
+        productEnrollmentPage = PageFactory.initElements(driver, ProductEnrollmentPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
         return accessServicesHomePage;
     }
-
     public CustomerLookupPage getCustomerLookupPage() {
         return customerLookupPage;
     }
-
-    public NewAccountPage getNewAccountPage() {
-        return newAccountPage;
-    }
-
-    public NewPatientConsumerCaregiverPage getNewPatientConsumerCaregiverPage() {
-        return newPatientConsumerCaregiverPage;
-    }
+    public NewAccountPage getNewAccountPage() { return newAccountPage; }
+    public NewPatientConsumerCaregiverPage getNewPatientConsumerCaregiverPage() { return newPatientConsumerCaregiverPage; }
+    public PersonAccountPage getPersonAccountPage() { return personAccountPage; }
+    public CreateNewEnrollmentPage getCreateNewEnrollmentPage() { return  createNewEnrollmentPage; }
+    public ProductEnrollmentPage getProductEnrollmentPage() { return  productEnrollmentPage; }
 }
