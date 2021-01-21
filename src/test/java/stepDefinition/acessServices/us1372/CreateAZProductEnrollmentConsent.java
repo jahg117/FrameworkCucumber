@@ -24,8 +24,20 @@ public class CreateAZProductEnrollmentConsent extends ApplicationInstance {
         accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
     }
 
-    @And("^I search a patient$")
-    public void searchPatient() throws Exception{
-        accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+    @And("^I click on new product enrollment button$")
+    public void clickNewProductEnrollment() throws Exception{
+        accessServices.getPersonAccountPage().clickNewProductEnrollment();
+    }
+
+    @And("^I fill the mandatory fields from the new program enrollment form$")
+    public void fillMandatoryFieldsProgramEnrollment() throws Exception{
+        accessServices.getCreateNewEnrollmentPage().enterProduct();
+        accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+    }
+
+    @And("^I select the created program enrollment$")
+    public void clickCreatedProgramEnrollment() throws Exception{
+        accessServices.getPersonAccountPage().clickProductEnrollmentAdded("FASENRA");
+        accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
     }
 }
