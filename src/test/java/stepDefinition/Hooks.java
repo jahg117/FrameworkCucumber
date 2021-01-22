@@ -14,7 +14,7 @@ import utils.FileReading;
 
 public class Hooks {
     private FileReading fileReading = new FileReading();
-    private WebDriver driver = DriverFactory.getDriver();
+    private WebDriver driver = null;
 
     private Logger logger = Logger.getLogger(Hooks.class);
 
@@ -27,6 +27,7 @@ public class Hooks {
         String featureName = getFeatureFileNameFromScenarioId(scenario);
         String browser = AbstractTestNGCucumberParallelTests.browser;
         SharedDriver df = new SharedDriver(browser,featureName+","+scenario.getName());
+        driver = DriverFactory.getDriver();
         logger.info("Scenario started: "+scenario.getName());
     }
 
