@@ -15,3 +15,13 @@ Feature: Setup configurable consents
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
+
+  Scenario: Create DSI product enrollment consent
+    Given I click on new Account
+    When I click on new and I select "Consumer/Patient/Caregiver" account
+    Then I fill the mandatory fields from the account form
+    And I click on new product enrollment button
+    And I enter a valid "DSI" product in the product enrollment form
+    And I click on enroll button
+    And I select the created program enrollment
+    And I select the "Accounts" menu option
