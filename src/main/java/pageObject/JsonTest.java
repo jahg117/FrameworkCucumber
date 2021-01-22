@@ -53,7 +53,7 @@ public class JsonTest {
 
 		obj.put("lenguajes_favoritos", list);
 
-		try(FileWriter file = new FileWriter(GlobalPath+"test.json", true)){
+		try(FileWriter file = new FileWriter(GlobalPath+"test.json")){
 
 			file.write(obj.toJSONString());
 			file.flush();
