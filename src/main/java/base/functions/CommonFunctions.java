@@ -2476,4 +2476,43 @@ public class CommonFunctions {
             logger.error(e.getMessage());
         }
     }
+
+    /**
+     * This method is used to move and select a dropdown option by text
+     * @author J.Ruano
+     */
+    protected void switchToDefaultContentFrame() {
+        driver.switchTo().defaultContent();
+    }
+
+    /**
+     * This method is used to move and select a dropdown option by text
+     *
+     * @param name
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected void switchTabByNameSF(String name) throws Exception {
+        String pathForSubTabs = "//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]";
+        List<WebElement> subTabsList = driver.findElements(By.xpath(pathForSubTabs));
+
+        for (WebElement tab : subTabsList) {
+            if (tab.getAttribute("title").trim().equalsIgnoreCase(name.trim())) {
+                clickAndMoveToElementClickable(tab, 10);
+            }
+        }
+    }
+
+    /**
+     * This method is used to move and select a dropdown option by text
+     *
+     * @param index
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected void switchTabByIndexSF(int index) throws Exception {
+        String pathForSubTabs = "//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]";
+        List<WebElement> subTabsList = driver.findElements(By.xpath(pathForSubTabs));
+        clickAndMoveToElementClickable(subTabsList.get(index), 10);
+    }
 }
