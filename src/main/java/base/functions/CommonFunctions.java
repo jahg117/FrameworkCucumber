@@ -1719,10 +1719,10 @@ public class CommonFunctions {
      * @param waitTime time to wait for a WebElement
      * @throws Exception
      */
-    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, int xOffset, int yOffset, int waitTime) throws Exception {
+    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int waitTime) throws Exception {
         if(waitForElementVisibility(webElement, waitTime)){
             Actions actions = new Actions(driver);
-            actions.moveToElement(webElement, 5, 5).click().sendKeys(getRandomDate()).perform();
+            actions.moveToElement(webElement, 5, 5).click().sendKeys(text).perform();
         }else{
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
@@ -2231,16 +2231,13 @@ public class CommonFunctions {
         driver.close();
     }
 
-    //***********************************************************************
-    // private methods
-
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void sendKeysWebElementByActions(WebElement wElement, String text) throws Exception {
+    protected void sendKeysWebElementByActions(WebElement wElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.click(wElement).sendKeys(wElement, text).build().perform();
@@ -2251,14 +2248,30 @@ public class CommonFunctions {
             logger.error(e.getMessage());
         }
     }
-
+    /**
+     * This method is used to SendKeys without specify a WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param text
+     * @throws Exception
+     */
+    protected void sendKeysByActions(String text) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.sendKeys(text).build().perform();
+            logger.info("Keys sent: "+text);
+        } catch (Exception e) {
+            logger.error("Element not visible or not clickable");
+            logger.error(e.getMessage());
+        }
+    }
     /**
      * This method is used to move and SendKeys to a WebElement by Action
      *
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void sendKeysAndMoveToWebElementByActions(WebElement wElement, String text) throws Exception {
+    protected void sendKeysAndMoveToWebElementByActions(WebElement wElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(wElement).sendKeys(wElement, text).build().perform();
