@@ -44,6 +44,9 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//*[@checked='checked']")
     private List<WebElement> checkbox_CheckedList;
 
+    @FindBy(xpath = "//a[normalize-space(text())='18pqbDGY']")
+    private WebElement link_AZID;
+
 
     public void clickNewAccount() throws Exception {
         waitForPageToLoad();
@@ -102,5 +105,14 @@ public class CustomerLookupPage extends CommonFunctions {
                 clickMethod(checkbox_emp);
                 break;
         }
+    }
+    /**
+     * Method to click the External ID (AZ ID) found by the search function
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void selectAndClickAZID() throws Exception {
+        clickAndMoveToElementClickable(link_AZID, 10);
     }
 }
