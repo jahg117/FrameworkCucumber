@@ -25,3 +25,7 @@ Feature: Setup configurable consents
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
+
+  Scenario: Create a consent for AZ
+    Given A External ID i search a CPC at Customer Lookup
+    Then I Click On The External ID found for CPC at Customer Lookup
