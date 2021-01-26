@@ -16,6 +16,7 @@ Feature: Setup configurable consents
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
+    And I validate that the patient account was created
 
   @regression
   Scenario: Create DSI product enrollment consent
@@ -27,6 +28,7 @@ Feature: Setup configurable consents
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
+    And I validate that the patient account was created
 
   Scenario: Create a consent for AZ
     Given A External ID i search a CPC at Customer Lookup
