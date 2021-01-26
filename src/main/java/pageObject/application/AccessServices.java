@@ -15,6 +15,7 @@ public class AccessServices {
     private PersonAccountPage personAccountPage;
     private CreateNewEnrollmentPage createNewEnrollmentPage;
     private ProductEnrollmentPage productEnrollmentPage;
+    private AccountsPage accountsPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -25,6 +26,7 @@ public class AccessServices {
         personAccountPage = PageFactory.initElements(driver, PersonAccountPage.class);
         createNewEnrollmentPage = PageFactory.initElements(driver, CreateNewEnrollmentPage.class);
         productEnrollmentPage = PageFactory.initElements(driver, ProductEnrollmentPage.class);
+        accountsPage = PageFactory.initElements(driver, AccountsPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -38,4 +40,5 @@ public class AccessServices {
     public PersonAccountPage getPersonAccountPage() { return personAccountPage; }
     public CreateNewEnrollmentPage getCreateNewEnrollmentPage() { return  createNewEnrollmentPage; }
     public ProductEnrollmentPage getProductEnrollmentPage() { return  productEnrollmentPage; }
+    public AccountsPage getAccountsPage() { return accountsPage; }
 }
