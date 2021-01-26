@@ -1,4 +1,4 @@
-package stepDefinition.acessServices.us1372;
+package stepDefinition.acessServices.accessServices;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -6,11 +6,16 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
+import stepDefinition.shareData.Patient;
+import stepDefinition.shareData.CommonData;
 
-public class CreateAZProductEnrollmentConsent extends ApplicationInstance {
+public class CreateProductEnrollment extends ApplicationInstance {
+    private CommonData commonData;
+    private String product;
 
-    String product = "";
-
+    public CreateProductEnrollment(CommonData commonData){
+        this.commonData = commonData;
+    }
     @Given("^I click on new Account$")
     public void clickNewAccount() throws Exception {
         accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
@@ -24,7 +29,11 @@ public class CreateAZProductEnrollmentConsent extends ApplicationInstance {
 
     @Then("^I fill the mandatory fields from the account form$")
     public void mandatoryFieldsAccountForm() throws Exception{
-        accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+        boolean page = accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
+        Assert.assertTrue(page, "The Patient/Consumer/Caregiver page was not displayed");
+        String patientName = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+        accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        commonData.patient = new Patient(patientName);
     }
 
     @And("^I click on new product enrollment button$")

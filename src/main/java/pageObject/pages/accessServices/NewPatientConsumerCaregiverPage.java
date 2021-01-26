@@ -10,6 +10,9 @@ import java.util.List;
 
 public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
+    @FindBy(xpath = "//*[@data-component-id='ACS_PatientWizardParentComponent']")
+    private WebElement form_patientConsumerCaregiver;
+
     @FindBy(xpath = "//input[@data-name='first']")
     private WebElement input_firstName;
 
@@ -49,14 +52,17 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//footer[@class='slds-modal__footer']//button[@type='submit']")
     private WebElement button_saveAccount;
 
-    public void fillPatientConsumerCaregiverForm() throws Exception {
+    public boolean isConsumerPatientCaregiverFormDisplayed(){
+        return waitForElementVisibility(form_patientConsumerCaregiver, 30);
+    }
+
+    public String fillPatientConsumerCaregiverForm() throws Exception {
         Faker faker = new Faker();
         String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
         waitForElementVisibility(input_firstName, 20);
-        sendKeysElementVisible(input_firstName, firstName, 10);
-        waitForElementVisibility(input_lastName, 20);
-        sendKeysElementVisible(input_lastName, faker.name().lastName(), 10);
-        waitForElementVisibility(input_dateOfBirth, 20);
+        sendKeysElementClickable(input_firstName, firstName, 10);
+        sendKeysElementClickable(input_lastName, lastName, 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
         String randomDate = getRandomDate();
         clickElementVisible(input_informalName, 5);
@@ -71,7 +77,6 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(randomDate.split("/")[2]);
-
         scrollToWebElementJS(input_searchAccounts);
         sendKeysElementVisible(input_phoneNumber, faker.phoneNumber().cellPhone().replace(".","").replace("-",""), 10);
         scrollToWebElementJS(input_searchPlaces);
@@ -80,6 +85,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
+        return firstName+" "+lastName;
+    }
+
+    public void clickSaveButton() throws Exception {
         scrollToWebElementJS(button_saveAccount);
         clickElementVisible(button_saveAccount, 10);
     }
