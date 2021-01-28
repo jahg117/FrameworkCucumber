@@ -15,6 +15,8 @@ public class AccessServices {
     private PersonAccountPage personAccountPage;
     private CreateNewEnrollmentPage createNewEnrollmentPage;
     private ProductEnrollmentPage productEnrollmentPage;
+    private NewConsentWizardPage newConsentWizardPage;
+    private AccountsRecentlyViewedPage accountsRecentlyViewedPage;
     private AccountsPage accountsPage;
 
     public AccessServices(){
@@ -26,6 +28,8 @@ public class AccessServices {
         personAccountPage = PageFactory.initElements(driver, PersonAccountPage.class);
         createNewEnrollmentPage = PageFactory.initElements(driver, CreateNewEnrollmentPage.class);
         productEnrollmentPage = PageFactory.initElements(driver, ProductEnrollmentPage.class);
+        newConsentWizardPage = PageFactory.initElements(driver, NewConsentWizardPage.class);
+        accountsRecentlyViewedPage = PageFactory.initElements(driver, AccountsRecentlyViewedPage.class);
         accountsPage = PageFactory.initElements(driver, AccountsPage.class);
     }
 
@@ -40,5 +44,7 @@ public class AccessServices {
     public PersonAccountPage getPersonAccountPage() { return personAccountPage; }
     public CreateNewEnrollmentPage getCreateNewEnrollmentPage() { return  createNewEnrollmentPage; }
     public ProductEnrollmentPage getProductEnrollmentPage() { return  productEnrollmentPage; }
+    public NewConsentWizardPage getNewConsentWizard() { return  newConsentWizardPage; }
+    public AccountsRecentlyViewedPage getAccountsRecentlyViewedPage() { return  accountsRecentlyViewedPage; }
     public AccountsPage getAccountsPage() { return accountsPage; }
 }

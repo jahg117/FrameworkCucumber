@@ -25,18 +25,27 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//td[@data-label='PAF']//*[contains(@src,'red')]")
     private List<WebElement> list_redPAFIcon;
 
+    @FindBy(xpath = "//a[@data-label='Consent']")
+    private WebElement tab_Consent;
+
+    @FindBy(xpath = "//*[@title='New Consent']")
+    private WebElement button_newConsent;
+
+    @FindBy(xpath = "//a[@data-label='Product Enrollments']")
+    private WebElement tab_productEnrollment;
+
     public void clickNewProductEnrollment() throws Exception {
         waitForElementVisibility(label_accountPersonName, 30);
         clickElementClickable(button_newProductEnrollment, 15);
     }
 
     public boolean isRedIconDisplayed(String product) throws Exception {
-        boolean result=false;
+        boolean result = false;
         String newProduct = null;
         waitForElementListVisible(list_products, 20);
-        for(int i=0; i<list_products.size(); i++) {
-            newProduct=list_products.get(i).getText();
-            if(newProduct.equalsIgnoreCase(product)) {
+        for (int i = 0; i < list_products.size(); i++) {
+            newProduct = list_products.get(i).getText();
+            if (newProduct.equalsIgnoreCase(product)) {
                 result = waitForElementVisibility(list_redPAFIcon.get(i), 10);
                 break;
             }
@@ -48,32 +57,65 @@ public class PersonAccountPage extends CommonFunctions {
         String newProduct = "";
         String programEnrollment = "";
         waitForElementListVisible(list_products, 20);
-        for(int i=0; i<list_products.size(); i++) {
-            newProduct=list_products.get(i).getText();
-            if(newProduct.equalsIgnoreCase(product)) {
+        for (int i = 0; i < list_products.size(); i++) {
+            newProduct = list_products.get(i).getText();
+            if (newProduct.equalsIgnoreCase(product)) {
                 programEnrollment = list_productEnrollmentNumber.get(i).getText();
-                 break;
+                break;
             }
         }
         return programEnrollment;
     }
 
     public String clickProductEnrollmentAdded(String product) throws Exception {
-        boolean flag=false;
+        boolean flag = false;
         String newProduct = null;
         waitForElementListVisible(list_products, 20);
-        for(int i=0; i<list_products.size(); i++) {
-            newProduct=list_products.get(i).getText();
-            if(newProduct.equalsIgnoreCase(product)) {
+        for (int i = 0; i < list_products.size(); i++) {
+            newProduct = list_products.get(i).getText();
+            if (newProduct.equalsIgnoreCase(product)) {
                 clickElementVisible(list_productEnrollmentNumber.get(i), 5);
-                flag=true;
+                flag = true;
                 break;
             }
         }
-        if(flag=false){
+        if (flag = false) {
             return "";
-        }else{
+        } else {
             return newProduct;
         }
+    }
+
+    /**
+     * Method to click the button New Consent located at Person Page
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void clickOnNewConsent() throws Exception {
+        switchToDefaultContentFrame();
+        clickAndMoveToElementVisible(tab_Consent, 10);
+        clickAndMoveToElementVisible(button_newConsent, 10);
+    }
+
+    /**
+     * Method to change from one tab to another accoirding to an index
+     *
+     * @param idxTab it contains an integer with the number of the tab related to a list that contains all the corrently open tabs
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void switchToTab(int idxTab) throws Exception {
+        switchTabByIndexSF(idxTab);
+    }
+
+    /**
+     * Method to click the program enrollment from Program Enrollments page
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void clickOnProgramEnrollments() throws Exception {
+        clickAndMoveToElementVisible(tab_productEnrollment, 10);
     }
 }

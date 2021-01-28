@@ -6,6 +6,7 @@ import com.github.javafaker.Faker;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 
@@ -13,10 +14,7 @@ import utils.FileReading;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -438,10 +436,10 @@ public class CommonFunctions {
     /**
      * Return true if a WebElement is presence on the Dom not necessarily visible
      *
-     * @author J.Ruano
-     * @param locator it contains the locator (path) to search the element
+     * @param locator          it contains the locator (path) to search the element
      * @param timeOutInSeconds Seconds to wait for the WebElement.
      * @return
+     * @author J.Ruano
      */
     protected boolean waitForElementPresenceBy(By locator, int timeOutInSeconds){
         try{
@@ -1059,10 +1057,10 @@ public class CommonFunctions {
     /**
      * Method used to click an element and if there is an "ElementClickInterceptedException" it will click again
      *
-     * @author J.Ruano
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean clickMethod(WebElement wElement) throws Exception {
         boolean statusOperation = scrollToElementByCoordinates(wElement);
@@ -1089,9 +1087,9 @@ public class CommonFunctions {
     /**
      * This method will scroll to the Element using the scroll into view at Top of the element With JS
      *
-     * @author J.Ruano
      * @param wElement It contains the WebElement
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean scrollMethodToWebElement(WebElement wElement) throws Exception {
         //Arguments to get into the middle of the WebElement, using as arguments in the java script
@@ -1112,22 +1110,22 @@ public class CommonFunctions {
     /**
      * Scroll into the page Up or Down using amount of pixels
      *
-     * @author J.Ruano
      * @param scrollDirection can be Top or Bottom of the page
-     * @param pixels Is an integer that contains the amount of pixels to scroll up or down when "up" or "down" word are use in the "scrollDirection"
+     * @param pixels          Is an integer that contains the amount of pixels to scroll up or down when "up" or "down" word are use in the "scrollDirection"
      * @throws Exception
+     * @author J.Ruano
      */
-    protected boolean scrollMethodByPixels(String scrollDirection,int pixels) throws Exception {
+    protected boolean scrollMethodByPixels(String scrollDirection, int pixels) throws Exception {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String strPixels = String.valueOf(pixels);
         boolean statusOperation = false;
         double startPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
         double endPositionY = 0;
-        try{
+        try {
             switch (scrollDirection.toLowerCase().trim()) {
                 case "up":
                     //logger.info("USING " + usedMethod + " TO SCROLL DOWN USING PIXELS");
-                    jsExecutor.executeScript("window.scrollTo(0,"+ strPixels +")");
+                    jsExecutor.executeScript("window.scrollTo(0," + strPixels + ")");
                     endPositionY = (double) jsExecutor.executeScript("return window.pageYOffset;");
                     break;
                 case "down":
@@ -1140,18 +1138,19 @@ public class CommonFunctions {
             }
             if (endPositionY != startPositionY) {
                 statusOperation = true;
-            }else{
+            } else {
                 statusOperation = false;
             }
-        }catch (NoSuchElementException | StaleElementReferenceException e){
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
             return false;
         }
         return statusOperation;
     }
+
     /**
-     * @author J.Ruano
      * @param wElement contains the Element to get the coordinates X,Y and scroll base on coordinates
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean scrollToElementByCoordinates(WebElement wElement) throws Exception {
         Point point = wElement.getLocation();
@@ -1159,8 +1158,9 @@ public class CommonFunctions {
         int y_coordinate = point.getY();
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
-        return waitForElementVisibility(wElement,10);
+        return waitForElementVisibility(wElement, 10);
     }
+
     /**
      * Scroll to the BOTTOM of the page
      *
@@ -1208,12 +1208,13 @@ public class CommonFunctions {
             throw new NoSuchElementException("Web Element not found or invalid");
         }
     }
+
     /**
      * This method is used to move to an element by Action Class
      *
-     * @author J.Ruano
-	 * @param wElement it contains the WebElement To Move
+     * @param wElement it contains the WebElement To Move
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean scrollMethodToWebElementByActions(WebElement wElement) throws Exception {
         Actions actions = new Actions(driver);
@@ -1255,13 +1256,14 @@ public class CommonFunctions {
             new NoSuchElementException("Element not found");
         }
     }
+
     /**
      * Click to an element with the Actions Class
      *
-     * @author J.Ruano
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean clickElementActions(WebElement wElement) throws Exception {
         boolean statusOperation = false;
@@ -1278,10 +1280,10 @@ public class CommonFunctions {
     /**
      * Click to an element with JavaScript
      *
-     * @author J.Ruano
      * @param wElement contains the Element to do click
      * @return returns true if the click was done successfully
      * @throws Exception
+     * @author J.Ruano
      */
     protected boolean clickElementJS(WebElement wElement) throws Exception {
         try {
@@ -1711,7 +1713,7 @@ public class CommonFunctions {
             throw new NoSuchElementException("Element not valid");
         }
     }
-    /**
+         /**
      * Method used to sendKeys and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
@@ -2231,6 +2233,9 @@ public class CommonFunctions {
         driver.close();
     }
 
+    //***********************************************************************
+    // private methods
+
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
@@ -2492,6 +2497,7 @@ public class CommonFunctions {
 
     /**
      * This method is used to move and select a dropdown option by text
+     *
      * @author J.Ruano
      */
     protected void switchToDefaultContentFrame() {
@@ -2528,4 +2534,64 @@ public class CommonFunctions {
         List<WebElement> subTabsList = driver.findElements(By.xpath(pathForSubTabs));
         clickAndMoveToElementClickable(subTabsList.get(index), 10);
     }
+
+    /**
+     * Method used to select a random dropdown option by index
+     *
+     * @param webElement contains the Element to select
+     * @param waitTime   time to wait for a WebElement
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected void selectDropDownRandomOptionNone(WebElement webElement, int waitTime) throws Exception {
+        if (waitForElementClickable(webElement, waitTime)) {
+            selectRandomDropDownNotNone(webElement);
+        } else {
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+
+    /**
+     * This method is used to select a random dropdown option by index
+     *
+     * @param webElement
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected void selectRandomDropDownNotNone(WebElement webElement) {
+        int optionIndex = 0;
+        Random random = new Random();
+        Select select = new Select(webElement);
+        try {
+            do {
+                optionIndex = random.nextInt(select.getOptions().size() - 1);
+            } while (optionIndex == 0);
+            select.selectByIndex(optionIndex++);
+            logger.info("Selected option: " + optionIndex++);
+        } catch (Exception e) {
+            logger.error("Element not clickable");
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to select a random dropdown option by index
+     *
+     * @param
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected List<WebElement> getVisibleElements(List<WebElement> webElementList) {
+        List<WebElement> visibleWebElementsList = new LinkedList<>();
+        for (WebElement wE:webElementList) {
+            if (wE.isDisplayed()) {
+                visibleWebElementsList.add(wE);
+            }
+        }
+        return visibleWebElementsList;
+    }
+
+
+
 }
