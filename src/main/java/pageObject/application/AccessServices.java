@@ -17,6 +17,7 @@ public class AccessServices {
     private ProductEnrollmentPage productEnrollmentPage;
     private NewConsentWizardPage newConsentWizardPage;
     private AccountsRecentlyViewedPage accountsRecentlyViewedPage;
+    private AccountsPage accountsPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -29,6 +30,7 @@ public class AccessServices {
         productEnrollmentPage = PageFactory.initElements(driver, ProductEnrollmentPage.class);
         newConsentWizardPage = PageFactory.initElements(driver, NewConsentWizardPage.class);
         accountsRecentlyViewedPage = PageFactory.initElements(driver, AccountsRecentlyViewedPage.class);
+        accountsPage = PageFactory.initElements(driver, AccountsPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -44,4 +46,5 @@ public class AccessServices {
     public ProductEnrollmentPage getProductEnrollmentPage() { return  productEnrollmentPage; }
     public NewConsentWizardPage getNewConsentWizard() { return  newConsentWizardPage; }
     public AccountsRecentlyViewedPage getAccountsRecentlyViewedPage() { return  accountsRecentlyViewedPage; }
+    public AccountsPage getAccountsPage() { return accountsPage; }
 }
