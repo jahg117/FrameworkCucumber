@@ -14,10 +14,7 @@ import utils.FileReading;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -1716,7 +1713,7 @@ public class CommonFunctions {
             throw new NoSuchElementException("Element not valid");
         }
     }
-    /**
+         /**
      * Method used to sendKeys and wait for a visible WebElement
      *
      * @author Alejandro Hernandez
