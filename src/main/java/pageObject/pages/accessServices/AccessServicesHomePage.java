@@ -28,21 +28,27 @@ public class AccessServicesHomePage extends CommonFunctions {
     @FindBy(css = "a[title='New']")
     private WebElement button_NewAccount;
 
+    @FindBy(xpath = "//*[starts-with(@class,'selectedListItem')]/a")
+    private WebElement label_navigationName;
+
+
     public void clickNewAccount() throws Exception {
         clickAndMoveToElementClickable(button_NewAccount, 30);
     }
 
-    public void isAccessServicesTitleVisible(){
+    public void isAccessServicesTitleVisible() {
         waitForElementVisibility(label_accessServicesTitle, 30);
     }
 
     public void selectMenuOption(String menuOption) throws Exception {
         waitForPageToLoad();
-        clickElementVisible(button_navigationMenu, 10);
-        if(!waitForElementVisibility(list_navigationMenu, 10)){
-            clickElementVisible(button_navigationMenu, 15);
-            waitForElementVisibility(list_navigationMenu, 30);
+        if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
+            clickElementVisible(button_navigationMenu, 10);
+            if (!waitForElementVisibility(list_navigationMenu, 10)) {
+                clickElementVisible(button_navigationMenu, 15);
+                waitForElementVisibility(list_navigationMenu, 30);
+            }
+            clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), 15);
         }
-        clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), 15);
     }
 }

@@ -16,21 +16,24 @@ public class AppLauncherPage extends CommonFunctions {
     @FindBy(xpath = "//*[starts-with(@class,'appName')]/span[@title]")
     private WebElement label_AppNameTitle;
 
-
     public boolean searchAppName(String appName) throws Exception {
         boolean appOpen = false;
         waitForElementFluentMinutes(button_AppLauncher, 2, 1);
-        clickAndMoveToElementVisible(button_AppLauncher, 20);
-        if(!waitForElementVisibility(input_AppLauncher, 10)){
+        if (!label_AppNameTitle.getAttribute("title").trim().equalsIgnoreCase(appName)) {
             clickAndMoveToElementVisible(button_AppLauncher, 20);
-        }
-        sendKeysElementVisible(input_AppLauncher, appName, 10);
-        sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
-        waitForElementNotVisible(input_AppLauncher, 10);
-        if (waitForElementVisibility(label_AppNameTitle, 20)) {
+            if (!waitForElementVisibility(input_AppLauncher, 10)) {
+                clickAndMoveToElementVisible(button_AppLauncher, 20);
+            }
+            sendKeysElementVisible(input_AppLauncher, appName, 10);
+            sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), 10);
+            waitForElementNotVisible(input_AppLauncher, 10);
+            if (waitForElementVisibility(label_AppNameTitle, 20)) {
+                appOpen = true;
+            } else {
+                appOpen = false;
+            }
+        }else{
             appOpen = true;
-        } else {
-            appOpen = false;
         }
         return appOpen;
     }
