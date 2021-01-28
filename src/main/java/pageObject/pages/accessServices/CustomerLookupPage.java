@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -44,8 +45,14 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//*[@checked='checked']")
     private List<WebElement> checkbox_CheckedList;
 
-    @FindBy(xpath = "//a[normalize-space(text())='18pqbDGY']")
+    @FindBy(xpath = "//a[normalize-space(text())='EBcEenr']")//TBD
     private WebElement link_AZID;
+
+    @FindBy(xpath = "//*[@id='searchButton']")
+    private WebElement button_search;
+
+    @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
+    private WebElement button_loggedOut;
 
 
     public void clickNewAccount() throws Exception {
@@ -56,56 +63,89 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToParentFrame();
     }
 
-    public void searchCPCByName() throws Exception {
-        String checkbox_ConsumerPatientCaregiver = "cpc";
-        //TBD from where the name will be pulled out
-        String firstName = "Juan";
-        String lastName = "Bug";
+    /**
+     * Method used to search a CPC by fist name and last name at CustomerLookup search
+     *
+     * @param firstName it contains a string with the first name used to filled in the first name inpunt at CustomerLooup
+     * @param lastName  it contains a string with the last name used to filled in the first name inpunt at CustomerLooup
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void searchCPCByName(String firstName, String lastName) throws Exception {
+        String filterOption = "hcp";
         if (!checkbox_CheckedList.isEmpty()) {
             uncheckCheckbox(checkbox_CheckedList);
         }
-        filterByCheckbox(checkbox_ConsumerPatientCaregiver);
+        filterByCheckbox(filterOption);
         sendKeysElementClickable(input_firstName, firstName, 10);
         sendKeysElementClickable(input_lastName, lastName, 10);
     }
 
-    public void searchCPCByID() throws Exception {
-        String checkbox_ConsumerPatientCaregiver = "cpc";
-        //TBD from where the ID will be pulled out
-        String cpcID = "1OE8yiph";
+    /**
+     * Method used to search a CPC by fist name and last name at CustomerLookup search
+     *
+     * @param cpcID it contains the ID of the CPC that will be used to search it at CustomerLookup
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void searchCPCByID(String cpcID) throws Exception {
+        String filterOption = "cpc";
+        waitForElementListVisible(iframe_pageInformation, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation.get(0), 30);
         if (!checkbox_CheckedList.isEmpty()) {
             uncheckCheckbox(checkbox_CheckedList);
         }
-        filterByCheckbox(checkbox_ConsumerPatientCaregiver);
-        sendKeysElementClickable(input_ExternalID, cpcID, 10);
+        filterByCheckbox(filterOption);
+        //sendKeysElementClickable(input_ExternalID, cpcID, 10);
+        //clickAndMoveToElementClickable(button_search, 15);
     }
 
+    /**
+     * Method used to uncheck all the checkboxes with status ckecked at CustomerLookup search
+     *
+     * @param checkbox_CheckedList it a list of all checkedboxes in CustomerLookup
+     * @throws Exception
+     * @author J.Ruano
+     */
     public void uncheckCheckbox(List<WebElement> checkbox_CheckedList) throws Exception {
-        for (WebElement checkBoxElement : checkbox_CheckedList) {
-            clickMethod(checkBoxElement);
+        int counterWE = 0;
+        waitForElementVisibility(button_loggedOut, 10);
+        waitForElementClickable(checkbox_CheckedList.get(0), 10);
+        waitForElementVisibility(button_search, 15);
+        do {
+            clickElementClickable(checkbox_CheckedList.get(counterWE), 10);
+            counterWE++;
         }
+        while (counterWE <= (checkbox_CheckedList.size() - 1));
     }
 
-    public void filterByCheckbox(String checkbox) throws Exception {
-        WebElement checkbox_filterBy = null;
-        switch (checkbox.trim()) {
+    /**
+     * Method used to check the type of filter used to search at CustomerLookup search
+     *
+     * @param filterOption it contains the filter option i.e. cpc that it is related to Consumer/Patient/Caregiver
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void filterByCheckbox(String filterOption) throws Exception {
+        switch (filterOption.trim()) {
             case "hca":
-                clickMethod(checkbox_hca);
+                clickElementVisible(checkbox_hca, 10);
                 break;
 
             case "hcp":
-                clickMethod(checkbox_hcp);
+                clickElementVisible(checkbox_hcp, 10);
                 break;
 
             case "cpc":
-                clickMethod(checkbox_cpc);
+                clickElementVisible(checkbox_cpc, 10);
                 break;
 
             case "emp":
-                clickMethod(checkbox_emp);
+                clickElementVisible(checkbox_emp, 10);
                 break;
         }
     }
+
     /**
      * Method to click the External ID (AZ ID) found by the search function
      *
