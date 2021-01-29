@@ -1,7 +1,10 @@
 package stepDefinition.acessServices.accessServices;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import pageObject.ApplicationInstance;
+import org.testng.Assert;
 
 public class CreateAConsent extends ApplicationInstance {
 
