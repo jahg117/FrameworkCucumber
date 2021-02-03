@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -34,6 +35,8 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//a[@data-label='Product Enrollments']")
     private WebElement tab_productEnrollment;
 
+    private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
+
     public void clickNewProductEnrollment() throws Exception {
         waitForElementVisibility(label_accountPersonName, 30);
         clickElementClickable(button_newProductEnrollment, 15);
@@ -53,7 +56,8 @@ public class PersonAccountPage extends CommonFunctions {
         return result;
     }
 
-    public String getProductEnrollmentNumber(String product) {
+    public String getProductEnrollmentNumber(String product) throws Exception {
+        switchToTab(0);
         String newProduct = "";
         String programEnrollment = "";
         waitForElementListVisible(list_products, 20);
@@ -99,7 +103,7 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     /**
-     * Method to change from one tab to another accoirding to an index
+     * Method to change from one tab to another according to an index
      *
      * @param idxTab it contains an integer with the number of the tab related to a list that contains all the corrently open tabs
      * @throws Exception
