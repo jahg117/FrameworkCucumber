@@ -37,11 +37,13 @@ public class CreateAnAttestation extends ApplicationInstance {
         accessServices.getNewConsentAttestationPage().fillConsentMandatoryFields();
     }
 
-    @And("^I validate the consent details are displayed")
-    public void consentDetailsDisplayed() throws Exception {
+    @And("^I verify the provider details are displayed")
+    public void providerDetailsDisplayed() throws Exception {
         String address = commonData.patient.getAddress();
         String city = commonData.patient.getCity();
         Assert.assertTrue(accessServices.getNewProviderPage().isProviderPageDisplayed(), "The provider page was not displayed");
+        Assert.assertTrue(accessServices.getNewProviderPage().isSppNameDisplayed(), "SPP name was not displayed");
+        Assert.assertTrue(accessServices.getNewProviderPage().isSppContactNameDisplayed(), "SPP Contact name was not displayed");
         Assert.assertTrue(accessServices.getNewProviderPage().isTableElementDisplayed(address), "The address is not matching");
         Assert.assertTrue(accessServices.getNewProviderPage().isTableElementDisplayed(city), "The city is not matching");
     }
@@ -50,5 +52,19 @@ public class CreateAnAttestation extends ApplicationInstance {
     public void selectExistingAddressOption() throws Exception {
         Assert.assertTrue(accessServices.getNewProviderPage().isProviderPageDisplayed(), "The provider page was not displayed");
         accessServices.getNewProviderPage().selectAddressAndSaveConsent();
+    }
+
+    @And("^I verify the consent details displayed")
+    public void consentDetailsDisplayed() {
+        String address = commonData.patient.getAddress();
+        String city = commonData.patient.getCity();
+        String patientName = commonData.patient.getPatientName();
+        String consentType = commonData.consentType.getConsentType();
+        String date = commonData.patient.getDate();
+        Assert.assertTrue(accessServices.getConsentPage().isConsentPageDisplayed(), "The consent page was not displayed");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(address), "The address is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(patientName), "The patient name is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(city), "The city is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(consentType), "The consent type is not matching");
     }
 }
