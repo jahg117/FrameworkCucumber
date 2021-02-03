@@ -17,6 +17,12 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@data-component-id='ACS_ConsentWarning']//p")
     private WebElement message_msgNoDSIConsent;
 
+    @FindBy(xpath = "//li[@title='Attestations']/a")
+    private WebElement label_attestationTabOption;
+
+    @FindBy(xpath = "//*[@title='New Consent']//button")
+    private WebElement button_newConsent;
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(button_newCareTeamMember, 30);
     }
@@ -47,5 +53,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
             logger.info("The Message: " + messagePE + "Did Not Matched");
         }
         return result;
+    }
+
+    public void createNewAttestationConsent() throws Exception {
+        clickElementClickable(label_attestationTabOption, 10);
+        clickElementClickable(button_newConsent, 10);
     }
 }

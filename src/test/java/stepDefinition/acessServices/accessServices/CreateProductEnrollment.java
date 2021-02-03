@@ -8,6 +8,9 @@ import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.ProductEnrollment;
+
+import java.util.HashMap;
 
 public class CreateProductEnrollment extends ApplicationInstance {
     private CommonData commonData;
@@ -31,9 +34,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void mandatoryFieldsAccountForm() throws Exception{
         boolean page = accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
         Assert.assertTrue(page, "The Patient/Consumer/Caregiver page was not displayed");
-        String patientName = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+        HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
         accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
-        commonData.patient = new Patient(patientName);
+        commonData.patient = new Patient(patientDetails);
     }
 
     @And("^I click on new product enrollment button$")
@@ -54,11 +57,18 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
     @And("^I select the created program enrollment$")
     public void selectProgramEnrollment() throws Exception{
+        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
         String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
         Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
         String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
         Assert.assertEquals(product,newProduct, "The product enrollment is not matching");
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(),"The product enrollment page was not displayed");
         Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
+    }
+
+    @And("^I validate the product enrollment is displayed")
+    public void productEnrollmentDisplayed() {
+        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
     }
 }
