@@ -13,7 +13,7 @@ public class SearchPatient extends ApplicationInstance {
         this.commonData = commonData;
     }
 
-    @And("^I validate that the patient account was created$")
+    @And("^I validate the patient account was created$")
     public void validatePatientAccountCreated() throws Exception {
         String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
         Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");

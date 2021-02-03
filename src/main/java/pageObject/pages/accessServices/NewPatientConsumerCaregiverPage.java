@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class NewPatientConsumerCaregiverPage extends CommonFunctions {
@@ -56,13 +57,18 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         return waitForElementVisibility(form_patientConsumerCaregiver, 30);
     }
 
-    public String fillPatientConsumerCaregiverForm() throws Exception {
+    public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
         Faker faker = new Faker();
-        String firstName = faker.name().firstName();
-        String lastName = faker.name().lastName();
+        HashMap<String, String> patientDetails = new HashMap<String, String>();
+        patientDetails.put("firstName", faker.name().firstName());
+        patientDetails.put("lastName", faker.name().lastName());
+        patientDetails.put("address", faker.address().streetName());
+        patientDetails.put("city", faker.address().cityName());
+        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
+
         waitForElementVisibility(input_firstName, 20);
-        sendKeysElementClickable(input_firstName, firstName, 10);
-        sendKeysElementClickable(input_lastName, lastName, 10);
+        sendKeysElementClickable(input_firstName, patientDetails.get("firstName"), 10);
+        sendKeysElementClickable(input_lastName, patientDetails.get("lastName"), 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
         String randomDate = getRandomDate();
         clickElementVisible(input_informalName, 5);
@@ -78,14 +84,14 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(randomDate.split("/")[2]);
         scrollToWebElementJS(input_searchAccounts);
-        sendKeysElementVisible(input_phoneNumber, faker.phoneNumber().cellPhone().replace(".","").replace("-",""), 10);
+        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), 10);
         scrollToWebElementJS(input_searchPlaces);
-        sendKeysElementVisible(input_addressLine1, faker.address().streetName(), 10);
-        sendKeysElementVisible(input_city, faker.address().cityName(), 10);
+        sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), 10);
+        sendKeysElementVisible(input_city, patientDetails.get("city"), 10);
         scrollToWebElementJS(input_emailAddress);
-        sendKeysAndMoveToElementVisible(input_emailAddress, firstName+"@test.com", 10);
+        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName")+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
-        return firstName+" "+lastName;
+        return patientDetails;
     }
 
     public void clickSaveButton() throws Exception {
