@@ -65,12 +65,13 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
+        patientDetails.put("date", getRandomDate());
 
         waitForElementVisibility(input_firstName, 20);
         sendKeysElementClickable(input_firstName, patientDetails.get("firstName"), 10);
         sendKeysElementClickable(input_lastName, patientDetails.get("lastName"), 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
-        String randomDate = getRandomDate();
+        String randomDate = patientDetails.get("date");
         clickElementVisible(input_informalName, 5);
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(randomDate.split("/")[0]);

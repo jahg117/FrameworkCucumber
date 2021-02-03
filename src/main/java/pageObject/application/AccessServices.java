@@ -21,6 +21,7 @@ public class AccessServices {
     private NewConsentPage newConsentPage;
     private NewConsentAttestationPage newConsentAttestationPage;
     private NewProviderPage newProviderPage;
+    private ConsentPage consentPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -37,6 +38,7 @@ public class AccessServices {
         newConsentPage = PageFactory.initElements(driver, NewConsentPage.class);
         newConsentAttestationPage = PageFactory.initElements(driver, NewConsentAttestationPage.class);
         newProviderPage = PageFactory.initElements(driver, NewProviderPage.class);
+        consentPage = PageFactory.initElements(driver, ConsentPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -56,4 +58,5 @@ public class AccessServices {
     public NewConsentPage getNewConsentPage() { return  newConsentPage; }
     public NewConsentAttestationPage getNewConsentAttestationPage() { return newConsentAttestationPage; }
     public NewProviderPage getNewProviderPage() { return newProviderPage; }
+    public ConsentPage getConsentPage() { return consentPage; }
 }
