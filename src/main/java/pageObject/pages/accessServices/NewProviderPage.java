@@ -20,13 +20,32 @@ public class NewProviderPage extends CommonFunctions {
     @FindBy(xpath = " //table[contains(@class,'slds-vf-data-table')]//td")
     private List<WebElement> table_rows;
 
+    @FindBy(xpath = "//input[contains(@id,'sppName')]")
+    private WebElement input_sppName;
+
+    @FindBy(xpath = "//input[contains(@id,'sppContactName')]")
+    private WebElement input_sppContactName;
+
+    public boolean isSppContactNameDisplayed(){
+        return waitForElementVisibility(input_sppContactName, 20);
+    }
+
+    public boolean isSppNameDisplayed(){
+        return waitForElementVisibility(input_sppName, 20);
+    }
+
     public boolean isProviderPageDisplayed() {
-        return waitForElementVisibility(iframe_newProvider.get(1), 20);
+        switchToParentFrame();
+        if(waitForElementVisibility(iframe_newProvider.get(1), 20)){
+            switchToFrameByWebElementIndexOrName(iframe_newProvider.get(1), 10);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean isTableElementDisplayed(String data){
         boolean isVisible = false;
-        switchToFrameByWebElementIndexOrName(iframe_newProvider.get(1), 10);
         waitForElementListVisible(table_rows, 10);
         for(WebElement el : table_rows){
             if(getWebElementText(el).equalsIgnoreCase(data)){
@@ -34,12 +53,11 @@ public class NewProviderPage extends CommonFunctions {
                 break;
             }
         }
-        switchToParentFrame();
         return isVisible;
     }
 
     public void selectAddressAndSaveConsent() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newProvider.get(1), 10);
+        isProviderPageDisplayed();
         clickAndMoveToElementVisible(list_checkboxAddress.get(0), 10);
         clickAndMoveToElementVisible(button_save, 10);
         switchToParentFrame();

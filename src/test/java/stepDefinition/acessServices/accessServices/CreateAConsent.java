@@ -5,8 +5,15 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import pageObject.ApplicationInstance;
 import org.testng.Assert;
+import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.ConsentType;
 
 public class CreateAConsent extends ApplicationInstance {
+    private CommonData commonData;
+
+    public CreateAConsent(CommonData commonData){
+        this.commonData = commonData;
+    }
 
     @Given("^A External ID \"([^\"]*)\" I Search A CPC At Customer Lookup$")
     public void searchCPCByID(String cpcID) throws Exception {
@@ -26,6 +33,7 @@ public class CreateAConsent extends ApplicationInstance {
     @And("^I select the \"([^\"]*)\" consent type at new consent wizard page$")
     public void selectConsentType(String consentType) throws Exception {
         accessServices.getNewConsentPage().selectConsentType(consentType);
+        commonData.consentType = new ConsentType(consentType);
     }
 
     @And("^I Fill The Selected Consent Type Form At New Consent Wizard Page$")

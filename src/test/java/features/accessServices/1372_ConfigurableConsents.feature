@@ -67,5 +67,6 @@ Feature: Setup configurable consents
     And I select the "AZ Provider Attestation" consent type at new consent wizard page
     And I validate the attestation details are displayed
     And I fill the mandatory fields from the consent form
-    And I validate the consent details are displayed
+    And I verify the provider details are displayed
     And I select an existing address option
+    And I verify the consent details displayed
