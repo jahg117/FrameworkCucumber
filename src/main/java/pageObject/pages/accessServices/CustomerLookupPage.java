@@ -54,6 +54,10 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement button_loggedOut;
 
+    @FindBy(xpath = "//input[contains(@class,'input name')]")
+    private WebElement input_facilityName;
+
+
 
     public void clickNewAccount() throws Exception {
         waitForPageToLoad();
@@ -154,5 +158,9 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void selectAndClickAZID() throws Exception {
         clickAndMoveToElementClickable(link_AZID, 10);
+    }
+
+    public void doDummySearch() throws Exception {
+
     }
 }
