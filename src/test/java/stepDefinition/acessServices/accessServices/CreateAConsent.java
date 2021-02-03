@@ -23,9 +23,9 @@ public class CreateAConsent extends ApplicationInstance {
         accessServices.getPersonAccountPage().clickOnNewConsent();
     }
 
-    @And("^I Select The \"([^\"]*)\" Consent Type At New Consent Wizard Page$")
+    @And("^I select the \"([^\"]*)\" consent type at new consent wizard page$")
     public void selectConsentType(String consentType) throws Exception {
-        accessServices.getNewConsentWizard().selectConsentType(consentType);
+        accessServices.getNewConsentPage().selectConsentType(consentType);
     }
 
     @And("^I Fill The Selected Consent Type Form At New Consent Wizard Page$")

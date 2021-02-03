@@ -1,11 +1,25 @@
 package stepDefinition.shareData;
 
-public class Patient {
-    String patient;
+import java.util.HashMap;
 
-    public Patient(String patient){
-        this.patient = patient;
+public class Patient {
+    private String patient;
+    private String address;
+    private String city;
+    private String phoneNumber;
+
+    public Patient(HashMap <String, String> patientDetails){
+        patient = patientDetails.get("firstName") + " " + patientDetails.get("lastName");
+        address = patientDetails.get("address");
+        city = patientDetails.get("city");
+        phoneNumber = patientDetails.get("phoneNumber");
     }
 
     public String getPatientName() { return patient; }
+
+    public String getAddress() { return address; }
+
+    public String getCity() { return city; }
+
+    public String getPhoneNumber() { return phoneNumber; }
 }

@@ -18,6 +18,9 @@ public class AccessServices {
     private NewConsentWizardPage newConsentWizardPage;
     private AccountsRecentlyViewedPage accountsRecentlyViewedPage;
     private AccountsPage accountsPage;
+    private NewConsentPage newConsentPage;
+    private NewConsentAttestationPage newConsentAttestationPage;
+    private NewProviderPage newProviderPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -31,6 +34,9 @@ public class AccessServices {
         newConsentWizardPage = PageFactory.initElements(driver, NewConsentWizardPage.class);
         accountsRecentlyViewedPage = PageFactory.initElements(driver, AccountsRecentlyViewedPage.class);
         accountsPage = PageFactory.initElements(driver, AccountsPage.class);
+        newConsentPage = PageFactory.initElements(driver, NewConsentPage.class);
+        newConsentAttestationPage = PageFactory.initElements(driver, NewConsentAttestationPage.class);
+        newProviderPage = PageFactory.initElements(driver, NewProviderPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -47,4 +53,7 @@ public class AccessServices {
     public NewConsentWizardPage getNewConsentWizard() { return  newConsentWizardPage; }
     public AccountsRecentlyViewedPage getAccountsRecentlyViewedPage() { return  accountsRecentlyViewedPage; }
     public AccountsPage getAccountsPage() { return accountsPage; }
+    public NewConsentPage getNewConsentPage() { return  newConsentPage; }
+    public NewConsentAttestationPage getNewConsentAttestationPage() { return newConsentAttestationPage; }
+    public NewProviderPage getNewProviderPage() { return newProviderPage; }
 }

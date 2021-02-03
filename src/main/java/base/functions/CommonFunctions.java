@@ -2592,6 +2592,13 @@ public class CommonFunctions {
         return visibleWebElementsList;
     }
 
-
+    protected String getWebElementText(WebElement webElement){
+        try{
+            return webElement.getText();
+        }catch (Exception e){
+            logger.error("Web Element not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("Web Element not found");
+        }
+    }
 
 }

@@ -42,13 +42,15 @@ public class AccessServicesHomePage extends CommonFunctions {
 
     public void selectMenuOption(String menuOption) throws Exception {
         waitForPageToLoad();
-        if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
-            clickElementVisible(button_navigationMenu, 10);
-            if (!waitForElementVisibility(list_navigationMenu, 10)) {
-                clickElementVisible(button_navigationMenu, 15);
-                waitForElementVisibility(list_navigationMenu, 30);
+        if(waitForElementVisibility(label_navigationName, 20)){
+            if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
+                clickElementVisible(button_navigationMenu, 10);
+                if (!waitForElementVisibility(list_navigationMenu, 10)) {
+                    clickElementVisible(button_navigationMenu, 15);
+                    waitForElementVisibility(list_navigationMenu, 30);
+                }
+                clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), 15);
             }
-            clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), 15);
         }
     }
 }

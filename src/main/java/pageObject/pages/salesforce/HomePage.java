@@ -29,7 +29,7 @@ public class HomePage extends CommonFunctions {
         waitForElementVisibilityOfElementLocatedBy(button_closeTabsBy, 10);
         waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 3, 15);
         try {
-            if(!waitForNumberOfElementsToBe(button_closeTabsBy, 0, 2)) {
+            if(!waitForNumberOfElementsToBe(button_closeTabsBy, 0, 5)) {
                 for (WebElement close : button_closeTabs) {
                     clickElementVisible(close, 10);
                 }
