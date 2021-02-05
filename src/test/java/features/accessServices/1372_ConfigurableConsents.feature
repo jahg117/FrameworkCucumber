@@ -6,7 +6,6 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
-  @regression
   Scenario: Create AZ product enrollment consent
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -18,7 +17,6 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     And I validate the patient account was created
 
-  @regression
   Scenario: Create DSI product enrollment consent
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -55,6 +53,7 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
+  @regression
   Scenario: Create an attestation for AZ
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -71,6 +70,7 @@ Feature: Setup configurable consents
     And I select an existing address option
     And I verify the consent details displayed
 
+  @regression
   Scenario: Create an attestation for DSI
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -81,6 +81,8 @@ Feature: Setup configurable consents
     And I validate the product enrollment is displayed
     And I click on new care team member
     And I search a care team member by name
+    And I select a relationship dropdown option
+    And I click on create care team member
     And I select the Attestation tab option to click on new consent
     And I select the "DSI FLSP Attestation" consent type at new consent wizard page
     And I validate the attestation details are displayed

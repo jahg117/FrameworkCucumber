@@ -79,7 +79,7 @@ public class CustomerLookupPage extends CommonFunctions {
     public HashMap<String,String> getAndSelectCareTeamMemberDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         HashMap<String, String> hcpDetails = new HashMap<>();
-        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 20);
+        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
         int index = 1;
         for (WebElement el : row_address){
             if(getWebElementText(el).equalsIgnoreCase("")){
