@@ -31,29 +31,29 @@ Feature: Setup configurable consents
     And I validate the patient account was created
 
   Scenario: Create a consent for AZ
-    Given A External ID "EBcEenr" I Search A CPC At Customer Lookup
-    Then I Click On The External ID Found For CPC At Customer Lookup
-    Then I Click On The Consent Tab To Click The New Consent Button At Person Account Page
+    Given A external ID "EBcEenr" I search a CPC at customer lookup
+    Then I click on the external ID found for CPC at customer lookup
+    Then I click cn the consent tab to click the new consent button at person account page
     And I select the "AZ Non-Promotional" consent type at new consent wizard page
-    And I Fill The Selected Consent Type Form At New Consent Wizard Page
-    Then I Select The Consent Address In The New Consent Wizard Page
-    Then I Click On The Product Enrollment "Calquence" From The Person Account Page
-    Then I Validate That No Warning "No AZ Non-Promotional Consent is on file." Message Is Displayed Related To The Type Lacking Of A Consent At The Product Enrollment Page
+    And I fill the selected consent type form at new consent wizard page
+    Then I select the consent address in the new consent wizard page
+    Then I click on the product enrollment "Calquence" from the person account page
+    Then I validate that no warning "No AZ Non-Promotional Consent is on file." message is displayed related to the type lacking of a consent at the product enrollment page
     And I select the "Accounts" menu option
-    Then I Validate The Valid PAF "AstraZeneca" Message At Valid PAF Column At Accounts Recently Viewed Page
+    Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
 
   Scenario: Create a consent for DSI
-    Given A External ID "EBcEenr" I Search A CPC At Customer Lookup
-    Then I Click On The External ID Found For CPC At Customer Lookup
-    Then I Click On The Consent Tab To Click The New Consent Button At Person Account Page
+    Given A external ID "EBcEenr" I search a CPC at customer lookup
+    Then I click on the external ID found for CPC at customer lookup
+    Then I click cn the consent tab to click the new consent button at person account page
     And I select the "DSI Promotional Consent" consent type at new consent wizard page
-    And I Fill The Selected Consent Type Form At New Consent Wizard Page
-    Then I Select The Consent Address In The New Consent Wizard Page
-    Then I Click On The Product Enrollment "Enhertu" From The Person Account Page
-    Then I Validate That No Warning "No DSI Non-Promotional Consent is on file." Message Is Displayed Related To The Type Lacking Of A Consent At The Product Enrollment Page
+    And I fill the selected consent type form at new consent wizard page
+    Then I select the consent address in the new consent wizard page
+    Then I click on the product enrollment "Enhertu" from the person account page
+    Then I validate that no warning "No DSI Non-Promotional Consent is on file." message is displayed related to the type lacking of a consent at the product enrollment page
     And I select the "Accounts" menu option
-    Then I Validate The Valid PAF "AstraZeneca" Message At Valid PAF Column At Accounts Recently Viewed Page
+    Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
   Scenario: Create an attestation for AZ
     Given I click on new Account
