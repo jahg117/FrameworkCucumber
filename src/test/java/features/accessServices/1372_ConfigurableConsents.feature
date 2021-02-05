@@ -6,6 +6,7 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
+  @regression
   Scenario: Create AZ product enrollment consent
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -17,6 +18,7 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     And I validate the patient account was created
 
+  @regression
   Scenario: Create DSI product enrollment consent
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -27,7 +29,6 @@ Feature: Setup configurable consents
     And I select the created program enrollment
     And I select the "Accounts" menu option
     And I validate the patient account was created
-
 
   Scenario: Create a consent for AZ
     Given A External ID "EBcEenr" I Search A CPC At Customer Lookup
@@ -70,7 +71,6 @@ Feature: Setup configurable consents
     And I select an existing address option
     And I verify the consent details displayed
 
-  @regression
   Scenario: Create an attestation for DSI
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -85,7 +85,5 @@ Feature: Setup configurable consents
     And I select the "DSI FLSP Attestation" consent type at new consent wizard page
     And I validate the attestation details are displayed
     And I fill the DSI FLSP mandatory fields from the consent form
-
-    And I verify the provider details are displayed
-    And I select an existing address option
-    And I verify the consent details displayed
+    And I select an existing HCP
+    And I verify the DSI consent details displayed

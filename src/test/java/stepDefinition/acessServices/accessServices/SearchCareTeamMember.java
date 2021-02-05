@@ -1,6 +1,5 @@
 package stepDefinition.acessServices.accessServices;
 
-import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CareTeamMember;
@@ -26,4 +25,6 @@ public class SearchCareTeamMember extends ApplicationInstance {
         accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
         commonData.careTeamMember = new CareTeamMember(careTeamMemberDetails);
     }
+
+
 }
