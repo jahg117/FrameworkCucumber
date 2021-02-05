@@ -21,10 +21,16 @@ public class SearchCareTeamMember extends ApplicationInstance {
     public void searchByName() throws Exception {
         accessServices.getCustomerLookupPage().searchRandomFirstName();
         HashMap<String, String> careTeamMemberDetails = accessServices.getCustomerLookupPage().getAndSelectCareTeamMemberDetails();
-        accessServices.getCustomerLookupPage().selectRelationShipOption();
-        accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
         commonData.careTeamMember = new CareTeamMember(careTeamMemberDetails);
     }
 
+    @And("^I select a relationship dropdown option")
+    public void selectRelationShip() {
+        accessServices.getCustomerLookupPage().selectRelationShipOption();
+    }
 
+    @And("^I click on create care team member")
+    public void clickCreateCareTeamMember() throws Exception {
+        accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+    }
 }
