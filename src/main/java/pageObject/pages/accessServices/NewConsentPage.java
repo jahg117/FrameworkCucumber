@@ -4,11 +4,10 @@ import base.functions.CommonFunctions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
 
 public class NewConsentPage extends CommonFunctions {
-    @FindBy(xpath = "//iframe[@title='accessibility title']")
-    private List<WebElement> iframe_pageInformation;
+    @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
+    private WebElement iframe_pageInformation;
 
     @FindBy(xpath = "//span[normalize-space(text())='New Consent']")
     private WebElement label_newConsent;
@@ -27,8 +26,8 @@ public class NewConsentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectConsentType(String consentType) throws Exception {
-        waitForElementListVisible(iframe_pageInformation, 10);
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation.get(1), 30);
+        waitForElementVisibility(iframe_pageInformation, 20);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 30);
         waitForElementVisibility(label_newConsent, 20);
         selectAndMoveDropdownByText(dropdown_consentType, consentType, 20);
         clickAndMoveToElementVisible(button_next, 15);

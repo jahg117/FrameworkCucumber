@@ -71,4 +71,5 @@ public class CreateProductEnrollment extends ApplicationInstance {
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
         commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
     }
+
 }

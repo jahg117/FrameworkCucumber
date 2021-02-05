@@ -54,7 +54,6 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     Then I Validate The Valid PAF "AstraZeneca" Message At Valid PAF Column At Accounts Recently Viewed Page
 
-  @regression
   Scenario: Create an attestation for AZ
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -67,6 +66,26 @@ Feature: Setup configurable consents
     And I select the "AZ Provider Attestation" consent type at new consent wizard page
     And I validate the attestation details are displayed
     And I fill the mandatory fields from the consent form
+    And I verify the provider details are displayed
+    And I select an existing address option
+    And I verify the consent details displayed
+
+  @regression
+  Scenario: Create an attestation for DSI
+    Given I click on new Account
+    When I click on new and I select "Consumer/Patient/Caregiver" account
+    Then I fill the mandatory fields from the account form
+    And I click on new product enrollment button
+    And I enter a valid "DSI" product in the product enrollment form
+    And I click on enroll button
+    And I validate the product enrollment is displayed
+    And I click on new care team member
+    And I search a care team member by name
+    And I select the Attestation tab option to click on new consent
+    And I select the "DSI FLSP Attestation" consent type at new consent wizard page
+    And I validate the attestation details are displayed
+    And I fill the DSI FLSP mandatory fields from the consent form
+
     And I verify the provider details are displayed
     And I select an existing address option
     And I verify the consent details displayed
