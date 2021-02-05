@@ -2601,4 +2601,13 @@ public class CommonFunctions {
         }
     }
 
+    protected String getWebElementAttribute(WebElement webElement, String attribute){
+        try{
+            return webElement.getAttribute(attribute);
+        }catch (Exception e){
+            logger.error("Web Element or attribute not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("Web Element not found");
+        }
+    }
+
 }

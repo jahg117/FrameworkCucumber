@@ -27,6 +27,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
         return waitForElementVisibility(button_newCareTeamMember, 30);
     }
 
+    public void clickNewCareTeamMember() throws Exception {
+        clickElementClickable(button_newCareTeamMember, 20);
+    }
+
     public String getProductEnrollmentNumber() {
         if(waitForElementVisibility(label_productEnrollmentNumber, 10)){
             return label_productEnrollmentNumber.getText();
