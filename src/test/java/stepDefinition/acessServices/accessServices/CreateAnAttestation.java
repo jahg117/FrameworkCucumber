@@ -72,4 +72,31 @@ public class CreateAnAttestation extends ApplicationInstance {
         Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(city), "The city is not matching");
         Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(consentType), "The consent type is not matching");
     }
+
+    @And("^I verify the DSI consent details displayed")
+    public void consentDetailsDSIDisplayed(){
+        String patientName = commonData.patient.getPatientName();
+        String providerFirstName = commonData.careTeamMember.getFirstName();
+        String providerLastName = commonData.careTeamMember.getLastName();
+        String address = commonData.careTeamMember.getAddress();
+        String city = commonData.careTeamMember.getCity();
+        String state = commonData.careTeamMember.getState();
+        String zipcode = commonData.careTeamMember.getZipcode();
+        Assert.assertTrue(accessServices.getConsentPage().isConsentPageDisplayed(), "The consent page was not displayed");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(patientName), "The patient name is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(providerFirstName), "The provider first name is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(providerLastName), "The provider last name is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(address), "The address is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(city), "The city is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(state), "The state is not matching");
+        Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(zipcode), "The city is not matching");
+    }
+
+    @And("^I select an existing HCP")
+    public void selectHCP() throws Exception {
+        accessServices.getNewDSIFLSPAttestationPage().isNewDSIFLSAttestationPageDisplayed();
+        accessServices.getNewDSIFLSPAttestationPage().selectHCP();
+        accessServices.getNewDSIFLSPAttestationPage().selectHCPAddress();
+        accessServices.getNewDSIFLSPAttestationPage().clickSaveButton();
+    }
 }
