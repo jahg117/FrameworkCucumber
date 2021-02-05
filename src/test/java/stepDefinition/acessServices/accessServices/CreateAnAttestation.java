@@ -37,6 +37,12 @@ public class CreateAnAttestation extends ApplicationInstance {
         accessServices.getNewConsentAttestationPage().fillConsentMandatoryFields();
     }
 
+    @And("^I fill the DSI FLSP mandatory fields from the consent form")
+    public void fillFSIFLSPForm() throws Exception {
+        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentFormDisplayed(), "The consent form page was not displayed");
+        accessServices.getNewConsentAttestationPage().fillDSIFLSPMandatoryFields();
+    }
+
     @And("^I verify the provider details are displayed")
     public void providerDetailsDisplayed() throws Exception {
         String address = commonData.patient.getAddress();
@@ -60,7 +66,6 @@ public class CreateAnAttestation extends ApplicationInstance {
         String city = commonData.patient.getCity();
         String patientName = commonData.patient.getPatientName();
         String consentType = commonData.consentType.getConsentType();
-        String date = commonData.patient.getDate();
         Assert.assertTrue(accessServices.getConsentPage().isConsentPageDisplayed(), "The consent page was not displayed");
         Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(address), "The address is not matching");
         Assert.assertTrue(accessServices.getConsentPage().isConsentDetailDisplayed(patientName), "The patient name is not matching");

@@ -20,8 +20,8 @@ public class NewConsentAttestationPage extends CommonFunctions {
     @FindBy(xpath = "//input[@value='Next']")
     private WebElement button_next;
 
-    @FindBy(xpath = "//iframe[@title='accessibility title']")
-    private List<WebElement> iframe_consentForm;
+    @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
+    private WebElement iframe_consentForm;
 
     @FindBy(xpath = "//td[@class='dataCol first']")
     private WebElement label_patientName;
@@ -37,8 +37,8 @@ public class NewConsentAttestationPage extends CommonFunctions {
 
     public boolean isConsentFormDisplayed() {
         switchToParentFrame();
-        if(waitForElementVisibility(iframe_consentForm.get(1), 20)){
-            switchToFrameByWebElementIndexOrName(iframe_consentForm.get(1), 10);
+        if(waitForElementVisibility(iframe_consentForm, 20)){
+            switchToFrameByWebElementIndexOrName(iframe_consentForm, 10);
             return true;
         }else{
             return false;
@@ -70,10 +70,20 @@ public class NewConsentAttestationPage extends CommonFunctions {
     }
 
     public void fillConsentMandatoryFields() throws Exception {
+        switchToParentFrame();
         switchToFrameByWebElementIndexOrName(iframe_consentForm, 20);
         sendKeysElementVisible(input_consentDate, getRandomDate(),10);
         selectDropDownRandomOptionNone(dropdown_consentSource, 10);
         clickAndMoveToElementClickable(checkbox_optionSPP, 10);
+        clickAndMoveToElementClickable(button_next, 10);
+        switchToParentFrame();
+    }
+
+    public void fillDSIFLSPMandatoryFields() throws Exception {
+        switchToParentFrame();
+        switchToFrameByWebElementIndexOrName(iframe_consentForm, 20);
+        sendKeysElementVisible(input_consentDate, getRandomDate(),10);
+        selectDropDownRandomOptionNone(dropdown_consentSource, 10);
         clickAndMoveToElementClickable(button_next, 10);
         switchToParentFrame();
     }
