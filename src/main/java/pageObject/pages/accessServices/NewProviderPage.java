@@ -11,8 +11,8 @@ public class NewProviderPage extends CommonFunctions {
     @FindBy(xpath = "//input[@class='patientaddr']")
     private List<WebElement> list_checkboxAddress;
 
-    @FindBy(xpath = "//iframe[@title='accessibility title']")
-    private List<WebElement> iframe_newProvider;
+    @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
+    private WebElement iframe_newProvider;
 
     @FindBy(xpath = "//input[@value='Save']")
     private WebElement button_save;
@@ -36,8 +36,8 @@ public class NewProviderPage extends CommonFunctions {
 
     public boolean isProviderPageDisplayed() {
         switchToParentFrame();
-        if(waitForElementVisibility(iframe_newProvider.get(1), 20)){
-            switchToFrameByWebElementIndexOrName(iframe_newProvider.get(1), 10);
+        if(waitForElementVisibility(iframe_newProvider, 20)){
+            switchToFrameByWebElementIndexOrName(iframe_newProvider, 10);
             return true;
         }else{
             return false;
@@ -59,7 +59,7 @@ public class NewProviderPage extends CommonFunctions {
     public void selectAddressAndSaveConsent() throws Exception {
         isProviderPageDisplayed();
         clickAndMoveToElementVisible(list_checkboxAddress.get(0), 10);
-        clickAndMoveToElementVisible(button_save, 10);
+        clickAndMoveToElementClickable(button_save, 10);
         switchToParentFrame();
     }
 }

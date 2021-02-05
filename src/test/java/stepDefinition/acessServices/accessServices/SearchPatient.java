@@ -19,3 +19,5 @@ public class SearchPatient extends ApplicationInstance {
         Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
     }
 }
+
+

@@ -33,12 +33,14 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
         sendKeysAndMoveToElementVisible(input_product, product,20);
         clickElementVisible(input_programEndDate, 10);
+        switchToParentFrame();
         return product;
     }
 
     public void clickEnrollButton() throws Exception {
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
         scrollToWebElementJS(button_enroll);
-        clickElementVisible(button_enroll, 10);
+        clickAndMoveToElementClickable(button_enroll, 10);
         switchToParentFrame();
     }
 }
