@@ -7,6 +7,7 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
+
   Scenario: Create AZ product enrollment consent
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -53,7 +54,6 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
-  @yes
   Scenario: Create an attestation for AZ
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -70,6 +70,7 @@ Feature: Setup configurable consents
     And I select an existing address option
     And I verify the consent details displayed
 
+  @yes
   Scenario: Create an attestation for DSI
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account

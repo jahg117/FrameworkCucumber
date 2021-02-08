@@ -34,7 +34,7 @@ public class NewProviderPage extends CommonFunctions {
         return waitForElementVisibility(input_sppName, 20);
     }
 
-    public boolean isProviderPageDisplayed() {
+    public boolean isProviderPageDisplayed() throws Exception {
         switchToParentFrame();
         if(waitForElementVisibility(iframe_newProvider, 20)){
             switchToFrameByWebElementIndexOrName(iframe_newProvider, 10);

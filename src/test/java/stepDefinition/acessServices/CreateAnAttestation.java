@@ -19,7 +19,7 @@ public class CreateAnAttestation extends ApplicationInstance {
     }
 
     @And("^I validate the attestation details are displayed")
-    public void attestationDetailsDisplayed() {
+    public void attestationDetailsDisplayed() throws Exception {
         String patientName = commonData.patient.getPatientName();
         String productEnrollment = commonData.productEnrollment.getProductEnrollment();
         Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentFormDisplayed(), "The consent form page was not displayed");

@@ -110,7 +110,7 @@ public class PersonAccountPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void switchToTab(int idxTab) throws Exception {
-        switchTabByIndexSF(idxTab);
+        switchSubTabByIndexSF(0, 10);
     }
 
     /**
