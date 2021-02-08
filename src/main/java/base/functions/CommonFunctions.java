@@ -30,12 +30,40 @@ public class CommonFunctions {
         fileReading.setLog4jFile();
     }
 
+    /**
+     * Return a WebElement if it is found
+     *
+     * @author Alejandro Hernandez
+     * @param locator to find as a WebElement
+     * @throws Exception if the WebElement is not located
+     */
     protected WebElement getWebElement(By locator) {
-        return driver.findElement(locator);
+        try{
+            WebElement element = driver.findElement(locator);
+            logger.info("WebElement found: " +getWebElementLocatorPath(element));
+            return element;
+        }catch (Exception e){
+            logger.error("WebElement not valid or not found");
+            throw new NoSuchElementException("WebElement not valid or not found");
+        }
     }
-
+    /**
+     * Return a list of WebElements
+     *
+     * @author Alejandro Hernandez
+     * @param locator to find the list of WebElements
+     * @throws Exception if the WebElement list is not located
+     */
     protected List<WebElement> getWebElementList(By locator) {
-        return driver.findElements(locator);
+        try{
+            List<WebElement> webElements = driver.findElements(locator);
+            logger.info("WebElement list found");
+            return webElements;
+        }catch(Exception e){
+            logger.error("WebElement list not valid or not found");
+            throw new NoSuchElementException("WebElement list not valid or not found");
+        }
+
     }
 
 
@@ -2132,8 +2160,14 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @throws Exception
      */
-    protected void switchToParentFrame(){
-        driver.switchTo().parentFrame();
+    protected void switchToParentFrame() throws Exception {
+        try {
+            driver.switchTo().parentFrame();
+            logger.info("Switch to parent frame");
+        }catch (Exception e){
+            logger.error("No parent frame was found");
+            throw new Exception("No parent frame was found");
+        }
     }
     /**
      * Method used to accept an alert
@@ -2233,9 +2267,6 @@ public class CommonFunctions {
         driver.close();
     }
 
-    //***********************************************************************
-    // private methods
-
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
@@ -2294,7 +2325,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void clickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+    protected void clickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(wElement).click(wElement).build().perform();
@@ -2311,7 +2342,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void clickWebElementByActions(WebElement wElement) throws Exception {
+    protected void clickWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.click(wElement).build().perform();
@@ -2328,7 +2359,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void doubleClickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+    protected void doubleClickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(wElement).doubleClick(wElement).build().perform();
@@ -2345,7 +2376,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    private void doubleClickWebElementByActions(WebElement wElement) throws Exception {
+    protected void doubleClickWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.doubleClick(wElement).build().perform();
@@ -2364,7 +2395,7 @@ public class CommonFunctions {
      * @return WebElement locator string.
      * @throws null if the webElement is empty, null or the string has a different format.
      */
-    private String getWebElementLocatorPath(WebElement webElement){
+    protected String getWebElementLocatorPath(WebElement webElement){
         try{
             return webElement.toString().split("-> ")[1].replace("]","");
         }catch(Exception e){
@@ -2378,7 +2409,7 @@ public class CommonFunctions {
      * @param webElement
      * @return WebElement locator string.
      */
-    private String getWebElementLocatorPath(List<WebElement> webElement){
+    protected String getWebElementLocatorPath(List<WebElement> webElement){
         try{
             return webElement.toString().split("-> ")[1].replace("]","");
         }catch(Exception e){
@@ -2392,7 +2423,7 @@ public class CommonFunctions {
      * @param wElement contains the WebElement to move
      * @throws Exception
      */
-    private void scrollToWebElementByAction(WebElement wElement) throws Exception {
+    protected void scrollToWebElementByAction(WebElement wElement) throws Exception {
         Actions actions = new Actions(driver);
         try {
             actions.moveToElement(wElement).build().perform();
@@ -2409,7 +2440,7 @@ public class CommonFunctions {
      * @param text to select from dropdown
      * @throws Exception
      */
-    private void selectAndMoveToDropDownByText(WebElement webElement, String text) {
+    protected void selectAndMoveToDropDownByText(WebElement webElement, String text) {
         try{
             scrollToWebElementByAction(webElement);
             Select select = new Select(webElement);
@@ -2428,7 +2459,7 @@ public class CommonFunctions {
      * @param index to select from dropdown
      * @throws Exception
      */
-    private void selectAndMoveToDropDownByIndex(WebElement webElement, int index) {
+    protected void selectAndMoveToDropDownByIndex(WebElement webElement, int index) {
         try{
             scrollToWebElementByAction(webElement);
             Select select = new Select(webElement);
@@ -2447,7 +2478,7 @@ public class CommonFunctions {
      * @param text to select from dropdown
      * @throws Exception
      */
-    private void selectDropDownByText(WebElement webElement, String text) {
+    protected void selectDropDownByText(WebElement webElement, String text) {
         try{
             Select select = new Select(webElement);
             select.selectByVisibleText(text);
@@ -2465,7 +2496,7 @@ public class CommonFunctions {
      * @param index to select from index
      * @throws Exception
      */
-    private void selectDropDownByIndex(WebElement webElement, int index) {
+    protected void selectDropDownByIndex(WebElement webElement, int index) {
         try{
             Select select = new Select(webElement);
             select.selectByIndex(index);
@@ -2482,7 +2513,7 @@ public class CommonFunctions {
      * @param webElement
      * @throws Exception
      */
-    private void selectRandomDropDownOption(WebElement webElement) {
+    protected void selectRandomDropDownOption(WebElement webElement) {
         try{
             Random random = new Random();
             Select select = new Select(webElement);
@@ -2494,54 +2525,80 @@ public class CommonFunctions {
             logger.error(e.getMessage());
         }
     }
-
     /**
-     * This method is used to move and select a dropdown option by text
+     * This method is used switch to the default content
      *
      * @author J.Ruano
      */
-    protected void switchToDefaultContentFrame() {
-        driver.switchTo().defaultContent();
-    }
-
-    /**
-     * This method is used to move and select a dropdown option by text
-     *
-     * @param name
-     * @throws Exception
-     * @author J.Ruano
-     */
-    protected void switchTabByNameSF(String name) throws Exception {
-        String pathForSubTabs = "//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]";
-        List<WebElement> subTabsList = driver.findElements(By.xpath(pathForSubTabs));
-
-        for (WebElement tab : subTabsList) {
-            if (tab.getAttribute("title").trim().equalsIgnoreCase(name.trim())) {
-                clickAndMoveToElementClickable(tab, 10);
-            }
+    protected void switchToDefaultContentFrame() throws Exception {
+        try {
+            driver.switchTo().defaultContent();
+            logger.error("Change to default content");
+        }catch (Exception e){
+            logger.error("The default content was found");
+            throw new Exception("No default content was found");
         }
     }
 
     /**
-     * This method is used to move and select a dropdown option by text
+     * This method is used to switch to a subtab by name
      *
-     * @param index
-     * @throws Exception
      * @author J.Ruano
+     * @param name
+     * @param waitTime
+     * @throws Exception
      */
-    protected void switchTabByIndexSF(int index) throws Exception {
-        String pathForSubTabs = "//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]";
-        List<WebElement> subTabsList = driver.findElements(By.xpath(pathForSubTabs));
-        clickAndMoveToElementClickable(subTabsList.get(index), 10);
+    protected void switchSubTabByNameSF(String name, int waitTime) throws Exception {
+        try {
+            By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
+            if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)) {
+                for (WebElement tab : getWebElementList(pathForSubTabs)) {
+                    if (getWebElementAttribute(tab, "title").trim().equalsIgnoreCase(name.trim())) {
+                        clickAndMoveToElementClickable(tab, 10);
+                        logger.info("Switch to sub-tab");
+                        break;
+                    }
+                }
+            } else{
+                logger.warn("The sub-tab is not visible");
+            }
+        }catch (Exception e) {
+            logger.error("The subt-tab "+ name +" was not found");
+            throw new NoSuchElementException("The sub-tab was not found");
+        }
     }
 
     /**
-     * Method used to select a random dropdown option by index
+     * This method is used to switch to a subtab by index
      *
+     * @author J.Ruano
+     * @param index
+     * @param waitTime
+     * @throws Exception
+     */
+    protected void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
+        try{
+            By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
+            if(waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)){
+                List<WebElement> subTabsList = getWebElementList(pathForSubTabs);
+                clickAndMoveToElementClickable(subTabsList.get(index), 10);
+                logger.info("Switch to sub-tab");
+            }else{
+                logger.warn("The sub-tab is not visible");
+            }
+        } catch (Exception e) {
+            logger.error("The tab "+ index +" was not found");
+            throw new NoSuchElementException("The sub-tab was not found");
+        }
+    }
+
+    /**
+     * Method used to select a random dropdown excluding 'None'
+     *
+     * @author J.Ruano
      * @param webElement contains the Element to select
      * @param waitTime   time to wait for a WebElement
      * @throws Exception
-     * @author J.Ruano
      */
     protected void selectDropDownRandomOptionNone(WebElement webElement, int waitTime) throws Exception {
         if (waitForElementClickable(webElement, waitTime)) {
@@ -2555,9 +2612,9 @@ public class CommonFunctions {
     /**
      * This method is used to select a random dropdown option by index
      *
+     * @author J.Ruano
      * @param webElement
      * @throws Exception
-     * @author J.Ruano
      */
     protected void selectRandomDropDownNotNone(WebElement webElement) {
         int optionIndex = 0;
@@ -2576,11 +2633,11 @@ public class CommonFunctions {
     }
 
     /**
-     * This method is used to select a random dropdown option by index
+     * This method is used to return visible elements from a list
      *
-     * @param
-     * @throws Exception
      * @author J.Ruano
+     * @param webElementList
+     * @throws Exception
      */
     protected List<WebElement> getVisibleElements(List<WebElement> webElementList) {
         List<WebElement> visibleWebElementsList = new LinkedList<>();
@@ -2592,6 +2649,14 @@ public class CommonFunctions {
         return visibleWebElementsList;
     }
 
+    /**
+     * This method is used to get text from a WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @return String
+     * @throws Exception
+     */
     protected String getWebElementText(WebElement webElement){
         try{
             return webElement.getText();
@@ -2600,7 +2665,15 @@ public class CommonFunctions {
             throw new NoSuchElementException("Web Element not found");
         }
     }
-
+    /**
+     * This method is used to get an attribute value from a WebElement
+     *
+     * @author Alejandro Hernandez
+     * @param webElement
+     * @param attribute
+     * @return String
+     * @throws Exception
+     */
     protected String getWebElementAttribute(WebElement webElement, String attribute){
         try{
             return webElement.getAttribute(attribute);

@@ -100,7 +100,7 @@ public class CustomerLookupPage extends CommonFunctions {
         return hcpDetails;
     }
 
-    public void selectRelationShipOption(){
+    public void selectRelationShipOption() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         waitForElementVisibility(dropdown_relationship, 10);
         scrollToWebElementJS(dropdown_relationship);
