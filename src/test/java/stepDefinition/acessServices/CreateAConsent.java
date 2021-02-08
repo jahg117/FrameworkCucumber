@@ -1,10 +1,10 @@
-package stepDefinition.acessServices.accessServices;
+package stepDefinition.acessServices;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pageObject.ApplicationInstance;
 import org.testng.Assert;
+import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.ConsentType;
 
