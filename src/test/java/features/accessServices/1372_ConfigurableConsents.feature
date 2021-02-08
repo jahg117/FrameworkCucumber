@@ -1,3 +1,4 @@
+@regression
 Feature: Setup configurable consents
 
   Background:
@@ -40,7 +41,6 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
-
   Scenario: Create a consent for DSI
     Given A external ID "EBcEenr" I search a CPC at customer lookup
     Then I click on the external ID found for CPC at customer lookup
@@ -53,7 +53,7 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
 
-  @regression
+  @yes
   Scenario: Create an attestation for AZ
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
@@ -70,7 +70,6 @@ Feature: Setup configurable consents
     And I select an existing address option
     And I verify the consent details displayed
 
-  @regression
   Scenario: Create an attestation for DSI
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
