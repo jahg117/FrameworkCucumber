@@ -35,7 +35,7 @@ public class NewConsentAttestationPage extends CommonFunctions {
     @FindBy(xpath = "//select[contains(@name,'consentDate')]")
     private WebElement dropdown_consentStatus;
 
-    public boolean isConsentFormDisplayed() {
+    public boolean isConsentFormDisplayed() throws Exception {
         switchToParentFrame();
         if(waitForElementVisibility(iframe_consentForm, 20)){
             switchToFrameByWebElementIndexOrName(iframe_consentForm, 10);

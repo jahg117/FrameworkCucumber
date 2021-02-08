@@ -25,7 +25,7 @@ public class SearchCareTeamMember extends ApplicationInstance {
     }
 
     @And("^I select a relationship dropdown option")
-    public void selectRelationShip() {
+    public void selectRelationShip() throws Exception {
         accessServices.getCustomerLookupPage().selectRelationShipOption();
     }
 
