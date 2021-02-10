@@ -23,6 +23,7 @@ public class AccessServices {
     private NewProviderPage newProviderPage;
     private ConsentPage consentPage;
     private NewDSIFLSPAttestationPage newDSIFLSPAttestationPage;
+    private SubTabsPage subTabsPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -41,6 +42,7 @@ public class AccessServices {
         newProviderPage = PageFactory.initElements(driver, NewProviderPage.class);
         consentPage = PageFactory.initElements(driver, ConsentPage.class);
         newDSIFLSPAttestationPage = PageFactory.initElements(driver, NewDSIFLSPAttestationPage.class);
+        subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -62,4 +64,5 @@ public class AccessServices {
     public NewProviderPage getNewProviderPage() { return newProviderPage; }
     public ConsentPage getConsentPage() { return consentPage; }
     public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() { return newDSIFLSPAttestationPage; }
+    public SubTabsPage getSubTabsPage() { return subTabsPage; }
 }
