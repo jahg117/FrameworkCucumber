@@ -37,6 +37,13 @@ public class PersonAccountPage extends CommonFunctions {
 
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
+    @FindBy(xpath = "//*[contains(@href,'Enrollment')]//span[@class='view-all-label']")
+    private WebElement link_viewAllProgramEnrollment;
+
+    public void clickViewAllProgramEnrollments() throws Exception {
+        clickAndMoveToElementClickable(link_viewAllProgramEnrollment, 10);
+    }
+
     public void clickNewProductEnrollment() throws Exception {
         waitForElementVisibility(label_accountPersonName, 30);
         clickElementClickable(button_newProductEnrollment, 15);

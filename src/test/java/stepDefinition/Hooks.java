@@ -3,6 +3,7 @@ package stepDefinition;
 import base.driverInitialize.DriverFactory;
 import base.driverInitialize.SharedDriver;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.apache.log4j.Logger;
@@ -31,13 +32,22 @@ public class Hooks {
         logger.info("Scenario started: "+scenario.getName());
     }
 
-    @After
-    public void CloseDriver(Scenario scenario){
+    @AfterStep
+    public void takeScreenShot(Scenario scenario) {
         if(scenario.isFailed()) {
             logger.error("Scenario failed: "+scenario.getName());
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "");
         }
+    }
+
+    @After
+    public void CloseDriver(Scenario scenario){
+        /*if(scenario.isFailed()) {
+            logger.error("Scenario failed: "+scenario.getName());
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "");
+        }*/
         logger.info("Scenario completed: "+scenario.getName());
         DriverFactory.getDriver().quit();
         DriverFactory.removeDriver();
