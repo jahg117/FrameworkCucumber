@@ -9,7 +9,7 @@ import io.cucumber.testng.CucumberOptions;
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "rerun:target/rerun.txt"},
         publish = true,
-        tags = "@regression and @yes")
+        tags = "@smoke")
 
 public class RunCucumberTest extends AbstractTestNGCucumberParallelTests {
 
