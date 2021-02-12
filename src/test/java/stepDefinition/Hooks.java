@@ -43,11 +43,6 @@ public class Hooks {
 
     @After
     public void CloseDriver(Scenario scenario){
-        /*if(scenario.isFailed()) {
-            logger.error("Scenario failed: "+scenario.getName());
-            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "");
-        }*/
         logger.info("Scenario completed: "+scenario.getName());
         DriverFactory.getDriver().quit();
         DriverFactory.removeDriver();
