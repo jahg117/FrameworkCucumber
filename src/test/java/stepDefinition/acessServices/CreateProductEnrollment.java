@@ -12,6 +12,7 @@ import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.ProductEnrollment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,14 +73,20 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("^I enter a product enrollment in the product enrollment form$")
     public void createProductEnrollment(DataTable dataTable) throws Exception{
         List<Map<String , String>> list = dataTable.asMaps(String.class, String.class);
+        ArrayList<String> productEnrollments = new ArrayList<>();
         for(Map<String, String> el : list){
             String product = el.get("ProductEnrollment");
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
             accessServices.getSubTabsPage().closeSubTab(0);
         }
+        accessServices.getPersonAccountPage().clickViewAllProgramEnrollments();
+        accessServices.getProductEnrollmentsTablePage().isProductEnrollmentsPageDisplayed();
+        Assert.assertEquals(productEnrollments, accessServices.getProductEnrollmentsTablePage().getProductEnrollmentsList(), "The list of product enrollments is not matching");
+        System.out.println(productEnrollments);
     }
 
     @And("^I validate the product enrollment is displayed")

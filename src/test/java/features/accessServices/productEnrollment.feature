@@ -1,4 +1,4 @@
-@productEnrollment
+@smoke
 Feature: Product Enrollment
 
   Background:
@@ -14,5 +14,3 @@ Feature: Product Enrollment
     And I enter a product enrollment in the product enrollment form
         |ProductEnrollment|
         |AZ               |
-        |DSI              |
-        |Fasenra          |
