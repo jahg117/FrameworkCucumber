@@ -86,7 +86,6 @@ public class CreateProductEnrollment extends ApplicationInstance {
         accessServices.getPersonAccountPage().clickViewAllProgramEnrollments();
         accessServices.getProductEnrollmentsTablePage().isProductEnrollmentsPageDisplayed();
         Assert.assertEquals(productEnrollments, accessServices.getProductEnrollmentsTablePage().getProductEnrollmentsList(), "The list of product enrollments is not matching");
-        System.out.println(productEnrollments);
     }
 
     @And("^I validate the product enrollment is displayed")
