@@ -14,12 +14,13 @@ import runner.AbstractTestNGCucumberParallelTests;
 import utils.FileReading;
 
 public class Hooks {
-    private FileReading fileReading = new FileReading();
     private WebDriver driver = null;
-
     private Logger logger = Logger.getLogger(Hooks.class);
+    private String passed;
+    private String failed;
 
     public Hooks() {
+        FileReading fileReading = new FileReading();
         fileReading.setLog4jFile();
     }
 
@@ -27,6 +28,10 @@ public class Hooks {
     public void Initialize(Scenario scenario) throws Exception {
         String featureName = getFeatureFileNameFromScenarioId(scenario);
         String browser = AbstractTestNGCucumberParallelTests.browser;
+        FileReading fileReading = new FileReading();
+        fileReading.setFileName("GlobalConfig.properties");
+        passed = fileReading.getField("screenshotPass");
+        failed = fileReading.getField("screenshotFail");
         SharedDriver df = new SharedDriver(browser,featureName+","+scenario.getName());
         driver = DriverFactory.getDriver();
         logger.info("Scenario started: "+scenario.getName());
@@ -34,10 +39,9 @@ public class Hooks {
 
     @AfterStep
     public void takeScreenShot(Scenario scenario) {
-        if(scenario.isFailed()) {
-            logger.error("Scenario failed: "+scenario.getName());
+        if(!scenario.isFailed()&&passed.equalsIgnoreCase("true")||scenario.isFailed()&&failed.equalsIgnoreCase("true")) {
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "");
+            scenario.attach(screenshot, "image/png", scenario.getName());
         }
     }
 
