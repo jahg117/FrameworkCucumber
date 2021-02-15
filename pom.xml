@@ -151,7 +151,7 @@
           <configuration>
             <!-- Activate the use of TCP to transmit events to the plugin -->
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
-            <testFailureIgnore>false</testFailureIgnore>
+            <testFailureIgnore>true</testFailureIgnore>
             <suiteXmlFiles>
               <suiteXmlFile>src/test/java/testng.xml</suiteXmlFile>
             </suiteXmlFiles>
