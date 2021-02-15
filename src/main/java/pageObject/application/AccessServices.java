@@ -25,6 +25,8 @@ public class AccessServices {
     private NewDSIFLSPAttestationPage newDSIFLSPAttestationPage;
     private SubTabsPage subTabsPage;
     private ProductEnrollmentsTablePage productEnrollmentsTablePage;
+    private NewCase newCase;
+
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
         accessServicesHomePage = PageFactory.initElements(driver, AccessServicesHomePage.class);
@@ -44,6 +46,7 @@ public class AccessServices {
         newDSIFLSPAttestationPage = PageFactory.initElements(driver, NewDSIFLSPAttestationPage.class);
         subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
         productEnrollmentsTablePage = PageFactory.initElements(driver, ProductEnrollmentsTablePage.class);
+        newCase = PageFactory.initElements(driver, NewCase.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -67,4 +70,5 @@ public class AccessServices {
     public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() { return newDSIFLSPAttestationPage; }
     public SubTabsPage getSubTabsPage() { return subTabsPage; }
     public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
+    public NewCase getNewCase() { return newCase; }
 }
