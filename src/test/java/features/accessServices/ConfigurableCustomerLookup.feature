@@ -6,6 +6,7 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
+
   @regressionJR
   Scenario Outline: Create a new Facility Account from CustomerLookup page
     Given A dummyValue I enter the name of the facility as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
