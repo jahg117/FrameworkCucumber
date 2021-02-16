@@ -1,4 +1,4 @@
-package stepDefinition.acessServices.accessServices;
+package stepDefinition.acessServices;
 
 import io.cucumber.java.en.And;
 import org.testng.Assert;
@@ -19,3 +19,5 @@ public class SearchPatient extends ApplicationInstance {
         Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
     }
 }
+
+

@@ -21,6 +21,11 @@ public class AccessServices {
     private NewConsentPage newConsentPage;
     private NewConsentAttestationPage newConsentAttestationPage;
     private NewProviderPage newProviderPage;
+    private ConsentPage consentPage;
+    private NewDSIFLSPAttestationPage newDSIFLSPAttestationPage;
+    private SubTabsPage subTabsPage;
+    private ProductEnrollmentsTablePage productEnrollmentsTablePage;
+    private NewCase newCase;
     private NewHCAWizardPage newHCAWizardPage;
     private NewHCPWizardPage newHCPWizardPage;
     private NewCPCWizardPage newCPCWizardPage;
@@ -41,6 +46,11 @@ public class AccessServices {
         newConsentPage = PageFactory.initElements(driver, NewConsentPage.class);
         newConsentAttestationPage = PageFactory.initElements(driver, NewConsentAttestationPage.class);
         newProviderPage = PageFactory.initElements(driver, NewProviderPage.class);
+        consentPage = PageFactory.initElements(driver, ConsentPage.class);
+        newDSIFLSPAttestationPage = PageFactory.initElements(driver, NewDSIFLSPAttestationPage.class);
+        subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
+        productEnrollmentsTablePage = PageFactory.initElements(driver, ProductEnrollmentsTablePage.class);
+        newCase = PageFactory.initElements(driver, NewCase.class);
         newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
@@ -64,6 +74,11 @@ public class AccessServices {
     public NewConsentPage getNewConsentPage() { return  newConsentPage; }
     public NewConsentAttestationPage getNewConsentAttestationPage() { return newConsentAttestationPage; }
     public NewProviderPage getNewProviderPage() { return newProviderPage; }
+    public ConsentPage getConsentPage() { return consentPage; }
+    public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() { return newDSIFLSPAttestationPage; }
+    public SubTabsPage getSubTabsPage() { return subTabsPage; }
+    public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
+    public NewCase getNewCase() { return newCase; }
     public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }

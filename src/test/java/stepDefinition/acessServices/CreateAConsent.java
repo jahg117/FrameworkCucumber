@@ -1,24 +1,31 @@
-package stepDefinition.acessServices.accessServices;
+package stepDefinition.acessServices;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pageObject.ApplicationInstance;
 import org.testng.Assert;
+import pageObject.ApplicationInstance;
+import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.ConsentType;
 
 public class CreateAConsent extends ApplicationInstance {
+    private CommonData commonData;
 
-    @Given("^A External ID \"([^\"]*)\" I Search A CPC At Customer Lookup$")
+    public CreateAConsent(CommonData commonData){
+        this.commonData = commonData;
+    }
+
+    @Given("^A external ID \"([^\"]*)\" I search a CPC at customer lookup$")
     public void searchCPCByID(String cpcID) throws Exception {
         accessServices.getCustomerLookupPage().searchCPCByID(cpcID);
     }
 
-    @Then("^I Click On The External ID Found For CPC At Customer Lookup$")
+    @Then("^I click on the external ID found for CPC at customer lookup$")
     public void selectAndClickAZID() throws Exception {
         accessServices.getCustomerLookupPage().selectAndClickAZID();
     }
 
-    @Then("^I Click On The Consent Tab To Click The New Consent Button At Person Account Page$")
+    @Then("^I click cn the consent tab to click the new consent button at person account page$")
     public void clickOnNewConsent() throws Exception {
         accessServices.getPersonAccountPage().clickOnNewConsent();
     }
@@ -26,32 +33,33 @@ public class CreateAConsent extends ApplicationInstance {
     @And("^I select the \"([^\"]*)\" consent type at new consent wizard page$")
     public void selectConsentType(String consentType) throws Exception {
         accessServices.getNewConsentPage().selectConsentType(consentType);
+        commonData.consentType = new ConsentType(consentType);
     }
 
-    @And("^I Fill The Selected Consent Type Form At New Consent Wizard Page$")
+    @And("^I fill the selected consent type form at new consent wizard page$")
     public void fillConsentForm() throws Exception {
         accessServices.getNewConsentWizard().fillConsentForm("Active","1/25/2021","","");
     }
 
-    @Then("^I Select The Consent Address In The New Consent Wizard Page$")
+    @Then("^I select the consent address in the new consent wizard page$")
     public void selectConsentAddress() throws Exception {
         accessServices.getNewConsentWizard().selectConsentAddress(true, 0);
     }
 
-    @Then("^I Click On The Product Enrollment \"([^\"]*)\" From The Person Account Page$")
+    @Then("^I click on the product enrollment \"([^\"]*)\" from the person account page$")
     public void clickProductEnrollmentAdded(String product) throws Exception{
         accessServices.getPersonAccountPage().switchToTab(0);
         accessServices.getPersonAccountPage().clickOnProgramEnrollments();
         accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
     }
 
-    @Then("^I Validate That No Warning \"([^\"]*)\" Message Is Displayed Related To The Type Lacking Of A Consent At The Product Enrollment Page$")
+    @Then("^I validate that no warning \"([^\"]*)\" message is displayed related to the type lacking of a consent at the product enrollment page$")
     public void validatePEDSIMessage(String messagePE) throws Exception{
         boolean messageCosentType = accessServices.getProductEnrollmentPage().validatePEDSIMessage(messagePE);
         Assert.assertEquals(messageCosentType, false, "There Is Still A Warning Message With The Following History " + messagePE);
     }
 
-    @Then("^I Validate The Valid PAF \"([^\"]*)\" Message At Valid PAF Column At Accounts Recently Viewed Page$")
+    @Then("^I validate the valid PAF \"([^\"]*)\" message at valid PAF column at accounts recently viewed page$")
     public void validateValidPAFValue(String validPAF) throws Exception{
         Assert.assertTrue(accessServices.getAccountsRecentlyViewedPage().validateValidPAFValue(validPAF), "The Valid PAF Column Message '" + validPAF + "' Matched");
     }

@@ -18,6 +18,7 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     public void setSalesforcePageDisplayed() throws Exception {
         Assert.assertTrue(salesforce.getHomePage().isSalesforcePageVisible(), "The salesforce page is not displayed");
         salesforce.getHomePage().closeOpenTabs();
+        Assert.assertTrue(false);
     }
 
     @Then("^I search the \"([^\"]*)\" app$")

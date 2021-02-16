@@ -1,16 +1,21 @@
-package stepDefinition.acessServices.accessServices;
+package stepDefinition.acessServices;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.it.Ma;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
-import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.ProductEnrollment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CreateProductEnrollment extends ApplicationInstance {
     private CommonData commonData;
@@ -65,10 +70,28 @@ public class CreateProductEnrollment extends ApplicationInstance {
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(),"The product enrollment page was not displayed");
         Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
     }
+    @And("^I enter a product enrollment in the product enrollment form$")
+    public void createProductEnrollment(DataTable dataTable) throws Exception{
+        List<Map<String , String>> list = dataTable.asMaps(String.class, String.class);
+        ArrayList<String> productEnrollments = new ArrayList<>();
+        for(Map<String, String> el : list){
+            String product = el.get("ProductEnrollment");
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
+            accessServices.getSubTabsPage().closeSubTab(0);
+        }
+        accessServices.getPersonAccountPage().clickViewAllProgramEnrollments();
+        accessServices.getProductEnrollmentsTablePage().isProductEnrollmentsPageDisplayed();
+        Assert.assertEquals(productEnrollments, accessServices.getProductEnrollmentsTablePage().getProductEnrollmentsList(), "The list of product enrollments is not matching");
+    }
 
     @And("^I validate the product enrollment is displayed")
     public void productEnrollmentDisplayed() {
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
         commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
     }
+
 }

@@ -14,6 +14,9 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Product Enrollments')]/following::*[@title='New']")
     private WebElement button_newProductEnrollment;
 
+    @FindBy(xpath = "//*[contains(text(),'Cases')]/following::*//a[@title='New Case']")
+    private WebElement button_newCase;
+
     @FindBy(xpath = "//th[@data-label='Product Enrollment Number']//a/span")
     private List<WebElement> list_productEnrollmentNumber;
 
@@ -37,9 +40,20 @@ public class PersonAccountPage extends CommonFunctions {
 
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
+    @FindBy(xpath = "//*[contains(@href,'Enrollment')]//span[@class='view-all-label']")
+    private WebElement link_viewAllProgramEnrollment;
+
+    public void clickViewAllProgramEnrollments() throws Exception {
+        clickAndMoveToElementClickable(link_viewAllProgramEnrollment, 10);
+    }
+
     public void clickNewProductEnrollment() throws Exception {
         waitForElementVisibility(label_accountPersonName, 30);
         clickElementClickable(button_newProductEnrollment, 15);
+    }
+
+    public void clickNewCase() throws Exception {
+        clickAndMoveToElementClickable(button_newCase, 30);
     }
 
     public boolean isRedIconDisplayed(String product) throws Exception {
@@ -110,7 +124,7 @@ public class PersonAccountPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void switchToTab(int idxTab) throws Exception {
-        switchTabByIndexSF(idxTab);
+        switchSubTabByIndexSF(0, 10);
     }
 
     /**
