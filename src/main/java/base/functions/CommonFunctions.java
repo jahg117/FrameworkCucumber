@@ -38,32 +38,11 @@ public class CommonFunctions {
      * @throws Exception if the WebElement is not located
      */
     protected WebElement getWebElement(By locator) {
-        try{
-            WebElement element = driver.findElement(locator);
-            logger.info("WebElement found: " +getWebElementLocatorPath(element));
-            return element;
-        }catch (Exception e){
-            logger.error("WebElement not valid or not found");
-            throw new NoSuchElementException("WebElement not valid or not found");
-        }
+        return driver.findElement(locator);
     }
-    /**
-     * Return a list of WebElements
-     *
-     * @author Alejandro Hernandez
-     * @param locator to find the list of WebElements
-     * @throws Exception if the WebElement list is not located
-     */
-    protected List<WebElement> getWebElementList(By locator) {
-        try{
-            List<WebElement> webElements = driver.findElements(locator);
-            logger.info("WebElement list found");
-            return webElements;
-        }catch(Exception e){
-            logger.error("WebElement list not valid or not found");
-            throw new NoSuchElementException("WebElement list not valid or not found");
-        }
 
+    protected List<WebElement> getWebElementList(By locator) {
+        return driver.findElements(locator);
     }
 
 
@@ -2267,6 +2246,9 @@ public class CommonFunctions {
         driver.close();
     }
 
+    //***********************************************************************
+    // private methods
+
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
@@ -2325,7 +2307,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    protected void clickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+    private void clickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(wElement).click(wElement).build().perform();
@@ -2342,7 +2324,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    protected void clickWebElementByActions(WebElement wElement) throws Exception {
+    private void clickWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.click(wElement).build().perform();
@@ -2359,7 +2341,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    protected void doubleClickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
+    private void doubleClickAndMoveToWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(wElement).doubleClick(wElement).build().perform();
@@ -2376,7 +2358,7 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      * @param wElement
      */
-    protected void doubleClickWebElementByActions(WebElement wElement) throws Exception {
+    private void doubleClickWebElementByActions(WebElement wElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.doubleClick(wElement).build().perform();
@@ -2423,7 +2405,7 @@ public class CommonFunctions {
      * @param wElement contains the WebElement to move
      * @throws Exception
      */
-    protected void scrollToWebElementByAction(WebElement wElement) throws Exception {
+    private void scrollToWebElementByAction(WebElement wElement) throws Exception {
         Actions actions = new Actions(driver);
         try {
             actions.moveToElement(wElement).build().perform();
@@ -2525,8 +2507,9 @@ public class CommonFunctions {
             logger.error(e.getMessage());
         }
     }
+
     /**
-     * This method is used switch to the default content
+     * This method is used to move and select a dropdown option by text
      *
      * @author J.Ruano
      */
@@ -2547,6 +2530,7 @@ public class CommonFunctions {
      * @param name
      * @param waitTime
      * @throws Exception
+     * @author J.Ruano
      */
     protected void switchSubTabByNameSF(String name, int waitTime) throws Exception {
         try {
@@ -2575,6 +2559,7 @@ public class CommonFunctions {
      * @param index
      * @param waitTime
      * @throws Exception
+     * @author J.Ruano
      */
     protected void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
         try{
@@ -2606,6 +2591,7 @@ public class CommonFunctions {
             throw new NoSuchElementException("The sub-tab was not found");
         }
     }
+
     /**
      * Method used to select a random dropdown excluding 'None'
      *
@@ -2613,6 +2599,7 @@ public class CommonFunctions {
      * @param webElement contains the Element to select
      * @param waitTime   time to wait for a WebElement
      * @throws Exception
+     * @author J.Ruano
      */
     protected void selectDropDownRandomOptionNone(WebElement webElement, int waitTime) throws Exception {
         if (waitForElementClickable(webElement, waitTime)) {
@@ -2629,6 +2616,7 @@ public class CommonFunctions {
      * @author J.Ruano
      * @param webElement
      * @throws Exception
+     * @author J.Ruano
      */
     protected void selectRandomDropDownNotNone(WebElement webElement) {
         int optionIndex = 0;
@@ -2649,6 +2637,8 @@ public class CommonFunctions {
     /**
      * This method is used to return visible elements from a list
      *
+     * @param
+     * @throws Exception
      * @author J.Ruano
      * @param webElementList
      * @throws Exception
@@ -2697,4 +2687,168 @@ public class CommonFunctions {
         }
     }
 
+    /**
+     * Used to split some string given the string to split and the regex rule
+     *
+     * @param textToSplit it contains the string to be split
+     * @param regexRule   it contains the regular expresion used to split the String
+     * @return a list with the split text
+     * @author J.Ruano
+     */
+    protected List<String> splitRegex(String textToSplit, String regexRule) {
+        List<String> splitData = Arrays.asList(textToSplit.split(regexRule));
+        return splitData;
+    }
+
+    /**
+     * Method to move up or down using Actions, usedul for dropdowns that does not contains Select>option
+     *
+     * @param element        it contains the webelement or dropdown where the actions will be perform
+     * @param moveDirection  where the actions will be apply Up or Down
+     * @param ammountOfMoves the amount of action Up Or Down will be perform
+     * @author J.Ruano
+     */
+    protected void moveDownUpAction(WebElement element, String moveDirection, int ammountOfMoves) {
+        Actions actions = new Actions(driver);
+        int counter = 0;
+        boolean notNone = false;
+        WebElement optionID = null;
+        WebElement dropdownVisible = null;
+        String valueOptionID = "";
+        do {
+            actions.sendKeys(Keys.ARROW_DOWN).build().perform();
+            By activeDes = By.xpath("//input[contains(@aria-activedescendant,'input')]");
+            optionID = getWebElement(activeDes);
+            valueOptionID = optionID.getAttribute("aria-activedescendant");
+            if (valueOptionID.contains("-0-")) {
+                notNone = true;
+            } else {
+                notNone = false;
+            }
+            counter++;
+        } while (counter <= ammountOfMoves || notNone == true);
+        actions.sendKeys(Keys.ENTER).build().perform();
+    }
+
+    /**
+     * Method used to click and wait for a visible WebElement
+     *
+     * @param webElement contains the Element to select
+     * @param waitTime   time to wait for a WebElement
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected void clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int waitTime) throws Exception {
+        if (waitForElementVisibility(webElement, waitTime)) {
+            do {
+                //clickWebElementByActions(webElement);
+                clickElementClickable(webElement, 10);
+            } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
+
+            logger.info("WebElement clicked");
+        } else {
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+    }
+
+    /**
+     * Method to generate a TimeStamp returning a timestamp with an specific Format
+     *
+     * @param strFormat format required to return the timestamp
+     * @return a string value
+     * @author J.Ruano
+     */
+    public String generateTimeStamp(String strFormat) {
+        String dateCreated = new SimpleDateFormat(strFormat).format(new Date()).replace(".", "");
+        return dateCreated;
+    }
+
+    protected WebElement clickAndMoveToElementClickableFromListByAttribute(List<WebElement> elementList, String attribute, String attributeValue) throws Exception {
+        boolean elementFound = false;
+        WebElement returnElement = null;
+        for (WebElement element : elementList) {
+            if (element.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim())) {
+                clickAndMoveToWebElementByActions(element);
+                returnElement = element;
+                logger.info("WebElement clicked");
+                elementFound = true;
+                break;
+            }
+        }
+        if (elementFound == false) {
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+        return returnElement;
+    }
+
+
+    /**
+     * Method used to return a random webElement from a List<WebElement>
+     *
+     * @param webElementList
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected WebElement getRandomWebElementIgnoreIdexValue(List<WebElement> webElementList, int ignoreValue) throws IllegalAccessException {
+        int randomNumber = 0;
+        WebElement wE = null;
+        try {
+            Random random = new Random();
+            do {
+                randomNumber = random.nextInt(webElementList.size());
+            } while (randomNumber == ignoreValue);
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
+        }
+        return wE = webElementList.get(randomNumber);
+    }
+
+    /**
+     * Method used to return a random webElement from a List<WebElement>
+     *
+     * @param webElementList
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected WebElement getRandomWebElementIgnoreText(List<WebElement> webElementList, String searchValue) throws IllegalAccessException {
+        int randomNumber = 0;
+        WebElement wE = null;
+        Random random = new Random();
+
+        try {
+            do {
+                randomNumber = random.nextInt(webElementList.size());
+            } while (webElementList.get(randomNumber).getText().equalsIgnoreCase(searchValue));
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
+        }
+        return wE = webElementList.get(randomNumber);
+    }
+
+
+    /**
+     * Method used to return a random webElement from a List<WebElement>
+     *
+     * @param webElementList
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected WebElement getRandomWebElementIgnoreAttribute(List<WebElement> webElementList, String attributeValue, String searchValue) throws IllegalAccessException {
+        int randomNumber = 0;
+        WebElement wE = null;
+        Random random = new Random();
+        try {
+            do {
+                randomNumber = random.nextInt(webElementList.size());
+            } while (webElementList.get(randomNumber).getAttribute(attributeValue.trim()).equalsIgnoreCase(searchValue));
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
+        }
+        return wE = webElementList.get(randomNumber);
+    }
 }

@@ -26,6 +26,10 @@ public class AccessServices {
     private SubTabsPage subTabsPage;
     private ProductEnrollmentsTablePage productEnrollmentsTablePage;
     private NewCase newCase;
+    private NewHCAWizardPage newHCAWizardPage;
+    private NewHCPWizardPage newHCPWizardPage;
+    private NewCPCWizardPage newCPCWizardPage;
+    private NewEmployeeWizardPage newEmployeeWizardPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -47,6 +51,10 @@ public class AccessServices {
         subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
         productEnrollmentsTablePage = PageFactory.initElements(driver, ProductEnrollmentsTablePage.class);
         newCase = PageFactory.initElements(driver, NewCase.class);
+        newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
+        newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
+        newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
+        newEmployeeWizardPage = PageFactory.initElements(driver, NewEmployeeWizardPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -71,4 +79,8 @@ public class AccessServices {
     public SubTabsPage getSubTabsPage() { return subTabsPage; }
     public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
     public NewCase getNewCase() { return newCase; }
+    public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
+    public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
+    public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
+    public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
 }
