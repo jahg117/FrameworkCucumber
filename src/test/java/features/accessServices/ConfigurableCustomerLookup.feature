@@ -6,30 +6,47 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
-  @regression
-  Scenario Outline: Create a new Account from Customer Lookup page
-    Given Account type
-    Given I click on new Account
-    When I click on new and I select "Consumer/Patient/Caregiver" account
-    Then I fill the mandatory fields from the account form
-    And I click on new product enrollment button
-    And I enter a valid "AZ" product in the product enrollment form
-    And I click on enroll button
-    And I select the created program enrollment
-    And I select the "Accounts" menu option
-    And I validate that the patient account was created
+  @regressionJR
+  Scenario Outline: Create a new Facility Account from CustomerLookup page
+    Given A dummyValue I enter the name of the facility as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
+    Then I click on new Account at CustomerLookUp Page
+    Then I fill the form with the values "<identifier>" "<npi>" "<nameHCA>" "<email>" "<phoneOrFax>" "<addressLine1>" "<state>" "<city>" "<zipCode>" "<country>" "<randomRecord>" at HCA Wizard Page
 
     Examples:
-      | dummyName | facilityName | title |
+      | dummyValue | accountType | identifier | npi | nameHCA        | email | phoneOrFax | addressLine1 | state | city         | zipCode | country       | randomRecord |
+      | dummy      | HCA         | AUT_       | RND | DonJuanCamaney | N_A   | 4491234567 | RND          | AA    | Guadalakjara | RND     | United States | RND          |
 
-  Scenario: Create a consent for DSI
-    Given A External ID "EBcEenr" I Search A CPC At Customer Lookup
-    Then I Click On The External ID Found For CPC At Customer Lookup
-    Then I Click On The Consent Tab To Click The New Consent Button At Person Account Page
-    And I Select The "DSI Promotional Consent" Consent Type At New Consent Wizard Page
-    And I Fill The Selected Consent Type Form At New Consent Wizard Page
-    Then I Select The Consent Address In The New Consent Wizard Page
-    Then I Click On The Product Enrollment "Enhertu" From The Person Account Page
-    Then I Validate That No Warning "No DSI Non-Promotional Consent is on file." Message Is Displayed Related To The Type Lacking Of A Consent At The Product Enrollment Page
-    And I select the "Accounts" menu option
-    Then I Validate The Valid PAF "AstraZeneca" Message At Valid PAF Column At Accounts Recently Viewed Page
+  @regressionJR
+  Scenario Outline: Create a new HCP Account from CustomerLookup page
+    Given A dummyValue I enter the first name of the HCP as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
+    Then I click on new Account at CustomerLookUp Page
+    Given An account record type for HCP "<accountRecordType>" i click continue button at New Account page
+    Then I fill the form with the values "<identifier>" "<npi>" "<firstName>" "<middleName>" "<lastName>" "<dateOfBird>" "<email>" "<phoneOrFax>" "<addressLine1>" "<state>" "<city>" "<zipCode>" "<country>" "<randomRecord>" at HCP Wizard Page
+
+    Examples:
+      | dummyValue | accountType | accountRecordType    | identifier | npi | firstName | middleName | lastName | dateOfBird  | email | phoneOrFax | addressLine1     | state | city | zipCode | country       | randomRecord |
+      | pimpinela  | HCP         | Health Care Provider | AUT_HCP_   | RND | Don       | Juan       | Camaney  | Feb 9, 2021 | AA    | 6666666666 | Emiratos Latinos | AA    | RND  | 90210   | United States | RND          |
+
+
+  @regressionJR
+  Scenario Outline: Create a new CPC Account from CustomerLookup page
+    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
+    Then I click on new Account at CustomerLookUp Page
+    Given An account record type for CPC "<accountRecordType>" i click continue button at New Account page
+    Then I fill the form with the values "<identifier>" "<firstName>" "<middleName>" "<lastName>" "<dateOfBird>" "<careGiver>" "<email>" "<phoneOrFax>" "<addressLine1>" "<state>" "<city>" "<zipCode>" "<country>" "<randomRecord>" at CPC Wizard Page
+
+    Examples:
+      | dummyValue | accountType | accountRecordType          | identifier | firstName | middleName | lastName | dateOfBird | careGiver | email | phoneOrFax | addressLine1      | state | city | zipCode | country       | randomRecord |
+      | pimpinela  | CPC         | Consumer/Patient/Caregiver | AUT_CPC_   | Doña      | Federica   | Camaneya | 15/02/2020 | RND       | RND   | 1111111111 | Emiratos Arabelos | AL    | RND  | 90211   | United States | RND          |
+
+
+  @regressionJR
+  Scenario Outline: Create a new Employee Account from CustomerLookup page
+    Given A dummyValue I enter the first name of the Employee as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
+    Then I click on new Account at CustomerLookUp Page
+    Given An account record type for Employee "<accountRecordType>" i click continue button at New Account page
+    Then I fill the form with the values "<identifier>" "<firstName>" "<middleName>" "<lastName>" "<randomRecord>" at Employee Wizard Page
+
+    Examples:
+      | dummyValue | accountType | accountRecordType | identifier | firstName | middleName | lastName | randomRecord |
+      | dummy      | EMP         | Internal AZ       | AUT_EMP_   | AlucheDos | El Muerto  | Camaney  | RND          |

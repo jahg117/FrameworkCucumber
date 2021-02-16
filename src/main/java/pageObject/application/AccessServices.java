@@ -21,6 +21,10 @@ public class AccessServices {
     private NewConsentPage newConsentPage;
     private NewConsentAttestationPage newConsentAttestationPage;
     private NewProviderPage newProviderPage;
+    private NewHCAWizardPage newHCAWizardPage;
+    private NewHCPWizardPage newHCPWizardPage;
+    private NewCPCWizardPage newCPCWizardPage;
+    private NewEmployeeWizardPage newEmployeeWizardPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -37,6 +41,10 @@ public class AccessServices {
         newConsentPage = PageFactory.initElements(driver, NewConsentPage.class);
         newConsentAttestationPage = PageFactory.initElements(driver, NewConsentAttestationPage.class);
         newProviderPage = PageFactory.initElements(driver, NewProviderPage.class);
+        newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
+        newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
+        newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
+        newEmployeeWizardPage = PageFactory.initElements(driver, NewEmployeeWizardPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -56,4 +64,8 @@ public class AccessServices {
     public NewConsentPage getNewConsentPage() { return  newConsentPage; }
     public NewConsentAttestationPage getNewConsentAttestationPage() { return newConsentAttestationPage; }
     public NewProviderPage getNewProviderPage() { return newProviderPage; }
+    public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
+    public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
+    public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
+    public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
 }

@@ -27,8 +27,4 @@ public class NewAccountPage extends CommonFunctions {
         clickAndMoveToElementVisible(button_continue, 15);
         switchToParentFrame();
     }
-
-    public void selectRecordTypes(String dropdownOption) throws Exception{
-
-    }
 }

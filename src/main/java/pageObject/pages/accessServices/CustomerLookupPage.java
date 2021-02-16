@@ -57,6 +57,8 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//input[contains(@class,'input name')]")
     private WebElement input_facilityName;
 
+    @FindBy(xpath = "//*[@class='slds-text-title_caps']")
+    private WebElement table_resultsTableHeaders;
 
 
     public void clickNewAccount() throws Exception {
@@ -131,7 +133,7 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void filterByCheckbox(String filterOption) throws Exception {
-        switch (filterOption.trim()) {
+        switch (filterOption.trim().toLowerCase()) {
             case "hca":
                 clickElementVisible(checkbox_hca, 10);
                 break;
@@ -160,7 +162,35 @@ public class CustomerLookupPage extends CommonFunctions {
         clickAndMoveToElementClickable(link_AZID, 10);
     }
 
-    public void doDummySearch() throws Exception {
+    public void doDummySearch(String searchValue, String accountType) throws Exception {
+        waitForElementListVisible(iframe_pageInformation, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation.get(0), 30);
+        uncheckCheckbox(checkbox_CheckedList);
+        filterByCheckbox(accountType);
+        //waitForElementNotVisible(input_firstName,10);
+        switch (accountType.trim().toLowerCase()) {
+            case "hca":
+                clickAndMoveToElementVisible(input_facilityName, 10);
+                sendKeysAndMoveToElementClickable(input_facilityName, searchValue, 10);
+                break;
 
+            case "hcp":
+                clickAndMoveToElementVisible(input_firstName, 10);
+                sendKeysAndMoveToElementClickable(input_firstName, searchValue, 10);
+                break;
+
+            case "cpc":
+                clickAndMoveToElementVisible(input_firstName, 10);
+                sendKeysAndMoveToElementClickable(input_firstName, searchValue, 10);
+                break;
+
+            case "emp":
+                clickAndMoveToElementVisible(input_firstName, 10);
+                sendKeysAndMoveToElementClickable(input_firstName, searchValue, 10);
+                break;
+        }
+        clickElementVisible(button_search, 10);
+        waitForElementVisibility(table_resultsTableHeaders,10);
+        switchToDefaultContentFrame();
     }
 }
