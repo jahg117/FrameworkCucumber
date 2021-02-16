@@ -155,8 +155,7 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void searchCPCByID(String cpcID) throws Exception {
         String filterOption = "cpc";
-        waitForElementListVisible(iframe_pageInformation, 10);
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation.get(0), 30);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 30);
         if (!checkbox_CheckedList.isEmpty()) {
             uncheckCheckbox(checkbox_CheckedList);
         }
@@ -222,8 +221,7 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void doDummySearch(String searchValue, String accountType) throws Exception {
-        waitForElementListVisible(iframe_pageInformation, 10);
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation.get(0), 30);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
         //waitForElementNotVisible(input_firstName,10);

@@ -1,4 +1,4 @@
-package stepDefinition.acessServices.accessServices;
+package stepDefinition.acessServices;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
