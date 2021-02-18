@@ -7,7 +7,7 @@ Feature: Setup configurable consents
     And I select the "Customer Lookup" menu option
 
 
-  @regressionJR
+
   Scenario Outline: Create a new Facility Account from CustomerLookup page
     Given A dummyValue I enter the name of the facility as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
@@ -17,7 +17,7 @@ Feature: Setup configurable consents
       | dummyValue | accountType | identifier | npi | nameHCA        | email | phoneOrFax | addressLine1 | state | city         | zipCode | country       | randomRecord |
       | dummy      | HCA         | AUT_       | RND | DonJuanCamaney | N_A   | 4491234567 | RND          | AA    | Guadalakjara | RND     | United States | RND          |
 
-  @regressionJR
+
   Scenario Outline: Create a new HCP Account from CustomerLookup page
     Given A dummyValue I enter the first name of the HCP as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
@@ -29,7 +29,7 @@ Feature: Setup configurable consents
       | pimpinela  | HCP         | Health Care Provider | AUT_HCP_   | RND | Don       | Juan       | Camaney  | Feb 9, 2021 | AA    | 6666666666 | Emiratos Latinos | AA    | RND  | 90210   | United States | RND          |
 
 
-  @regressionJR
+
   Scenario Outline: Create a new CPC Account from CustomerLookup page
     Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
@@ -41,7 +41,7 @@ Feature: Setup configurable consents
       | pimpinela  | CPC         | Consumer/Patient/Caregiver | AUT_CPC_   | Doña      | Federica   | Camaneya | 15/02/2020 | RND       | RND   | 1111111111 | Emiratos Arabelos | AL    | RND  | 90211   | United States | RND          |
 
 
-  @regressionJR
+
   Scenario Outline: Create a new Employee Account from CustomerLookup page
     Given A dummyValue I enter the first name of the Employee as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
