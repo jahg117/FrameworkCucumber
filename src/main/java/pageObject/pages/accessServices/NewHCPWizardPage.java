@@ -102,7 +102,7 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new HCP account (required)
      * @param middleName   it contains the middle name for the new HCP account (optional)
      * @param lastName     it contains the last name for the new HCP account (required)
-     * @param dateOfBird   it contains the DOB for the new HCP account (required)
+     * @param dateOfBirth   it contains the DOB for the new HCP account (required)
      * @param email        it contains the email for the new HCP account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new HCP account (required)
      * @param addressLine1 it contains the address for the new HCP account (optional)
@@ -114,7 +114,7 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void validateAndCreateHCP(String identifier, String npi, String firstName, String middleName, String lastName, String dateOfBird, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
+    public void validateAndCreateHCP(String identifier, String npi, String firstName, String middleName, String lastName, String dateOfBirth, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("HCPRecord");
         HashMap<String, String> hcpDetailsStoreData = new HashMap<String, String>();
@@ -123,7 +123,7 @@ public class NewHCPWizardPage extends CommonFunctions {
         if (randomRecord.trim().equalsIgnoreCase("RND")) {
             hcpDetailsStoreData = fullHCPFormRND(identifier);
         } else {
-            hcpDetailsStoreData = hibrydHCPForm(identifier, npi, firstName, middleName, lastName, dateOfBird, email, phoneOrFax, addressLine1, state, city, zipCode, country);
+            hcpDetailsStoreData = hibrydHCPForm(identifier, npi, firstName, middleName, lastName, dateOfBirth, email, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridHCPForm(hcpDetailsStoreData);
         }
         clickSaveButton();
@@ -152,7 +152,7 @@ public class NewHCPWizardPage extends CommonFunctions {
         hcpDetails.put("firstName", identifier + faker.name().firstName());
         hcpDetails.put("middleName", faker.name().firstName());
         hcpDetails.put("lastName", faker.name().lastName() + underScore + generateTimeStamp(dateFormat));
-        hcpDetails.put("dateOfBird", getRandomDate());
+        hcpDetails.put("dateOfBirth", getRandomDate());
         hcpDetails.put("email", hcpDetails.get("lastName") + "@sharklasers.com");
         hcpDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         hcpDetails.put("addressLine1", faker.address().streetName());
@@ -177,7 +177,7 @@ public class NewHCPWizardPage extends CommonFunctions {
         sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), 10);
         clickAndMoveToElementVisible(datePicker_DOB, 10);
         datePicker_DOB.clear();
-        sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBird"), 10);
+        sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), 10);
         clickAndMoveToElementVisible(input_phoneOrFax, 10);
         input_phoneOrFax.clear();
         sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), 10);
@@ -211,7 +211,7 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new HCP account (required)
      * @param middleName   it contains the middle name for the new HCP account (optional)
      * @param lastName     it contains the last name for the new HCP account (required)
-     * @param dateOfBird   it contains the DOB for the new HCP account (required)
+     * @param dateOfBirth   it contains the DOB for the new HCP account (required)
      * @param email        it contains the email for the new HCP account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new HCP account (required)
      * @param addressLine1 it contains the address for the new HCP account (optional)
@@ -222,7 +222,7 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    private HashMap<String, String> hibrydHCPForm(String identifier, String npi, String firstName, String middleName, String lastName, String dateOfBird, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
+    private HashMap<String, String> hibrydHCPForm(String identifier, String npi, String firstName, String middleName, String lastName, String dateOfBirth, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
@@ -234,7 +234,7 @@ public class NewHCPWizardPage extends CommonFunctions {
         hcpDetails.put("firstName", identifier + hibrydHCPFormFilter(firstName, "firstName"));
         hcpDetails.put("middleName", hibrydHCPFormFilter(middleName, "middleName"));
         hcpDetails.put("lastName", hibrydHCPFormFilter(lastName, "lastName") + underScore + generateTimeStamp(dateFormat));
-        hcpDetails.put("dateOfBird", hibrydHCPFormFilter(dateOfBird, "dateOfBird"));
+        hcpDetails.put("dateOfBirth", hibrydHCPFormFilter(dateOfBirth, "dateOfBirth"));
         hcpDetails.put("email", hibrydHCPFormFilter(email, "email"));
         hcpDetails.put("phoneOrFax", hibrydHCPFormFilter(phoneOrFax, "phoneOrFax"));
         hcpDetails.put("addressLine1", hibrydHCPFormFilter(addressLine1, "addressLine1"));
@@ -311,7 +311,7 @@ public class NewHCPWizardPage extends CommonFunctions {
                 }
                 break;
 
-            case "dateOfBird":
+            case "dateOfBirth":
                 if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
                     returnedValue = getRandomDate();
                 } else {
@@ -440,10 +440,10 @@ public class NewHCPWizardPage extends CommonFunctions {
             sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), 10);
         }
 
-        if (!hcpDetails.get("dateOfBird").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
             clickAndMoveToElementVisible(datePicker_DOB, 10);
             datePicker_DOB.clear();
-            sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBird"), 10);
+            sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), 10);
         }
         clickAndMoveToElementVisible(input_phoneOrFax, 10);
         input_phoneOrFax.clear();

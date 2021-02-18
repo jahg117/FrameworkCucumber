@@ -112,7 +112,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new CPC account (required)
      * @param middleName   it contains the middle name for the new CPC account (optional)
      * @param lastName     it contains the last name for the new CPC account (required)
-     * @param dateOfBird   it contains the DOB for the new CPC account (required)
+     * @param dateOfBirth   it contains the DOB for the new CPC account (required)
      * @param careGiver    this is used in case there is a caregiver into the new CPC account so it can be selected (optional)
      * @param email        it contains the email for the new CPC account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new CPC account (required)
@@ -125,7 +125,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void validateAndCreateCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
+    public void validateAndCreateCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("CPCRecord");
         HashMap<String, String> cpcDetailsStoreData = new HashMap<String, String>();
@@ -134,7 +134,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         if (randomRecord.trim().equalsIgnoreCase("RND")) {
             cpcDetailsStoreData = fullCPCFormRND(identifier, careGiver);
         } else {
-            cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBird, careGiver, email, phoneOrFax, addressLine1, state, city, zipCode, country);
+            cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBirth, careGiver, email, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridCPCForm(cpcDetailsStoreData);
         }
         clickSaveButton();
@@ -164,7 +164,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("middleName", faker.name().firstName());
         cpcDetails.put("lastName", faker.name().lastName() + underScore + generateTimeStamp(dateFormat));
         cpcDetails.put("careGiver", "");
-        cpcDetails.put("dateOfBird", getRandomDate().replace("/", ""));
+        cpcDetails.put("dateOfBirth", getRandomDate().replace("/", ""));
         cpcDetails.put("email", cpcDetails.get("lastName") + "@sharklasers.com");
         cpcDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         cpcDetails.put("addressLine1", faker.address().streetName());
@@ -193,7 +193,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         }
         clickAndMoveToElementVisible(datePicker_DOB, 10);
         datePicker_DOB.clear();
-        sendKeysElementVisible(datePicker_DOB, cpcDetails.get("dateOfBird"), 10);
+        sendKeysElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), 10);
         clickAndMoveToElementVisible(input_phoneOrFax, 10);
         input_phoneOrFax.clear();
         sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), 10);
@@ -226,7 +226,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new CPC account (required)
      * @param middleName   it contains the middle name for the new CPC account (optional)
      * @param lastName     it contains the last name for the new CPC account (required)
-     * @param dateOfBird   it contains the DOB for the new CPC account (required)
+     * @param dateOfBirth   it contains the DOB for the new CPC account (required)
      * @param careGiver    this is used in case there is a caregiver into the new CPC account so it can be selected (optional)
      * @param email        it contains the email for the new CPC account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new CPC account (required)
@@ -239,7 +239,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    private HashMap<String, String> hibrydCPCForm(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
+    private HashMap<String, String> hibrydCPCForm(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
@@ -251,7 +251,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("middleName", hibrydCPCFormFilter(middleName, "middleName"));
         cpcDetails.put("lastName", hibrydCPCFormFilter(lastName, "lastName") + underScore + generateTimeStamp(dateFormat));
         cpcDetails.put("careGiver", "");
-        cpcDetails.put("dateOfBird", hibrydCPCFormFilter(dateOfBird, "dateOfBird").replace("/", ""));
+        cpcDetails.put("dateOfBirth", hibrydCPCFormFilter(dateOfBirth, "dateOfBirth").replace("/", ""));
         cpcDetails.put("email", hibrydCPCFormFilter(email, "email"));
         cpcDetails.put("phoneOrFax", hibrydCPCFormFilter(phoneOrFax, "phoneOrFax"));
         cpcDetails.put("addressLine1", hibrydCPCFormFilter(addressLine1, "addressLine1"));
@@ -316,7 +316,7 @@ public class NewCPCWizardPage extends CommonFunctions {
                 }
                 break;
 
-            case "dateOfBird":
+            case "dateOfBirth":
                 if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
                     returnedValue = getRandomDate();
                 } else {
@@ -437,10 +437,10 @@ public class NewCPCWizardPage extends CommonFunctions {
         input_lastName.clear();
         sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), 10);
 
-        if (!cpcDetails.get("dateOfBird").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
             clickAndMoveToElementVisible(datePicker_DOB, 10);
             datePicker_DOB.clear();
-            sendKeysAndMoveToElementVisible(datePicker_DOB, cpcDetails.get("dateOfBird"), 10);
+            sendKeysAndMoveToElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), 10);
         }
         clickAndMoveToElementVisible(input_phoneOrFax, 10);
         input_phoneOrFax.clear();
