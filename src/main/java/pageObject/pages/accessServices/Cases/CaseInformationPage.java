@@ -46,17 +46,12 @@ public class CaseInformationPage extends CommonFunctions {
 
     private JsonFiles file = new JsonFiles();
 
+    private String caseOption;
     public void fillRandomMandatoryFields(String caseOption) throws Exception {
+        this.caseOption = caseOption;
         if(caseOption.equalsIgnoreCase("Interaction")){
             fillInteractionForm();
-        }
-        if(caseOption.equalsIgnoreCase("Asset Request")||
-                caseOption.equalsIgnoreCase("Benefit Investigation")||
-                caseOption.equalsIgnoreCase("Claims Support")||
-                caseOption.equalsIgnoreCase("Denied Patient Savings")||
-                caseOption.equalsIgnoreCase("Free Limited Supply Program")||
-                caseOption.equalsIgnoreCase("General Inquiry")||
-                caseOption.equalsIgnoreCase("In-Home Nurse Support")){
+        }else{
             fillInteractionForm();
             fillAssetRequestForm();
         }
@@ -74,15 +69,14 @@ public class CaseInformationPage extends CommonFunctions {
         if(waitForNumberOfElementsToBeMoreThanBy(list_productOptions, 0, 20)){
             clickAndMoveToElementClickable(getWebElementList(list_productOptions).get(0), 10);
         }
-        clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, 10), 10);
-        clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        if(waitForElementListVisible(list_discussTopic, 3)){
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, 10), 10);
+            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        }
     }
 
     public void fillPatientDetails(String caseOption, String productEnrollment) throws Exception {
-        if(caseOption.equalsIgnoreCase("Denied Patient Savings")||
-                caseOption.equalsIgnoreCase("Free Limited Supply Program")||
-                caseOption.equalsIgnoreCase("General Inquiry")||
-                caseOption.equalsIgnoreCase("In-Home Nurse Support")){
+        if(!caseOption.equalsIgnoreCase("Interaction")){
             sendKeysAndMoveToElementVisible(input_searchProductEnrollments, productEnrollment, 20);
             waitForElementVisibility(list_autocomplete, 20);
             if(waitForNumberOfElementsToBeMoreThanBy(list_productOptions, 0, 20)){
