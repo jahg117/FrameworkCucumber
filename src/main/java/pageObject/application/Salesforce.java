@@ -14,7 +14,6 @@ public class Salesforce {
     private LoginPage loginPage;
     private AppLauncherPage appLauncherPage;
 
-
     public Salesforce() {
         this.driver = DriverFactory.getDriver();
         this.loginPage = PageFactory.initElements(driver, LoginPage.class);
