@@ -1,3 +1,4 @@
+@smoke
 Feature: Cases
 
   Background:
@@ -10,4 +11,4 @@ Feature: Cases
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
     Then I fill the mandatory fields from the account form
-    And I click on new Case
+    And I create a/an "Asset Request" case
