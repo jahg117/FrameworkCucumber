@@ -4,6 +4,8 @@ import base.driverInitialize.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.accessServices.*;
+import pageObject.pages.accessServices.Cases.CaseInformationPage;
+import pageObject.pages.accessServices.Cases.NewCasePage;
 
 public class AccessServices {
     private WebDriver driver;
@@ -25,7 +27,8 @@ public class AccessServices {
     private NewDSIFLSPAttestationPage newDSIFLSPAttestationPage;
     private SubTabsPage subTabsPage;
     private ProductEnrollmentsTablePage productEnrollmentsTablePage;
-    private NewCase newCase;
+    private NewCasePage newCasePage;
+    private CaseInformationPage caseInformationPage;
     private NewHCAWizardPage newHCAWizardPage;
     private NewHCPWizardPage newHCPWizardPage;
     private NewCPCWizardPage newCPCWizardPage;
@@ -50,7 +53,8 @@ public class AccessServices {
         newDSIFLSPAttestationPage = PageFactory.initElements(driver, NewDSIFLSPAttestationPage.class);
         subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
         productEnrollmentsTablePage = PageFactory.initElements(driver, ProductEnrollmentsTablePage.class);
-        newCase = PageFactory.initElements(driver, NewCase.class);
+        newCasePage = PageFactory.initElements(driver, NewCasePage.class);
+        caseInformationPage = PageFactory.initElements(driver, CaseInformationPage.class);
         newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
@@ -78,7 +82,8 @@ public class AccessServices {
     public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() { return newDSIFLSPAttestationPage; }
     public SubTabsPage getSubTabsPage() { return subTabsPage; }
     public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
-    public NewCase getNewCase() { return newCase; }
+    public NewCasePage getNewCasePage() { return newCasePage; }
+    public CaseInformationPage getCaseInformationPage() { return caseInformationPage; }
     public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
