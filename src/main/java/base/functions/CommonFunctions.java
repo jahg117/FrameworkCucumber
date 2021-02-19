@@ -1636,6 +1636,29 @@ public class CommonFunctions {
         }
     }
 
+    /** Method used to return a random webElement from a List<WebElement> except the first
+     * @author Alejandro Hernandez
+     * @param webElementList
+     * @param timeSeconds to wait for visible elements
+     * @throws Exception
+     */
+    protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeSeconds) throws IllegalAccessException {
+        try {
+            if(waitForElementListVisible(webElementList, timeSeconds)) {
+                if(webElementList.size()!=1) {
+                    return webElementList.get((int) (Math.random() * webElementList.size() - 1) + 1);
+                    }else{
+                    return webElementList.get(0);
+                    }
+                } else{
+                logger.error("The list of WebElements was not found/visible");
+                throw new NoSuchElementException("WebElements are not visible");
+                }
+        } catch (Exception e) {
+            logger.error("List<WebElement> type invalid");
+            throw new IllegalAccessException("List<WebElement> type invalid");
+        }
+    }
     /**
      * Method used to return a webElement with specific attribute value from a List<WebElement>
      *

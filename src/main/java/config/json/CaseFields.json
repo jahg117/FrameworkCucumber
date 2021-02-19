@@ -1,0 +1,21 @@
+{
+  "Channel": ["Chat",
+    "CMM",
+    "Email",
+    "Fax",
+    "HCP Portal",
+    "Phone",
+    "Social Media",
+    "HCP Portal",
+    "Text",
+    "Web",
+    "White Mail"],
+  "Case Status": ["Open",
+    "Closed"],
+  "Case SubType": ["Fasenra Pen Resources",
+    "Resources",
+    "Samples"],
+  "Products": ["Fasenra",
+    "Brilinta",
+    "Calquence"]
+}
