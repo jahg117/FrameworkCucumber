@@ -53,7 +53,9 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewCase() throws Exception {
-        clickAndMoveToElementClickable(button_newCase, 30);
+        waitForElementVisibility(button_newCase, 30);
+        scrollToWebElementJS(button_newCase);
+        clickAndMoveToElementClickable(button_newCase, 10);
     }
 
     public boolean isRedIconDisplayed(String product) throws Exception {
