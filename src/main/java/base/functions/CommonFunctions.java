@@ -1636,29 +1636,32 @@ public class CommonFunctions {
         }
     }
 
-    /** Method used to return a random webElement from a List<WebElement> except the first
-     * @author Alejandro Hernandez
+    /**
+     * Method used to return a random webElement from a List<WebElement> except the first
+     *
      * @param webElementList
-     * @param timeSeconds to wait for visible elements
+     * @param timeSeconds    to wait for visible elements
      * @throws Exception
+     * @author Alejandro Hernandez
      */
     protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeSeconds) throws IllegalAccessException {
         try {
-            if(waitForElementListVisible(webElementList, timeSeconds)) {
-                if(webElementList.size()!=1) {
+            if (waitForElementListVisible(webElementList, timeSeconds)) {
+                if (webElementList.size() != 1) {
                     return webElementList.get((int) (Math.random() * webElementList.size() - 1) + 1);
-                    }else{
+                } else {
                     return webElementList.get(0);
-                    }
-                } else{
+                }
+            } else {
                 logger.error("The list of WebElements was not found/visible");
                 throw new NoSuchElementException("WebElements are not visible");
-                }
+            }
         } catch (Exception e) {
             logger.error("List<WebElement> type invalid");
             throw new IllegalAccessException("List<WebElement> type invalid");
         }
     }
+
     /**
      * Method used to return a webElement with specific attribute value from a List<WebElement>
      *
@@ -2879,6 +2882,16 @@ public class CommonFunctions {
         return dateCreated;
     }
 
+    /**
+     * Used to move and click to a element from a list that contains certain value in an attribute
+     *
+     * @param elementList it contains the list with all the elements
+     * @param attribute it contains the attribute used to get the value
+     * @param attributeValue it contains the value for the attribute
+     * @return The webelement that matched with the attributeValue
+     * @throws Exception
+     * @author J.Ruano
+     */
     protected WebElement clickAndMoveToElementClickableFromListByAttribute(List<WebElement> elementList, String attribute, String attributeValue) throws Exception {
         boolean elementFound = false;
         WebElement returnElement = null;
@@ -2898,6 +2911,33 @@ public class CommonFunctions {
         return returnElement;
     }
 
+    /**
+     * Used to move and click to a element from a list that contains certain value in an attribute
+     *
+     * @param elementList it contains the list with all the elements
+     * @param textValue contains the value used to get the correct element
+     * @return The element that matched with the textValue
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> elementList, String textValue) throws Exception {
+        boolean elementFound = false;
+        WebElement returnElement = null;
+        for (WebElement element : elementList) {
+            if (element.getText().trim().equalsIgnoreCase(textValue.trim())) {
+                clickMethod(element);
+                returnElement = element;
+                logger.info("WebElement clicked");
+                elementFound = true;
+                break;
+            }
+        }
+        if (elementFound == false) {
+            logger.error("The Web Element was not found");
+            throw new NoSuchElementException("Element not found");
+        }
+        return returnElement;
+    }
 
     /**
      * Method used to return a random webElement from a List<WebElement>

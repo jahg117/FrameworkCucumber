@@ -1,3 +1,4 @@
+@accountsOperation
 Feature: Setup configurable consents
 
   Background:
