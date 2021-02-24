@@ -33,6 +33,7 @@ public class AccessServices {
     private NewHCPWizardPage newHCPWizardPage;
     private NewCPCWizardPage newCPCWizardPage;
     private NewEmployeeWizardPage newEmployeeWizardPage;
+    private ProductsPage productsPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -59,6 +60,7 @@ public class AccessServices {
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
         newEmployeeWizardPage = PageFactory.initElements(driver, NewEmployeeWizardPage.class);
+        productsPage = PageFactory.initElements(driver, ProductsPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -88,4 +90,5 @@ public class AccessServices {
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
     public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
+    public ProductsPage getProductsPage() { return productsPage; }
 }
