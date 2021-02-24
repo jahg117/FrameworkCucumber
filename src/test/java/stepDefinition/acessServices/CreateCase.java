@@ -12,11 +12,8 @@ public class CreateCase extends ApplicationInstance {
 
     @And("^I create a/an \"([^\"]*)\" case$")
     public void createCaseType(String caseOption) throws Exception {
-        String productEnrollment = "";
-        if(caseOption.equalsIgnoreCase("Denied Patient Savings")||
-                caseOption.equalsIgnoreCase("Free Limited Supply Program")||
-                caseOption.equalsIgnoreCase("General Inquiry")||
-                caseOption.equalsIgnoreCase("In-Home Nurse Support")){
+       String productEnrollment = "";
+       if(!caseOption.equalsIgnoreCase("Interaction")){
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm("AZ");
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
