@@ -1,4 +1,4 @@
-@regressionJR
+@searchOperation
 Feature: Setup configurable consents
 
   Background:
