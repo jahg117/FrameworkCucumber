@@ -48,7 +48,7 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewProductEnrollment() throws Exception {
-        waitForElementVisibility(label_accountPersonName, 30);
+        waitForElementClickable(label_accountPersonName, 30);
         clickElementClickable(button_newProductEnrollment, 15);
     }
 

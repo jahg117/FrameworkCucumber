@@ -42,18 +42,24 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//input[@title='Search Product Enrollments']")
     private WebElement input_searchProductEnrollments;
 
+    @FindBy(xpath = "//*[contains(text(),'Card Number')]/../..//input")
+    private WebElement input_cardNumber;
+
     private By list_productOptions = By.xpath("//ul[@class='lookup__list  visible']//li[contains(@class,'default uiAutocompleteOption')]");
 
     private JsonFiles file = new JsonFiles();
 
     private String caseOption;
-    public void fillRandomMandatoryFields(String caseOption) throws Exception {
+    public void fillRandomMandatoryFields(String caseOption, String productType) throws Exception {
         this.caseOption = caseOption;
         if(caseOption.equalsIgnoreCase("Interaction")){
             fillInteractionForm();
         }else{
+            if(caseOption.contains("Nurse")){
+                productType = "Fasenra Pen";
+            }
             fillInteractionForm();
-            fillAssetRequestForm();
+            fillAssetRequestForm(caseOption, productType);
         }
     }
 
@@ -61,17 +67,29 @@ public class CaseInformationPage extends CommonFunctions {
         selectRandomDropdownOption(dropdown_channel, list_channelOptions);
     }
 
-    public void fillAssetRequestForm() throws Exception {
+    public void fillAssetRequestForm(String caseOption, String productType) throws Exception {
         file.setFileName("caseFields");
         selectRandomDropdownOption(dropdown_subType, list_subTypeOptions);
-        sendKeysAndMoveToElementVisible(input_searchProducts, file.getRandomFieldArray("Products"), 20);
+        if(productType == ""){
+            productType = file.getRandomFieldArray("Products");
+        }
+        sendKeysAndMoveToElementVisible(input_searchProducts, productType, 20);
         waitForElementVisibility(list_autocomplete, 20);
         if(waitForNumberOfElementsToBeMoreThanBy(list_productOptions, 0, 20)){
-            clickAndMoveToElementClickable(getWebElementList(list_productOptions).get(0), 10);
+            waitForElementListVisible(getWebElementList(list_productOptions), 10);
+            for(WebElement el : getWebElementList(list_productOptions)){
+                if(getWebElementText(el).split("\n")[0].equalsIgnoreCase(productType)){
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
         }
-        if(waitForElementListVisible(list_discussTopic, 3)){
+        if(waitForElementListVisible(list_discussTopic, 1)){
             clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, 10), 10);
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        }
+        if(waitForElementVisibility(input_cardNumber, 1)){
+            sendKeysAndMoveToElementVisible(input_cardNumber, getRandomNumber(), 3);
         }
     }
 
@@ -80,6 +98,7 @@ public class CaseInformationPage extends CommonFunctions {
             sendKeysAndMoveToElementVisible(input_searchProductEnrollments, productEnrollment, 20);
             waitForElementVisibility(list_autocomplete, 20);
             if(waitForNumberOfElementsToBeMoreThanBy(list_productOptions, 0, 20)){
+                waitForElementListVisible(getWebElementList(list_productOptions), 10);
                 clickAndMoveToElementClickable(getWebElementList(list_productOptions).get(0), 10);
             }
         }

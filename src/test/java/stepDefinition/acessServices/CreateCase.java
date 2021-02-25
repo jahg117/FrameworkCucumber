@@ -13,9 +13,20 @@ public class CreateCase extends ApplicationInstance {
     @And("^I create a/an \"([^\"]*)\" case$")
     public void createCaseType(String caseOption) throws Exception {
        String productEnrollment = "";
+       String product = "";
        if(!caseOption.equalsIgnoreCase("Interaction")){
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
-            accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm("AZ");
+            if(caseOption.equalsIgnoreCase("In-Home Nurse Support")||
+               caseOption.equalsIgnoreCase("Nurse Support")||
+               caseOption.equalsIgnoreCase("Denied Patient Savings")||
+               caseOption.equalsIgnoreCase("Claims Support")||
+               caseOption.equalsIgnoreCase("Free Limited Supply Program")||
+               caseOption.equalsIgnoreCase("Insurance Authorization")||
+               caseOption.equalsIgnoreCase("Patient Savings Program")||
+               caseOption.equalsIgnoreCase("Pharmacy Coordination")){
+                product = "Fasenra";
+            }
+            product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             productEnrollment = accessServices.getProductEnrollmentPage().getProductEnrollmentNumber();
@@ -27,7 +38,7 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getNewCasePage().clickNextButton();
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         accessServices.getCaseInformationPage().fillPatientDetails(caseOption, productEnrollment);
-        accessServices.getCaseInformationPage().fillRandomMandatoryFields(caseOption);
+        accessServices.getCaseInformationPage().fillRandomMandatoryFields(caseOption, product);
         accessServices.getCaseInformationPage().clickSaveButton();
     }
 }

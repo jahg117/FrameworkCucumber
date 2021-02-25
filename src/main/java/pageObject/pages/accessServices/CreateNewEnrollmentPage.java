@@ -28,7 +28,11 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String product = "";
-        if(productType.equalsIgnoreCase("AZ")||productType.equalsIgnoreCase("DSI")){
+        if(productType.equalsIgnoreCase("")){
+            productType = "AZ";
+        }
+        if(productType.equalsIgnoreCase("AZ")
+        ||productType.equalsIgnoreCase("DSI")){
             JsonFiles file = new JsonFiles();
             file.setFileName("1372_EnrollmentProducts");
             product = file.getRandomFieldArray(productType);
@@ -44,8 +48,13 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public void clickEnrollButton() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
+        waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
-        waitForElementVisibility(button_enroll, 10);
+        waitForElementClickable(button_enroll, 10);
+        scrollToWebElementJS(button_enroll);
+        if(waitForElementNotVisible(button_enroll, 10)){
+
+        }
         doubleClickAndMoveToElementClickable(button_enroll, 10);
         switchToParentFrame();
     }
