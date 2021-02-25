@@ -22,6 +22,9 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//td[@class='pbButtonb ']//input[@value='Enroll']")
     private WebElement button_enroll;
 
+    @FindBy(xpath = "//*[@title='New Care Team Member']")
+    private WebElement button_newCareTeamMember;
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
@@ -50,12 +53,13 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
         waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
-        waitForElementClickable(button_enroll, 10);
-        scrollToWebElementJS(button_enroll);
-        if(waitForElementNotVisible(button_enroll, 10)){
-
-        }
         doubleClickAndMoveToElementClickable(button_enroll, 10);
-        switchToParentFrame();
+        if(!waitForElementVisibility(button_newCareTeamMember, 6)){
+            scrollToWebElementJS(button_enroll);
+            doubleClickAndMoveToElementClickable(button_enroll, 10);
+            switchToParentFrame();
+        }else {
+            switchToParentFrame();
+        }
     }
 }

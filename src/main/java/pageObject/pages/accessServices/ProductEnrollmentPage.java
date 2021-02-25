@@ -11,6 +11,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
 
+    @FindBy(xpath = "(//*[contains(text(),'Cases')]/following::*//a[@title='New Case'])[last()]")
+    private WebElement button_newCase;
+
     @FindBy(xpath = "//div[contains(@class,'truncate')]//slot[@name='primaryField']//lightning-formatted-text")
     private WebElement label_productEnrollmentNumber;
 
@@ -29,6 +32,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
     public void clickNewCareTeamMember() throws Exception {
         clickElementClickable(button_newCareTeamMember, 20);
+    }
+
+    public void clickNewCase() throws Exception {
+        clickAndMoveToElementClickable(button_newCase, 20);
     }
 
     public String getProductEnrollmentNumber() {
