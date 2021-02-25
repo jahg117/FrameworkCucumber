@@ -2004,6 +2004,16 @@ public class CommonFunctions {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(randomDate);
     }
+    /**
+     * Return a random number
+     *
+     * @return a random String number
+     * @author Alejandro Hernandez
+     */
+    protected String getRandomNumber(){
+        Random random = new Random();
+        return String.valueOf(random.nextInt(100000));
+    }
 
     /**
      * Method used to select a random dropdown option by index

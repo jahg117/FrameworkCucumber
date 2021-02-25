@@ -14,6 +14,9 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//*[@data-component-id='ACS_PatientWizardParentComponent']")
     private WebElement form_patientConsumerCaregiver;
 
+    @FindBy(xpath = "//select[@data-name='salutation']")
+    private WebElement dropdown_prefix;
+
     @FindBy(xpath = "//input[@data-name='first']")
     private WebElement input_firstName;
 
@@ -67,9 +70,9 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
         patientDetails.put("date", getRandomDate());
 
-        waitForElementVisibility(input_firstName, 20);
-        sendKeysElementClickable(input_firstName, patientDetails.get("firstName"), 10);
-        sendKeysElementClickable(input_lastName, patientDetails.get("lastName"), 10);
+        clickAndMoveToElementClickable(dropdown_prefix, 20);
+        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
+        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
         String randomDate = patientDetails.get("date");
         clickElementVisible(input_informalName, 5);
