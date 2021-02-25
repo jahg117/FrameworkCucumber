@@ -30,9 +30,12 @@ public class CreateCase extends ApplicationInstance {
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             productEnrollment = accessServices.getProductEnrollmentPage().getProductEnrollmentNumber();
-            accessServices.getSubTabsPage().closeSubTab(0);
+            accessServices.getPersonAccountPage().clickNewCase();
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            accessServices.getProductEnrollmentPage().clickNewCase();
+            //accessServices.getSubTabsPage().closeSubTab(0);
         }
-        clickNewCase();
+        //clickNewCase();
         accessServices.getNewCasePage().isNewCaseFormDisplayed();
         accessServices.getNewCasePage().selectCaseOption(caseOption);
         accessServices.getNewCasePage().clickNextButton();

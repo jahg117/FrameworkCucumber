@@ -14,7 +14,7 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Product Enrollments')]/following::*[@title='New']")
     private WebElement button_newProductEnrollment;
 
-    @FindBy(xpath = "//*[contains(text(),'Cases')]/following::*//a[@title='New Case']")
+    @FindBy(xpath = "(//*[contains(text(),'Cases')]/following::*//a[@title='New Case'])[last()]")
     private WebElement button_newCase;
 
     @FindBy(xpath = "//th[@data-label='Product Enrollment Number']//a/span")
