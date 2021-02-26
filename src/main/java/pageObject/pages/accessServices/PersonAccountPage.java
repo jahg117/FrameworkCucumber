@@ -54,7 +54,6 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickNewCase() throws Exception {
         waitForElementVisibility(button_newCase, 30);
-        scrollToWebElementJS(button_newCase);
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 

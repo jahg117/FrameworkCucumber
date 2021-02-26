@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.accessServices.*;
 import pageObject.pages.accessServices.Cases.CaseInformationPage;
 import pageObject.pages.accessServices.Cases.NewCasePage;
+import pageObject.pages.accessServices.Cases.UpdateCaseContactWizardPage;
 
 public class AccessServices {
     private WebDriver driver;
@@ -34,6 +35,7 @@ public class AccessServices {
     private NewCPCWizardPage newCPCWizardPage;
     private NewEmployeeWizardPage newEmployeeWizardPage;
     private ProductsPage productsPage;
+    private UpdateCaseContactWizardPage updateCaseContactWizardPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -61,6 +63,7 @@ public class AccessServices {
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
         newEmployeeWizardPage = PageFactory.initElements(driver, NewEmployeeWizardPage.class);
         productsPage = PageFactory.initElements(driver, ProductsPage.class);
+        updateCaseContactWizardPage = PageFactory.initElements(driver, UpdateCaseContactWizardPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -91,4 +94,5 @@ public class AccessServices {
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
     public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
     public ProductsPage getProductsPage() { return productsPage; }
+    public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() { return updateCaseContactWizardPage; }
 }
