@@ -22,13 +22,20 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//td[@class='pbButtonb ']//input[@value='Enroll']")
     private WebElement button_enroll;
 
+    @FindBy(xpath = "//*[@title='New Care Team Member']")
+    private WebElement button_newCareTeamMember;
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String product = "";
-        if(productType.equalsIgnoreCase("AZ")||productType.equalsIgnoreCase("DSI")){
+        if(productType.equalsIgnoreCase("")){
+            productType = "AZ";
+        }
+        if(productType.equalsIgnoreCase("AZ")
+        ||productType.equalsIgnoreCase("DSI")){
             JsonFiles file = new JsonFiles();
             file.setFileName("1372_EnrollmentProducts");
             product = file.getRandomFieldArray(productType);
@@ -44,9 +51,15 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public void clickEnrollButton() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
+        waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
-        waitForElementVisibility(button_enroll, 10);
         doubleClickAndMoveToElementClickable(button_enroll, 10);
-        switchToParentFrame();
+        if(!waitForElementVisibility(button_newCareTeamMember, 6)){
+            scrollToWebElementJS(button_enroll);
+            doubleClickAndMoveToElementClickable(button_enroll, 10);
+            switchToParentFrame();
+        }else {
+            switchToParentFrame();
+        }
     }
 }
