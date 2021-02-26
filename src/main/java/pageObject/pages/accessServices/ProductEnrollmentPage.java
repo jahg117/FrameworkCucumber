@@ -40,9 +40,6 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//slot[@slot='primaryField']")
     private WebElement label_pmProductEnrollment;
 
-    @FindBy(xpath = "//a[@title='New Case']")
-    private WebElement button_pmNewCase;
-
     @FindBy(xpath = "//*[@id='brandBand_1']//tbody/tr[1]")
     private WebElement tableRow_pmFirstRow;
 
@@ -55,13 +52,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
         clickElementClickable(button_newCareTeamMember, 20);
     }
 
-    public void clickNewCase() throws Exception {
-        clickAndMoveToElementClickable(button_newCase, 20);
-    }
-
     public String getProductEnrollmentNumber() {
         if (waitForElementVisibility(label_productEnrollmentNumber, 10)) {
-            return label_productEnrollmentNumber.getText();
+            return getWebElementText(label_productEnrollmentNumber);
         } else {
             return "";
         }
@@ -88,8 +81,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
     public void createNewAttestationConsent() throws Exception {
-        clickElementClickable(label_attestationTabOption, 10);
-        clickElementClickable(button_newConsent, 10);
+        clickElementClickable(button_newConsent, 30);
     }
 
     /**
@@ -99,8 +91,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void clickOnNewCase() throws Exception {
-        waitForElementVisibility(label_pmProductEnrollment, shortTimeOutInSeconds);
-        clickAndMoveToElementClickable(button_pmNewCase, shortTimeOutInSeconds);
+        clickAndMoveToElementClickable(button_newCase, 30);
     }
 
     /**
