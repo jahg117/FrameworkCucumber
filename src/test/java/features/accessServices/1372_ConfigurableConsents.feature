@@ -1,4 +1,4 @@
-@regression
+@1372_egression
 Feature: Setup configurable consents
 
   Background:
@@ -9,7 +9,7 @@ Feature: Setup configurable consents
 
   Scenario: Create AZ product enrollment consent
     Given I click on new Account
-    When I click on new and I select "Consumer/Patient/Caregiver" account
+    When I click on new and I select "<accountType>" account
     Then I fill the mandatory fields from the account form
     And I click on new product enrollment button
     And I enter a valid "AZ" product in the product enrollment form
@@ -17,6 +17,9 @@ Feature: Setup configurable consents
     And I select the created program enrollment
     And I select the "Accounts" menu option
     And I validate the patient account was created
+
+      | accountType |
+      | CPC         |
 
   Scenario: Create DSI product enrollment consent
     Given I click on new Account
