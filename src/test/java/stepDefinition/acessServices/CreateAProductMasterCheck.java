@@ -26,9 +26,13 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
         accessServices.getProductsPage().selectProductView(productView);
     }
 
-    @Then("I search and select for the {string} at Products page")
-    public void searchProductByName(String productName) throws Exception {
-        accessServices.getProductsPage().searchProductOrPE(productName);
+    @Then("I search and select for the {string} {string} at Products page")
+    public void searchProductByName(String productName, String searchFromFile) throws Exception {
+        if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
+            accessServices.getProductsPage().searchProductOrPE(productName = commonData.product.getProduct().trim());
+        }else{
+            accessServices.getProductsPage().searchProductOrPE(productName);
+        }
         Assert.assertTrue(accessServices.getProductsPage().searchAndClickProductFromResults(productName), "Items Were Displayed");
     }
 
@@ -38,9 +42,14 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     }
 
     //============PRODUCT ENROLLMENTS MASTER CHECK By ACCESS SERVICES>PRODUCT ENROLLMENTS SELECTION
-    @Given("a product enrollment i search the PE {string} and click it")
-    public void searchPE(String productEnrollment) throws Exception {
-        accessServices.getProductsPage().searchProductOrPE(productEnrollment);//TBD FROM WHERE WE GETTING THE PE PE-005677 PE-000035
+    @Given("a product enrollment i search the PE {string} {string} and click it")
+    public void searchPE(String productEnrollment, String searchFromFile) throws Exception {
+        if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
+            accessServices.getProductsPage().searchProductOrPE(productEnrollment =commonData.productEnrollment.getProductEnrollment().trim());
+        }else{
+            accessServices.getProductsPage().searchProductOrPE(productEnrollment);
+        }
+        //accessServices.getProductsPage().searchProductOrPE(productEnrollment);//TBD FROM WHERE WE GETTING THE PE PE-005677 PE-000035
         Assert.assertTrue(accessServices.getProductEnrollmentPage().searchAndClickPEFromResults(productEnrollment), "No items to display with PE: " + productEnrollment);
         accessServices.getProductEnrollmentPage().clickOnNewCase();
     }

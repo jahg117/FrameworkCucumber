@@ -5,20 +5,31 @@ Feature: Setup configurable consents
     Given I login as an "admin" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
-    And I select the "Products" menu option
+    And I select the "Customer Lookup" menu option
 
-  Scenario Outline: Create a new Product Master Service Provided validation from Products page
+  Scenario Outline: Create product enrollment if it is necessary to create a new Product Master Service Provided validation from Products page
+    Given "<searchFromFile>" it selects which steps will be execute
+    Given I click on new Account
+    When I click on new and I select from table the "<accountType>" account
+    Then I fill the mandatory fields from the account form
+    And I enter a product enrollment in the product enrollment form
+      | ProductEnrollment |
+      | AZ                |
+    Then I Validate the product enrollment is displayed at Product Enrollments table
+    Then I close all open tabs
+    And I select the "Products" menu option
     Given The product select view title "<selectProductView>" i select the product view filter at Products page
-    Then I search and select for the "<productName>" at Products page
+    Then I search and select for the "<productName>" "<searchFromFile>" at Products page
     Then I get the services provided list at Products page
     Then I search the "Access Services" app
     Then I close all open tabs
     And I select the "Product Enrollments" menu option
     Given The product select view title "<productEnrollmentView>" i select the product view filter at Products page
-    Given a product enrollment i search the PE "<productEnrollment>" and click it
+    Given a product enrollment i search the PE "<productEnrollment>" "<searchFromFile>" and click it
     Then I click on new case to validate the services provided for the product selected
+    Then delete the value of the executionFlag
 
     Examples:
-      | selectProductView | productEnrollmentView | productName | productEnrollment | searchFromFile |
-      | All Products      | All                   | FASENRA     | PE-000035         | Y              |
+      | accountType | selectProductView | productEnrollmentView | productName | productEnrollment | searchFromFile |
+      | CPC         | All Products      | All                   | Enhertu     | PE-000016         | N_A            |
 

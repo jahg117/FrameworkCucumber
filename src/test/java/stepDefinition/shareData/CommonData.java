@@ -6,4 +6,5 @@ public class CommonData {
     public ConsentType consentType;
     public CareTeamMember careTeamMember;
     public ProductServicesProvided productServicesProvided;
+    public Product product;
 }
