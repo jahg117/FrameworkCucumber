@@ -51,15 +51,14 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public void clickEnrollButton() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
+        waitForElementClickable(input_product, 10);
         waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
+        waitForElementClickable(button_enroll, 10);
         doubleClickAndMoveToElementClickable(button_enroll, 10);
-        if(!waitForElementVisibility(button_newCareTeamMember, 6)){
             scrollToWebElementJS(button_enroll);
             doubleClickAndMoveToElementClickable(button_enroll, 10);
             switchToParentFrame();
-        }else {
-            switchToParentFrame();
-        }
+
     }
 }

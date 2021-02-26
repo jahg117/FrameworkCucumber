@@ -2718,6 +2718,20 @@ public class CommonFunctions {
             throw new NoSuchElementException("The sub-tab was not found");
         }
     }
+    protected void closeLastSubTabSF(int waitTime) throws Exception {
+        try {
+            By pathForSubTabs = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')])[last()]");
+            if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)) {
+                clickAndMoveToElementClickable(getWebElement(pathForSubTabs), 10);
+                logger.info("Switch to sub-tab");
+            } else {
+                logger.warn("The sub-tab is not visible");
+            }
+        } catch (Exception e) {
+            logger.error("The tab was not found");
+            throw new NoSuchElementException("The sub-tab was not found");
+        }
+    }
 
     /**
      * Method used to select a random dropdown excluding 'None'
