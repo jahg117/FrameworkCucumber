@@ -9,6 +9,6 @@ public class UpdateCaseContactWizardPage extends CommonFunctions {
     private WebElement label_caseContact;
 
     public boolean isCaseContactWizardPageDisplayed(){
-        return waitForElementVisibility(label_caseContact, 30);
+        return waitForElementVisibility(label_caseContact, 15);
     }
 }
