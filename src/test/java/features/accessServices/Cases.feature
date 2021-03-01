@@ -11,7 +11,12 @@ Feature: Cases
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
     Then I fill the mandatory fields from the account form
-    And I create a/an "Denied Patient Savings" case
+    And I click on new product enrollment button
+    And I enter a valid "<productName>" product in the product enrollment form
+    And I click on enroll button
+    And I click on new Case
+    And I select the case type "<caseType>"
+    And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     Examples:
-      | productName | caseType | channel    | caseStatus | caseSubType |
-      | AZ          | random   | random     | Open       | random      |
+      | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+      | AZ          | random   | random     | Open       | random      | random       | random     |
