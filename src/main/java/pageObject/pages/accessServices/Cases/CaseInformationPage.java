@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CaseInformationPage extends CommonFunctions {
@@ -42,11 +43,7 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Card Number')]/../..//input")
     private WebElement input_cardNumber;
 
-    public void fillRandomMandatoryFields(String caseOption, String productType) throws Exception {
-        fillCaseInformationForm(caseOption, productType);
-    }
-
-    public void fillCaseInformationForm(String caseOption, String productType) throws Exception {
+    public void fillCaseInformationForm() throws Exception {
         selectRandomDropdownOption(dropdown_channel, list_dropdownOptions);
         selectSpecificDropdownOption(dropdown_caseStatus, list_dropdownOptions, "Open");
         selectRandomDropdownOption(dropdown_subType, list_dropdownOptions);
@@ -59,12 +56,49 @@ public class CaseInformationPage extends CommonFunctions {
         }
     }
 
+    public void fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
+        selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
+        selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
+        selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType"));
+        if(waitForElementListVisible(list_discussTopic, 1)){
+            if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
+                clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, 10), 10);
+            }else{
+                for (WebElement el : list_discussTopic) {
+                    if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
+                        clickAndMoveToElementClickable(el, 10);
+                    }
+                }
+            }
+            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        }
+        if(waitForElementVisibility(input_cardNumber, 1)){
+            String number = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
+            sendKeysAndMoveToElementVisible(input_cardNumber, number, 3);
+        }
+    }
+
     public void clickSaveButton() throws Exception {
         clickAndMoveToElementClickable(button_save, 10);
     }
 
     public boolean isCaseOptionPageDisplayed(){
         return waitForElementVisibility(form_caseOptions, 30);
+    }
+
+    public void selectDropdownOption(WebElement element, List<WebElement> listElement, String option) throws Exception {
+        clickAndMoveToElementClickable(element, 10);
+        waitForElementListVisible(listElement, 10);
+        if(option.equalsIgnoreCase("random")){
+            clickAndMoveToElementClickable(getRandomWebElementFromListExceptFirst(listElement, 10), 10);
+        }else{
+            for(WebElement el : listElement){
+                if(getWebElementText(el).equalsIgnoreCase(option)){
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+        }
     }
 
     private void selectRandomDropdownOption(WebElement element, List<WebElement> listElement) throws Exception {

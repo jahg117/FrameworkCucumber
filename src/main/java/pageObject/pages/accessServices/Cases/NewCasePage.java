@@ -21,6 +21,9 @@ public class NewCasePage extends CommonFunctions {
     @FindBy(xpath = "//*[@role='option']//span[@title]")
     private List<WebElement> list_recordTypeList;
 
+    @FindBy(xpath = "(//div[contains(@class,'forceDetailPanelDesktop')])[last()]//*[contains(text(),'New Case')]")
+    private WebElement form_caseOptions;
+
 
     public boolean isNewCaseFormDisplayed() {
         waitForPageToLoad();
@@ -29,10 +32,14 @@ public class NewCasePage extends CommonFunctions {
 
     public void selectCaseOption(String caseOption) throws Exception {
         clickElementClickable(dropdown_recordType, 10);
-        for (WebElement el : list_recordTypeList) {
-            if (getWebElementAttribute(el,"title").equalsIgnoreCase(caseOption)) {
-                clickAndMoveToElementClickable(el, 10);
-                break;
+        if(caseOption.equalsIgnoreCase("random")){
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, 10),10);
+        }else{
+            for (WebElement el : list_recordTypeList) {
+                if (getWebElementAttribute(el,"title").equalsIgnoreCase(caseOption)) {
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
             }
         }
     }
@@ -42,6 +49,9 @@ public class NewCasePage extends CommonFunctions {
         waitForElementClickable(dropdown_recordType, 10);
         waitForElementClickable(button_continue, 10);
         clickAndMoveToElementClickable(button_continue, 10);
+        if(!waitForElementVisibility(form_caseOptions, 10)){
+            clickAndMoveToElementClickable(button_continue, 10);
+        }
     }
 
     /**
