@@ -32,7 +32,7 @@ public class AppLauncherPage extends CommonFunctions {
             } else {
                 appOpen = false;
             }
-        }else{
+        } else {
             appOpen = true;
         }
         return appOpen;
