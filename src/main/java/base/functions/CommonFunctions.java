@@ -3,7 +3,6 @@ package base.functions;
 import base.driverInitialize.DriverFactory;
 
 import com.github.javafaker.Faker;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -2007,13 +2006,14 @@ public class CommonFunctions {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(randomDate);
     }
+
     /**
      * Return a random number
      *
      * @return a random String number
      * @author Alejandro Hernandez
      */
-    protected String getRandomNumber(){
+    protected String getRandomNumber() {
         Random random = new Random();
         return String.valueOf(random.nextInt(100000));
     }
@@ -2718,6 +2718,7 @@ public class CommonFunctions {
             throw new NoSuchElementException("The sub-tab was not found");
         }
     }
+
     protected void closeLastSubTabSF(int waitTime) throws Exception {
         try {
             By pathForSubTabs = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')])[last()]");
@@ -2909,8 +2910,8 @@ public class CommonFunctions {
     /**
      * Used to move and click to a element from a list that contains certain value in an attribute
      *
-     * @param elementList it contains the list with all the elements
-     * @param attribute it contains the attribute used to get the value
+     * @param elementList    it contains the list with all the elements
+     * @param attribute      it contains the attribute used to get the value
      * @param attributeValue it contains the value for the attribute
      * @return The webelement that matched with the attributeValue
      * @throws Exception
@@ -2939,7 +2940,7 @@ public class CommonFunctions {
      * Used to move and click to a element from a list that contains certain value in an attribute
      *
      * @param elementList it contains the list with all the elements
-     * @param textValue contains the value used to get the correct element
+     * @param textValue   contains the value used to get the correct element
      * @return The element that matched with the textValue
      * @throws Exception
      * @author J.Ruano
@@ -3073,5 +3074,17 @@ public class CommonFunctions {
             logger.error("Element not clickable");
             logger.error(e.getMessage());
         }
+    }
+
+    /**
+     * Use to generate a random number between a min and max value
+     *
+     * @param min contains the min value that can contains the randomNumber
+     * @param max contains the max value that can contains the randomNumber
+     * @return an integer value selected between the range min - max
+     * @author J.Ruano
+     */
+    public int getRandomNumberByLimits(int min, int max) {
+        return (int) (Math.floor(Math.random() * (1 + max - 1)));
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.Map;
 
 public class NewAccountPage extends CommonFunctions {
 
@@ -31,12 +32,13 @@ public class NewAccountPage extends CommonFunctions {
     /**
      * Used to assign the correct string value for the dropdown option
      *
-     * @param accountType contains the abreviation of the account type the available optios are:
+     * @param accountType contains the abbreviation of the account type the available optios are:
      *                    hca (Facility)
      *                    hcp (Health Care Provider)
      *                    cpc (Consumer/Patient/Caregiver)
      *                    emp (Employee)
      * @throws Exception
+     * @author J.Ruano
      */
     public String assignCorrectAccountTypeValue(String accountType) throws Exception {
         String dropdownOption = "";
@@ -58,5 +60,40 @@ public class NewAccountPage extends CommonFunctions {
                 break;
         }
         return dropdownOption;
+    }
+
+    /**
+     *Use to select a random accountType or an specific accountType from table
+     *
+     * @param accountTypeList it contains all the accounts type
+     * @return it returns the account type to be used
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public String selectAccountTypeFromList(List<Map<String, String>> accountTypeList) throws Exception {
+        int counter = 0;
+        String accountTypeSelected = "";
+        boolean rndSelected = false;
+        for (Map<String, String> accountType : accountTypeList) {
+            if (accountTypeList.get(counter).get("accountType").equalsIgnoreCase("RND")) {
+                if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                    accountTypeSelected = accountTypeList.get(getRandomNumberByLimits(1, accountTypeList.size())).get("accountType");
+                    rndSelected = true;
+                    break;
+                }
+            }
+            counter++;
+        }
+        counter = 0;
+        if (!rndSelected) {
+            for (Map<String, String> accountType : accountTypeList) {
+                if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                    accountTypeSelected = accountTypeList.get(counter).get("accountType");
+                    break;
+                }
+                counter++;
+            }
+        }
+        return accountTypeSelected;
     }
 }

@@ -42,7 +42,6 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
     @Given("^I click on new Account$")
     public void clickNewAccount() throws Exception {
-        String Test = executionFlag;
         if (executionFlag.trim().equalsIgnoreCase("") || executionFlag.isEmpty() || !executionFlag.trim().equalsIgnoreCase("N_A")) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
             accessServices.getCustomerLookupPage().clickNewAccount();
@@ -51,9 +50,12 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
-    @When("^I click on new and I select \"([^\"]*)\" account$")
-    public void selectAccountType(String accountType) throws Exception {
-        accessServices.getNewAccountPage().selectRecordType(accountType);
+    @When("^I click on new and I select accountType$")
+    public void selectAccountType(DataTable dataTable) throws Exception {
+        List<Map<String, String>> accountTypeList = dataTable.asMaps(String.class, String.class);
+        String dropdownOption = accessServices.getNewAccountPage().selectAccountTypeFromList(accountTypeList);
+        dropdownOption = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(dropdownOption);
+        accessServices.getNewAccountPage().selectRecordType(dropdownOption);
     }
 
     @Then("^I fill the mandatory fields from the account form$")

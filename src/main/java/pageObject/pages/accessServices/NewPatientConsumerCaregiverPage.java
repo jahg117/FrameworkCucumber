@@ -71,6 +71,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("date", getRandomDate());
 
         clickAndMoveToElementClickable(dropdown_prefix, 20);
+        input_firstName.clear();
         sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
         sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
