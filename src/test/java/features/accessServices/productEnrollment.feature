@@ -11,5 +11,5 @@ Feature: Product Enrollment
     When I click on new and I select "Consumer/Patient/Caregiver" account
     Then I fill the mandatory fields from the account form
     And I enter a product enrollment in the product enrollment form
-        |ProductEnrollment|
-        |AZ               |
+      | ProductEnrollment |
+      | AZ                |

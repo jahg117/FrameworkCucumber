@@ -1,15 +1,28 @@
 package stepDefinition.salesforce;
 
+import base.functions.CommonFunctions;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 
+import java.util.List;
+import java.util.Map;
+
 public class SalesforceLoginSteps extends ApplicationInstance {
 
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
+        salesforce.goTo();
+        salesforce.getLoginPage().enterUserPassword(salesForceUser);
+    }
+
+    @Given("^I login according to the account selected from table$")
+    public void loginPageCredentials(DataTable dataTable) throws Throwable {
+        List<Map<String, String>> userAccountList = dataTable.asMaps(String.class, String.class);
+        String salesForceUser = salesforce.getLoginPage().selectUserFromList(userAccountList);
         salesforce.goTo();
         salesforce.getLoginPage().enterUserPassword(salesForceUser);
     }
@@ -23,7 +36,7 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     @Then("^I search the \"([^\"]*)\" app$")
     public void the_AppPage(String appName) throws Throwable {
         boolean page = salesforce.getAppLauncherPage().searchAppName(appName);
-        Assert.assertTrue(page, appName+" page was not displayed");
+        Assert.assertTrue(page, appName + " page was not displayed");
     }
 
 }

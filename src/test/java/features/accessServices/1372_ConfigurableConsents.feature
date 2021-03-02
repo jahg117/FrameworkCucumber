@@ -1,15 +1,30 @@
-@1372_egression
 Feature: Setup configurable consents
 
   Background:
-    Given I login as an "admin" user
+    Given I login according to the account selected from table
+      | userAccount | useThisAccount |
+      | RND         | N              |
+      | admin       | N              |
+      | agent       | N              |
+      | manager     | Y              |
+      | frm         | N              |
+      | externalFrm | N              |
+
     When the salesforce page is displayed
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
-  Scenario: Create AZ product enrollment consent
+  @1372_regression
+  Scenario Outline: Create AZ product enrollment consent
+    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
     Given I click on new Account
-    When I click on new and I select "<accountType>" account
+    When I click on new and I select accountType
+      | accountType | useThisAccount |
+      | RND         | N              |
+      | HCA         | N              |
+      | HCP         | N              |
+      | CPC         | Y              |
+      | EMP         | N              |
     Then I fill the mandatory fields from the account form
     And I click on new product enrollment button
     And I enter a valid "AZ" product in the product enrollment form
@@ -18,8 +33,9 @@ Feature: Setup configurable consents
     And I select the "Accounts" menu option
     And I validate the patient account was created
 
-      | accountType |
-      | CPC         |
+    Examples:
+      | dummyValue  | accountType |
+      | dummySearch | CPC         |
 
   Scenario: Create DSI product enrollment consent
     Given I click on new Account

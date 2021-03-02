@@ -63,4 +63,10 @@ public class CreateAConsent extends ApplicationInstance {
     public void validateValidPAFValue(String validPAF) throws Exception{
         Assert.assertTrue(accessServices.getAccountsRecentlyViewedPage().validateValidPAFValue(validPAF), "The Valid PAF Column Message '" + validPAF + "' Matched");
     }
+
+    //============CPC
+    @Given("A dummyValue I enter the first name of the CPC as {string} with and account type {string} at CustomerLookup page for a Consent")
+    public void doDummySearchCPC(String dummyValue, String accountType) throws Exception {
+        accessServices.getCustomerLookupPage().doDummySearch(dummyValue, accountType);
+    }
 }
