@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.accessServices.*;
 import pageObject.pages.accessServices.Cases.CaseInformationPage;
+import pageObject.pages.accessServices.Cases.CasePage;
 import pageObject.pages.accessServices.Cases.NewCasePage;
 import pageObject.pages.accessServices.Cases.UpdateCaseContactWizardPage;
 
@@ -29,6 +30,7 @@ public class AccessServices {
     private SubTabsPage subTabsPage;
     private ProductEnrollmentsTablePage productEnrollmentsTablePage;
     private NewCasePage newCasePage;
+    private CasePage casePage;
     private CaseInformationPage caseInformationPage;
     private NewHCAWizardPage newHCAWizardPage;
     private NewHCPWizardPage newHCPWizardPage;
@@ -57,6 +59,7 @@ public class AccessServices {
         subTabsPage = PageFactory.initElements(driver, SubTabsPage.class);
         productEnrollmentsTablePage = PageFactory.initElements(driver, ProductEnrollmentsTablePage.class);
         newCasePage = PageFactory.initElements(driver, NewCasePage.class);
+        casePage = PageFactory.initElements(driver, CasePage.class);
         caseInformationPage = PageFactory.initElements(driver, CaseInformationPage.class);
         newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
@@ -88,6 +91,7 @@ public class AccessServices {
     public SubTabsPage getSubTabsPage() { return subTabsPage; }
     public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
     public NewCasePage getNewCasePage() { return newCasePage; }
+    public CasePage getCasePage() { return casePage; }
     public CaseInformationPage getCaseInformationPage() { return caseInformationPage; }
     public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
