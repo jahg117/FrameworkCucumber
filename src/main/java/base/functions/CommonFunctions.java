@@ -2721,10 +2721,12 @@ public class CommonFunctions {
 
     protected void closeLastSubTabSF(int waitTime) throws Exception {
         try {
-            By pathForSubTabs = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')])[last()]");
-            if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)) {
-                clickAndMoveToElementClickable(getWebElement(pathForSubTabs), 10);
-                logger.info("Switch to sub-tab");
+            By subTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]");
+            By lastSubTab = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]//button)[last()]");
+            if (waitForPresenceOfAllElementsLocatedBy(subTabs, waitTime)) {
+                waitForPresenceOfAllElementsLocatedBy(subTabs, waitTime);
+                clickAndMoveToElementClickable(getWebElement(lastSubTab), waitTime);
+                logger.info("sub-tab "+lastSubTab+ " clicked");
             } else {
                 logger.warn("The sub-tab is not visible");
             }
