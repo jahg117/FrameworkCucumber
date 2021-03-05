@@ -43,6 +43,18 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Card Number')]/../..//input")
     private WebElement input_cardNumber;
 
+    @FindBy(xpath = "//span[contains(@class,'genericError')]")
+    private WebElement label_genericError;
+
+    @FindBy(xpath = "//*[contains(text(),'Product')]/following::*[./text()=\"Product\"]/../..//span[@class='deleteIcon']")
+    private WebElement button_deleteProduct;
+
+    @FindBy(xpath = "//input[@title='Search Products']")
+    private WebElement input_searchProducts;
+
+    @FindBy(xpath = "//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]")
+    private List<WebElement> list_autocompleteElements;
+
     public void fillCaseInformationForm() throws Exception {
         selectRandomDropdownOption(dropdown_channel, list_dropdownOptions);
         selectSpecificDropdownOption(dropdown_caseStatus, list_dropdownOptions, "Open");
@@ -56,49 +68,85 @@ public class CaseInformationPage extends CommonFunctions {
         }
     }
 
-    public void fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
-        selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
-        selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
-        selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType"));
+    public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
+        HashMap<String, String> caseInformationForm = new HashMap<>();
+        String webElementOption;
+        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
+        caseInformationForm.put("Channel", webElementOption);
+        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
+        caseInformationForm.put("CaseStatus", webElementOption);
+        webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
+        caseInformationForm.put("CaseSubType", webElementOption);
         if(waitForElementListVisible(list_discussTopic, 1)){
             if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
-                clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, 10), 10);
+                WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
+                webElementOption = getWebElementText(el);
+                clickAndMoveToElementClickable(el, 10);
             }else{
                 for (WebElement el : list_discussTopic) {
                     if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
+                        webElementOption = getWebElementText(el);
                         clickAndMoveToElementClickable(el, 10);
                     }
                 }
             }
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        }else{
+            webElementOption = "";
         }
+        caseInformationForm.put("DiscussTopic", webElementOption);
         if(waitForElementVisibility(input_cardNumber, 1)){
-            String number = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
-            sendKeysAndMoveToElementVisible(input_cardNumber, number, 3);
+            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
+            caseInformationForm.put("CardNumber", webElementOption);
+            sendKeysAndMoveToElementVisible(input_cardNumber, webElementOption, 3);
+        }else{
+            webElementOption = "";
         }
+        caseInformationForm.put("CardNumber", webElementOption);
+        return caseInformationForm;
     }
 
-    public void clickSaveButton() throws Exception {
+    public String clickSaveButton() throws Exception {
+        String product = "";
         clickAndMoveToElementClickable(button_save, 10);
+        if(waitForElementVisibility(label_genericError, 5)){
+            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 5);
+            sendKeysAndMoveToElementVisible(input_searchProducts, "Symbicort",5);
+            waitForElementListVisible(list_autocompleteElements, 10);
+            for (WebElement el : list_autocompleteElements) {
+                if(getWebElementText(el).equalsIgnoreCase("Symbicort")){
+                    product = getWebElementText(el);
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+            clickAndMoveToElementClickable(button_save, 10);
+        }
+        return product;
     }
 
     public boolean isCaseOptionPageDisplayed(){
         return waitForElementVisibility(form_caseOptions, 30);
     }
 
-    public void selectDropdownOption(WebElement element, List<WebElement> listElement, String option) throws Exception {
+    public String selectDropdownOption(WebElement element, List<WebElement> listElement, String option) throws Exception {
+        String textElement = "";
         clickAndMoveToElementClickable(element, 10);
         waitForElementListVisible(listElement, 10);
         if(option.equalsIgnoreCase("random")){
-            clickAndMoveToElementClickable(getRandomWebElementFromListExceptFirst(listElement, 10), 10);
+            WebElement el = getRandomWebElementFromListExceptFirst(listElement, 10);
+            textElement = getWebElementText(el);
+            clickAndMoveToElementClickable(el, 10);
         }else{
             for(WebElement el : listElement){
                 if(getWebElementText(el).equalsIgnoreCase(option)){
+                    textElement = getWebElementText(el);
                     clickAndMoveToElementClickable(el, 10);
                     break;
                 }
             }
         }
+        return textElement;
     }
 
     private void selectRandomDropdownOption(WebElement element, List<WebElement> listElement) throws Exception {

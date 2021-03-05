@@ -71,6 +71,11 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
+    @When("^I click on new and I select \"([^\"]*)\" account$")
+    public void selectAccountType(String accountType) throws Exception{
+        accessServices.getNewAccountPage().selectRecordType(accountType);
+    }
+
     @And("^I click on new product enrollment button$")
     public void clickNewProductEnrollment() throws Exception {
         accessServices.getPersonAccountPage().clickNewProductEnrollment();
