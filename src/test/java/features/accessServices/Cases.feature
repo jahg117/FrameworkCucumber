@@ -1,4 +1,4 @@
-@smoke
+@cases
 Feature: Cases
 
   Background:
