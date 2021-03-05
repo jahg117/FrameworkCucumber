@@ -1,5 +1,6 @@
 package pageObject.pages.salesforce;
 
+import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import base.functions.CommonFunctions;
@@ -23,8 +24,10 @@ public class LoginPage extends CommonFunctions {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
         waitForPageToLoad();
-        sendKeysElementVisible(input_username, fileReading.getField(salesforceUser), 20);
-        sendKeysElementVisible(input_password, fileReading.getField(salesforceUser + "Password"), 10);
+        String usr = new String(Base64.decodeBase64(fileReading.getField(salesforceUser).getBytes()));
+        String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
+        sendKeysElementVisible(input_username, usr, 20);
+        sendKeysElementVisible(input_password, pass, 10);
         clickElementVisible(button_login, 10);
     }
 
