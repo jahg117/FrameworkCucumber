@@ -19,11 +19,21 @@ public class CreateCase extends ApplicationInstance {
         this.commonData = commonData;
     }
 
-    @And("^I click on new Case")
+    @And("^I click on new Case from the product enrollment page")
     public void clickNewCase() throws Exception {
         accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-        String productEnrollment = accessServices.getProductEnrollmentPage().getProductEnrollmentNumber();
         accessServices.getProductEnrollmentPage().clickOnNewCase();
+    }
+
+    @And("^I click on new Case from the person account page")
+    public void clickNewCasePersonAccount() throws Exception {
+        accessServices.getPersonAccountPage().clickNewCase();
+    }
+
+    @And("^I select the case type option \"([^\"]*)\"$")
+    public void selectCaseTypeOptionsPage(String caseOption) throws Exception {
+        accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed();
+        accessServices.getNewCaseOptionsPage().selectCaseOption("Interaction");
     }
 
     @And("^I select the case type \"([^\"]*)\"$")
@@ -47,6 +57,11 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);
         commonData.product = new Product(product);
+    }
+
+    @And("^I fill the new interaction mandatory fields$")
+    public void fillNewInteractionMandatoryFields() throws Exception {
+        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
     }
 
     @And("^I validate the correct case information is displayed$")
