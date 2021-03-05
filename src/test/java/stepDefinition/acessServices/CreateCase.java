@@ -44,8 +44,7 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
         String product = accessServices.getCaseInformationPage().clickSaveButton();
-        if(accessServices.getUpdateCaseContactWizardPage().isCaseContactWizardPageDisplayed())
-            accessServices.getSubTabsPage().closeLastSubTab();
+        accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);
         commonData.product = new Product(product);
     }
@@ -73,7 +72,6 @@ public class CreateCase extends ApplicationInstance {
        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
        accessServices.getCaseInformationPage().fillCaseInformationForm();
        accessServices.getCaseInformationPage().clickSaveButton();
-       accessServices.getUpdateCaseContactWizardPage().isCaseContactWizardPageDisplayed();
-       accessServices.getSubTabsPage().closeLastSubTab();
+       accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
     }
 }
