@@ -1,5 +1,6 @@
 package base.factory;
 
+import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
@@ -15,7 +16,7 @@ public class BrowserstackDriverCreator {
     public WebDriver createWebDriver(String scenarioDetails) throws MalformedURLException {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
-        String URL = "https://" + fileReading.getField("AUTOMATE_USERNAME") + ":" + fileReading.getField("AUTOMATE_ACCESS_KEY") + "@hub-cloud.browserstack.com/wd/hub";
+        String URL = "https://" + new String(Base64.decodeBase64(fileReading.getField("AUTOMATE_USERNAME").getBytes())) + ":" +         new String(Base64.decodeBase64(fileReading.getField("AUTOMATE_ACCESS_KEY").getBytes()))+ "@hub-cloud.browserstack.com/wd/hub";
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
