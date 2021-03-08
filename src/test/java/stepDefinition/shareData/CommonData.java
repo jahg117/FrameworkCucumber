@@ -8,4 +8,5 @@ public class CommonData {
     public ProductServicesProvided productServicesProvided;
     public Product product;
     public Case caseForm;
+    public Interaction interaction;
 }
