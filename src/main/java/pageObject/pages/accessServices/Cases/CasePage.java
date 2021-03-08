@@ -6,32 +6,35 @@ import org.openqa.selenium.support.FindBy;
 
 public class CasePage extends CommonFunctions {
 
-    @FindBy(xpath = "//article//a[@title='Open']")
-    private WebElement label_caseStatus;
+    @FindBy(xpath = "(//img[@title='Case']/following::*[@name='Edit'])[last()]")
+    private WebElement button_edit;
 
-    @FindBy(xpath = "//*[contains(text(),'Case Contact')]/following::*[./text()='Case Requested By']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Requested By']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseRequestedBy;
 
-    @FindBy(xpath = "//*[contains(text(),'Case Contact')]/following::*[./text()='Enrolled Patient']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Enrolled Patient']/../..//span[contains(@class,'field-value')]")
     private WebElement input_enrolledPatient;
 
-    @FindBy(xpath = "//span[contains(text(),'Product Enrollment')][contains(@class,'test-id')]/../..//div[contains(@class,'itemBody')]//a")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Product Enrollment']/../..//span[contains(@class,'field-value')]")
     private WebElement input_productEnrollment;
 
-    @FindBy(xpath = "//*[contains(text(),'Case Contact')]/following::*[./text()='Date of Birth']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Date of Birth']/../..//span[contains(@class,'field-value')]")
     private WebElement input_dateOfBirth;
 
-    @FindBy(xpath = "//*[contains(text(),'Case')]/following::*[./text()='Channel']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Channel']/../..//span[contains(@class,'field-value')]")
     private WebElement input_channel;
 
-    @FindBy(xpath = "//*[contains(text(),'Case')]/following::*[./text()='Case Status']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Status']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseStatus;
 
-    @FindBy(xpath = "//*[contains(text(),'Case')]/following::*[./text()='Product']/../..//*[contains(@class,'itemBody')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Product']/../..//span[contains(@class,'field-value')]")
     private WebElement input_product;
 
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Name']/../..//span[contains(@class,'field-value')]")
+    private WebElement input_patientName;
+
     public boolean isCasePageDisplayed(){
-        return waitForElementVisibility(label_caseStatus, 20);
+        return waitForElementVisibility(button_edit, 20);
     }
 
     public String getCaseStatus(){
@@ -47,7 +50,7 @@ public class CasePage extends CommonFunctions {
     }
 
     public String getProductEnrollment(){
-        return waitForElementVisibility(input_productEnrollment, 2) ? getWebElementAttribute(input_productEnrollment, "title") : "";
+        return waitForElementVisibility(input_productEnrollment, 2) ? getWebElementText(input_productEnrollment) : "";
     }
 
     public String getDateOfBirth(){
@@ -60,5 +63,9 @@ public class CasePage extends CommonFunctions {
 
     public String getProduct(){
         return waitForElementVisibility(input_product, 2) ? getWebElementText(input_product) : "";
+    }
+
+    public String getPatientName(){
+        return waitForElementVisibility(input_patientName, 10) ? getWebElementText(input_patientName).split("\n")[0] : "";
     }
 }

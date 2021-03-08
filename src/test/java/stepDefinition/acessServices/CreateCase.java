@@ -4,10 +4,7 @@ import io.cucumber.java.en.And;
 import org.apache.tools.ant.types.selectors.SelectSelector;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
-import stepDefinition.shareData.Case;
-import stepDefinition.shareData.CommonData;
-import stepDefinition.shareData.Product;
-import stepDefinition.shareData.ProductEnrollment;
+import stepDefinition.shareData.*;
 
 import java.util.HashMap;
 
@@ -59,9 +56,23 @@ public class CreateCase extends ApplicationInstance {
         commonData.product = new Product(product);
     }
 
-    @And("^I fill the new interaction mandatory fields$")
-    public void fillNewInteractionMandatoryFields() throws Exception {
+    @And("^I fill the new interaction mandatory fields \"([^\"]*)\" \"([^\"]*)\"$")
+    public void fillNewInteractionMandatoryFields(String channel, String caseStatus) throws Exception {
+        HashMap<String, String> interaction = new HashMap<>();
+        interaction.put("Channel", channel);
+        interaction.put("CaseStatus", caseStatus);
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+        HashMap<String, String> interactionForm = accessServices.getCaseInformationPage().fillCaseInteractionForm(interaction);
+        accessServices.getCaseInformationPage().clickSaveInteraction();
+        commonData.interaction = new Interaction(interactionForm);
+    }
+
+    @And("^I validate the correct case interaction information displayed$")
+    public void validateCaseInteractionInformation() throws Exception {
+        accessServices.getCasePage().isCasePageDisplayed();
+        Assert.assertEquals(accessServices.getCasePage().getPatientName(), commonData.patient.getPatientName(), "The patient name is not matching");
+        Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.interaction.getCaseStatus(), "The case status is not matching");
+        Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.interaction.getChannel(), "The channel is not matching");
     }
 
     @And("^I validate the correct case information is displayed$")

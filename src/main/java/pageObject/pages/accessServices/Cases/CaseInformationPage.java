@@ -68,6 +68,16 @@ public class CaseInformationPage extends CommonFunctions {
         }
     }
 
+    public HashMap<String, String> fillCaseInteractionForm(HashMap<String, String> interactionForm) throws Exception {
+        HashMap<String, String> caseInformationForm = new HashMap<>();
+        String webElementOption;
+        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
+        caseInformationForm.put("Channel", webElementOption);
+        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, interactionForm.get("CaseStatus"));
+        caseInformationForm.put("CaseStatus", webElementOption);
+        return caseInformationForm;
+    }
+
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
         HashMap<String, String> caseInformationForm = new HashMap<>();
         String webElementOption;
@@ -104,6 +114,10 @@ public class CaseInformationPage extends CommonFunctions {
         }
         caseInformationForm.put("CardNumber", webElementOption);
         return caseInformationForm;
+    }
+
+    public void clickSaveInteraction() throws Exception{
+        clickAndMoveToElementClickable(button_save, 10);
     }
 
     public String clickSaveButton() throws Exception {
