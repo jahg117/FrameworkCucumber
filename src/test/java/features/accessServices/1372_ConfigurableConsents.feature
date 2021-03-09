@@ -1,4 +1,3 @@
-@1372_regression
 Feature: Setup configurable consents
 
   Background:
@@ -61,7 +60,7 @@ Feature: Setup configurable consents
       | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
 
 
-
+  @1372_regression
   Scenario Outline: Create an Account with PE to create a Consent at Account level
     Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
     Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps
@@ -92,8 +91,8 @@ Feature: Setup configurable consents
     Then I validate the valid PAF "<consentType>" message at valid PAF column at accounts recently viewed page
 
     Examples:
-      | dummyValue  | externalID | selectedView | accountType | consentType | consentTypeOption   | consentStatus | consentDate | consentSource | consentAuth | product   | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection | createPE |
-      | dummySearch | LJijh8A    | My Accounts  | CPC         | DSI         | DSI Non-Promotional | Active        | 1/25/2021   | Fax           | Self        | Calquence | accountType         | consentType         | ConstantData | N_A             | Y        |
+      | dummyValue  | externalID | selectedView    | accountType | consentType | consentTypeOption   | consentStatus | consentDate | consentSource | consentAuth | product   | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection | createPE |
+      | dummySearch | LJijh8A    | Recently Viewed | CPC         | DSI         | DSI Non-Promotional | Active        | 1/25/2021   | Fax           | Self        | Calquence | accountType         | consentType         | ConstantData | N_A             | Y        |
 
 
   Scenario: Create an attestation for AZ
