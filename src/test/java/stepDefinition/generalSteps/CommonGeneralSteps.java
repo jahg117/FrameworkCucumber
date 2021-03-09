@@ -10,6 +10,7 @@ import stepDefinition.shareData.GlobalShareData;
 import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.ProductEnrollment;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,11 +47,17 @@ public class CommonGeneralSteps extends ApplicationInstance {
 
     @Given("The {string} i select the View to filter using it from CommonGeneralSteps")
     public void selectProductView(String filterView) throws Exception {
-        if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+        try{
+            if (commonData.globalShareData.getExecutionFlag()!=null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    accessServices.getProductsPage().selectProductView(filterView);
+                } else {
+                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                }
+            }
+        }catch (InvocationTargetException |NullPointerException e) {
             accessServices.getProductsPage().selectProductView(filterView);
-        } else {
-            logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
         }
     }
 }
