@@ -22,7 +22,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
     @FindBy(xpath = "//input[@data-name='last']")
     private WebElement input_lastName;
-    
+
     @FindBy(xpath = "//input[@data-name='pname']")
     private WebElement input_informalName;
 
@@ -56,7 +56,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//footer[@class='slds-modal__footer']//button[@type='submit']")
     private WebElement button_saveAccount;
 
-    public boolean isConsumerPatientCaregiverFormDisplayed(){
+    public boolean isConsumerPatientCaregiverFormDisplayed() {
         return waitForElementVisibility(form_patientConsumerCaregiver, 30);
     }
 
@@ -67,10 +67,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("lastName", faker.name().lastName());
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
-        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
+        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         patientDetails.put("date", getRandomDate());
 
-        clickAndMoveToElementClickable(dropdown_prefix, 20);
+        waitForElementClickable(dropdown_prefix, 20);
         input_firstName.clear();
         sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
         sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
@@ -94,7 +94,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), 10);
         sendKeysElementVisible(input_city, patientDetails.get("city"), 10);
         scrollToWebElementJS(input_emailAddress);
-        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName")+"@test.com", 10);
+        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
         return patientDetails;
     }

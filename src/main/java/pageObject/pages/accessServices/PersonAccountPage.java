@@ -137,4 +137,8 @@ public class PersonAccountPage extends CommonFunctions {
     public void clickOnProgramEnrollments() throws Exception {
         clickAndMoveToElementVisible(tab_productEnrollment, 10);
     }
+
+    public void filterConsentWarningMessages(String consentTypeForm) throws Exception {
+        clickAndMoveToElementVisible(tab_productEnrollment, 10);
+    }
 }

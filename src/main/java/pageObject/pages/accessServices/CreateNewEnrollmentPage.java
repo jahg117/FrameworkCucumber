@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
 
+import java.util.List;
+import java.util.Map;
+
 public class CreateNewEnrollmentPage extends CommonFunctions {
 
     @FindBy(xpath = "//iframe[@title='New Program Enrollment']")
@@ -60,5 +63,40 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             doubleClickAndMoveToElementClickable(button_enroll, 10);
             switchToParentFrame();
 
+    }
+
+    /**
+     *Use to select a random consent type or an specific accountType from table
+     *
+     * @param consentTypeList it contains all the consents type in the config table
+     * @return it returns the consent type to be used
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public String selectConsentTypeFromList(List<Map<String, String>> consentTypeList) throws Exception {
+        int counter = 0;
+        String consentTypeSelected = "";
+        boolean rndSelected = false;
+        for (Map<String, String> consentType : consentTypeList) {
+            if (consentTypeList.get(counter).get("consentType").equalsIgnoreCase("RND")) {
+                if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                    consentTypeSelected = consentTypeList.get(getRandomNumberByLimits(1, consentTypeList.size())).get("consentType");
+                    rndSelected = true;
+                    break;
+                }
+            }
+            counter++;
+        }
+        counter = 0;
+        if (!rndSelected) {
+            for (Map<String, String> consentType : consentTypeList) {
+                if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                    consentTypeSelected = consentTypeList.get(counter).get("consentType");
+                    break;
+                }
+                counter++;
+            }
+        }
+        return consentTypeSelected;
     }
 }
