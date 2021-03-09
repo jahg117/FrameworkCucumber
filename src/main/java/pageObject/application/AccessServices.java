@@ -4,10 +4,7 @@ import base.driverInitialize.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.accessServices.*;
-import pageObject.pages.accessServices.Cases.CaseInformationPage;
-import pageObject.pages.accessServices.Cases.CasePage;
-import pageObject.pages.accessServices.Cases.NewCasePage;
-import pageObject.pages.accessServices.Cases.UpdateCaseContactWizardPage;
+import pageObject.pages.accessServices.Cases.*;
 
 public class AccessServices {
     private WebDriver driver;
@@ -32,6 +29,8 @@ public class AccessServices {
     private NewCasePage newCasePage;
     private CasePage casePage;
     private CaseInformationPage caseInformationPage;
+    private NewCaseOptionsPage newCaseOptionsPage;
+    private CasesListPage casesListPage;
     private NewHCAWizardPage newHCAWizardPage;
     private NewHCPWizardPage newHCPWizardPage;
     private NewCPCWizardPage newCPCWizardPage;
@@ -62,6 +61,8 @@ public class AccessServices {
         newCasePage = PageFactory.initElements(driver, NewCasePage.class);
         casePage = PageFactory.initElements(driver, CasePage.class);
         caseInformationPage = PageFactory.initElements(driver, CaseInformationPage.class);
+        newCaseOptionsPage = PageFactory.initElements(driver, NewCaseOptionsPage.class);
+        casesListPage = PageFactory.initElements(driver, CasesListPage.class);
         newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
@@ -95,6 +96,8 @@ public class AccessServices {
     public NewCasePage getNewCasePage() { return newCasePage; }
     public CasePage getCasePage() { return casePage; }
     public CaseInformationPage getCaseInformationPage() { return caseInformationPage; }
+    public CasesListPage getCasesListPage() { return casesListPage; }
+    public NewCaseOptionsPage getNewCaseOptionsPage() { return newCaseOptionsPage; }
     public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }

@@ -7,5 +7,7 @@ public class CommonData {
     public CareTeamMember careTeamMember;
     public ProductServicesProvided productServicesProvided;
     public Product product;
+    public Case caseForm;
+    public Interaction interaction;
     public GlobalShareData globalShareData;
 }
