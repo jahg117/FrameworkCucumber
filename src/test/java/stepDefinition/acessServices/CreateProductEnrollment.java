@@ -10,11 +10,9 @@ import io.cucumber.java.it.Ma;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
-import stepDefinition.shareData.CommonData;
-import stepDefinition.shareData.Patient;
-import stepDefinition.shareData.Product;
-import stepDefinition.shareData.ProductEnrollment;
+import stepDefinition.shareData.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +38,27 @@ public class CreateProductEnrollment extends ApplicationInstance {
         executionFlag = searchFromFile;
     }
 
+
     @Given("^I click on new Account$")
     public void clickNewAccount() throws Exception {
-        if (executionFlag.trim().equalsIgnoreCase("") || executionFlag.isEmpty() || !executionFlag.trim().equalsIgnoreCase("N_A")) {
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
+                    accessServices.getCustomerLookupPage().clickNewAccount();
+                } else {
+                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
             accessServices.getCustomerLookupPage().clickNewAccount();
-        } else {
-            logger.info("Does not required to be executed Since Flag: " + executionFlag);
         }
+
     }
 
+    //======================================== USING DATATABLE
     @When("^I click on new and I select accountType$")
     public void selectAccountType(DataTable dataTable) throws Exception {
         List<Map<String, String>> accountTypeList = dataTable.asMaps(String.class, String.class);
@@ -58,27 +67,58 @@ public class CreateProductEnrollment extends ApplicationInstance {
         accessServices.getNewAccountPage().selectRecordType(dropdownOption);
     }
 
+    @And("^I enter a valid consentType to get an available product in the product enrollment form$")
+    public void fillMandatoryFieldsProgramEnrollmentUsingTable(DataTable dataTable) throws Exception {
+        List<Map<String, String>> consentTypeList = dataTable.asMaps(String.class, String.class);
+        Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        String consentType = accessServices.getNewAccountPage().selectAccountTypeFromList(consentTypeList);
+        product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
+    }
+    //========================================
+
     @Then("^I fill the mandatory fields from the account form$")
     public void mandatoryFieldsAccountForm() throws Exception {
-        if (executionFlag.trim().equalsIgnoreCase("") || executionFlag.isEmpty() || !executionFlag.trim().equalsIgnoreCase("N_A")) {
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    boolean page = accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
+                    Assert.assertTrue(page, "The Patient/Consumer/Caregiver page was not displayed");
+                    HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
+                    accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+                    commonData.patient = new Patient(patientDetails);
+                } else {
+                    logger.info("Does not required to be executed Since Flag: " + executionFlag);
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
             boolean page = accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
             Assert.assertTrue(page, "The Patient/Consumer/Caregiver page was not displayed");
             HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
             accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
             commonData.patient = new Patient(patientDetails);
-        } else {
-            logger.info("Does not required to be executed Since Flag: " + executionFlag);
         }
     }
 
     @When("^I click on new and I select \"([^\"]*)\" account$")
-    public void selectAccountType(String accountType) throws Exception{
+    public void selectAccountType(String accountType) throws Exception {
         accessServices.getNewAccountPage().selectRecordType(accountType);
     }
 
     @And("^I click on new product enrollment button$")
     public void clickNewProductEnrollment() throws Exception {
-        accessServices.getPersonAccountPage().clickNewProductEnrollment();
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    accessServices.getPersonAccountPage().clickNewProductEnrollment();
+                } else {
+                    logger.info("Does not required to be executed Since Flag: " + executionFlag);
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+        }
     }
 
     @And("^I enter a valid \"([^\"]*)\" product in the product enrollment form$")
@@ -89,18 +129,46 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
     @And("^I click on enroll button$")
     public void clickEnrollButton() throws Exception {
-        accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                } else {
+                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+        }
     }
 
     @And("^I select the created program enrollment$")
     public void selectProgramEnrollment() throws Exception {
-        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
-        String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
-        Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
-        String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
-        Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
-        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
-        Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                    String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
+                    Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
+                    String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
+                    Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
+                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                    Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
+                } else {
+                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
+            Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
+            String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
+            Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
+            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
+        }
     }
 
     @And("^I enter a product enrollment in the product enrollment form$")
@@ -142,13 +210,61 @@ public class CreateProductEnrollment extends ApplicationInstance {
     }
 
     @Then("^I Validate the product enrollment is displayed at Product Enrollments table")
-    public void getProductEnrollmentsTablePage() {
+    public void getProductEnrollmentsUsingTable() {
         if (executionFlag.trim().equalsIgnoreCase("") || executionFlag.isEmpty() || !executionFlag.trim().equalsIgnoreCase("N_A")) {
             commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentsTablePage().getProductEnrollmentsList().get(0));
         } else {
             logger.info("Does not required to be executed Since Flag: " + executionFlag);
         }
     }
+
+    //======================================== USING SCENARIO OUTLINE
+    @When("I click on new and I select {string} {string} {string}")
+    public void iClickOnNewAndISelect(String accountType, String accountKeyJSON, String fileNameJSON) throws Exception {
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || accountType.trim().equalsIgnoreCase("RND".trim())) {
+                        accountType = accessServices.getNewAccountPage().randomSelectionJSONFile(accountKeyJSON, fileNameJSON);
+                    }
+                    String dropdownOption = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(accountType);
+                    accessServices.getNewAccountPage().selectRecordType(dropdownOption);
+                } else {
+                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            String dropdownOption = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(accountType);
+            accessServices.getNewAccountPage().selectRecordType(dropdownOption);
+        }
+    }
+
+    @And("I enter a valid {string} {string} {string} from Examples table to get an available product in the product enrollment form")
+    public void fillMandatoryFieldsProgramEnrollmentOutLine(String consentType, String consentKeyJSON, String fileNameJSON) throws Exception {
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentType.trim().equalsIgnoreCase("RND".trim())) {
+                        consentType = accessServices.getNewAccountPage().randomSelectionJSONFile(consentKeyJSON, fileNameJSON);
+                    }
+                    commonData.consentType = new ConsentType(consentType);
+                    Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                    product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
+                    commonData.product = new Product(product);
+                } else {
+                    logger.info("Does not required to be executed Since Flag: " + executionFlag);
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            commonData.consentType = new ConsentType(consentType);
+            Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
+            commonData.product = new Product(product);
+        }
+    }
+    //========================================
 
     /**
      * Used to assign empty value to the executionFlag in case there is more than one execute of the script

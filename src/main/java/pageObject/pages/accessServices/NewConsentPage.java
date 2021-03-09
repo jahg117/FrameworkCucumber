@@ -21,15 +21,19 @@ public class NewConsentPage extends CommonFunctions {
     /**
      * Method used to select the type of consent
      *
-     * @param consentType it contains the type of consent to be select
+     * @param consentTypeOption it contains the type of consent to be select
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectConsentType(String consentType) throws Exception {
+    public void selectConsentType(String consentTypeOption) throws Exception {
         waitForElementVisibility(iframe_pageInformation, 20);
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 30);
         waitForElementVisibility(label_newConsent, 20);
-        selectAndMoveDropdownByText(dropdown_consentType, consentType, 20);
+        if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
+            selectDropDownRandomOptionNone(dropdown_consentType,20);
+        }else{
+            selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, 20);
+        }
         clickAndMoveToElementVisible(button_next, 15);
         switchToParentFrame();
     }

@@ -76,4 +76,11 @@ public class CreateAnAccount extends ApplicationInstance {
         accessServices.getNewEmployeeWizardPage().isNewEmployeeWizardFormDisplayed();
         accessServices.getNewEmployeeWizardPage().validateAndCreateEmployee(identifier, firstName, middleName, lastName, randomRecord);
     }
+
+    @Given("A {string} i select the view to filter using theProducts page")
+    public void selectProductView(String productView) throws Exception {
+        accessServices.getProductsPage().selectProductView(productView);
+    }
+
+
 }

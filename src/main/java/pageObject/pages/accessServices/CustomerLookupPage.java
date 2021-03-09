@@ -189,7 +189,7 @@ public class CustomerLookupPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void searchCPCByID(String cpcID) throws Exception {
+    public void searchCPCByID(String cpcID) throws Exception {//TBD FROM WHERE WE ARE GOING TO GET THE EXTERNAL ID
         String filterOption = "cpc";
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 30);
         if (!checkbox_CheckedList.isEmpty()) {

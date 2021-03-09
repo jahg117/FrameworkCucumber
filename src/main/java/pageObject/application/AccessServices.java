@@ -37,6 +37,7 @@ public class AccessServices {
     private NewEmployeeWizardPage newEmployeeWizardPage;
     private ProductsPage productsPage;
     private UpdateCaseContactWizardPage updateCaseContactWizardPage;
+    private GlobalCommonGeneralStepsPage globalCommonGeneralSteps;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -68,6 +69,7 @@ public class AccessServices {
         newEmployeeWizardPage = PageFactory.initElements(driver, NewEmployeeWizardPage.class);
         productsPage = PageFactory.initElements(driver, ProductsPage.class);
         updateCaseContactWizardPage = PageFactory.initElements(driver, UpdateCaseContactWizardPage.class);
+        globalCommonGeneralSteps = PageFactory.initElements(driver, GlobalCommonGeneralStepsPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -102,4 +104,5 @@ public class AccessServices {
     public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
     public ProductsPage getProductsPage() { return productsPage; }
     public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() { return updateCaseContactWizardPage; }
+    public GlobalCommonGeneralStepsPage getGlobalCommonGeneralStepsPage() { return globalCommonGeneralSteps; }
 }

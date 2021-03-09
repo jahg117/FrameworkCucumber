@@ -2,6 +2,7 @@ package stepDefinition.salesforce;
 
 import base.functions.CommonFunctions;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -39,4 +40,8 @@ public class SalesforceLoginSteps extends ApplicationInstance {
         Assert.assertTrue(page, appName + " page was not displayed");
     }
 
+    @And("Close all the Tabs")
+    public void closeTabs() throws Exception {
+        salesforce.getHomePage().closeOpenTabs();
+    }
 }

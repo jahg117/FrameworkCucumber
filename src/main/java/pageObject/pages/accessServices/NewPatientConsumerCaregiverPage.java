@@ -69,16 +69,11 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("city", faker.address().cityName());
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
         patientDetails.put("date", getRandomDate());
-
-        clickAndMoveToElementClickable(dropdown_prefix, 20);
-
+        waitForElementClickable(dropdown_prefix, 20);
+        input_firstName.clear();
+        clickAndMoveToElementClickable(input_firstName,10);
         sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
-        if(getWebElementAttribute(input_firstName,"value").equalsIgnoreCase(""))
-            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
-
         sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
-        if(getWebElementAttribute(input_lastName,"value").equalsIgnoreCase(""))
-            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
         //sendKeysElementVisibleWithCoordinates(input_dateOfBirth, getRandomDate(),5, 5 , 20);
         String randomDate = patientDetails.get("date");
         clickElementVisible(input_informalName, 5);

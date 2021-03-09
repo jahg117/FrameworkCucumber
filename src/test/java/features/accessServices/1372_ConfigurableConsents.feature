@@ -4,9 +4,9 @@ Feature: Setup configurable consents
     Given I login according to the account selected from table
       | userAccount | useThisAccount |
       | RND         | N              |
-      | admin       | N              |
+      | admin       | Y              |
       | agent       | N              |
-      | manager     | Y              |
+      | manager     | N              |
       | frm         | N              |
       | externalFrm | N              |
 
@@ -14,8 +14,7 @@ Feature: Setup configurable consents
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
-  @1372_regression
-  Scenario Outline: Create AZ product enrollment consent
+  Scenario Outline: Create an (AZ/DSI) product enrollment with DataTable
     Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
     Given I click on new Account
     When I click on new and I select accountType
@@ -27,7 +26,11 @@ Feature: Setup configurable consents
       | EMP         | N              |
     Then I fill the mandatory fields from the account form
     And I click on new product enrollment button
-    And I enter a valid "AZ" product in the product enrollment form
+    And I enter a valid consentType to get an available product in the product enrollment form
+      | consentType | useThisAccount |
+      | RND         | Y              |
+      | AZ          | N              |
+      | DSI         | N              |
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
@@ -37,40 +40,60 @@ Feature: Setup configurable consents
       | dummyValue  | accountType |
       | dummySearch | CPC         |
 
-  Scenario: Create DSI product enrollment consent
+
+  Scenario Outline: Create an (AZ/DSI) product enrollment with Outline tables
+    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
     Given I click on new Account
-    When I click on new and I select "Consumer/Patient/Caregiver" account
+    When I click on new and I select "<accountType>" "<accountKeyValueJSON>" "<fileNameJSON>"
     Then I fill the mandatory fields from the account form
     And I click on new product enrollment button
-    And I enter a valid "DSI" product in the product enrollment form
+    And I enter a valid "<consentType>" "<consentKeyValueJSON>" "<fileNameJSON>" from Examples table to get an available product in the product enrollment form
     And I click on enroll button
     And I select the created program enrollment
     And I select the "Accounts" menu option
     And I validate the patient account was created
 
-  Scenario: Create a consent for AZ
-    Given A external ID "EBcEenr" I search a CPC at customer lookup
-    Then I click on the external ID found for CPC at customer lookup
-    Then I click cn the consent tab to click the new consent button at person account page
-    And I select the "AZ Non-Promotional" consent type at new consent wizard page
-    And I fill the selected consent type form at new consent wizard page
-    Then I select the consent address in the new consent wizard page
-    Then I click on the product enrollment "Calquence" from the person account page
-    Then I validate that no warning "No AZ Non-Promotional Consent is on file." message is displayed related to the type lacking of a consent at the product enrollment page
-    And I select the "Accounts" menu option
-    Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
+    Examples:
+      | dummyValue  | accountType | consentType | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection |
+      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
+      | dummySearch | CPC         | AZ          | accountType         | consentType         | ConstantData | RND             |
+      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
 
-  Scenario: Create a consent for DSI
-    Given A external ID "EBcEenr" I search a CPC at customer lookup
-    Then I click on the external ID found for CPC at customer lookup
-    Then I click cn the consent tab to click the new consent button at person account page
-    And I select the "DSI Promotional Consent" consent type at new consent wizard page
-    And I fill the selected consent type form at new consent wizard page
-    Then I select the consent address in the new consent wizard page
-    Then I click on the product enrollment "Enhertu" from the person account page
-    Then I validate that no warning "No DSI Non-Promotional Consent is on file." message is displayed related to the type lacking of a consent at the product enrollment page
+
+  @1372_regression
+  Scenario Outline: Create an Account with PE to create a Consent at Account level
+    Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
+    Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps
+    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
+    Given I click on new Account
+    When I click on new and I select "<accountType>" "<accountKeyValueJSON>" "<fileNameJSON>"
+    Then I fill the mandatory fields from the account form
+    And I click on new product enrollment button
+    And I enter a valid "<consentType>" "<consentKeyValueJSON>" "<fileNameJSON>" from Examples table to get an available product in the product enrollment form
+    And I click on enroll button
+    And I select the created program enrollment
     And I select the "Accounts" menu option
-    Then I validate the valid PAF "AstraZeneca" message at valid PAF column at accounts recently viewed page
+    Given The "<selectedView>" i select the View to filter using it from CommonGeneralSteps
+    And I validate the patient account was created
+    Then I click the account created from AccountsPage
+    Given A external ID "<externalID>" I search a CPC at customer lookup
+    Then I click on the external ID found for CPC at customer lookup
+    Then I click on the consent tab to click the new consent button at person account page
+    And I select the "<consentTypeOption>" consent type at new consent wizard page
+    And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
+    Then I select the consent address in the new consent wizard page
+    Then I click on the product enrollment "<product>" from the person account page
+    Then I validate that no warning "<consentTypeOption>" "<fileNameJSON>" message is displayed related to the type lacking of a consent at the product enrollment page
+    And Close all the Tabs
+    And I select the "Accounts" menu option
+    Given The "Recently Viewed" i select the View to filter using it from CommonGeneralSteps
+    And I search the patient at Recently View to check the Valid PAF column from Accounts Page
+    Then I validate the valid PAF "<consentType>" message at valid PAF column at accounts recently viewed page
+
+    Examples:
+      | dummyValue  | externalID | selectedView    | accountType | consentType | consentTypeOption   | consentStatus | consentDate | consentSource | consentAuth | product   | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection | createPE |
+      | dummySearch | LJijh8A    | Recently Viewed | CPC         | DSI         | DSI Non-Promotional | Active        | 1/25/2021   | Fax           | Self        | Calquence | accountType         | consentType         | ConstantData | N_A             | Y        |
+
 
   Scenario: Create an attestation for AZ
     Given I click on new Account

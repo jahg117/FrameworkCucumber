@@ -15,13 +15,13 @@ import java.util.List;
 public class ProductsPage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     int shortTimeOutInSeconds = 10;
-    @FindBy(xpath = "//span[@title='Product Name'] | //span[@title='Product Enrollment Number']")
+    @FindBy(xpath = "//span[@title='Product Name'] | //span[@title='Product Enrollment Number'] | //span[text()='Name']")
     private WebElement toggle_pmProductNameColumn;
 
     @FindBy(xpath = "//span[contains(@class,'triggerLinkText')]")
     private WebElement linkButton_pmCurrentView;
 
-    @FindBy(xpath = "//div[text()='List Views']")
+    @FindBy(xpath = "//div[text()='List Views'] | //div[text()='Recent List Views']")
     private WebElement label_pmListViews;
 
     @FindBy(xpath = "//div[contains(text(),'List Views')]/following::li")
@@ -43,24 +43,28 @@ public class ProductsPage extends CommonFunctions {
     private WebElement tableRow_pmFirstRow;
 
     /**
-     * It will select the product view especified i.e. "All Products"
+     * It will select the product view specified i.e. "All Products"
      *
-     * @param productView it contains the name of the view
+     * @param filterView it contains the name of the view
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectProductView(String productView) throws Exception {
+    public void selectProductView(String filterView) throws Exception {
+        By toogleListSecondOption = By.xpath("//li//a//*[text()='" + filterView + "']");
         do {
             waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds);
         } while (!waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds));
         try {
-            if (getWebElementText(linkButton_pmCurrentView).trim().equalsIgnoreCase(productView)) {
-                logger.info("Already At: " + productView);
+            if (getWebElementText(linkButton_pmCurrentView).trim().equalsIgnoreCase(filterView)) {
+                logger.info("Already At: " + filterView);
             } else {
                 clickAndMoveToElementClickable(linkButton_pmCurrentView, shortTimeOutInSeconds);
                 waitForElementVisibility(label_pmListViews, shortTimeOutInSeconds);
-                clickAndMoveToElementClickableFromListByText(toggleList_pmViewList, productView);
-                logger.info("It Worked: " + productView);
+                WebElement filterElement = clickAndMoveToElementClickableFromListByText(toggleList_pmViewList, filterView);
+                if (filterElement == null) {
+                    clickElementJS(getWebElement(toogleListSecondOption));
+                }
+                logger.info("It Worked: " + filterView);
             }
         } catch (Exception e) {
             logger.error("The WebElement was not found");
