@@ -22,7 +22,7 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(@class,'uiMenuList--short visible')]//a")
     private List<WebElement> list_dropdownOptions;
 
-    @FindBy(xpath = "//span[contains(text(),'Case Status')]/following::*[@class='select'][1]")
+    @FindBy(xpath = "//span[contains(text(),'Case Status')]/../..//a[@class='select'][1]")
     private WebElement dropdown_caseStatus;
 
     @FindBy(xpath = "//span[contains(text(),'Case Sub-Type')]/following::*[@class='select'][1]")
@@ -71,10 +71,10 @@ public class CaseInformationPage extends CommonFunctions {
     public HashMap<String, String> fillCaseInteractionForm(HashMap<String, String> interactionForm) throws Exception {
         HashMap<String, String> caseInformationForm = new HashMap<>();
         String webElementOption;
-        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
-        caseInformationForm.put("Channel", webElementOption);
         webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, interactionForm.get("CaseStatus"));
         caseInformationForm.put("CaseStatus", webElementOption);
+        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
+        caseInformationForm.put("Channel", webElementOption);
         return caseInformationForm;
     }
 
