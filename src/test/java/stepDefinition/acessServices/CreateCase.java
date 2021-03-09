@@ -27,6 +27,11 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getPersonAccountPage().clickNewCase();
     }
 
+    @And("^I click on new Case from the cases list page")
+    public void clickNewCaseListCases() throws Exception {
+        accessServices.getCasesListPage().clickNewCase();
+    }
+
     @And("^I select the case type option \"([^\"]*)\"$")
     public void selectCaseTypeOptionsPage(String caseOption) throws Exception {
         accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed();
@@ -70,7 +75,9 @@ public class CreateCase extends ApplicationInstance {
     @And("^I validate the correct case interaction information displayed$")
     public void validateCaseInteractionInformation() throws Exception {
         accessServices.getCasePage().isCasePageDisplayed();
-        Assert.assertEquals(accessServices.getCasePage().getPatientName(), commonData.patient.getPatientName(), "The patient name is not matching");
+        if(!accessServices.getCasePage().getPatientName().equalsIgnoreCase("")){
+            Assert.assertEquals(accessServices.getCasePage().getPatientName(), commonData.patient.getPatientName(), "The patient name is not matching");
+        }
         Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.interaction.getCaseStatus(), "The case status is not matching");
         Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.interaction.getChannel(), "The channel is not matching");
     }
