@@ -71,11 +71,15 @@ public class ProductEnrollmentPage extends CommonFunctions {
     public boolean validatePEDSIMessage(String messagePE) throws Exception {
         boolean result = false;
         waitForPageToLoad();
-        if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
-            logger.info("The Message: " + messagePE + "Matched");
-            result = true;
-        } else {
-            logger.info("The Message: " + messagePE + "Did Not Matched");
+        if (waitForElementVisibility(message_msgNoDSIConsent,5)) {
+            if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
+                logger.info("The Message: " + messagePE + "Matched");
+                result = true;
+            } else {
+                logger.info("The Message: " + messagePE + "Did Not Matched");
+            }
+        }else{
+            logger.info("No Warning Message Was Displayed");
         }
         return result;
     }

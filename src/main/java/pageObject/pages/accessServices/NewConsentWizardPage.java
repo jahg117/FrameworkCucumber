@@ -11,6 +11,9 @@ import java.util.List;
 
 public class NewConsentWizardPage extends CommonFunctions {
 
+    @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
+    private WebElement iframe_pageInformation;
+
     @FindBy(xpath = "//*[@class='actionBtns']/input[@value='Next']")
     private WebElement button_next;
 
@@ -54,11 +57,11 @@ public class NewConsentWizardPage extends CommonFunctions {
     public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
         int requiredValues = 4;
         int valueCounter = 1;
-        String dropdownOption = "Active";
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         do {
             switch (valueCounter) {
                 case 1:
-                    if (!consentStatus.trim().isEmpty()) {
+                    if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase("RND")) {
                         selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, 20);
                     } else {
                         selectDropDownRandomOptionNone(dropdown_consentStatus, 10);
@@ -67,7 +70,7 @@ public class NewConsentWizardPage extends CommonFunctions {
                     break;
 
                 case 2:
-                    if (!consentDate.trim().isEmpty()) {
+                    if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase("RND")) {
                         sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, 10);
                         datePicker_consentDateManual.sendKeys(Keys.ESCAPE);
                     } else {
@@ -77,7 +80,7 @@ public class NewConsentWizardPage extends CommonFunctions {
                     break;
 
                 case 3:
-                    if (!consentSource.trim().isEmpty()) {
+                    if (!consentSource.trim().isEmpty()&& !consentSource.trim().equalsIgnoreCase("RND")) {
                         selectAndMoveDropdownByText(dropdown_consentSource, consentSource, 20);
                     } else {
                         selectDropDownRandomOptionNone(dropdown_consentSource, 10);
@@ -109,6 +112,7 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public void selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         List<WebElement> visibleWebElements = getVisibleElements(checkbox_addressesCheckBoxes);
         if (randomAddress == true) {
             clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, 10), 10);

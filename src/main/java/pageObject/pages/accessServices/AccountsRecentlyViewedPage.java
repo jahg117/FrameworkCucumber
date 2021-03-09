@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +16,7 @@ public class AccountsRecentlyViewedPage extends CommonFunctions {
     @FindBy(xpath = "//h1//*[normalize-space(text())='Recently Viewed']")
     private WebElement label_accountsRecentlyViewed;
 
-    @FindBy(xpath = "//*[@role='gridcell'][2]//*[@title]")
+    @FindBy(xpath = "//*[@role='gridcell'][3]//*[@title]")
     private List<WebElement> gridCell_gridCellPAF;
 
     /**
@@ -27,8 +28,12 @@ public class AccountsRecentlyViewedPage extends CommonFunctions {
      */
     public boolean validateValidPAFValue(String validPAF) throws Exception {
         boolean result = false;
-        waitForElementVisibility(label_accountsRecentlyViewed, 10);
-        String test = gridCell_gridCellPAF.get(0).getAttribute("title");
+
+
+        if (!waitForElementVisibility(label_accountsRecentlyViewed, 10)) {
+            By locator = By.xpath("//h1//*[normalize-space(text())='Recently Viewed']");
+            retryingFindElementByLocator(locator,2);
+        }
         if (gridCell_gridCellPAF.get(0).getAttribute("title").isEmpty()) {
             result = false;
         } else if (gridCell_gridCellPAF.get(0).getAttribute("title").equalsIgnoreCase(validPAF)) {

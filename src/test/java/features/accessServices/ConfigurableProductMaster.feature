@@ -8,7 +8,7 @@ Feature: Setup configurable consents
     And I select the "Customer Lookup" menu option
 
   Scenario Outline: Create product enrollment if it is necessary to create a new Product Master Service Provided validation from Products page
-    Given "<searchFromFile>" it selects which steps will be execute
+    Given "<searchFromFile>" it selects which steps will be execute using it from CommonGeneralSteps
     Given I click on new Account
     When I click on new and I select from table the "<accountType>" account
     Then I fill the mandatory fields from the account form

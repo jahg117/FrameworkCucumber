@@ -1837,6 +1837,25 @@ public class CommonFunctions {
      * @param webElement contains the Element to select
      * @param waitTime   time to wait for a WebElement
      * @throws Exception
+     * @author J.Ruano
+     */
+    protected void sendKeysElementVisibleJS(WebElement webElement, String text, int waitTime) throws Exception {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        if (waitForElementVisibility(webElement, waitTime)) {
+            clickElementJS(webElement);
+            js.executeScript("arguments[0].value='"+ text +"';", webElement);
+        } else {
+            logger.error("The Web Element was not found or it is not an input type");
+            throw new NoSuchElementException("Element not valid");
+        }
+    }
+
+    /**
+     * Method used to sendKeys and wait for a visible WebElement
+     *
+     * @param webElement contains the Element to select
+     * @param waitTime   time to wait for a WebElement
+     * @throws Exception
      * @author Alejandro Hernandez
      */
     protected void sendKeysElementClickable(WebElement webElement, String text, int waitTime) throws Exception {
@@ -2961,7 +2980,7 @@ public class CommonFunctions {
         }
         if (elementFound == false) {
             logger.error("The Web Element was not found");
-            throw new NoSuchElementException("Element not found");
+            //throw new NoSuchElementException("Element not found");
         }
         return returnElement;
     }
@@ -3088,5 +3107,29 @@ public class CommonFunctions {
      */
     public int getRandomNumberByLimits(int min, int max) {
         return (int) (Math.floor(Math.random() * (1 + max - 1)));
+    }
+
+    /**
+     * Used to retry to find an element and avoid the "StaleElementReferenceException"
+     *
+     * @param locator contains the locator that will be used to search the element
+     * @param amountOfAttempts it contains a int value with the amount of tries
+     * @return it returns a boolean value of the result of the operation
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public boolean retryingFindElementByLocator(By locator, int amountOfAttempts) throws Exception {
+        boolean result = false;
+        int attemptsCounter = 0;
+        while(attemptsCounter < amountOfAttempts) {
+            try {
+                getWebElement(locator);
+                result = true;
+                break;
+            } catch(StaleElementReferenceException e) {
+            }
+            attemptsCounter++;
+        }
+        return result;
     }
 }

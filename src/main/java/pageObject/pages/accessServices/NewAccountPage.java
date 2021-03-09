@@ -3,6 +3,7 @@ package pageObject.pages.accessServices;
 import base.functions.CommonFunctions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.JsonFiles;
 
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,13 @@ public class NewAccountPage extends CommonFunctions {
         selectAndMoveDropdownByText(dropdown_recordType, dropdownOption, 20);
         clickAndMoveToElementVisible(button_continue, 15);
         switchToParentFrame();
+    }
+
+    public String randomSelectionJSONFile(String keyName, String fileName) throws Exception {
+        String selectedElement = "";
+        JsonFiles jsonFile = new JsonFiles();
+        jsonFile.setFileName(fileName);
+        return selectedElement = jsonFile.getRandomFieldArray(keyName);
     }
 
     /**
@@ -63,7 +71,7 @@ public class NewAccountPage extends CommonFunctions {
     }
 
     /**
-     *Use to select a random accountType or an specific accountType from table
+     * Use to select a random accountType or an specific accountType from table
      *
      * @param accountTypeList it contains all the accounts type
      * @return it returns the account type to be used
