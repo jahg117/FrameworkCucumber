@@ -113,8 +113,8 @@ public class PersonAccountPage extends CommonFunctions {
      */
     public void clickOnNewConsent() throws Exception {
         switchToDefaultContentFrame();
-        clickAndMoveToElementVisible(tab_Consent, 10);
-        clickAndMoveToElementVisible(button_newConsent, 10);
+        clickAndMoveToElementVisible(tab_Consent, mediumWait());
+        clickAndMoveToElementVisible(button_newConsent, mediumWait());
     }
 
     /**
@@ -125,7 +125,7 @@ public class PersonAccountPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void switchToTab(int idxTab) throws Exception {
-        switchSubTabByIndexSF(0, 10);
+        switchSubTabByIndexSF(0, mediumWait());
     }
 
     /**
@@ -139,6 +139,6 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void filterConsentWarningMessages(String consentTypeForm) throws Exception {
-        clickAndMoveToElementVisible(tab_productEnrollment, 10);
+        clickAndMoveToElementVisible(tab_productEnrollment, mediumWait());
     }
 }
