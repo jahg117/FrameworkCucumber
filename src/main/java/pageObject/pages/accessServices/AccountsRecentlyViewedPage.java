@@ -30,7 +30,7 @@ public class AccountsRecentlyViewedPage extends CommonFunctions {
         boolean result = false;
 
 
-        if (!waitForElementVisibility(label_accountsRecentlyViewed, 10)) {
+        if (!waitForElementVisibility(label_accountsRecentlyViewed, mediumWait())) {
             By locator = By.xpath("//h1//*[normalize-space(text())='Recently Viewed']");
             retryingFindElementByLocator(locator,2);
         }

@@ -26,15 +26,15 @@ public class NewConsentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectConsentType(String consentTypeOption) throws Exception {
-        waitForElementVisibility(iframe_pageInformation, 20);
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 30);
-        waitForElementVisibility(label_newConsent, 20);
+        waitForElementVisibility(iframe_pageInformation, longWait());
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        waitForElementVisibility(label_newConsent, longWait());
         if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
-            selectDropDownRandomOptionNone(dropdown_consentType,20);
+            selectDropDownRandomOptionNone(dropdown_consentType,longWait());
         }else{
-            selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, 20);
+            selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());
         }
-        clickAndMoveToElementVisible(button_next, 15);
+        clickAndMoveToElementVisible(button_next, mediumWait());
         switchToParentFrame();
     }
 }

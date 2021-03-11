@@ -49,8 +49,8 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @return it returns a boolean value in case the form has been displayed
      * @author J.Ruano
      */
-    public boolean isNewEmployeeWizardFormDisplayed() {
-        return waitForElementVisibility(dropdown_subType, 30);
+    public boolean isNewEmployeeWizardFormDisplayed() throws Exception {
+        return waitForElementVisibility(dropdown_subType, longWait());
     }
 
     /**
@@ -105,17 +105,17 @@ public class NewEmployeeWizardPage extends CommonFunctions {
 
 
         //============Populating The Employee Data
-        clickAndMoveToElementVisible(dropdown_subType, 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), 10);
-        clickAndMoveToElementVisible(input_firstName, 10);
+        clickAndMoveToElementVisible(dropdown_subType, mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), mediumWait());
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), 10);
-        clickAndMoveToElementVisible(input_middleName, 10);
+        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), mediumWait());
+        clickAndMoveToElementVisible(input_middleName, mediumWait());
         input_middleName.clear();
-        sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), 10);
-        clickAndMoveToElementVisible(input_lastName, 10);
+        sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), mediumWait());
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), 10);
+        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), mediumWait());
         return employeeDetails;
     }
 
@@ -211,19 +211,19 @@ public class NewEmployeeWizardPage extends CommonFunctions {
     public void fillingHybridEmployeeForm(HashMap<String, String> employeeDetails) throws Exception {
         String notApply = "N_A";
         Faker faker = new Faker();
-        clickAndMoveToElementVisible(dropdown_subType, 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), 10);
+        clickAndMoveToElementVisible(dropdown_subType, mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), mediumWait());
 
-        clickAndMoveToElementVisible(input_firstName, 10);
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), 10);
+        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), mediumWait());
 
         if (!employeeDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), 10);
+            sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), mediumWait());
         }
-        clickAndMoveToElementVisible(input_lastName, 10);
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), 10);
+        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), mediumWait());
     }
 
     /**
@@ -233,12 +233,12 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public String getExternalID() throws Exception {
-        waitForElementVisibility(label_systemInfo, 20);
+        waitForElementVisibility(label_systemInfo, longWait());
         clickMethod(label_systemInfo);
-        if (waitForElementClickable(linkButton_lastModifiedBy, 10)) {
+        if (waitForElementClickable(linkButton_lastModifiedBy, mediumWait())) {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         } else {
-            waitForElementVisibility(linkButton_lastModifiedBy, 10);
+            waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         return label_externalID.getText().replace("Account ID", "").trim();
@@ -250,6 +250,6 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public void clickSaveButton() throws Exception {
-        clickAndMoveToElementClickable(button_saveAccount, 10);
+        clickAndMoveToElementClickable(button_saveAccount, mediumWait());
     }
 }

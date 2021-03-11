@@ -89,8 +89,8 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @return it returns a boolean value in case the form has been displayed
      * @author J.Ruano
      */
-    public boolean isNewHCPWizardFormDisplayed() {
-        return waitForElementVisibility(dropdown_type, 30);
+    public boolean isNewHCPWizardFormDisplayed() throws Exception {
+        return waitForElementVisibility(dropdown_type, longWait());
     }
 
     /**
@@ -159,46 +159,46 @@ public class NewHCPWizardPage extends CommonFunctions {
         hcpDetails.put("city", faker.address().cityName());
         hcpDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
         //============Populating The HCP Data
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), 10);
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), 10);
-        clickAndMoveToElementVisible(input_firstName, 10);
+        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
+        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, hcpDetails.get("firstName"), 10);
-        clickAndMoveToElementVisible(input_middleName, 10);
+        sendKeysAndMoveToElementVisible(input_firstName, hcpDetails.get("firstName"), mediumWait());
+        clickAndMoveToElementVisible(input_middleName, mediumWait());
         input_middleName.clear();
-        sendKeysAndMoveToElementVisible(input_middleName, hcpDetails.get("middleName"), 10);
-        clickAndMoveToElementVisible(input_lastName, 10);
+        sendKeysAndMoveToElementVisible(input_middleName, hcpDetails.get("middleName"), mediumWait());
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, hcpDetails.get("lastName"), 10);
-        clickAndMoveToElementVisible(input_npi, 10);
+        sendKeysAndMoveToElementVisible(input_lastName, hcpDetails.get("lastName"), mediumWait());
+        clickAndMoveToElementVisible(input_npi, mediumWait());
         input_npi.clear();
-        sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), 10);
-        clickAndMoveToElementVisible(datePicker_DOB, 10);
+        sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), mediumWait());
+        clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
         datePicker_DOB.clear();
-        sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), 10);
-        clickAndMoveToElementVisible(input_phoneOrFax, 10);
+        sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), mediumWait());
+        clickAndMoveToElementVisible(input_phoneOrFax, mediumWait());
         input_phoneOrFax.clear();
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), 10);
-        clickAndMoveToElementVisible(input_addressLine1, 10);
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), mediumWait());
+        clickAndMoveToElementVisible(input_addressLine1, mediumWait());
         input_addressLine1.clear();
-        sendKeysAndMoveToElementVisible(input_addressLine1, hcpDetails.get("addressLine1"), 10);
-        clickAndMoveToElementVisible(input_city, 10);
+        sendKeysAndMoveToElementVisible(input_addressLine1, hcpDetails.get("addressLine1"), mediumWait());
+        clickAndMoveToElementVisible(input_city, mediumWait());
         input_city.clear();
-        sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), 10);
-        clickWhileCondition(dropdown_state, "aria-expanded", "false", 10);
-        hcpDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, 10)).getAttribute("data-value"));
-        clickAndMoveToElementClickable(backUpWElement, 10);
-        clickAndMoveToElementVisible(input_zipCode, 10);
+        sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), mediumWait());
+        clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
+        hcpDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute("data-value"));
+        clickAndMoveToElementClickable(backUpWElement, mediumWait());
+        clickAndMoveToElementVisible(input_zipCode, mediumWait());
         input_zipCode.clear();
-        sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), 10);
-        clickWhileCondition(dropdown_country, "aria-expanded", "false", 10);
-        hcpDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, 10)).getAttribute("data-value"));
-        clickAndMoveToElementClickable(backUpWElement, 10);
-        clickAndMoveToElementVisible(input_email, 10);
+        sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), mediumWait());
+        clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
+        hcpDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute("data-value"));
+        clickAndMoveToElementClickable(backUpWElement, mediumWait());
+        clickAndMoveToElementVisible(input_email, mediumWait());
         input_email.clear();
-        sendKeysAndMoveToElementVisible(input_email, hcpDetails.get("email"), 10);
+        sendKeysAndMoveToElementVisible(input_email, hcpDetails.get("email"), mediumWait());
         return hcpDetails;
     }
 
@@ -421,59 +421,59 @@ public class NewHCPWizardPage extends CommonFunctions {
         String notApply = "N_A";
         Faker faker = new Faker();
 
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), 10);
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), 10);
-        clickAndMoveToElementVisible(input_firstName, 10);
+        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
+        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, hcpDetails.get("firstName"), 10);
+        sendKeysAndMoveToElementVisible(input_firstName, hcpDetails.get("firstName"), mediumWait());
 
         if (!hcpDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_middleName, hcpDetails.get("middleName"), 10);
+            sendKeysAndMoveToElementVisible(input_middleName, hcpDetails.get("middleName"), mediumWait());
         }
-        clickAndMoveToElementVisible(input_lastName, 10);
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, hcpDetails.get("lastName"), 10);
+        sendKeysAndMoveToElementVisible(input_lastName, hcpDetails.get("lastName"), mediumWait());
 
         if (!hcpDetails.get("npi").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), 10);
+            sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), mediumWait());
         }
 
         if (!hcpDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(datePicker_DOB, 10);
+            clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
             datePicker_DOB.clear();
-            sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), 10);
+            sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), mediumWait());
         }
-        clickAndMoveToElementVisible(input_phoneOrFax, 10);
+        clickAndMoveToElementVisible(input_phoneOrFax, mediumWait());
         input_phoneOrFax.clear();
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), 10);
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), mediumWait());
 
         if (!hcpDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_addressLine1, 10);
+            clickAndMoveToElementVisible(input_addressLine1, mediumWait());
             input_addressLine1.clear();
-            sendKeysAndMoveToElementVisible(input_addressLine1, hcpDetails.get("addressLine1"), 10);
+            sendKeysAndMoveToElementVisible(input_addressLine1, hcpDetails.get("addressLine1"), mediumWait());
         }
 
         if (!hcpDetails.get("city").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_city, 10);
+            clickAndMoveToElementVisible(input_city, mediumWait());
             input_city.clear();
-            sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), 10);
+            sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), mediumWait());
         }
 
         if (!hcpDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_state, "aria-expanded", "false", 10);
+            clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
             clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, "data-value", hcpDetails.get("stateCode"));
         }
 
         if (!hcpDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_zipCode, 10);
+            clickAndMoveToElementVisible(input_zipCode, mediumWait());
             input_zipCode.clear();
-            sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), 10);
+            sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), mediumWait());
         }
 
         if (!hcpDetails.get("country").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_country, "aria-expanded", "false", 10);
+            clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
             clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, "data-value", hcpDetails.get("country"));
         }
     }
@@ -484,7 +484,7 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public void clickSaveButton() throws Exception {
-        clickAndMoveToElementClickable(button_saveAccount, 10);
+        clickAndMoveToElementClickable(button_saveAccount, mediumWait());
     }
 
     /**
@@ -494,12 +494,12 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public String getExternalID() throws Exception {
-        waitForElementVisibility(label_systemInfo, 20);
+        waitForElementVisibility(label_systemInfo, longWait());
         clickMethod(label_systemInfo);
-        if (waitForElementClickable(linkButton_lastModifiedBy, 10)) {
+        if (waitForElementClickable(linkButton_lastModifiedBy, mediumWait())) {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         } else {
-            waitForElementVisibility(linkButton_lastModifiedBy, 10);
+            waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         return label_externalID.getText().replace("Account ID", "").trim();

@@ -100,8 +100,8 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @return it returns a boolean value in case the form has been displayed
      * @author J.Ruano
      */
-    public boolean isNewCPCWizardFormDisplayed() {
-        return waitForElementVisibility(dropdown_subType, 30);
+    public boolean isNewCPCWizardFormDisplayed() throws Exception {
+        return waitForElementVisibility(dropdown_subType, longWait());
     }
 
     /**
@@ -172,49 +172,49 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
 
         //============Populating The CPC Data
-        selectAndMoveDropDownVisibleRandomOption(dropdown_subType, 10);
-        clickAndMoveToElementVisible(input_firstName, 10);
+        selectAndMoveDropDownVisibleRandomOption(dropdown_subType, mediumWait());
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, cpcDetails.get("firstName"), 10);
-        clickAndMoveToElementVisible(input_middleName, 10);
+        sendKeysAndMoveToElementVisible(input_firstName, cpcDetails.get("firstName"), mediumWait());
+        clickAndMoveToElementVisible(input_middleName, mediumWait());
         input_middleName.clear();
-        sendKeysAndMoveToElementVisible(input_middleName, cpcDetails.get("middleName"), 10);
-        clickAndMoveToElementVisible(input_lastName, 10);
+        sendKeysAndMoveToElementVisible(input_middleName, cpcDetails.get("middleName"), mediumWait());
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), 10);
+        sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), mediumWait());
         try {
             if (input_searchAccounts.getAttribute("disabled").equalsIgnoreCase(null)) {
                 logger.info("CareGiver Not Need It");
             }
         } catch (Exception e) {
-            clickAndMoveToElementVisible(input_searchAccounts, 10);
+            clickAndMoveToElementVisible(input_searchAccounts, mediumWait());
             input_searchAccounts.clear();
             cpcDetails.put("careGiver", selectCareGiver(careGiver));
         }
-        clickAndMoveToElementVisible(datePicker_DOB, 10);
+        clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
         datePicker_DOB.clear();
-        sendKeysElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), 10);
-        clickAndMoveToElementVisible(input_phoneOrFax, 10);
+        sendKeysElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), mediumWait());
+        clickAndMoveToElementVisible(input_phoneOrFax, mediumWait());
         input_phoneOrFax.clear();
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), 10);
-        clickAndMoveToElementVisible(input_addressLine1, 10);
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), mediumWait());
+        clickAndMoveToElementVisible(input_addressLine1, mediumWait());
         input_addressLine1.clear();
-        sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), 10);
-        clickAndMoveToElementVisible(input_city, 10);
+        sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), mediumWait());
+        clickAndMoveToElementVisible(input_city, mediumWait());
         input_city.clear();
         sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), 10);
         scrollMethodToWebElement(dropdown_state);
-        cpcDetails.put("stateCode", getRandomWebElementFromList(elementList_stateCodesList, 10).getAttribute("value"));
-        selectAndMoveDropdownClickableByText(dropdown_state, cpcDetails.get("stateCode"), 10);
-        clickAndMoveToElementVisible(input_zipCode, 10);
+        cpcDetails.put("stateCode", getRandomWebElementFromList(elementList_stateCodesList, mediumWait()).getAttribute("value"));
+        selectAndMoveDropdownClickableByText(dropdown_state, cpcDetails.get("stateCode"), mediumWait());
+        clickAndMoveToElementVisible(input_zipCode, mediumWait());
         input_zipCode.clear();
-        sendKeysAndMoveToElementVisible(input_zipCode, cpcDetails.get("zipCode"), 10);
+        sendKeysAndMoveToElementVisible(input_zipCode, cpcDetails.get("zipCode"), mediumWait());
         scrollMethodToWebElement(dropdown_country);
-        cpcDetails.put("country", (getRandomWebElementFromList(elementList_countriesList, 10)).getAttribute("value"));
-        selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), 10);
-        clickAndMoveToElementVisible(input_email, 10);
+        cpcDetails.put("country", (getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute("value"));
+        selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), mediumWait());
+        clickAndMoveToElementVisible(input_email, mediumWait());
         input_email.clear();
-        sendKeysAndMoveToElementVisible(input_email, cpcDetails.get("email"), 10);
+        sendKeysAndMoveToElementVisible(input_email, cpcDetails.get("email"), mediumWait());
         return cpcDetails;
     }
 
@@ -425,54 +425,54 @@ public class NewCPCWizardPage extends CommonFunctions {
     public void fillingHybridCPCForm(HashMap<String, String> cpcDetails) throws Exception {
         String notApply = "N_A";
         Faker faker = new Faker();
-        selectAndMoveDropDownVisibleRandomOption(dropdown_subType, 10);
-        clickAndMoveToElementVisible(input_firstName, 10);
+        selectAndMoveDropDownVisibleRandomOption(dropdown_subType, mediumWait());
+        clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, cpcDetails.get("firstName"), 10);
+        sendKeysAndMoveToElementVisible(input_firstName, cpcDetails.get("firstName"), mediumWait());
 
         if (!cpcDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_middleName, cpcDetails.get("middleName"), 10);
+            sendKeysAndMoveToElementVisible(input_middleName, cpcDetails.get("middleName"), mediumWait());
         }
-        clickAndMoveToElementVisible(input_lastName, 10);
+        clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), 10);
+        sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), mediumWait());
 
         if (!cpcDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(datePicker_DOB, 10);
+            clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
             datePicker_DOB.clear();
-            sendKeysAndMoveToElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), 10);
+            sendKeysAndMoveToElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), mediumWait());
         }
-        clickAndMoveToElementVisible(input_phoneOrFax, 10);
+        clickAndMoveToElementVisible(input_phoneOrFax, mediumWait());
         input_phoneOrFax.clear();
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), 10);
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), mediumWait());
 
         if (!cpcDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_addressLine1, 10);
+            clickAndMoveToElementVisible(input_addressLine1, mediumWait());
             input_addressLine1.clear();
-            sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), 10);
+            sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), mediumWait());
         }
 
         if (!cpcDetails.get("city").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_city, 10);
+            clickAndMoveToElementVisible(input_city, mediumWait());
             input_city.clear();
-            sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), 10);
+            sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), mediumWait());
         }
 
         if (!cpcDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
             scrollMethodToWebElement(dropdown_state);
-            selectAndMoveDropdownByText(dropdown_state, cpcDetails.get("stateCode"), 10);
+            selectAndMoveDropdownByText(dropdown_state, cpcDetails.get("stateCode"), mediumWait());
         }
 
         if (!cpcDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
-            clickAndMoveToElementVisible(input_zipCode, 10);
+            clickAndMoveToElementVisible(input_zipCode, mediumWait());
             input_zipCode.clear();
-            sendKeysAndMoveToElementVisible(input_zipCode, cpcDetails.get("zipCode"), 10);
+            sendKeysAndMoveToElementVisible(input_zipCode, cpcDetails.get("zipCode"), mediumWait());
         }
 
         if (!cpcDetails.get("country").trim().equalsIgnoreCase(notApply)) {
 
             scrollMethodToWebElement(dropdown_country);
-            selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), 10);
+            selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), mediumWait());
         }
     }
 
@@ -482,7 +482,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public void clickSaveButton() throws Exception {
-        clickAndMoveToElementClickable(button_saveAccount, 10);
+        clickAndMoveToElementClickable(button_saveAccount, mediumWait());
     }
 
     /**
@@ -490,14 +490,15 @@ public class NewCPCWizardPage extends CommonFunctions {
      *
      * @return the Account ID added to the new CPC account
      * @throws Exception
+     * @author J.Ruano
      */
     public String getExternalID() throws Exception {
-        waitForElementVisibility(label_systemInfo, 20);
+        waitForElementVisibility(label_systemInfo, longWait());
         clickMethod(label_systemInfo);
-        if (waitForElementClickable(linkButton_lastModifiedBy, 10)) {
+        if (waitForElementClickable(linkButton_lastModifiedBy, mediumWait())) {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         } else {
-            waitForElementVisibility(linkButton_lastModifiedBy, 10);
+            waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         return label_externalID.getText().replace("Account ID", "").trim();
@@ -514,7 +515,7 @@ public class NewCPCWizardPage extends CommonFunctions {
     public String selectCareGiver(String careGiver) throws Exception {
         WebElement selectedOption = null;
         if (careGiver.equalsIgnoreCase("RND")) {
-            clickAndMoveToElementClickable(selectedOption = getRandomWebElementFromList(dropdown_searchAccountsList, 10), 10);
+            clickAndMoveToElementClickable(selectedOption = getRandomWebElementFromList(dropdown_searchAccountsList, mediumWait()), mediumWait());
             selectedOption.getAttribute("title");
         } else {
             if (!careGiver.isEmpty()) {
@@ -523,8 +524,8 @@ public class NewCPCWizardPage extends CommonFunctions {
                 selectedOption = clickAndMoveToElementClickableFromListByAttribute(getWebElementList(elementLocator), "title", careGiver);
             }
         }
-        clickWhileCondition(dropdown_careGiverRelationship, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_careGiverRelationshipList, "--None--"), 10);
+        clickWhileCondition(dropdown_careGiverRelationship, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_careGiverRelationshipList, "--None--"), mediumWait());
         return selectedOption.getAttribute("title");
     }
 }
