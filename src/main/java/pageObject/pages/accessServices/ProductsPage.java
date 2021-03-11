@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ProductsPage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    int shortTimeOutInSeconds = 10;
+
     @FindBy(xpath = "//span[@title='Product Name'] | //span[@title='Product Enrollment Number'] | //span[text()='Name']")
     private WebElement toggle_pmProductNameColumn;
 
@@ -52,14 +52,14 @@ public class ProductsPage extends CommonFunctions {
     public void selectProductView(String filterView) throws Exception {
         By toogleListSecondOption = By.xpath("//li//a//*[text()='" + filterView + "']");
         do {
-            waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds);
-        } while (!waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds));
+            waitForElementClickable(toggle_pmProductNameColumn, shortWait());
+        } while (!waitForElementClickable(toggle_pmProductNameColumn, shortWait()));
         try {
             if (getWebElementText(linkButton_pmCurrentView).trim().equalsIgnoreCase(filterView)) {
                 logger.info("Already At: " + filterView);
             } else {
-                clickAndMoveToElementClickable(linkButton_pmCurrentView, shortTimeOutInSeconds);
-                waitForElementVisibility(label_pmListViews, shortTimeOutInSeconds);
+                clickAndMoveToElementClickable(linkButton_pmCurrentView, shortWait());
+                waitForElementVisibility(label_pmListViews, shortWait());
                 WebElement filterElement = clickAndMoveToElementClickableFromListByText(toggleList_pmViewList, filterView);
                 if (filterElement == null) {
                     clickElementJS(getWebElement(toogleListSecondOption));
@@ -81,8 +81,8 @@ public class ProductsPage extends CommonFunctions {
      */
     public void searchProductOrPE(String productName) throws Exception {
         Actions actions = new Actions(DriverFactory.getDriver());
-        clickAndMoveToElementClickable(input_pmSearchList, shortTimeOutInSeconds);
-        sendKeysAndMoveToElementClickable(input_pmSearchList, productName, shortTimeOutInSeconds);
+        clickAndMoveToElementClickable(input_pmSearchList, shortWait());
+        sendKeysAndMoveToElementClickable(input_pmSearchList, productName, shortWait());
         actions.sendKeys(Keys.ENTER).build().perform();
     }
 
@@ -98,13 +98,13 @@ public class ProductsPage extends CommonFunctions {
         boolean statusOperation = false;
         By labelList_pmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
         try {
-            waitForElementTextPresent(tableRow_pmFirstRow, productName, 10);
+            waitForElementTextPresent(tableRow_pmFirstRow, productName, mediumWait());
             List<WebElement> productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
             if (!productNamesFound.isEmpty()) {
                 for (WebElement product : productNamesFound) {
                     if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
-                        waitForElementVisibility(product, shortTimeOutInSeconds);
-                        clickAndMoveToElementClickable(product, shortTimeOutInSeconds);
+                        waitForElementVisibility(product, shortWait());
+                        clickAndMoveToElementClickable(product, shortWait());
                         logger.info("The Product Element was found");
                         statusOperation = true;
                         break;
@@ -131,7 +131,7 @@ public class ProductsPage extends CommonFunctions {
      */
     public List<String> getServicesProvidedList() throws Exception {
         List<String> servicesProvidedList = null;
-        waitForElementVisibility(label_pmProductNameLabel, shortTimeOutInSeconds);
+        waitForElementVisibility(label_pmProductNameLabel, shortWait());
         scrollMethodToWebElement(labelList_pmServicesProvidedList);
         return servicesProvidedList = splitRegex(getWebElementText(labelList_pmServicesProvidedList), "[;]");
     }

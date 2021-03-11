@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ProductEnrollmentPage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    int shortTimeOutInSeconds = 10;
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
@@ -71,7 +70,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
     public boolean validatePEDSIMessage(String messagePE) throws Exception {
         boolean result = false;
         waitForPageToLoad();
-        if (waitForElementVisibility(message_msgNoDSIConsent,5)) {
+        if (waitForElementVisibility(message_msgNoDSIConsent,shortWait())) {
             if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
                 logger.info("The Message: " + messagePE + "Matched");
                 result = true;
@@ -95,7 +94,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void clickOnNewCase() throws Exception {
-        clickAndMoveToElementClickable(button_newCase, 30);
+        clickAndMoveToElementClickable(button_newCase, longWait());
     }
 
     /**
@@ -112,12 +111,12 @@ public class ProductEnrollmentPage extends CommonFunctions {
         boolean statusOperation = false;
         By labelList_pmServicesProvidedList = By.xpath("//tr//a[@title='" + id_PE + "']");
        try {
-            waitForElementTextPresent(tableRow_pmFirstRow, id_PE, 10);
+            waitForElementTextPresent(tableRow_pmFirstRow, id_PE, mediumWait());
             List<WebElement> productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
             if (!productNamesFound.isEmpty()) {
                 for (WebElement product : productNamesFound) {
-                        waitForElementVisibility(product, shortTimeOutInSeconds);
-                        clickAndMoveToElementClickable(product, shortTimeOutInSeconds);
+                        waitForElementVisibility(product, shortWait());
+                        clickAndMoveToElementClickable(product, shortWait());
                         logger.info("The Product Enrollment Element was found");
                         statusOperation = true;
                         break;

@@ -1843,7 +1843,7 @@ public class CommonFunctions {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         if (waitForElementVisibility(webElement, waitTime)) {
             clickElementJS(webElement);
-            js.executeScript("arguments[0].value='"+ text +"';", webElement);
+            js.executeScript("arguments[0].value='" + text + "';", webElement);
         } else {
             logger.error("The Web Element was not found or it is not an input type");
             throw new NoSuchElementException("Element not valid");
@@ -2745,7 +2745,7 @@ public class CommonFunctions {
             if (waitForPresenceOfAllElementsLocatedBy(subTabs, waitTime)) {
                 waitForPresenceOfAllElementsLocatedBy(subTabs, waitTime);
                 clickAndMoveToElementClickable(getWebElement(lastSubTab), waitTime);
-                logger.info("sub-tab "+lastSubTab+ " clicked");
+                logger.info("sub-tab " + lastSubTab + " clicked");
             } else {
                 logger.warn("The sub-tab is not visible");
             }
@@ -3112,7 +3112,7 @@ public class CommonFunctions {
     /**
      * Used to retry to find an element and avoid the "StaleElementReferenceException"
      *
-     * @param locator contains the locator that will be used to search the element
+     * @param locator          contains the locator that will be used to search the element
      * @param amountOfAttempts it contains a int value with the amount of tries
      * @return it returns a boolean value of the result of the operation
      * @throws Exception
@@ -3121,15 +3121,75 @@ public class CommonFunctions {
     public boolean retryingFindElementByLocator(By locator, int amountOfAttempts) throws Exception {
         boolean result = false;
         int attemptsCounter = 0;
-        while(attemptsCounter < amountOfAttempts) {
+        while (attemptsCounter < amountOfAttempts) {
             try {
                 getWebElement(locator);
                 result = true;
                 break;
-            } catch(StaleElementReferenceException e) {
+            } catch (StaleElementReferenceException e) {
             }
             attemptsCounter++;
         }
         return result;
+    }
+
+    /**
+     * Use to assign the short wait time from the GlobalConfig.properties
+     *
+     * @return an integer value
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public int shortWait() throws Exception {
+        fileReading.setFileName("GlobalConfig.properties");
+        int waitTime =0;
+        try {
+            waitTime = Integer.parseInt(fileReading.getField("shortWaitTime"));
+            logger.info(waitTime + " Seconds Will Be Wait For shortWaitTime");
+
+        }catch (NumberFormatException e){
+            logger.warn("There is no valid value for shortWaitTime at GlobalConfig.properties File");
+        }
+        return waitTime;
+    }
+
+    /**
+     * Use to assign the medium wait time from the GlobalConfig.properties
+     *
+     * @return an integer value
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public int mediumWait() throws Exception {
+        fileReading.setFileName("GlobalConfig.properties");
+        int waitTime =0;
+        try {
+            waitTime = Integer.parseInt(fileReading.getField("mediumWaitTime"));
+            logger.info(waitTime + " Seconds Will Be Wait For mediumWaitTime");
+
+        }catch (NumberFormatException e){
+            logger.warn("There is no valid value for mediumWaitTime at GlobalConfig.properties File");
+        }
+        return waitTime;
+    }
+
+    /**
+     * Use to assign the long wait time from the GlobalConfig.properties
+     *
+     * @return an integer value
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public int longWait() throws Exception {
+        fileReading.setFileName("GlobalConfig.properties");
+        int waitTime =0;
+        try {
+            waitTime = Integer.parseInt(fileReading.getField("longWaitTime"));
+            logger.info(waitTime + " Seconds Will Be Wait For longWaitTime");
+
+        }catch (NumberFormatException e){
+            logger.warn("There is no valid value for longWaitTime at GlobalConfig.properties File");
+        }
+        return waitTime;
     }
 }

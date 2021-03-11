@@ -86,8 +86,8 @@ public class NewHCAWizardPage extends CommonFunctions {
 
 
 
-    public boolean isNewHCAWizardFormDisplayed() {
-        return waitForElementVisibility(dropdown_type, 30);
+    public boolean isNewHCAWizardFormDisplayed() throws Exception {
+        return waitForElementVisibility(dropdown_type, longWait());
     }
 
     /**
@@ -149,25 +149,25 @@ public class NewHCAWizardPage extends CommonFunctions {
         hcaDetails.put("city", faker.address().cityName());
         hcaDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
         //=====================================Populating The HCA Data
-        clickAndMoveToElementVisible(input_hcaName, 10);
+        clickAndMoveToElementVisible(input_hcaName, mediumWait());
         input_hcaName.clear();
-        sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), 10);
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), 10);
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), 10);
-        sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), 10);
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), 10);
-        sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), 10);
-        clickWhileCondition(dropdown_state, "aria-expanded", "false", 10);
-        hcaDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, 10)).getAttribute("data-value"));
-        clickAndMoveToElementClickable(backUpWElement, 10);
-        sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), 10);
-        sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), 10);
-        clickWhileCondition(dropdown_country, "aria-expanded", "false", 10);
-        hcaDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, 10)).getAttribute("data-value"));
-        clickAndMoveToElementClickable(backUpWElement, 10);
-        sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), 10);
+        sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), mediumWait());
+        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
+        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
+        sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), mediumWait());
+        clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
+        hcaDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute("data-value"));
+        clickAndMoveToElementClickable(backUpWElement, mediumWait());
+        sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), mediumWait());
+        clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
+        hcaDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute("data-value"));
+        clickAndMoveToElementClickable(backUpWElement, mediumWait());
+        sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), mediumWait());
         return hcaDetails;
     }
 
@@ -349,41 +349,41 @@ public class NewHCAWizardPage extends CommonFunctions {
     public void fillingHybridHCAForm(HashMap<String, String> hcaDetails) throws Exception {
         String notApply = "N_A";
         Faker faker = new Faker();
-        clickAndMoveToElementVisible(input_hcaName, 10);
+        clickAndMoveToElementVisible(input_hcaName, mediumWait());
         input_hcaName.clear();
-        sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), 10);
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), 10);
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", 10);
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), 10);
+        sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), mediumWait());
+        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
+        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
         if (!hcaDetails.get("npi").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), 10);
+            sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), mediumWait());
         }
-        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), 10);
+        sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), mediumWait());
         if (!hcaDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), 10);
+            sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), mediumWait());
         }
 
         if (!hcaDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_state, "aria-expanded", "false", 10);
+            clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
             clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, "data-value", hcaDetails.get("stateCode"));
         }
 
         if (!hcaDetails.get("city").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), 10);
+            sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), mediumWait());
         }
 
         if (!hcaDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), 10);
+            sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), mediumWait());
         }
 
         if (!hcaDetails.get("country").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_country, "aria-expanded", "false", 10);
+            clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
             clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, "data-value", hcaDetails.get("country"));
         }
 
         if (!hcaDetails.get("email").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), 10);
+            sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), mediumWait());
         }
     }
 
@@ -393,7 +393,7 @@ public class NewHCAWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public void clickSaveButton() throws Exception {
-        clickAndMoveToElementClickable(button_saveAccount, 10);
+        clickAndMoveToElementClickable(button_saveAccount, mediumWait());
     }
 
     /**
@@ -403,12 +403,12 @@ public class NewHCAWizardPage extends CommonFunctions {
      * @throws Exception
      */
     public String getExternalID() throws Exception {
-        waitForElementVisibility(label_systemInfo, 20);
+        waitForElementVisibility(label_systemInfo, longWait());
         clickMethod(label_systemInfo);
-        if (waitForElementClickable(linkButton_lastModifiedBy, 10)) {
+        if (waitForElementClickable(linkButton_lastModifiedBy, mediumWait())) {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         } else {
-            waitForElementVisibility(linkButton_lastModifiedBy, 10);
+            waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         return label_externalID.getText().replace("Account ID", "").trim();

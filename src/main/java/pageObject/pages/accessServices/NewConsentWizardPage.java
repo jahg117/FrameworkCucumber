@@ -57,51 +57,51 @@ public class NewConsentWizardPage extends CommonFunctions {
     public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
         int requiredValues = 4;
         int valueCounter = 1;
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         do {
             switch (valueCounter) {
                 case 1:
                     if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase("RND")) {
-                        selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, 20);
+                        selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, longWait());
                     } else {
-                        selectDropDownRandomOptionNone(dropdown_consentStatus, 10);
+                        selectDropDownRandomOptionNone(dropdown_consentStatus, mediumWait());
                     }
                     valueCounter++;
                     break;
 
                 case 2:
                     if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase("RND")) {
-                        sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, 10);
+                        sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, mediumWait());
                         datePicker_consentDateManual.sendKeys(Keys.ESCAPE);
                     } else {
-                        clickAndMoveToElementClickable(datePicker_consentDateCurrent, 10);
+                        clickAndMoveToElementClickable(datePicker_consentDateCurrent, mediumWait());
                     }
                     valueCounter++;
                     break;
 
                 case 3:
                     if (!consentSource.trim().isEmpty()&& !consentSource.trim().equalsIgnoreCase("RND")) {
-                        selectAndMoveDropdownByText(dropdown_consentSource, consentSource, 20);
+                        selectAndMoveDropdownByText(dropdown_consentSource, consentSource, longWait());
                     } else {
-                        selectDropDownRandomOptionNone(dropdown_consentSource, 10);
+                        selectDropDownRandomOptionNone(dropdown_consentSource, mediumWait());
                     }
                     valueCounter++;
                     break;
 
                 case 4:
                     if (!consentAuth.trim().isEmpty() && consentAuth.trim().equalsIgnoreCase("Self")) {
-                        clickAndMoveToElementClickable(checkbox_consentSelf, 10);
+                        clickAndMoveToElementClickable(checkbox_consentSelf, mediumWait());
                     } else if (consentAuth.trim().equalsIgnoreCase("LAR")) {
-                        clickAndMoveToElementClickable(checkbox_consentLAF, 10);
+                        clickAndMoveToElementClickable(checkbox_consentLAF, mediumWait());
                     } else {
-                        clickAndMoveToElementClickable(getRandomWebElementFromList(checkbox_consentByList, 10), 10);
+                        clickAndMoveToElementClickable(getRandomWebElementFromList(checkbox_consentByList, mediumWait()), mediumWait());
                     }
                     valueCounter++;
                     break;
             }
         }
         while (valueCounter <= requiredValues);
-        clickAndMoveToElementVisible(button_next, 15);
+        clickAndMoveToElementVisible(button_next, mediumWait());
     }
 
     /**
@@ -110,15 +110,16 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @param randomAddress if this is true it will be selecting a random address previously created this has first priority even if you put an idxCheckbox to be selected
      * @param idxCheckbox   it contains an integer number to select from the list
      * @throws Exception
+     * @author J.Ruano
      */
     public void selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         List<WebElement> visibleWebElements = getVisibleElements(checkbox_addressesCheckBoxes);
         if (randomAddress == true) {
-            clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, 10), 10);
+            clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, mediumWait()), mediumWait());
         } else {
-            clickAndMoveToElementClickable(visibleWebElements.get(idxCheckbox), 10);
+            clickAndMoveToElementClickable(visibleWebElements.get(idxCheckbox), mediumWait());
         }
-        clickAndMoveToElementClickable(button_addressSave, 10);
+        clickAndMoveToElementClickable(button_addressSave, mediumWait());
     }
 }

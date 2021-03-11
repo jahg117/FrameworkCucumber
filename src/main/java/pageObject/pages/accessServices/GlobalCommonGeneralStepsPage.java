@@ -10,7 +10,6 @@ import java.util.List;
 
 public class GlobalCommonGeneralStepsPage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    int shortTimeOutInSeconds = 10;
 
     @FindBy(xpath = "//span[@title='Product Name'] | //span[@title='Product Enrollment Number'] | //span[text()='Name']")
     private WebElement toggle_pmProductNameColumn;
@@ -48,14 +47,14 @@ public class GlobalCommonGeneralStepsPage extends CommonFunctions {
      */
     public void selectFilterView(String filterView) throws Exception {
         do {
-            waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds);
-        } while (!waitForElementClickable(toggle_pmProductNameColumn, shortTimeOutInSeconds));
+            waitForElementClickable(toggle_pmProductNameColumn, mediumWait());
+        } while (!waitForElementClickable(toggle_pmProductNameColumn, mediumWait()));
         try {
             if (getWebElementText(linkButton_pmCurrentView).trim().equalsIgnoreCase(filterView)) {
                 logger.info("Already At: " + filterView);
             } else {
-                clickAndMoveToElementClickable(linkButton_pmCurrentView, shortTimeOutInSeconds);
-                waitForElementVisibility(label_pmListViews, shortTimeOutInSeconds);
+                clickAndMoveToElementClickable(linkButton_pmCurrentView, mediumWait());
+                waitForElementVisibility(label_pmListViews, mediumWait());
                 clickAndMoveToElementClickableFromListByText(toggleList_pmViewList, filterView);
                 logger.info("It Worked: " + filterView);
             }
