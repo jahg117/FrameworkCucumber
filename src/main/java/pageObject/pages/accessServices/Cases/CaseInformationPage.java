@@ -2,6 +2,7 @@ package pageObject.pages.accessServices.Cases;
 
 import base.functions.CommonFunctions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
@@ -52,8 +53,22 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//input[@title='Search Products']")
     private WebElement input_searchProducts;
 
+    @FindBy(xpath = "//*[contains(text(),'Enrolled Patient')]/following::*//input[@title='Search Accounts']")
+    private WebElement input_searchAccounts;
+
     @FindBy(xpath = "//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]")
     private List<WebElement> list_autocompleteElements;
+
+    @FindBy(xpath = "//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span")
+    private WebElement button_createNewElementList;
+
+    @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
+    private WebElement label_productEnrollment;
+
+    public String getProductEnrollment(){
+        waitForElementVisibility(label_productEnrollment, 10);
+        return getWebElementText(label_productEnrollment);
+    }
 
     public void fillCaseInformationForm() throws Exception {
         selectRandomDropdownOption(dropdown_channel, list_dropdownOptions);
@@ -76,6 +91,38 @@ public class CaseInformationPage extends CommonFunctions {
         webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
         caseInformationForm.put("Channel", webElementOption);
         return caseInformationForm;
+    }
+
+    public void fillSearchProduct(String product) throws Exception {
+        sendKeysAndMoveToElementClickable(input_searchProducts, product, 10);
+        waitForElementListVisible(list_autocompleteElements, 10);
+        for(WebElement el : list_autocompleteElements){
+            if(getWebElementText(el).equalsIgnoreCase(product)){
+                clickAndMoveToElementClickable(el, 10);
+                break;
+            }
+        }
+    }
+
+    public void fillPatientProductEnrollmentFields(String patientName) throws Exception {
+        if(waitForElementVisibility(input_searchAccounts, 6)) {
+            sendKeysAndMoveToElementVisible(input_searchAccounts, patientName, 20);
+            if(!waitForElementListVisible(list_autocompleteElements, 5)) {
+                sendKeysByActions(Keys.TAB.toString());
+                clickAndMoveToElementVisible(input_searchAccounts, 5);
+                waitForElementListVisible(list_autocompleteElements, 5);
+            }
+            for (WebElement el : list_autocompleteElements) {
+                if (getWebElementText(el).equalsIgnoreCase(patientName)) {
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+        }
+        clickAndMoveToElementClickable(input_searchProductEnrollments, 10);
+        waitForElementListVisible(list_autocompleteElements, 10);
+        waitForElementVisibility(button_createNewElementList, 10);
+        clickAndMoveToElementClickable(button_createNewElementList, 10);
     }
 
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {

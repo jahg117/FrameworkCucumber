@@ -9,6 +9,9 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "(//img[@title='Case']/following::*[@name='Edit'])[last()]")
     private WebElement button_edit;
 
+    @FindBy(xpath = "//img[@title='Case']/following::*//button[contains(@name,'Child')]")
+    private WebElement button_childCase;
+
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Requested By']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseRequestedBy;
 
@@ -24,7 +27,7 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Channel']/../..//span[contains(@class,'field-value')]")
     private WebElement input_channel;
 
-    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Status']/../..//span[contains(@class,'field-value')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Status']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseStatus;
 
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Product']/../..//span[contains(@class,'field-value')]")
@@ -35,6 +38,10 @@ public class CasePage extends CommonFunctions {
 
     public boolean isCasePageDisplayed(){
         return waitForElementVisibility(button_edit, 20);
+    }
+
+    public void clickChildCaseButton() throws Exception {
+        clickAndMoveToElementClickable(button_childCase, 20);
     }
 
     public String getCaseStatus(){

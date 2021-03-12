@@ -31,6 +31,7 @@ public class AccessServices {
     private CaseInformationPage caseInformationPage;
     private NewCaseOptionsPage newCaseOptionsPage;
     private CasesListPage casesListPage;
+    private NewChildCasePage newChildCasePage;
     private NewHCAWizardPage newHCAWizardPage;
     private NewHCPWizardPage newHCPWizardPage;
     private NewCPCWizardPage newCPCWizardPage;
@@ -38,6 +39,7 @@ public class AccessServices {
     private ProductsPage productsPage;
     private UpdateCaseContactWizardPage updateCaseContactWizardPage;
     private GlobalCommonGeneralStepsPage globalCommonGeneralSteps;
+    private NewProductEnrollmentForm newProductEnrollmentForm;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -63,6 +65,7 @@ public class AccessServices {
         caseInformationPage = PageFactory.initElements(driver, CaseInformationPage.class);
         newCaseOptionsPage = PageFactory.initElements(driver, NewCaseOptionsPage.class);
         casesListPage = PageFactory.initElements(driver, CasesListPage.class);
+        newChildCasePage = PageFactory.initElements(driver, NewChildCasePage.class);
         newHCAWizardPage = PageFactory.initElements(driver, NewHCAWizardPage.class);
         newHCPWizardPage = PageFactory.initElements(driver, NewHCPWizardPage.class);
         newCPCWizardPage = PageFactory.initElements(driver, NewCPCWizardPage.class);
@@ -70,6 +73,7 @@ public class AccessServices {
         productsPage = PageFactory.initElements(driver, ProductsPage.class);
         updateCaseContactWizardPage = PageFactory.initElements(driver, UpdateCaseContactWizardPage.class);
         globalCommonGeneralSteps = PageFactory.initElements(driver, GlobalCommonGeneralStepsPage.class);
+        newProductEnrollmentForm = PageFactory.initElements(driver, NewProductEnrollmentForm.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -98,6 +102,7 @@ public class AccessServices {
     public CaseInformationPage getCaseInformationPage() { return caseInformationPage; }
     public CasesListPage getCasesListPage() { return casesListPage; }
     public NewCaseOptionsPage getNewCaseOptionsPage() { return newCaseOptionsPage; }
+    public NewChildCasePage getNewChildCasePage() { return newChildCasePage; }
     public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
     public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
     public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
@@ -105,4 +110,5 @@ public class AccessServices {
     public ProductsPage getProductsPage() { return productsPage; }
     public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() { return updateCaseContactWizardPage; }
     public GlobalCommonGeneralStepsPage getGlobalCommonGeneralStepsPage() { return globalCommonGeneralSteps; }
+    public NewProductEnrollmentForm getNewProductEnrollmentForm() { return newProductEnrollmentForm; }
 }
