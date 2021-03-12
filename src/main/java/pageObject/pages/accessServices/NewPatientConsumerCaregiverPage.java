@@ -96,6 +96,14 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName")+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
+        if(!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
+            input_firstName.clear();
+            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);
+        }
+        if(!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
+            input_lastName.clear();
+            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), 10);
+        }
         return patientDetails;
     }
 
