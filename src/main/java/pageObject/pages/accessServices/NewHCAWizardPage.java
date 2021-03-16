@@ -220,7 +220,6 @@ public class NewHCAWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public String hibrydHCAFormFilter(String hcaValue, String nameOfField) throws Exception {
-        WebElement backUpWElement = null;
         String underScore = "_";
         String dateFormat = "MMM.dd.HH.mm";
         String notApply = "N_A";
@@ -348,7 +347,6 @@ public class NewHCAWizardPage extends CommonFunctions {
      */
     public void fillingHybridHCAForm(HashMap<String, String> hcaDetails) throws Exception {
         String notApply = "N_A";
-        Faker faker = new Faker();
         clickAndMoveToElementVisible(input_hcaName, mediumWait());
         input_hcaName.clear();
         sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), mediumWait());

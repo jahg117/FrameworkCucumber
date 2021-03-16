@@ -265,7 +265,7 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        autoSwitchIframeByWebElement(input_searchFirstName, mediumWait());
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
         switch (accountType.trim().toLowerCase()) {

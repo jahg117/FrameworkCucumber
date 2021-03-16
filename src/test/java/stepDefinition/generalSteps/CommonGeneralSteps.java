@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class CommonGeneralSteps extends ApplicationInstance {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    private static String executionFlag = "";
     private CommonData commonData;
     private String product;
 
