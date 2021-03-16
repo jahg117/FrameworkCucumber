@@ -24,11 +24,14 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Date of Birth']/../..//span[contains(@class,'field-value')]")
     private WebElement input_dateOfBirth;
 
-    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Channel']/../..//span[contains(@class,'field-value')]")
+    @FindBy(xpath = "(//img[@title='Case']/following::*[./text()='Channel']/../..//span[contains(@class,'field-value')])[last()]")
     private WebElement input_channel;
 
-    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Status']/../..//span[contains(@class,'field-value')]")
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Status']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseStatus;
+
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Status']/../..//span[contains(@class,'field-value')]")
+    private WebElement input_status;
 
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Product']/../..//span[contains(@class,'field-value')]")
     private WebElement input_product;
@@ -46,6 +49,10 @@ public class CasePage extends CommonFunctions {
 
     public String getCaseStatus(){
         return waitForElementVisibility(input_caseStatus, 2) ? getWebElementText(input_caseStatus).split("\n")[0] : "";
+    }
+
+    public String getStatus(){
+        return waitForElementVisibility(input_status, 2) ? getWebElementText(input_status).split("\n")[0] : "";
     }
 
     public String getCaseRequestedBy(){

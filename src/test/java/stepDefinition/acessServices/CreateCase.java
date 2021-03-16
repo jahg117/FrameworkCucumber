@@ -128,9 +128,9 @@ public class CreateCase extends ApplicationInstance {
     public void validateCaseInformation() throws Exception {
         accessServices.getCasePage().isCasePageDisplayed();
         Assert.assertEquals(accessServices.getCasePage().getEnrolledPatient(), commonData.patient.getPatientName(), "The enrolled patient is not matching");
-        Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.caseForm.getCaseStatus(), "The case status is not matching");
+        Assert.assertEquals(accessServices.getCasePage().getStatus(), commonData.caseForm.getCaseStatus(), "The case status is not matching");
         Assert.assertEquals(accessServices.getCasePage().getProductEnrollment(), commonData.productEnrollment.getProductEnrollment(), "The product enrollment is not matching");
-        //Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.caseForm.getChannel(), "The channel is not matching");
+        Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.caseForm.getChannel(), "The channel is not matching");
     }
 
     @And("^I create a/an \"([^\"]*)\" case$")
