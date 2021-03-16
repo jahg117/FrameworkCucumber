@@ -31,13 +31,13 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     @When("^the salesforce page is displayed$")
     public void setSalesforcePageDisplayed() throws Exception {
         Assert.assertTrue(salesforce.getHomePage().isSalesforcePageVisible(), "The salesforce page is not displayed");
-        salesforce.getHomePage().closeOpenTabs();
     }
 
     @Then("^I search the \"([^\"]*)\" app$")
     public void the_AppPage(String appName) throws Throwable {
         boolean page = salesforce.getAppLauncherPage().searchAppName(appName);
         Assert.assertTrue(page, appName + " page was not displayed");
+        closeTabs();
     }
 
     @And("Close all the Tabs")
