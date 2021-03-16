@@ -3142,12 +3142,12 @@ public class CommonFunctions {
      */
     public int shortWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime =0;
+        int waitTime = 0;
         try {
             waitTime = Integer.parseInt(fileReading.getField("shortWaitTime"));
             logger.info(waitTime + " Seconds Will Be Wait For shortWaitTime");
 
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             logger.warn("There is no valid value for shortWaitTime at GlobalConfig.properties File");
         }
         return waitTime;
@@ -3162,12 +3162,12 @@ public class CommonFunctions {
      */
     public int mediumWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime =0;
+        int waitTime = 0;
         try {
             waitTime = Integer.parseInt(fileReading.getField("mediumWaitTime"));
             logger.info(waitTime + " Seconds Will Be Wait For mediumWaitTime");
 
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             logger.warn("There is no valid value for mediumWaitTime at GlobalConfig.properties File");
         }
         return waitTime;
@@ -3182,14 +3182,90 @@ public class CommonFunctions {
      */
     public int longWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime =0;
+        int waitTime = 0;
         try {
             waitTime = Integer.parseInt(fileReading.getField("longWaitTime"));
             logger.info(waitTime + " Seconds Will Be Wait For longWaitTime");
 
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             logger.warn("There is no valid value for longWaitTime at GlobalConfig.properties File");
         }
         return waitTime;
+    }
+
+    /**
+     * Use to auto search and switch between iframes to find an element by locator
+     *
+     * @param locator contains the locator to search the WebElement
+     * @return a boolean value of the statu of the operation
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public boolean autoSwitchIframeByLocator(By locator) throws Exception {
+        boolean switchToFrameFlag = false;
+        int size = getWebElementList(By.tagName("iframe")).size();
+        for (int i = 0; i <= size; i++) {
+            driver.switchTo().frame(i);
+            if (getWebElement(locator) != null) {
+                logger.info("Element Found Switching To Iframe: " + i);
+                switchToFrameFlag = true;
+                break;
+            } else {
+                driver.switchTo().defaultContent();
+            }
+        }
+        return switchToFrameFlag;
+    }
+
+    /**
+     * Use to auto search and switch between iframes to find an element by WebElement
+     *
+     * @param elementFound contains the WebElement that we want found at page
+     * @param waitTime the wait time to give at search
+     * @return a boolean value of the status of the operation
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public boolean autoSwitchIframeByWebElement(WebElement elementFound, int waitTime) throws Exception {
+        boolean switchToFrameFlag = false;
+        int counter = 0;
+        do {
+            switchToFrameFlag = switchingIframeUntilElementFound(elementFound, counter, waitTime);
+            counter++;
+        } while (!switchToFrameFlag);
+        return switchToFrameFlag;
+    }
+
+    /**
+     * Method used by autoSwitchIframeByWebElement to handle the loop when exception occurs so th eoperation can continue until it gets
+     * the correct iframe where the element is located
+     *
+     * @param elementFound contains the WebElement that we want found at page
+     * @param counter counter used to switch between iframes
+     * @param waitTime the wait time to give at search
+     * @return a boolean value of the status of the operation
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public boolean switchingIframeUntilElementFound(WebElement elementFound, int counter, int waitTime) throws Exception {
+        boolean switchToFrameFlag = false;
+        try {
+            driver.switchTo().defaultContent();
+            int size = getWebElementList(By.tagName("iframe")).size();
+            for (int i = counter; i <= size; i++) {
+                driver.switchTo().defaultContent();
+                driver.switchTo().frame(i);
+                if (waitForElementVisibility(elementFound, waitTime) || waitForElementClickable(elementFound, waitTime) || elementFound.isDisplayed() || elementFound.isEnabled()) {
+                    logger.info("Element Found Switching To Iframe: " + i);
+                    switchToFrameFlag = true;
+                    break;
+                } else {
+                    driver.switchTo().defaultContent();
+                }
+            }
+        } catch (NoSuchElementException e) {
+            switchToFrameFlag = false;
+        }
+        return switchToFrameFlag;
     }
 }
