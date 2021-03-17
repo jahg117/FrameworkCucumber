@@ -18,7 +18,7 @@ public class ProductEnrollmentsTablePage extends CommonFunctions {
         return waitForElementVisibility(label_productEnrollments, 30);
     }
 
-    public ArrayList<String> getProductEnrollmentsList(){
+    public ArrayList<String> getProductEnrollmentsList() {
         waitForElementListVisible(list_productEnrollments, 20);
         ArrayList<String> productEnrollments = new ArrayList<>();
         for(WebElement el : list_productEnrollments){

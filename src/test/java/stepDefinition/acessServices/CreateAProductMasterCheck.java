@@ -30,7 +30,7 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     public void searchProductByName(String productName, String searchFromFile) throws Exception {
         if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
             accessServices.getProductsPage().searchProductOrPE(productName = commonData.product.getProduct().trim());
-        }else{
+        } else {
             accessServices.getProductsPage().searchProductOrPE(productName);
         }
         Assert.assertTrue(accessServices.getProductsPage().searchAndClickProductFromResults(productName), "Items Were Displayed");
@@ -45,8 +45,8 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     @Given("a product enrollment i search the PE {string} {string} and click it")
     public void searchPE(String productEnrollment, String searchFromFile) throws Exception {
         if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
-            accessServices.getProductsPage().searchProductOrPE(productEnrollment =commonData.productEnrollment.getProductEnrollment().trim());
-        }else{
+            accessServices.getProductsPage().searchProductOrPE(productEnrollment = commonData.productEnrollment.getProductEnrollment().trim());
+        } else {
             accessServices.getProductsPage().searchProductOrPE(productEnrollment);
         }
         //accessServices.getProductsPage().searchProductOrPE(productEnrollment);//TBD FROM WHERE WE GETTING THE PE PE-005677 PE-000035
