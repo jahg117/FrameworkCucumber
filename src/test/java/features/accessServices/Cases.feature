@@ -1,4 +1,4 @@
-@cases
+@smoke2
 Feature: Cases
 
   Background:
@@ -11,6 +11,10 @@ Feature: Cases
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
     Then I fill the mandatory fields from the account form
+    And I click on new Case from the person account page
+    And I select the case type option "Interaction"
+    And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
+    And I validate the interaction case number is displayed
     And I click on new product enrollment button
     And I enter a valid "<productName>" product in the product enrollment form
     And I click on enroll button

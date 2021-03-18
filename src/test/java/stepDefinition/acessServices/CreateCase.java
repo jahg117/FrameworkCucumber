@@ -66,6 +66,7 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CaseSubType", caseSubType);
         caseForm.put("DiscussTopic", discussTopic);
         caseForm.put("CardNumber", cardNumber);
+        caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
         String product = accessServices.getCaseInformationPage().clickSaveButton();
@@ -124,11 +125,19 @@ public class CreateCase extends ApplicationInstance {
         Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.interaction.getChannel(), "The channel is not matching");
     }
 
+    @And("^I validate the interaction case number is displayed$")
+    public void getCaseInteractionNumber() throws Exception {
+        accessServices.getCasePage().isCasePageDisplayed();
+        String interactionNumber = accessServices.getCasePage().getCaseNumber();
+        commonData.interaction = new Interaction(interactionNumber);
+        accessServices.getSubTabsPage().closeLastSubTab();
+    }
+
     @And("^I validate the correct case information is displayed$")
     public void validateCaseInformation() throws Exception {
         accessServices.getCasePage().isCasePageDisplayed();
         Assert.assertEquals(accessServices.getCasePage().getEnrolledPatient(), commonData.patient.getPatientName(), "The enrolled patient is not matching");
-        Assert.assertEquals(accessServices.getCasePage().getStatus(), commonData.caseForm.getCaseStatus(), "The case status is not matching");
+        Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.caseForm.getCaseStatus(), "The case status is not matching");
         Assert.assertEquals(accessServices.getCasePage().getProductEnrollment(), commonData.productEnrollment.getProductEnrollment(), "The product enrollment is not matching");
         Assert.assertEquals(accessServices.getCasePage().getChannel(), commonData.caseForm.getChannel(), "The channel is not matching");
     }
