@@ -108,6 +108,9 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//div[contains(text(),'No results found')]|//*[text()='No results found']")
     private WebElement message_searchNoResults;
 
+    @FindBy(xpath = "//div[@class='messageText']")
+    private WebElement message_errorMessageAtSearch;
+
 
     public void searchRandomFirstName() throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -265,11 +268,12 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
-        autoSwitchIframeByWebElement(input_searchFirstName, mediumWait());
+        autoSwitchIframeByWebElement(button_search, mediumWait());
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
         switch (accountType.trim().toLowerCase()) {
             case "hca":
+                waitForElementClickable(input_searchFacilityName, mediumWait());
                 clickAndMoveToElementVisible(input_searchFacilityName, mediumWait());
                 sendKeysAndMoveToElementClickable(input_searchFacilityName, searchValue, mediumWait());
                 break;
@@ -290,7 +294,12 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(button_search, mediumWait());
-        waitForElementVisibility(table_resultsTableHeaders, mediumWait());
+        if (!waitForElementVisibility(table_resultsTableHeaders, shortWait()) && !waitForElementVisibility(message_searchNoResults, shortWait()) && accountType.equalsIgnoreCase("hca")) {
+            clickAndMoveToElementVisible(input_searchFacilityName, mediumWait());
+            sendKeysAndMoveToElementClickable(input_searchFacilityName, searchValue, mediumWait());
+            clickElementVisible(button_search, mediumWait());
+            waitForElementVisibility(table_resultsTableHeaders, mediumWait());
+        }
         switchToDefaultContentFrame();
     }
 

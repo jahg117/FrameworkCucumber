@@ -13,16 +13,19 @@ import java.util.List;
 public class NewEmployeeWizardPage extends CommonFunctions {
     private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
 
-    @FindBy(xpath = "//*[contains(text(),'Sub Type')]/following::a[@class='select'][1]")
+    @FindBy(xpath = "//*[contains(text(),'Sub Type')]/..//*[@role='none']")
     private WebElement dropdown_subType;
 
-    @FindBy(xpath = "//*[contains(text(),'Sub Type')]/following::ul//li//a[not (@role='tab')][not (@title='--None--')]")
+    @FindBy(xpath = "//*[contains(text(),'Sub Type')]/..//span[@title][not (@title='--None--')]")
     private List<WebElement> dropdown_subTypeList;
 
     @FindBy(xpath = "//a[@data-label='System Information']")
     private WebElement label_systemInfo;
 
-    @FindBy(xpath = "//*[contains(text(),'Account ID')]//..")
+    @FindBy(xpath = "//a[@data-label='Account History']")
+    private WebElement label_accountHistory;
+
+    @FindBy(xpath = "(//*[contains(text(),'Account ID')]//..)[1]")
     private WebElement label_externalID;
 
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
@@ -78,6 +81,7 @@ public class NewEmployeeWizardPage extends CommonFunctions {
             employeeDetailsStoreData = hibrydEmployeeForm(identifier, firstName, middleName, lastName);
             fillingHybridEmployeeForm(employeeDetailsStoreData);
         }
+        scrollMethodToWebElement(button_saveAccount);
         clickSaveButton();
         employeeDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(employeeDetailsStoreData);
@@ -241,6 +245,11 @@ public class NewEmployeeWizardPage extends CommonFunctions {
             waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
+        clickMethod(label_accountHistory);
+        clickAndMoveToElementClickable(label_systemInfo,shortWait());
+        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
+        waitForElementPresenceBy(azID,shortWait());
+        scrollToElementByCoordinates(label_externalID);
         return label_externalID.getText().replace("Account ID", "").trim();
     }
 
