@@ -1187,7 +1187,7 @@ public class CommonFunctions {
         int y_coordinate = point.getY();
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
-        return waitForElementVisibility(wElement, 10);
+        return waitForElementVisibility(wElement, mediumWait());
     }
 
     /**
@@ -2908,7 +2908,6 @@ public class CommonFunctions {
                 //clickWebElementByActions(webElement);
                 clickElementClickable(webElement, 10);
             } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
-
             logger.info("WebElement clicked");
         } else {
             logger.error("The Web Element was not found");
@@ -3203,10 +3202,13 @@ public class CommonFunctions {
      */
     public boolean autoSwitchIframeByLocator(By locator) throws Exception {
         boolean switchToFrameFlag = false;
+
         int size = getWebElementList(By.tagName("iframe")).size();
+        List<WebElement> elementsList = new ArrayList<>();
         for (int i = 0; i <= size; i++) {
             driver.switchTo().frame(i);
-            if (getWebElement(locator) != null) {
+            elementsList = getWebElementList(locator);
+            if (!elementsList.isEmpty()) {
                 logger.info("Element Found Switching To Iframe: " + i);
                 switchToFrameFlag = true;
                 break;

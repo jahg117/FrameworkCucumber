@@ -2,6 +2,7 @@ package pageObject.pages.accessServices;
 
 import base.functions.CommonFunctions;
 import com.github.javafaker.Faker;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
@@ -56,7 +57,10 @@ public class NewHCPWizardPage extends CommonFunctions {
     @FindBy(xpath = "//a[@data-label='System Info']")
     private WebElement label_systemInfo;
 
-    @FindBy(xpath = "//*[contains(text(),'Account ID')]//..")
+    @FindBy(xpath = "//a[@data-label='Account History']")
+    private WebElement label_accountHistory;
+
+    @FindBy(xpath = "(//*[contains(text(),'Account ID')]//..)[1]")
     private WebElement label_externalID;
 
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
@@ -126,6 +130,7 @@ public class NewHCPWizardPage extends CommonFunctions {
             hcpDetailsStoreData = hibrydHCPForm(identifier, npi, firstName, middleName, lastName, dateOfBirth, email, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridHCPForm(hcpDetailsStoreData);
         }
+        scrollMethodToWebElement(button_saveAccount);
         clickSaveButton();
         hcpDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(hcpDetailsStoreData);
@@ -502,6 +507,11 @@ public class NewHCPWizardPage extends CommonFunctions {
             waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
+        clickMethod(label_accountHistory);
+        clickAndMoveToElementClickable(label_systemInfo,shortWait());
+        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
+        waitForElementPresenceBy(azID,shortWait());
+        scrollToElementByCoordinates(label_externalID);
         return label_externalID.getText().replace("Account ID", "").trim();
     }
 }

@@ -42,7 +42,6 @@ Feature: Setup configurable consents
       | pimpinela  | CPC         | Consumer/Patient/Caregiver | AUT_CPC_   | Doña      | Federica   | Camaneya | 15/02/2020 | RND       | RND   | 1111111111 | Emiratos Arabelos | AL    | RND  | 90211   | United States | RND          |
 
 
-
   Scenario Outline: Create a new Employee Account from CustomerLookup page
     Given A dummyValue I enter the first name of the Employee as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
