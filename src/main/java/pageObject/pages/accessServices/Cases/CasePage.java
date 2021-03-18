@@ -39,6 +39,9 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Name']/../..//span[contains(@class,'field-value')]")
     private WebElement input_patientName;
 
+    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Number']/../..//span[contains(@class,'field-value')]")
+    private WebElement input_caseNumber;
+
     public boolean isCasePageDisplayed(){
         return waitForElementVisibility(button_edit, 20);
     }
@@ -47,8 +50,20 @@ public class CasePage extends CommonFunctions {
         clickAndMoveToElementClickable(button_childCase, 20);
     }
 
+    public String getCaseNumber(){
+        return waitForElementVisibility(input_caseNumber, 2) ? getWebElementText(input_caseNumber).split("\n")[0] : "";
+    }
+
     public String getCaseStatus(){
-        return waitForElementVisibility(input_caseStatus, 2) ? getWebElementText(input_caseStatus).split("\n")[0] : "";
+        if(waitForElementVisibility(input_caseStatus, 2)){
+            return getWebElementText(input_caseStatus).split("\n")[0];
+        }else{
+            if(waitForElementVisibility(input_status, 2)){
+                return getWebElementText(input_status).split("\n")[0];
+            }else{
+                return "";
+            }
+        }
     }
 
     public String getStatus(){

@@ -1,5 +1,5 @@
-@childCase
-Feature: Interactions
+@smoke
+Feature: ChildCases
 
   Background:
     Given I login as an "admin" user

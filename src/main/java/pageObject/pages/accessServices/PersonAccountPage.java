@@ -40,11 +40,12 @@ public class PersonAccountPage extends CommonFunctions {
 
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
-    @FindBy(xpath = "//*[contains(@href,'Enrollment')]//span[@class='view-all-label']")
-    private WebElement link_viewAllProgramEnrollment;
+    private By link_viewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
 
     public void clickViewAllProgramEnrollments() throws Exception {
-        clickAndMoveToElementClickable(link_viewAllProgramEnrollment, 10);
+        waitForPresenceOfAllElementsLocatedBy(link_viewAllProgramEnrollment, 30);
+        //clickAndMoveToElementClickable(getWebElement(link_viewAllProgramEnrollment), 10);
+        clickElementJS(getWebElement(link_viewAllProgramEnrollment));
     }
 
     public void clickNewProductEnrollment() throws Exception {
