@@ -53,6 +53,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//input[@title='Search Products']")
     private WebElement input_searchProducts;
 
+    @FindBy(xpath = "//input[@title='Search Cases']")
+    private WebElement input_interactionCase;
+
     @FindBy(xpath = "//*[contains(text(),'Enrolled Patient')]/following::*//input[@title='Search Accounts']")
     private WebElement input_searchAccounts;
 
@@ -137,6 +140,8 @@ public class CaseInformationPage extends CommonFunctions {
         if(waitForElementListVisible(list_discussTopic, 1)){
             if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
                 WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
+                waitForElementVisibility(el, 10);
+                scrollToWebElementJS(el);
                 webElementOption = getWebElementText(el);
                 clickAndMoveToElementClickable(el, 10);
             }else{
@@ -160,6 +165,18 @@ public class CaseInformationPage extends CommonFunctions {
             webElementOption = "";
         }
         caseInformationForm.put("CardNumber", webElementOption);
+        if(waitForElementVisibility(input_interactionCase, 1)){
+            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 5);
+            waitForElementVisibility(list_autocomplete, 10);
+            waitForElementListVisible(list_autocompleteElements, 10);
+            for(WebElement el : list_autocompleteElements){
+                if(getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))){
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+            caseInformationForm.put("CaseNumber", formDetails.get("CaseNumber"));
+        }
         return caseInformationForm;
     }
 

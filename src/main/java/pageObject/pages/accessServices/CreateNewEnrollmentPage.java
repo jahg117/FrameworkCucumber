@@ -58,11 +58,16 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
         waitForElementClickable(button_enroll, 10);
+        scrollToWebElementJS(button_enroll);
         doubleClickAndMoveToElementClickable(button_enroll, 10);
-            scrollToWebElementJS(button_enroll);
-            doubleClickAndMoveToElementClickable(button_enroll, 10);
-            switchToParentFrame();
-
+        if(!waitForElementVisibility(button_newCareTeamMember, 10)){
+            try {
+                waitForElementClickable(button_enroll, 10);
+                scrollToWebElementJS(button_enroll);
+                doubleClickAndMoveToElementClickable(button_enroll, 10);
+            }catch (Exception e){}
+        }
+        switchToParentFrame();
     }
 
     /**

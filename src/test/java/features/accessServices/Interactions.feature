@@ -1,4 +1,4 @@
-@interactions
+@smoke
 Feature: Interactions
 
   Background:
