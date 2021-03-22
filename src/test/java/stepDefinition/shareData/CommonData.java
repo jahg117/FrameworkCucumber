@@ -10,4 +10,5 @@ public class CommonData {
     public Case caseForm;
     public Interaction interaction;
     public GlobalShareData globalShareData;
+    public UserDetails userDetails;
 }
