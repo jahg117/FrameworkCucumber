@@ -3,6 +3,7 @@ package base.functions;
 import base.driverInitialize.DriverFactory;
 
 import com.github.javafaker.Faker;
+import jdk.incubator.jpackage.main.Main;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -16,6 +17,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.lang.reflect.Method;
 
 public class CommonFunctions {
 
@@ -929,6 +931,7 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
+
     protected void clickAndMoveToElementClickable(By webElement, int waitTime) throws Exception {
         if (waitForElementToBeClickableBy(webElement, waitTime)) {
             clickAndMoveToWebElementByActions(getWebElement(webElement));
@@ -1045,6 +1048,8 @@ public class CommonFunctions {
             logger.error("The Web Element was not found");
             throw new NoSuchElementException("Element not found");
         }
+
+
     }
 
     /**
@@ -1073,7 +1078,7 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void clickAndMoveToElementClickable(WebElement webElement, int waitTime) throws Exception {
+    public void clickAndMoveToElementClickable(WebElement webElement, int waitTime) throws Exception {
         if (waitForElementClickable(webElement, waitTime)) {
             clickAndMoveToWebElementByActions(webElement);
             logger.info("WebElement clicked");
@@ -3223,7 +3228,7 @@ public class CommonFunctions {
      * Use to auto search and switch between iframes to find an element by WebElement
      *
      * @param elementFound contains the WebElement that we want found at page
-     * @param waitTime the wait time to give at search
+     * @param waitTime     the wait time to give at search
      * @return a boolean value of the status of the operation
      * @throws Exception
      * @author J.Ruano
@@ -3231,38 +3236,52 @@ public class CommonFunctions {
     public boolean autoSwitchIframeByWebElement(WebElement elementFound, int waitTime) throws Exception {
         boolean switchToFrameFlag = false;
         int counter = 0;
-        do {
-            switchToFrameFlag = switchingIframeUntilElementFound(elementFound, counter, waitTime);
-            counter++;
-        } while (!switchToFrameFlag);
+        int size = 0;
+
+        size = getWebElementList(By.tagName("iframe")).size();
+        for (int i = 0; i <= size - 1; i++) {
+            switchToFrameFlag = switchingIframeUntilElementFound(elementFound, i, waitTime);
+            if (switchToFrameFlag) {
+                logger.info("Element Found Switching To Iframe: " + i);
+                break;
+            }
+        }
         return switchToFrameFlag;
-    }
+}
 
     /**
      * Method used by autoSwitchIframeByWebElement to handle the loop when exception occurs so th eoperation can continue until it gets
      * the correct iframe where the element is located
      *
      * @param elementFound contains the WebElement that we want found at page
-     * @param counter counter used to switch between iframes
-     * @param waitTime the wait time to give at search
+     * @param counter      counter used to switch between iframes
+     * @param waitTime     the wait time to give at search
      * @return a boolean value of the status of the operation
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean switchingIframeUntilElementFound(WebElement elementFound, int counter, int waitTime) throws Exception {
+    public boolean switchingIframeUntilElementFound(WebElement elementFound, int counter, int waitTime) throws
+            Exception {
         boolean switchToFrameFlag = false;
         try {
             driver.switchTo().defaultContent();
             int size = getWebElementList(By.tagName("iframe")).size();
-            for (int i = counter; i <= size; i++) {
-                driver.switchTo().defaultContent();
-                driver.switchTo().frame(i);
-                if (waitForElementVisibility(elementFound, waitTime) || waitForElementClickable(elementFound, waitTime) || elementFound.isDisplayed() || elementFound.isEnabled()) {
-                    logger.info("Element Found Switching To Iframe: " + i);
-                    switchToFrameFlag = true;
-                    break;
-                } else {
+            if (size > 0) {
+                for (int i = counter; i <= (size - 1); i++) {
                     driver.switchTo().defaultContent();
+                    driver.switchTo().frame(i);
+                    if (waitForElementVisibility(elementFound, waitTime) || waitForElementClickable(elementFound, waitTime) || elementFound.isDisplayed() || elementFound.isEnabled()) {
+                        logger.info("Element Found Switching To Iframe: " + i);
+                        switchToFrameFlag = true;
+                        break;
+                    } else {
+                        driver.switchTo().defaultContent();
+                    }
+                }
+            } else {
+                if (waitForElementVisibility(elementFound, waitTime) || waitForElementClickable(elementFound, waitTime) || elementFound.isDisplayed() || elementFound.isEnabled()) {
+                    logger.info("There are NOT IFRAMES AVAILABLE But The Element Was Found");
+                    switchToFrameFlag = true;
                 }
             }
         } catch (NoSuchElementException e) {
@@ -3271,3 +3290,4 @@ public class CommonFunctions {
         return switchToFrameFlag;
     }
 }
+

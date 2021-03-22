@@ -1,4 +1,4 @@
-@accountsOperation
+
 Feature: Setup configurable consents
 
   Background:
@@ -8,7 +8,7 @@ Feature: Setup configurable consents
     And I select the "Customer Lookup" menu option
 
 
-
+  @accountsOperation
   Scenario Outline: Create a new Facility Account from CustomerLookup page
     Given A dummyValue I enter the name of the facility as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
     Then I click on new Account at CustomerLookUp Page
