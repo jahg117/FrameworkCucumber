@@ -1,4 +1,4 @@
-@smoke
+@child
 Feature: ChildCases
 
   Background:
@@ -20,4 +20,4 @@ Feature: ChildCases
     And I validate the correct case information is displayed
     Examples:
       |   caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-      |   Claims Support   | fasenra        |  random     | Open       | random      | random       | random     |
+      |   Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |

@@ -59,11 +59,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Enrolled Patient')]/following::*//input[@title='Search Accounts']")
     private WebElement input_searchAccounts;
 
-    @FindBy(xpath = "//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]")
-    private List<WebElement> list_autocompleteElements;
+    private By list_autocompleteElements = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]");
 
-    @FindBy(xpath = "//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span")
-    private WebElement button_createNewElementList;
+    private By button_createNewElementList = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span");
 
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
     private WebElement label_productEnrollment;
@@ -98,8 +96,9 @@ public class CaseInformationPage extends CommonFunctions {
 
     public void fillSearchProduct(String product) throws Exception {
         sendKeysAndMoveToElementClickable(input_searchProducts, product, 10);
-        waitForElementListVisible(list_autocompleteElements, 10);
-        for(WebElement el : list_autocompleteElements){
+        waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, 10);
+        waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+        for(WebElement el : getWebElementList(list_autocompleteElements)){
             if(getWebElementText(el).equalsIgnoreCase(product)){
                 clickAndMoveToElementClickable(el, 10);
                 break;
@@ -110,12 +109,14 @@ public class CaseInformationPage extends CommonFunctions {
     public void fillPatientProductEnrollmentFields(String patientName) throws Exception {
         if(waitForElementVisibility(input_searchAccounts, 6)) {
             sendKeysAndMoveToElementVisible(input_searchAccounts, patientName, 20);
-            if(!waitForElementListVisible(list_autocompleteElements, 5)) {
+            waitForElementVisibility(list_autocomplete, 10);
+            waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, 5);
+            if(!waitForElementListVisible(getWebElementList(list_autocompleteElements), 5)) {
                 sendKeysByActions(Keys.TAB.toString());
                 clickAndMoveToElementVisible(input_searchAccounts, 5);
-                waitForElementListVisible(list_autocompleteElements, 5);
+                waitForElementListVisible(getWebElementList(list_autocompleteElements), 5);
             }
-            for (WebElement el : list_autocompleteElements) {
+            for (WebElement el : getWebElementList(list_autocompleteElements)) {
                 if (getWebElementText(el).equalsIgnoreCase(patientName)) {
                     clickAndMoveToElementClickable(el, 10);
                     break;
@@ -123,8 +124,11 @@ public class CaseInformationPage extends CommonFunctions {
             }
         }
         clickAndMoveToElementClickable(input_searchProductEnrollments, 10);
-        waitForElementListVisible(list_autocompleteElements, 10);
-        waitForElementVisibility(button_createNewElementList, 10);
+        waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, 10);
+        //waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+        waitForElementVisibilityOfElementLocatedBy(button_createNewElementList, 10);
+        waitForNumberOfElementsToBe(button_createNewElementList, 1, 10);
+        scrollToWebElementJS(getWebElement(button_createNewElementList));
         clickAndMoveToElementClickable(button_createNewElementList, 10);
     }
 
@@ -168,8 +172,8 @@ public class CaseInformationPage extends CommonFunctions {
         if(waitForElementVisibility(input_interactionCase, 1)){
             sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 5);
             waitForElementVisibility(list_autocomplete, 10);
-            waitForElementListVisible(list_autocompleteElements, 10);
-            for(WebElement el : list_autocompleteElements){
+            waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+            for(WebElement el : getWebElementList(list_autocompleteElements)){
                 if(getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))){
                     clickAndMoveToElementClickable(el, 10);
                     break;
@@ -190,8 +194,8 @@ public class CaseInformationPage extends CommonFunctions {
         if(waitForElementVisibility(label_genericError, 5)){
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 5);
             sendKeysAndMoveToElementVisible(input_searchProducts, "Symbicort",5);
-            waitForElementListVisible(list_autocompleteElements, 10);
-            for (WebElement el : list_autocompleteElements) {
+            waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+            for (WebElement el : getWebElementList(list_autocompleteElements)) {
                 if(getWebElementText(el).equalsIgnoreCase("Symbicort")){
                     product = getWebElementText(el);
                     clickAndMoveToElementClickable(el, 10);

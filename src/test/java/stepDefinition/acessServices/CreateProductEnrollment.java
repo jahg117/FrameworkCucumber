@@ -1,6 +1,7 @@
 package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
+import com.github.javafaker.Faker;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -46,6 +47,10 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
                     accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
+                    if(!commonData.userDetails.getUsername().equalsIgnoreCase("admin")){
+                        Faker faker = new Faker();
+                        accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hca");
+                    }
                     accessServices.getCustomerLookupPage().clickNewAccount();
                 } else {
                     logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
@@ -53,6 +58,10 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
+            if(!commonData.userDetails.getUsername().equalsIgnoreCase("admin")){
+                Faker faker = new Faker();
+                accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hcp");
+            }
             accessServices.getCustomerLookupPage().clickNewAccount();
         }
 

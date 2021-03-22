@@ -1,6 +1,5 @@
 package stepDefinition.salesforce;
 
-import base.functions.CommonFunctions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -8,16 +7,25 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
+import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.UserDetails;
 
 import java.util.List;
 import java.util.Map;
 
 public class SalesforceLoginSteps extends ApplicationInstance {
 
+    private CommonData commonData;
+
+    public SalesforceLoginSteps(CommonData commonData){
+        this.commonData = commonData;
+    }
+
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
         salesforce.goTo();
         salesforce.getLoginPage().enterUserPassword(salesForceUser);
+        commonData.userDetails = new UserDetails(salesForceUser);
     }
 
     @Given("^I login according to the account selected from table$")
