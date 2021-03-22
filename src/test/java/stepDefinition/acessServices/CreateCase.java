@@ -42,7 +42,7 @@ public class CreateCase extends ApplicationInstance {
     @And("^I select the case type option \"([^\"]*)\"$")
     public void selectCaseTypeOptionsPage(String caseOption) throws Exception {
         accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed();
-        accessServices.getNewCaseOptionsPage().selectCaseOption("Interaction");
+        accessServices.getNewCaseOptionsPage().selectCaseOption(caseOption);
     }
 
     @And("^I select the case type \"([^\"]*)\"$")
