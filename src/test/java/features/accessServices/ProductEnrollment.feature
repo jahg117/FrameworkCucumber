@@ -1,4 +1,4 @@
-@smoke
+@productEnrollment
 Feature: Product Enrollment
 
   Background:

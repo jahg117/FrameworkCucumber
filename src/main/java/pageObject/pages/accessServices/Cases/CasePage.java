@@ -27,7 +27,7 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "(//img[@title='Case']/following::*[./text()='Channel']/../..//span[contains(@class,'field-value')])[last()]")
     private WebElement input_channel;
 
-    @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Status']/../..//span[contains(@class,'field-value')]")
+    @FindBy(xpath = "(//img[@title='Case']/following::*[./text()='Case Status']/../..//span[contains(@class,'field-value')])[last()]")
     private WebElement input_caseStatus;
 
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Status']/../..//span[contains(@class,'field-value')]")
@@ -75,7 +75,7 @@ public class CasePage extends CommonFunctions {
     }
 
     public String getEnrolledPatient(){
-        return waitForElementVisibility(input_enrolledPatient, 10) ? getWebElementText(input_enrolledPatient).split("\n")[0] : "";
+        return waitForElementVisibility(input_enrolledPatient, 20) ? getWebElementText(input_enrolledPatient).split("\n")[0] : "";
     }
 
     public String getProductEnrollment(){
