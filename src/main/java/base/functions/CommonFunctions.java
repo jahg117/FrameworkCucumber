@@ -3235,9 +3235,18 @@ public class CommonFunctions {
      */
     public boolean autoSwitchIframeByWebElement(WebElement elementFound, int waitTime) throws Exception {
         boolean switchToFrameFlag = false;
+        boolean foundIframeFlag = false;
         int counter = 0;
         int size = 0;
-
+        By frame = By.tagName("iframe");
+        if (waitForNumberOfElementsToBeMoreThanBy(frame, 0, shortWait())) {
+            for (int i = 0; i <= iframeTries(); i++) {
+                foundIframeFlag = waitForNumberOfElementsToBeMoreThanBy(frame, 0, shortWait());
+                if (foundIframeFlag) {
+                    break;
+                }
+            }
+        }
         size = getWebElementList(By.tagName("iframe")).size();
         for (int i = 0; i <= size - 1; i++) {
             switchToFrameFlag = switchingIframeUntilElementFound(elementFound, i, waitTime);
@@ -3247,7 +3256,7 @@ public class CommonFunctions {
             }
         }
         return switchToFrameFlag;
-}
+    }
 
     /**
      * Method used by autoSwitchIframeByWebElement to handle the loop when exception occurs so th eoperation can continue until it gets
@@ -3289,5 +3298,24 @@ public class CommonFunctions {
         }
         return switchToFrameFlag;
     }
-}
 
+    /**
+     * Use to assign the amount of tries to find an Iframe it is setup from the GlobalConfig.properties
+     *
+     * @return an integer value
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public int iframeTries() throws Exception {
+        fileReading.setFileName("GlobalConfig.properties");
+        int iFrameTries = 0;
+        try {
+            iFrameTries = Integer.parseInt(fileReading.getField("iFrameTries"));
+            logger.info(iFrameTries + " Tries to Search An Iframe");
+
+        } catch (NumberFormatException e) {
+            logger.warn("There was not Ifame Found");
+        }
+        return iFrameTries;
+    }
+}

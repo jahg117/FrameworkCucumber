@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CustomerLookupPage extends CommonFunctions {
-    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
+    private final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
 
     @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
     private WebElement iframe_pageInformation;
@@ -67,7 +67,7 @@ public class CustomerLookupPage extends CommonFunctions {
 
     @FindBy(xpath = "//table[@id='cust-table']//td[@data-label='Address']")
     private List<WebElement> row_address;
-    private By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
+    private final By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
 
     @FindBy(xpath = "//label[contains(text(),'Relationship')]/../..//select")
     private WebElement dropdown_relationship;
@@ -167,6 +167,7 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToParentFrame();
     }
 
+
     /**
      * Method used to search a CPC by fist name and last name at CustomerLookup search
      *
@@ -212,9 +213,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void uncheckCheckbox(List<WebElement> checkbox_CheckedList) throws Exception {
         int counterWE = 0;
-        waitForElementVisibility(button_loggedOut, mediumWait());
-        waitForElementClickable(checkbox_CheckedList.get(0), mediumWait());
-        waitForElementVisibility(button_search, mediumWait());
         do {
             clickElementClickable(checkbox_CheckedList.get(counterWE), mediumWait());
             counterWE++;
@@ -268,6 +266,7 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
+        waitForPageToLoad();
         autoSwitchIframeByWebElement(button_search, mediumWait());
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
