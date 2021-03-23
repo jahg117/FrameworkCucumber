@@ -212,9 +212,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void uncheckCheckbox(List<WebElement> checkbox_CheckedList) throws Exception {
         int counterWE = 0;
-        waitForElementVisibility(button_loggedOut, mediumWait());
-        waitForElementClickable(checkbox_CheckedList.get(0), mediumWait());
-        waitForElementVisibility(button_search, mediumWait());
         do {
             clickElementClickable(checkbox_CheckedList.get(counterWE), mediumWait());
             counterWE++;
@@ -269,8 +266,7 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
         waitForPageToLoad();
-        waitForElementVisibility(iframe_pageInformation, mediumWait());
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        autoSwitchIframeByWebElement(button_search, mediumWait());
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
         switch (accountType.trim().toLowerCase()) {
