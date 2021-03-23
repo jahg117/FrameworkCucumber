@@ -3,7 +3,6 @@ package base.functions;
 import base.driverInitialize.DriverFactory;
 
 import com.github.javafaker.Faker;
-import jdk.incubator.jpackage.main.Main;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
