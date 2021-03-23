@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CustomerLookupPage extends CommonFunctions {
-    private final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
+    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
 
     @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
     private WebElement iframe_pageInformation;
@@ -67,7 +67,7 @@ public class CustomerLookupPage extends CommonFunctions {
 
     @FindBy(xpath = "//table[@id='cust-table']//td[@data-label='Address']")
     private List<WebElement> row_address;
-    private final By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
+    private By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
 
     @FindBy(xpath = "//label[contains(text(),'Relationship')]/../..//select")
     private WebElement dropdown_relationship;
@@ -166,7 +166,6 @@ public class CustomerLookupPage extends CommonFunctions {
         clickAndMoveToElementClickable(button_newAccount, mediumWait());
         switchToParentFrame();
     }
-
 
     /**
      * Method used to search a CPC by fist name and last name at CustomerLookup search

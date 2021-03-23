@@ -1,13 +1,11 @@
 @cases
 Feature: Cases
 
-  Background:
-    Given I login as an "admin" user
+  Scenario Outline: Create cases
+    Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
-
-  Scenario Outline: Create cases
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
     Then I fill the mandatory fields from the account form
@@ -24,5 +22,7 @@ Feature: Cases
     And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
     Examples:
-      | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-      | AZ          | random   | random     | Open       | random      | random       | random     |
+    | user  | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+    | admin | AZ          | random   | random     | Open       | random      | random       | random     |
+    | manager | AZ          | random   | random     | Open       | random      | random       | random     |
+    | agent | AZ          | random   | random     | Open       | random      | random       | random     |
