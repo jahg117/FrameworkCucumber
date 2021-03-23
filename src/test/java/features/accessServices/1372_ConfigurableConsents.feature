@@ -40,7 +40,7 @@ Feature: Setup configurable consents
       | dummyValue  | accountType |
       | dummySearch | CPC         |
 
-
+  @1372_regression
   Scenario Outline: Create an (AZ/DSI) product enrollment with Outline tables
     Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
     Given I click on new Account
@@ -60,7 +60,7 @@ Feature: Setup configurable consents
       | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
 
 
-  @1372_regression
+
   Scenario Outline: Create an Account with PE to create a Consent at Account level
     Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
     Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps
