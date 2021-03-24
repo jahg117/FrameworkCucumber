@@ -1,12 +1,10 @@
 @interaction
 Feature: Interactions
 
-  Background:
-    Given I login as an "admin" user
+  Scenario Outline: Create interaction from patient
+    Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
-
-  Scenario Outline: Create interaction from patient
     Given I select the "Customer Lookup" menu option
     When I click on new Account
     Then I click on new and I select "Consumer/Patient/Caregiver" account
@@ -16,15 +14,23 @@ Feature: Interactions
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the correct case interaction information displayed
     Examples:
-    |   channel    | caseStatus |
-    |   random     | Open       |
+    | user    |   channel    | caseStatus |
+    | admin   |   random     | Open       |
+    | agent   |   random     | Open       |
+    | manager   |   random     | Open       |
+
 
   Scenario Outline: Create interaction from cases option
+    Given I login as an "<user>" user
+    When the salesforce page is displayed
+    Then I search the "Access Services" app
     Given I select the "Cases" menu option
     When I click on new Case from the cases list page
     Then I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the correct case interaction information displayed
     Examples:
-      |   channel    | caseStatus |
-      |   random     | Open       |
+      | user    |   channel    | caseStatus |
+      | admin   |   random     | Open       |
+      | agent   |   random     | Open       |
+      | manager   |   random     | Open       |
