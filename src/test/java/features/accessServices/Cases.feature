@@ -23,6 +23,5 @@ Feature: Cases
     And I validate the correct case information is displayed
     Examples:
     | user  | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-    | admin | AZ          | random   | random     | Open       | random      | random       | random     |
     | manager | AZ          | random   | random     | Open       | random      | random       | random     |
     | agent | AZ          | random   | random     | Open       | random      | random       | random     |
