@@ -5,9 +5,9 @@ Feature: Interactions
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
-    Given I select the "Customer Lookup" menu option
-    When I click on new Account
-    Then I click on new and I select "Consumer/Patient/Caregiver" account
+    And I select the "Customer Lookup" menu option
+    And I click on new Account
+    And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the mandatory fields from the account form
     And I click on new Case from the person account page
     And I select the case type option "Interaction"
@@ -17,7 +17,7 @@ Feature: Interactions
     | user    |   channel    | caseStatus |
     | admin   |   random     | Open       |
     | agent   |   random     | Open       |
-    | manager   |   random     | Open       |
+    | manager |   random     | Open       |
 
 
   Scenario Outline: Create interaction from cases option
@@ -33,4 +33,4 @@ Feature: Interactions
       | user    |   channel    | caseStatus |
       | admin   |   random     | Open       |
       | agent   |   random     | Open       |
-      | manager   |   random     | Open       |
+      | manager |   random     | Open       |

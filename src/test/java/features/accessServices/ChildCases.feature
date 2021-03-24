@@ -1,15 +1,13 @@
 @child
 Feature: ChildCases
 
-  Background:
-    Given I login as an "admin" user
+  Scenario Outline: Create interaction from patient
+    Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
-
-  Scenario Outline: Create interaction from patient
-    Given I select the "Customer Lookup" menu option
-    When I click on new Account
-    Then I click on new and I select "Consumer/Patient/Caregiver" account
+    And I select the "Customer Lookup" menu option
+    And I click on new Account
+    And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the mandatory fields from the account form
     And I click on new Case from the person account page
     And I select the case type option "Interaction"
@@ -19,5 +17,7 @@ Feature: ChildCases
     And I fill the child case mandatory fields "<product>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
     Examples:
-      |   caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-      |   Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
+    | user    |   caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+    | admin   |   Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
+    | manager |   Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
+    | agent   |   Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
