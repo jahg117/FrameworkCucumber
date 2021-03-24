@@ -6,9 +6,9 @@ Feature: Cases
     When the salesforce page is displayed
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
-    Given I click on new Account
-    When I click on new and I select "Consumer/Patient/Caregiver" account
-    Then I fill the mandatory fields from the account form
+    And I click on new Account
+    And I click on new and I select "Consumer/Patient/Caregiver" account
+    And I fill the mandatory fields from the account form
     And I click on new Case from the person account page
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
@@ -22,6 +22,7 @@ Feature: Cases
     And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
     Examples:
-    | user  | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+    | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+    | admin   | AZ          | random   | random     | Open       | random      | random       | random     |
     | manager | AZ          | random   | random     | Open       | random      | random       | random     |
-    | agent | AZ          | random   | random     | Open       | random      | random       | random     |
+    | agent   | AZ          | random   | random     | Open       | random      | random       | random     |

@@ -36,19 +36,21 @@ public class NewProductEnrollmentForm extends CommonFunctions {
     public void fillProductEnrollmentForm(String patientName, String product) throws Exception {
         selectElementFromAutocompleteList(input_patientName, patientName);
         selectElementFromAutocompleteList(input_productName, product);
-        sendKeysAndMoveToElementClickable(input_therapeuticArea, "test", 10);
+        if(waitForElementVisibility(input_therapeuticArea, 5)){
+            sendKeysAndMoveToElementClickable(input_therapeuticArea, "test", 10);
+        }
         clickAndMoveToElementClickable(button_save, 10);
     }
 
     private void selectElementFromAutocompleteList(WebElement element, String textElement) throws Exception {
         sendKeysAndMoveToElementClickable(element, textElement, 10);
-        if(!waitForElementListVisible(list_autocompleteElements, 5)) {
+        if (!waitForElementListVisible(list_autocompleteElements, 5)) {
             sendKeysByActions(Keys.TAB.toString());
             clickAndMoveToElementVisible(element, 5);
             waitForElementListVisible(list_autocompleteElements, 5);
         }
-        for(WebElement el : list_autocompleteElements) {
-            if(getWebElementText(el).equalsIgnoreCase(textElement)) {
+        for (WebElement el : list_autocompleteElements) {
+            if (getWebElementText(el).equalsIgnoreCase(textElement)) {
                 clickAndMoveToElementClickable(el, 10);
                 break;
             }

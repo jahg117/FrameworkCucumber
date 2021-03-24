@@ -141,7 +141,7 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
         caseInformationForm.put("CaseSubType", webElementOption);
-        if(waitForElementListVisible(list_discussTopic, 1)){
+        if(waitForElementListVisible(list_discussTopic, 3)){
             if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
                 WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
                 waitForElementVisibility(el, 10);
@@ -156,6 +156,7 @@ public class CaseInformationPage extends CommonFunctions {
                     }
                 }
             }
+            scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
         }else{
             webElementOption = "";
