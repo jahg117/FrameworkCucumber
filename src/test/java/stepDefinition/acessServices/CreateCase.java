@@ -72,9 +72,9 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("DiscussTopic", discussTopic);
         caseForm.put("CardNumber", cardNumber);
         caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
+        caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
-        accessServices.getCaseInformationPage().addProductEnrollment(commonData.productEnrollment.getProductEnrollment());
         String product = accessServices.getCaseInformationPage().clickSaveButton();
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);

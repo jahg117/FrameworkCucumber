@@ -65,9 +65,6 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
     private WebElement label_productEnrollment;
 
-    @FindBy(xpath = "//input[@title='Search Product Enrollments']")
-    private WebElement btn_addProductEnrollment;
-
     public String getProductEnrollment(){
         waitForElementVisibility(label_productEnrollment, 10);
         return getWebElementText(label_productEnrollment);
@@ -143,6 +140,10 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
         caseInformationForm.put("CaseSubType", webElementOption);
+        if(waitForElementVisibility(input_searchProductEnrollments, 3)) {
+            sendKeysAndMoveToElementVisible(input_searchProductEnrollments, formDetails.get("ProductEnrollment"), 3);
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), 10);
+        }
          if(waitForElementListVisible(list_discussTopic, 3)){
             if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
                 WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
@@ -185,11 +186,6 @@ public class CaseInformationPage extends CommonFunctions {
             caseInformationForm.put("CaseNumber", formDetails.get("CaseNumber"));
         }
         return caseInformationForm;
-    }
-
-    public void addProductEnrollment(String pe) throws Exception{
-        sendKeysAndMoveToElementVisible(btn_addProductEnrollment,pe,5);
-        clickAndMoveToElementClickable(By.xpath("//div[@title='"+pe+"']"),5);
     }
 
     public void clickSaveInteraction() throws Exception{

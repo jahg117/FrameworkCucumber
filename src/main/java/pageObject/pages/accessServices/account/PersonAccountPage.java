@@ -59,7 +59,6 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewCasePersonalAccountPage() throws Exception {
-        closeLastSubTabSF(3);
         waitForElementVisibility(button_newCase, 30);
         clickAndMoveToElementClickable(button_newCase, 10);
     }
