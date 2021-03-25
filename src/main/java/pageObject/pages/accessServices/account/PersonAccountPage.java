@@ -59,6 +59,11 @@ public class PersonAccountPage extends CommonFunctions {
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 
+    public void clickNewCasePersonalAccountPage() throws Exception {
+        waitForElementVisibility(button_newCase, 30);
+        clickAndMoveToElementClickable(button_newCase, 10);
+    }
+
     public boolean isRedIconDisplayed(String product) throws Exception {
         boolean result = false;
         String newProduct = null;
