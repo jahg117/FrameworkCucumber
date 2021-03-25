@@ -28,6 +28,11 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getPersonAccountPage().clickNewCase();
     }
 
+    @And("^I click on new Case from the person account tab")
+    public void clickNewCasePersonAccountTab() throws Exception {
+        accessServices.getPersonAccountPage().clickNewCasePersonalAccountPage();
+    }
+
     @And("^I click on new Case from the cases list page")
     public void clickNewCaseListCases() throws Exception {
         accessServices.getCasesListPage().clickNewCase();
@@ -69,6 +74,7 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
+        accessServices.getCaseInformationPage().addProductEnrollment(commonData.productEnrollment.getProductEnrollment());
         String product = accessServices.getCaseInformationPage().clickSaveButton();
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);

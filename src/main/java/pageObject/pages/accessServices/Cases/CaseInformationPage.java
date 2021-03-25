@@ -66,6 +66,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
     private WebElement label_productEnrollment;
 
+    @FindBy(xpath = "//input[@title='Search Product Enrollments']")
+    private WebElement btn_addProductEnrollment;
+
     public String getProductEnrollment(){
         waitForElementVisibility(label_productEnrollment, 10);
         return getWebElementText(label_productEnrollment);
@@ -141,7 +144,7 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
         caseInformationForm.put("CaseSubType", webElementOption);
-        if(waitForElementListVisible(list_discussTopic, 3)){
+         if(waitForElementListVisible(list_discussTopic, 3)){
             if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
                 WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
                 waitForElementVisibility(el, 10);
@@ -185,6 +188,11 @@ public class CaseInformationPage extends CommonFunctions {
         return caseInformationForm;
     }
 
+    public void addProductEnrollment(String pe) throws Exception{
+        sendKeysAndMoveToElementVisible(btn_addProductEnrollment,pe,5);
+        clickAndMoveToElementClickable(By.xpath("//div[@title='"+pe+"']"),5);
+    }
+
     public void clickSaveInteraction() throws Exception{
         clickAndMoveToElementClickable(button_save, 10);
     }
@@ -193,11 +201,12 @@ public class CaseInformationPage extends CommonFunctions {
         String product = "";
         clickAndMoveToElementClickable(button_save, 10);
         if(waitForElementVisibility(label_genericError, 5)){
-            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 5);
-            sendKeysAndMoveToElementVisible(input_searchProducts, "Symbicort",5);
+            if(waitForElementVisibility(button_iconRightFlagDiscussionTopic,5)){
+            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 5);}
+            sendKeysAndMoveToElementVisible(input_searchProducts, "Fasenra",5);
             waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
             for (WebElement el : getWebElementList(list_autocompleteElements)) {
-                if(getWebElementText(el).equalsIgnoreCase("Symbicort")){
+                if(getWebElementText(el).equalsIgnoreCase("Fasenra")){
                     product = getWebElementText(el);
                     clickAndMoveToElementClickable(el, 10);
                     break;

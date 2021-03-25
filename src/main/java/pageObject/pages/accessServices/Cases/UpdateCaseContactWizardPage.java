@@ -18,6 +18,8 @@ public class UpdateCaseContactWizardPage extends CommonFunctions {
                 if(waitForElementVisibilityOfElementLocatedBy(label_caseContact, 5)){
                     closeCaseContactWizardPage();
                 }
+            }else{
+                closeLastSubTabSF(5);
             }
         }
     }
