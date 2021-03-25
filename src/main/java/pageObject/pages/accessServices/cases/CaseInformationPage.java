@@ -105,7 +105,7 @@ public class CaseInformationPage extends CommonFunctions {
         }
     }
 
-    public void fillPatientProductEnrollmentFields(String patientName) throws Exception {
+    public void fillPatientProductEnrollmentFields(String patientName, String productEnrollment) throws Exception {
         if(waitForElementVisibility(input_searchAccounts, 6)) {
             sendKeysAndMoveToElementVisible(input_searchAccounts, patientName, 20);
             waitForElementVisibility(list_autocomplete, 10);
@@ -122,13 +122,17 @@ public class CaseInformationPage extends CommonFunctions {
                 }
             }
         }
-        clickAndMoveToElementClickable(input_searchProductEnrollments, 10);
-        waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, 10);
-        //waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
-        waitForElementVisibilityOfElementLocatedBy(button_createNewElementList, 10);
-        waitForNumberOfElementsToBe(button_createNewElementList, 1, 10);
-        scrollToWebElementJS(getWebElement(button_createNewElementList));
-        clickAndMoveToElementClickable(button_createNewElementList, 10);
+        if(waitForElementVisibility(input_searchProductEnrollments, 3)) {
+            clickAndMoveToElementClickable(input_searchProductEnrollments, 10);
+            waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, 10);
+            waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+            for (WebElement el : getWebElementList(list_autocompleteElements)) {
+                if (getWebElementText(el).equalsIgnoreCase(productEnrollment)) {
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+        }
     }
 
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {

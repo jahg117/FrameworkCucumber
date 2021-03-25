@@ -54,8 +54,7 @@ public class CreateCase extends ApplicationInstance {
 
     @And("^I fill the patient and product enrollment fields$")
     public void fillPatientProductEnrollment() throws Exception {
-        accessServices.getCaseInformationPage().fillPatientProductEnrollmentFields(commonData.patient.getPatientName());
-        System.out.println("");
+        accessServices.getCaseInformationPage().fillPatientProductEnrollmentFields(commonData.patient.getPatientName(), commonData.productEnrollment.getProductEnrollment());
     }
 
     @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
@@ -85,15 +84,11 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CardNumber", cardNumber);
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         String getProduct = accessServices.getNewProductEnrollmentForm().getProduct(productType);
-        accessServices.getCaseInformationPage().fillPatientProductEnrollmentFields(commonData.patient.getPatientName());
-        accessServices.getNewProductEnrollmentForm().isProductEnrollmentFormDisplayed();
-        accessServices.getNewProductEnrollmentForm().fillProductEnrollmentForm(commonData.patient.getPatientName(), getProduct);
-        String productEnrollment = accessServices.getCaseInformationPage().getProductEnrollment();
+        accessServices.getCaseInformationPage().fillPatientProductEnrollmentFields(commonData.patient.getPatientName(), commonData.productEnrollment.getProductEnrollment());
         accessServices.getCaseInformationPage().fillSearchProduct(getProduct);
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
         accessServices.getCaseInformationPage().clickSaveButton();
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
-        commonData.productEnrollment = new ProductEnrollment(productEnrollment);
         commonData.caseForm = new Case(caseFormInformation);
         commonData.product = new Product(getProduct);
     }
