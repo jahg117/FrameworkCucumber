@@ -1,7 +1,7 @@
 @smoke
 Feature: Cases
 
-  Scenario Outline: Create cases
+  Scenario Outline: Create cases from patient
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
@@ -25,8 +25,8 @@ Feature: Cases
       | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
       | admin   | AZ          | random   | random     | Open       | random      | random       | random     |
 
-  Scenario Outline: Create case Random
-        Given I login as an "admin" user
+  Scenario Outline: Create case from product enrollment
+        Given I login as an "<user>" user
         When the salesforce page is displayed
         Then I search the "Access Services" app
         And I select the "Customer Lookup" menu option
@@ -41,12 +41,11 @@ Feature: Cases
         And I enter a valid "<productName>" product in the product enrollment form
         And I click on enroll button
         And I validate the product enrollment is displayed
+        And I close the last sub tab
         And I click on new Case from the person account tab
         And I select the case type option "<caseType>"
         And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
         And I validate the correct case information is displayed
       Examples:
-        | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-        | AZ          | Claims Support   | random     | Open       | random      | random       | random     |
-
-
+        | user  | productName | caseType         | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+        | admin | AZ          | Claims Support   | random     | Open       | random      | random       | random     |
