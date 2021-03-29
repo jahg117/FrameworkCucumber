@@ -8,6 +8,7 @@ public class Patient {
     private String city;
     private String phoneNumber;
     private String date;
+    private String pepID;
 
     public Patient(HashMap <String, String> patientDetails){
         patient = patientDetails.get("firstName") + " " + patientDetails.get("lastName");
@@ -15,6 +16,10 @@ public class Patient {
         city = patientDetails.get("city");
         phoneNumber = patientDetails.get("phoneNumber");
         date = patientDetails.get("date");
+    }
+
+    public Patient(String pepID) {
+        this.pepID = pepID;
     }
 
     public String getPatientName() { return patient; }
@@ -26,4 +31,6 @@ public class Patient {
     public String getPhoneNumber() { return phoneNumber; }
 
     public String getDate() { return date; }
+
+    public String getPepID() { return pepID; }
 }
