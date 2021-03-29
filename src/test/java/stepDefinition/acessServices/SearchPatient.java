@@ -1,11 +1,15 @@
 package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
+import com.codoid.products.exception.FilloException;
 import io.cucumber.java.en.And;
+import io.cucumber.java.ht.E;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
+import stepDefinition.shareData.Patient;
+import utils.ExcelFiles;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,6 +20,20 @@ public class SearchPatient extends ApplicationInstance {
 
     public SearchPatient(CommonData commonData) {
         this.commonData = commonData;
+    }
+
+    @And("^I validate the patient ID is displayed$")
+    public void validatePatientIDDisplayed() {
+        String pepID = accessServices.getPersonAccountPage().getPEPId();
+        commonData.patient = new Patient(pepID);
+    }
+
+    @And("^I save the displayed patient ID$")
+    public void savePatientIntoExcelFile() throws FilloException {
+        ExcelFiles excelFiles = new ExcelFiles();
+        String pepID = accessServices.getPersonAccountPage().getPEPId();
+        excelFiles.savePEPId(pepID);
+        commonData.patient = new Patient(pepID);
     }
 
     @And("^I validate the patient account was created$")

@@ -1,6 +1,9 @@
 package pageObject.pages.accessServices.account;
 
 import base.functions.CommonFunctions;
+import com.codoid.products.exception.FilloException;
+import com.codoid.products.fillo.Connection;
+import com.codoid.products.fillo.Fillo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,6 +41,9 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//a[@data-label='Product Enrollments']")
     private WebElement tab_productEnrollment;
 
+    @FindBy(xpath = "//p[@title='PEP ID']/..//lightning-formatted-text")
+    private WebElement label_pepId;
+
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
     private By link_viewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
@@ -62,6 +68,12 @@ public class PersonAccountPage extends CommonFunctions {
     public void clickNewCasePersonalAccountPage() throws Exception {
         waitForElementVisibility(button_newCase, 30);
         clickAndMoveToElementClickable(button_newCase, 10);
+    }
+
+    public String getPEPId(){
+        waitForElementVisibility(button_newCase, 30);
+        waitForElementVisibility(label_pepId, 10);
+        return getWebElementText(label_pepId);
     }
 
     public boolean isRedIconDisplayed(String product) throws Exception {

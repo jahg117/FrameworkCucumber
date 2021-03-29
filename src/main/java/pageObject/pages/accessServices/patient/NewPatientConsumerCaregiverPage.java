@@ -108,7 +108,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     }
 
     public void clickSaveButton() throws Exception {
+        waitForElementVisibility(button_saveAccount, 10);
         scrollToWebElementJS(button_saveAccount);
-        clickElementVisible(button_saveAccount, 10);
+        clickElementClickable(button_saveAccount, 10);
     }
 }

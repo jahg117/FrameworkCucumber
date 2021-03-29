@@ -25,6 +25,7 @@ Feature: Cases
       | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
       | admin   | AZ          | random   | random     | Open       | random      | random       | random     |
 
+    @test
   Scenario Outline: Create case from product enrollment
         Given I login as an "<user>" user
         When the salesforce page is displayed
