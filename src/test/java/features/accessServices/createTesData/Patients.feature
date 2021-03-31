@@ -10,6 +10,10 @@
       And I click on new and I select "Consumer/Patient/Caregiver" account
       And I fill the mandatory fields from the account form
       And I save the displayed patient ID
+      Then I click on Payer tab from AccountPage
+      Examples:
+        | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
+        | admin   | AZ          | random   | random     | Open       | random      | random       | random     |
       Examples:
         | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
         | admin   | AZ          | random   | random     | Open       | random      | random       | random     |

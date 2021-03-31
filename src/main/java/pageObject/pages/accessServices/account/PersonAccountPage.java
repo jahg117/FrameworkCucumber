@@ -44,6 +44,14 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//p[@title='PEP ID']/..//lightning-formatted-text")
     private WebElement label_pepId;
 
+    @FindBy(xpath = "//*[@title='Payer']")
+    private WebElement tabButton_payer;
+
+    @FindBy(xpath = "//span[@title='Patient Insurances']/following::*[@name='New'][1]")
+    private WebElement button_newPatientInsurances;
+
+
+
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
     private By link_viewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
@@ -159,5 +167,18 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void filterConsentWarningMessages(String consentTypeForm) throws Exception {
         clickAndMoveToElementVisible(tab_productEnrollment, mediumWait());
+    }
+
+    public void clickPayerTab() throws Exception {
+        clickAndMoveToElementClickable(tabButton_payer,mediumWait());
+        clickProductEnrollment();
+        clickAndMoveToElementClickable(tabButton_payer,mediumWait());
+    }
+    public void clickProductEnrollment() throws Exception {
+        clickAndMoveToElementClickable(tab_productEnrollment,mediumWait());
+    }
+
+    public void clickNewPatientInsurances() throws Exception {
+        clickAndMoveToElementClickable(button_newPatientInsurances,mediumWait());
     }
 }

@@ -89,21 +89,29 @@ public class CreateAConsent extends ApplicationInstance {
     }
 
     @And("I fill the selected consent type form with the following data {string} {string} {string} {string} at new consent wizard page")
+    //REVIEW LOGIC
     public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
-        if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentStatus.trim().equalsIgnoreCase("RND".trim())) {
-            consentStatus = commonData.globalShareData.getRandomSelectionFlag().trim();
-        }
-        if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentDate.trim().equalsIgnoreCase("RND".trim())) {
-            consentDate = commonData.globalShareData.getRandomSelectionFlag().trim();
-        }
-        if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentSource.trim().equalsIgnoreCase("RND".trim())) {
-            consentSource = commonData.globalShareData.getRandomSelectionFlag().trim();
-        }
-        if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentAuth.trim().equalsIgnoreCase("RND".trim())) {
-            consentAuth = commonData.globalShareData.getRandomSelectionFlag().trim();
-        }
+        try {
+            if (commonData.globalShareData.getRandomSelectionFlag() != null) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentStatus.trim().equalsIgnoreCase("RND".trim())) {
+                    consentStatus = commonData.globalShareData.getRandomSelectionFlag().trim();
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentDate.trim().equalsIgnoreCase("RND".trim())) {
+                    consentDate = commonData.globalShareData.getRandomSelectionFlag().trim();
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentSource.trim().equalsIgnoreCase("RND".trim())) {
+                    consentSource = commonData.globalShareData.getRandomSelectionFlag().trim();
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentAuth.trim().equalsIgnoreCase("RND".trim())) {
+                    consentAuth = commonData.globalShareData.getRandomSelectionFlag().trim();
+                }
 
-        accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
+                accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
+
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
+        }
     }
 
     @Then("^I select the consent address in the new consent wizard page$")
