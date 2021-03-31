@@ -180,6 +180,21 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
+    @And("^I create a list of product enrollments$")
+    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
+        List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
+        ArrayList<String> productEnrollments = new ArrayList<>();
+        for (Map<String, String> el : list) {
+            String product = el.get("ProductEnrollment");
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
+            accessServices.getSubTabsPage().closeSubTab(0);
+        }
+    }
+
     @And("^I enter a product enrollment in the product enrollment form$")
     public void createProductEnrollment(DataTable dataTable) throws Exception {
         try {

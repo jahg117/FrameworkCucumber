@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices.consents;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,8 +37,7 @@ public class NewConsentWizardPage extends CommonFunctions {
     @FindBy(xpath = "//*[@class='consentProvidedBy']")
     private List<WebElement> checkbox_consentByList;
 
-    @FindBy(xpath = "//input[@type='checkbox']")
-    private List<WebElement> checkbox_addressesCheckBoxes;
+    private By checkbox_addressesCheckBoxes = By.xpath("//input[@class='patientaddr']");
 
     @FindBy(xpath = "//input[@value='Save']")
     private WebElement button_addressSave;
@@ -111,8 +111,12 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
+        switchToParentFrame();
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-        List<WebElement> visibleWebElements = getVisibleElements(checkbox_addressesCheckBoxes);
+        waitForPresenceOfAllElementsLocatedBy(checkbox_addressesCheckBoxes, 15);
+        waitForNumberOfElementsToBeMoreThanBy(checkbox_addressesCheckBoxes, 0, 15);
+        List<WebElement> visibleWebElements = getVisibleElements(getWebElementList(checkbox_addressesCheckBoxes));
+        waitForElementListVisible(visibleWebElements, 15);
         if (randomAddress == true) {
             clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, mediumWait()), mediumWait());
         } else {

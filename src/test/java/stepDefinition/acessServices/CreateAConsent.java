@@ -105,9 +105,7 @@ public class CreateAConsent extends ApplicationInstance {
                 if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentAuth.trim().equalsIgnoreCase("RND".trim())) {
                     consentAuth = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
-
                 accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
-
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
@@ -226,4 +224,9 @@ public class CreateAConsent extends ApplicationInstance {
             accessServices.getAccountsPage().clickAccountCreated(commonData.patient.getPatientName());
         }
     }
+    @And("I validate the consent ID is displayed")
+    public void consentIDDisplayed() {
+        String consentID = accessServices.getConsentPage().getConsentID();
+    }
+
 }
