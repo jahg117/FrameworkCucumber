@@ -13,6 +13,14 @@ public class ConsentPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Consent No.')]/following::*[@data-output-element-id='output-field']")
     private List<WebElement> list_consentDetails;
 
+    @FindBy(xpath = "//span[contains(text(),'Consent No.') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
+    private WebElement label_consentID;
+
+    public String getConsentID(){
+        waitForElementVisibility(label_consentID, 20);
+        return getWebElementText(label_consentID);
+    }
+
     public boolean isConsentPageDisplayed(){
         return waitForElementClickable(button_newContact, 30);
     }

@@ -1,4 +1,4 @@
-@smoke
+@product
 Feature: Product Enrollment
 
   Scenario Outline: Create product enrollment
