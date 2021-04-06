@@ -2,12 +2,14 @@ package pageObject.pages.accessServices.account;
 
 import base.functions.CommonFunctions;
 import com.github.javafaker.Faker;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
 public class NewPatientInsurancePBM extends CommonFunctions {
+    private Logger logger = Logger.getLogger(CommonFunctions.class);
     Faker faker = new Faker();
     @FindBy(xpath = "//*[@name='SaveEdit']")
     private WebElement button_save;
@@ -78,7 +80,11 @@ public class NewPatientInsurancePBM extends CommonFunctions {
             if (data.trim().equalsIgnoreCase("RND")) {
                 fillPBMFormRandomly(data, dataCounter);
             } else {
-                fillPBMForm(data, dataCounter);
+                if (data.trim().equalsIgnoreCase("N_A")) {
+                    logger.info("The Data At Position : " + dataCounter + "Is Not Required");
+                } else {
+                    fillPBMForm(data, dataCounter);
+                }
             }
             dataCounter++;
         }
@@ -118,14 +124,14 @@ public class NewPatientInsurancePBM extends CommonFunctions {
                 //============Insurance Payer Name Randomly
                 clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
                 sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, faker.name().firstName(), mediumWait());
-                waitForElementVisibility(label_ShowResults,mediumWait());
+                waitForElementVisibility(label_ShowResults, mediumWait());
                 clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
                 break;
             case 5:
                 //============Insurance Plan Name Randomly
                 clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
                 sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, faker.name().firstName(), mediumWait());
-                waitForElementVisibility(label_planNameShowResults,mediumWait());
+                waitForElementVisibility(label_planNameShowResults, mediumWait());
                 clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
                 break;
             case 6:
@@ -200,14 +206,14 @@ public class NewPatientInsurancePBM extends CommonFunctions {
                 //============Insurance Payer Name
                 clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
                 sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, dataPBM, mediumWait());
-                waitForElementVisibility(label_ShowResults,mediumWait());
+                waitForElementVisibility(label_ShowResults, mediumWait());
                 clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
                 break;
             case 5:
                 //============Insurance Plan Name
                 clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
                 sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, dataPBM, mediumWait());
-                waitForElementVisibility(label_planNameShowResults,mediumWait());
+                waitForElementVisibility(label_planNameShowResults, mediumWait());
                 clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
                 break;
             case 6:
