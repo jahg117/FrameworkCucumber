@@ -2681,7 +2681,7 @@ public class CommonFunctions {
      * @author J.Ruano
      * @author J.Ruano
      */
-    protected void switchSubTabByNameSF(String name, int waitTime) throws Exception {
+    public void switchSubTabByNameSF(String name, int waitTime) throws Exception {
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)) {
@@ -2710,7 +2710,7 @@ public class CommonFunctions {
      * @author J.Ruano
      * @author J.Ruano
      */
-    protected void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
+    public void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, waitTime)) {
@@ -2742,7 +2742,7 @@ public class CommonFunctions {
         }
     }
 
-    protected void closeLastSubTabSF(int waitTime) throws Exception {
+    public void closeLastSubTabSF(int waitTime) throws Exception {
         try {
             By subTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]");
             By lastSubTab = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]//button)[last()]");
@@ -2863,7 +2863,7 @@ public class CommonFunctions {
      * @return a list with the split text
      * @author J.Ruano
      */
-    protected List<String> splitRegex(String textToSplit, String regexRule) {
+    public List<String> splitRegex(String textToSplit, String regexRule) {
         List<String> splitData = Arrays.asList(textToSplit.split(regexRule));
         return splitData;
     }
@@ -2910,7 +2910,7 @@ public class CommonFunctions {
         if (waitForElementVisibility(webElement, waitTime)) {
             do {
                 //clickWebElementByActions(webElement);
-                clickElementClickable(webElement, 10);
+                clickElementClickable(webElement, mediumWait());
             } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
             logger.info("WebElement clicked");
         } else {

@@ -4,10 +4,7 @@ import base.driverInitialize.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pageObject.pages.accessServices.accessServices.AccessServicesHomePage;
-import pageObject.pages.accessServices.account.AccountsPage;
-import pageObject.pages.accessServices.account.AccountsRecentlyViewedPage;
-import pageObject.pages.accessServices.account.NewAccountPage;
-import pageObject.pages.accessServices.account.PersonAccountPage;
+import pageObject.pages.accessServices.account.*;
 import pageObject.pages.accessServices.attestation.NewDSIFLSPAttestationPage;
 import pageObject.pages.accessServices.cases.*;
 import pageObject.pages.accessServices.consents.ConsentPage;
@@ -59,6 +56,10 @@ public class AccessServices {
     private UpdateCaseContactWizardPage updateCaseContactWizardPage;
     private GlobalCommonGeneralStepsPage globalCommonGeneralSteps;
     private NewProductEnrollmentForm newProductEnrollmentForm;
+    private NewPatientInsurance newPatientInsurance;
+    private NewPatientInsuranceNoPI newPatientInsuranceNoPI;
+    private NewPatientInsurancePMI newPatientInsurancePMI;
+    private NewPatientInsurancePBM newPatientInsurancePBM;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -93,6 +94,10 @@ public class AccessServices {
         updateCaseContactWizardPage = PageFactory.initElements(driver, UpdateCaseContactWizardPage.class);
         globalCommonGeneralSteps = PageFactory.initElements(driver, GlobalCommonGeneralStepsPage.class);
         newProductEnrollmentForm = PageFactory.initElements(driver, NewProductEnrollmentForm.class);
+        newPatientInsurance = PageFactory.initElements(driver, NewPatientInsurance.class);
+        newPatientInsuranceNoPI = PageFactory.initElements(driver, NewPatientInsuranceNoPI.class);
+        newPatientInsurancePMI = PageFactory.initElements(driver, NewPatientInsurancePMI.class);
+        newPatientInsurancePBM = PageFactory.initElements(driver, NewPatientInsurancePBM.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -130,4 +135,8 @@ public class AccessServices {
     public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() { return updateCaseContactWizardPage; }
     public GlobalCommonGeneralStepsPage getGlobalCommonGeneralStepsPage() { return globalCommonGeneralSteps; }
     public NewProductEnrollmentForm getNewProductEnrollmentForm() { return newProductEnrollmentForm; }
+    public NewPatientInsurance getNewPatientInsurance() { return newPatientInsurance; }
+    public NewPatientInsuranceNoPI getNewPatientInsuranceNoPI() { return newPatientInsuranceNoPI; }
+    public NewPatientInsurancePMI getNewPatientInsurancePMI() { return newPatientInsurancePMI; }
+    public NewPatientInsurancePBM getNewPatientInsurancePBM() { return newPatientInsurancePBM; }
 }

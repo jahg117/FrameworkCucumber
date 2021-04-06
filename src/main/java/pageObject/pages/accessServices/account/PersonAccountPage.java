@@ -51,7 +51,6 @@ public class PersonAccountPage extends CommonFunctions {
     private WebElement button_newPatientInsurances;
 
 
-
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
     private By link_viewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
@@ -78,7 +77,7 @@ public class PersonAccountPage extends CommonFunctions {
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 
-    public String getPEPId(){
+    public String getPEPId() {
         waitForElementVisibility(button_newCase, 30);
         waitForElementVisibility(label_pepId, 10);
         return getWebElementText(label_pepId);
@@ -169,16 +168,35 @@ public class PersonAccountPage extends CommonFunctions {
         clickAndMoveToElementVisible(tab_productEnrollment, mediumWait());
     }
 
+    /**
+     * Method to click the Payer Tab Person Account
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
     public void clickPayerTab() throws Exception {
-        clickAndMoveToElementClickable(tabButton_payer,mediumWait());
+        clickAndMoveToElementClickable(tabButton_payer, mediumWait());
         clickProductEnrollment();
-        clickAndMoveToElementClickable(tabButton_payer,mediumWait());
-    }
-    public void clickProductEnrollment() throws Exception {
-        clickAndMoveToElementClickable(tab_productEnrollment,mediumWait());
+        clickAndMoveToElementClickable(tabButton_payer, mediumWait());
     }
 
+    /**
+     * Method to click the Product Enrollment Tab
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void clickProductEnrollment() throws Exception {
+        clickAndMoveToElementClickable(tab_productEnrollment, mediumWait());
+    }
+
+    /**
+     * Method to click the New button to create a Insurance
+     *
+     * @throws Exception
+     * @author J.Ruano
+     */
     public void clickNewPatientInsurances() throws Exception {
-        clickAndMoveToElementClickable(button_newPatientInsurances,mediumWait());
+        clickAndMoveToElementClickable(button_newPatientInsurances, mediumWait());
     }
 }
