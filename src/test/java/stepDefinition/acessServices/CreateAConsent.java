@@ -89,6 +89,7 @@ public class CreateAConsent extends ApplicationInstance {
     }
 
     @And("I fill the selected consent type form with the following data {string} {string} {string} {string} at new consent wizard page")
+    //REVIEW LOGIC
     public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
         try {
             if (commonData.globalShareData.getRandomSelectionFlag() != null) {
