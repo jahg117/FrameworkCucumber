@@ -17,6 +17,7 @@ public class AccountsPage extends CommonFunctions {
 
     @FindBy(xpath = "//table[@data-aura-class='uiVirtualDataTable']//a[@data-refid='recordId']")
     private List<WebElement> list_patients;
+
     private By list_patient = By.xpath("//table[@data-aura-class='uiVirtualDataTable']//a[@data-refid='recordId']");
 
     public String isAccountCreated(String account) throws Exception {
@@ -45,4 +46,8 @@ public class AccountsPage extends CommonFunctions {
         By clicklableAccountLink = By.xpath("//span//a[@title='"+ account + "']");
         return waitForElementToBeClickableBy(clicklableAccountLink, 10);
     }
+
+
+
+
 }
