@@ -8,7 +8,8 @@ public class FirefoxDriverCreator extends WebDriverCreator {
 
     @Override
     public WebDriver createWebDriver() {
-        WebDriverManager.firefoxdriver().setup();
-        return new FirefoxDriver();
+        WebDriver driver;
+        driver = new FirefoxDriver();
+        return driver;
     }
 }
