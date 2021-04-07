@@ -18,7 +18,7 @@ consentSource = it contains the type of source for the new consent i.e. "Fax", (
 consentAuth = it contains the type of authorization for the new consent creation i.e. "Self", (can be random)
 insuranceType = it contains the different type of insurance that can be created i.e "NOPI","PMI","PBM", if the whole three
 types needs to be created in the same account please to put in the "insuranceType" column the following:
-NOPI,PMI,PBM with this it will create the three types of insurances it only 2 are required shall be like
+NOPI,PMI,PBM with this it will create the three types of insurances if only 2 are required shall be like
 NOPI,PMI.
 
 dataPMI = array  that contains the data need it to create a PMI insurance the array layout is the following:
@@ -56,6 +56,7 @@ RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,RND,RND,RND,RND
 Note: For PMI and PBM if some data is not required it can be ignore, putting in the record layout N_A and if some data needs to be
       random you shall put in the respective index the word RND.
 """
+
   Scenario Outline: Create Patients
     Given I login as an "<user>" user
     When the salesforce page is displayed
@@ -87,5 +88,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
-      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                               | dataPMB                                                                          |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                | dataPMB                                                                     |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | PMI           | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | PBM           | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
