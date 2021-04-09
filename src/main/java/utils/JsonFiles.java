@@ -55,7 +55,6 @@ public class JsonFiles {
             Object obj = parser.parse(new FileReader(GlobalPath + "" + fileName + ".json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray jsonArray = (JSONArray) jsonObject.get(fieldName);
-            int test = random.nextInt(jsonArray.size());
             return (String) jsonArray.get(random.nextInt(jsonArray.size()));
         } catch (Exception e) {
             throw new NoSuchFileException("The file was not found or the field is an invalid type");
