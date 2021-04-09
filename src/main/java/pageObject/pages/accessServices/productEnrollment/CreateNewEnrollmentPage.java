@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices.productEnrollment;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
@@ -28,6 +29,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
 
+    private By icon_loadPage = By.xpath("//span[contains(@id,'actionstatus.stop') and @style='display: none;']");
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
@@ -54,6 +57,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public void clickEnrollButton() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         waitForElementClickable(input_product, 10);
         waitForElementClickable(button_enroll, 10);
         scrollToWebElementJS(button_enroll);
