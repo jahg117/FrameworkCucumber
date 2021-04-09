@@ -56,7 +56,7 @@ RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,RND,RND,RND,RND
 Note: For PMI and PBM if some data is not required it can be ignore, putting in the record layout N_A and if some data needs to be
       random you shall put in the respective index the word RND.
 """
-  Scenario Outline: Create Patients 3
+  Scenario Outline: Create Patients
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
