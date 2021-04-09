@@ -189,6 +189,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            if(!accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed()){
+                accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            }
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
 
