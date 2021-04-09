@@ -1,0 +1,8 @@
+{
+  "firstName": ["Facility Internal FRM",
+                "Test HCP Sharing FRM"],
+  "type": ["hca",
+           "hcp"],
+  "relationship": ["Treating Facility",
+                   "Treating Physician"]
+}
