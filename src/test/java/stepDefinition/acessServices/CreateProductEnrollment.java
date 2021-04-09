@@ -192,10 +192,12 @@ public class CreateProductEnrollment extends ApplicationInstance {
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
 
+
             String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
             String type [] = {"hca", "hcp"};
             String relationhsip [] = {"Treating Facility","Treating Physician"};
             for(int i = 0; i < firstName.length; i++) {
+                accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
                 accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);
                 accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();

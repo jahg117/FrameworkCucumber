@@ -5,6 +5,7 @@ import com.github.javafaker.Faker;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.JsonFiles;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,9 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
     @FindBy(xpath = "//input[@data-name='email']")
     private WebElement input_emailAddress;
+
+    @FindBy(xpath = "//input[@data-name='Zip']")
+    private WebElement input_zipCode;
 
     @FindBy(xpath = "//input[@data-name='number']")
     private WebElement input_phoneNumber;
@@ -62,13 +66,16 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
     public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
         Faker faker = new Faker();
+        JsonFiles jsonFiles = new JsonFiles();
+        jsonFiles.setFileName("zipCode");
         HashMap<String, String> patientDetails = new HashMap<String, String>();
         patientDetails.put("firstName", faker.name().firstName());
-        patientDetails.put("lastName", faker.name().lastName());
+        patientDetails.put("lastName", faker.name().lastName()+"Automation");
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".","").replace("-",""));
         patientDetails.put("date", getRandomDate());
+        patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
         waitForElementClickable(dropdown_prefix, 20);
         input_firstName.clear();
         clickAndMoveToElementClickable(input_firstName,10);
@@ -96,6 +103,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName")+"@test.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
+        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), 10);
         if(!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
             input_firstName.clear();
             sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), 10);

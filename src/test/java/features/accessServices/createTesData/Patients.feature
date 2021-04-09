@@ -72,7 +72,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
       | Fasenra           |
       | Enhertu           |
     And I click on the consent tab to click the new consent button at person account page
-    And I select the "Non-Promotional" consent type at new consent wizard page
+    And I select the "AZ Non-Promotional" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
     And I select the consent address in the new consent wizard page
     And I validate the consent ID is displayed
@@ -88,4 +88,18 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
       | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                               | dataPMB                                                                          |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
       | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI,PMI,PBM  | RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |

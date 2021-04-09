@@ -203,6 +203,7 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         clickAndMoveToElementClickable(button_createCareTeamMember, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         switchToParentFrame();
     }
 

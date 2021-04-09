@@ -48,7 +48,12 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
     public void clickNewCareTeamMember() throws Exception {
-        clickElementClickable(button_newCareTeamMember, 20);
+        waitForElementVisibility(button_newCareTeamMember, 20);
+        try {
+            clickElementClickable(button_newCareTeamMember, 20);
+        } catch (Exception e) {
+            clickElementClickable(button_newCareTeamMember, 20);
+        }
     }
 
     public String getProductEnrollmentNumber() {
