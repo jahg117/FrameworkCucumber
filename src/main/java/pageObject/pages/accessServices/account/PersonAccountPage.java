@@ -5,6 +5,8 @@ import com.codoid.products.exception.FilloException;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -50,6 +52,9 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//span[@title='Patient Insurances']/following::*[@name='New'][1]")
     private WebElement button_newPatientInsurances;
 
+    @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
+    private WebElement button_loggedOut;
+
 
     private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
@@ -57,13 +62,12 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickViewAllProgramEnrollments() throws Exception {
         waitForPresenceOfAllElementsLocatedBy(link_viewAllProgramEnrollment, 30);
-        //clickAndMoveToElementClickable(getWebElement(link_viewAllProgramEnrollment), 10);
         clickElementJS(getWebElement(link_viewAllProgramEnrollment));
     }
 
     public void clickNewProductEnrollment() throws Exception {
-        waitForElementClickable(label_accountPersonName, 30);
-        clickAndMoveToElementClickable(button_newProductEnrollment, 15);
+        waitUntilVisibleLoop(button_newProductEnrollment, 2, mediumWait());
+        clickAndMoveToElementClickable(button_newProductEnrollment, mediumWait());
     }
 
     public void clickNewCase() throws Exception {
@@ -175,9 +179,14 @@ public class PersonAccountPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void clickPayerTab() throws Exception {
-        clickAndMoveToElementClickable(tabButton_payer, mediumWait());
-        clickProductEnrollment();
-        clickAndMoveToElementClickable(tabButton_payer, mediumWait());
+        try {
+            clickAndMoveToElementClickable(tabButton_payer, mediumWait());
+            clickProductEnrollment();
+            clickAndMoveToElementClickable(tabButton_payer, mediumWait());
+        } catch (NoSuchElementException | StaleElementReferenceException e) {
+            waitUntilVisibleLoop(tabButton_payer, 2, mediumWait());
+            clickAndMoveToElementClickable(tabButton_payer, mediumWait());
+        }
     }
 
     /**

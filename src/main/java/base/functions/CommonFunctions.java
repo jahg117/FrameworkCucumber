@@ -2665,7 +2665,7 @@ public class CommonFunctions {
     protected void switchToDefaultContentFrame() throws Exception {
         try {
             driver.switchTo().defaultContent();
-            logger.error("Change to default content");
+            logger.info("Change to default content");
         } catch (Exception e) {
             logger.error("The default content was found");
             throw new Exception("No default content was found");
@@ -2678,7 +2678,6 @@ public class CommonFunctions {
      * @param name
      * @param waitTime
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     public void switchSubTabByNameSF(String name, int waitTime) throws Exception {
@@ -2707,7 +2706,6 @@ public class CommonFunctions {
      * @param index
      * @param waitTime
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     public void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
@@ -2766,7 +2764,6 @@ public class CommonFunctions {
      * @param waitTime   time to wait for a WebElement
      * @throws Exception
      * @author J.Ruano
-     * @author J.Ruano
      */
     protected void selectDropDownRandomOptionNone(WebElement webElement, int waitTime) throws Exception {
         if (waitForElementClickable(webElement, waitTime)) {
@@ -2782,7 +2779,6 @@ public class CommonFunctions {
      *
      * @param webElement
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     protected void selectRandomDropDownNotNone(WebElement webElement) {
@@ -2909,7 +2905,6 @@ public class CommonFunctions {
     protected void clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int waitTime) throws Exception {
         if (waitForElementVisibility(webElement, waitTime)) {
             do {
-                //clickWebElementByActions(webElement);
                 clickElementClickable(webElement, mediumWait());
             } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
             logger.info("WebElement clicked");
@@ -3316,5 +3311,34 @@ public class CommonFunctions {
             logger.warn("There was not Ifame Found");
         }
         return iFrameTries;
+    }
+
+    /**
+     * This method is used to trie n times to see if an element is displayed or not in case in the number of tries the element is not found
+     * it will refresh the page and will try again to search the element
+     *
+     * @param webElement it contains the webelement to verify if it is displayed or not
+     * @param whileTries it contains an int number of how many times it will try to find the element
+     * @param waitTime   it contains an int value of the wait time in Seconds
+     * @return it returns a boolean value true if element was found
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int waitTime) throws Exception {
+        boolean statusOperation = false;
+        for (int i = 0; i < whileTries; i++) {
+            if (webElement.isDisplayed()) {
+                logger.info("Element Found");
+                statusOperation = true;
+                break;
+            }
+        }
+        if (!statusOperation) {
+            logger.info("Executing A Reload Of Page");
+            reloadPage();
+            waitForPageToLoad();
+            statusOperation = waitForElementVisibility(webElement, waitTime);
+        }
+        return statusOperation;
     }
 }

@@ -28,50 +28,46 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
 
+    @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
+    private WebElement button_loggedOut;
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
+        waitUntilVisibleLoop(button_loggedOut,2,shortWait());
         String product = "";
-        if(productType.equalsIgnoreCase("")){
+        if (productType.equalsIgnoreCase("")) {
             productType = "AZ";
         }
-        if(productType.equalsIgnoreCase("AZ")
-        ||productType.equalsIgnoreCase("DSI")){
+        if (productType.equalsIgnoreCase("AZ")
+                || productType.equalsIgnoreCase("DSI")) {
             JsonFiles file = new JsonFiles();
             file.setFileName("1372_EnrollmentProducts");
             product = file.getRandomFieldArray(productType);
-        } else{
+        } else {
             product = productType;
         }
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
-        sendKeysAndMoveToElementVisible(input_product, product,20);
+        autoSwitchIframeByWebElement(input_product,shortWait());
+        sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
         switchToParentFrame();
         return product;
     }
 
     public void clickEnrollButton() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 20);
-        waitForElementClickable(input_product, 10);
-        waitForElementClickable(button_enroll, 10);
-        scrollToWebElementJS(button_enroll);
-        waitForElementClickable(button_enroll, 10);
-        scrollToWebElementJS(button_enroll);
-        doubleClickAndMoveToElementClickable(button_enroll, 10);
-        if(!waitForElementVisibility(button_newCareTeamMember, 10)){
-            try {
-                waitForElementClickable(button_enroll, 10);
-                scrollToWebElementJS(button_enroll);
-                doubleClickAndMoveToElementClickable(button_enroll, 10);
-            }catch (Exception e){}
+        autoSwitchIframeByWebElement(button_enroll, shortWait());
+        scrollMethodToWebElement(button_enroll);
+        //scrollToWebElementJS(button_enroll);
+        if (!button_enroll.isDisplayed()) {
+            scrollMethodToWebElement(button_enroll);
         }
-        switchToParentFrame();
+        clickElementJS(button_enroll);
     }
 
     /**
-     *Use to select a random consent type or an specific accountType from table
+     * Use to select a random consent type or an specific accountType from table
      *
      * @param consentTypeList it contains all the consents type in the config table
      * @return it returns the consent type to be used
