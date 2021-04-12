@@ -181,7 +181,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     }
 
     @And("^I create a list of product enrollments$")
-    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception {
+    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
         List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
         ArrayList<String> productEnrollments = new ArrayList<>();
         for (Map<String, String> el : list) {
@@ -203,6 +203,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
                 accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             }
+
             accessServices.getSubTabsPage().closeSubTab(0);
         }
     }

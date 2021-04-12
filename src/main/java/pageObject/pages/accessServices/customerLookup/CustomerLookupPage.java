@@ -205,6 +205,7 @@ public class CustomerLookupPage extends CommonFunctions {
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         scrollToWebElementJS(button_createCareTeamMember);
         clickAndMoveToElementClickable(button_createCareTeamMember, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         switchToParentFrame();
     }
 

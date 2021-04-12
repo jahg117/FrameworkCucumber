@@ -129,6 +129,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
+
+
     public boolean searchAndClickPEFromResults(String id_PE) throws Exception {
         boolean statusOperation = false;
         By labelList_pmServicesProvidedList = By.xpath("//tr//a[@title='" + id_PE + "']");

@@ -1,6 +1,7 @@
 package pageObject.pages.accessServices.productEnrollment;
 
 import base.functions.CommonFunctions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
@@ -27,6 +28,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
+
+    private By icon_loadPage = By.xpath("//span[contains(@id,'actionstatus.stop') and @style='display: none;']");
 
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement button_loggedOut;
@@ -59,7 +62,6 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     public void clickEnrollButton() throws Exception {
         autoSwitchIframeByWebElement(button_enroll, shortWait());
         scrollMethodToWebElement(button_enroll);
-        //scrollToWebElementJS(button_enroll);
         if (!button_enroll.isDisplayed()) {
             scrollMethodToWebElement(button_enroll);
         }
