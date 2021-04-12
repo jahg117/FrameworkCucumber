@@ -42,6 +42,10 @@ public class NewConsentWizardPage extends CommonFunctions {
     @FindBy(xpath = "//input[@value='Save']")
     private WebElement button_addressSave;
 
+    @FindBy(xpath = "//span[normalize-space(text())='New Consent Wizard']")
+    private WebElement tab_newConsentWizard;
+
+
     /**
      * Method used fill the required data to successfully create the type of consent selected
      *
@@ -78,7 +82,7 @@ public class NewConsentWizardPage extends CommonFunctions {
                     break;
 
                 case 3:
-                    if (!consentSource.trim().isEmpty()&& !consentSource.trim().equalsIgnoreCase("RND")) {
+                    if (!consentSource.trim().isEmpty() && !consentSource.trim().equalsIgnoreCase("RND")) {
                         selectAndMoveDropdownByText(dropdown_consentSource, consentSource, longWait());
                     } else {
                         selectDropDownRandomOptionNone(dropdown_consentSource, mediumWait());
@@ -111,6 +115,7 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
+        By newConsentTab = By.xpath("//span[normalize-space(text())='New Consent Wizard']");
         switchToParentFrame();
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         waitForPresenceOfAllElementsLocatedBy(checkbox_addressesCheckBoxes, 15);
@@ -123,5 +128,6 @@ public class NewConsentWizardPage extends CommonFunctions {
             clickAndMoveToElementClickable(visibleWebElements.get(idxCheckbox), mediumWait());
         }
         clickAndMoveToElementClickable(button_addressSave, mediumWait());
+        waitForElementInvisibilityOfElementLocatedBy(newConsentTab, mediumWait());
     }
 }

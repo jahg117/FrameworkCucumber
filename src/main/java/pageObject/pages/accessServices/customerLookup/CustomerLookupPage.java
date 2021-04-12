@@ -163,6 +163,7 @@ public class CustomerLookupPage extends CommonFunctions {
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
         waitForElementVisibility(checkbox_usernameAddress, 10);
+        scrollToWebElementJS(checkbox_usernameAddress);
         clickAndMoveToElementClickable(checkbox_usernameAddress, 10);
         switchToParentFrame();
     }
@@ -202,6 +203,7 @@ public class CustomerLookupPage extends CommonFunctions {
     public void clickCreateCareTeamMember() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        scrollToWebElementJS(button_createCareTeamMember);
         clickAndMoveToElementClickable(button_createCareTeamMember, mediumWait());
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         switchToParentFrame();
@@ -331,7 +333,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
         waitForPageToLoad();
-        //autoSwitchIframeByWebElement(button_search, mediumWait());
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 15);
         waitForElementVisibility(input_searchFirstName, 15);
         uncheckCheckbox(checkbox_CheckedList);
@@ -360,12 +361,6 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(button_search, mediumWait());
-        /*if (!waitForElementVisibility(table_resultsTableHeaders, shortWait()) && !waitForElementVisibility(message_searchNoResults, shortWait()) && accountType.equalsIgnoreCase("hca")) {
-            clickAndMoveToElementVisible(input_searchFacilityName, mediumWait());
-            sendKeysAndMoveToElementClickable(input_searchFacilityName, searchValue, mediumWait());
-            clickElementVisible(button_search, mediumWait());
-            waitForElementVisibility(table_resultsTableHeaders, mediumWait());
-        }*/
         switchToDefaultContentFrame();
     }
 

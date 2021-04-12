@@ -49,7 +49,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
                     accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-                    if(!commonData.userDetails.getUsername().equalsIgnoreCase("admin")){
+                    if (!commonData.userDetails.getUsername().equalsIgnoreCase("admin")) {
                         accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hca");
                     }
                     accessServices.getCustomerLookupPage().clickNewAccount();
@@ -59,7 +59,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-            if(!commonData.userDetails.getUsername().equalsIgnoreCase("admin")){
+            if (!commonData.userDetails.getUsername().equalsIgnoreCase("admin")) {
                 accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hcp");
             }
             accessServices.getCustomerLookupPage().clickNewAccount();
@@ -189,18 +189,12 @@ public class CreateProductEnrollment extends ApplicationInstance {
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            if(!accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed()){
-                accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            }
-            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
 
-
             String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
-            String type [] = {"hca", "hcp"};
-            String relationhsip [] = {"Treating Facility","Treating Physician"};
-            for(int i = 0; i < firstName.length; i++) {
-                accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            String type[] = {"hca", "hcp"};
+            String relationhsip[] = {"Treating Facility", "Treating Physician"};
+            for (int i = 0; i < firstName.length; i++) {
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
                 accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);
                 accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
@@ -258,7 +252,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
 
     @And("^I validate the product enrollment is displayed")
-    public void productEnrollmentDisplayed() {
+    public void productEnrollmentDisplayed() throws Exception {
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
         commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
     }
@@ -283,7 +277,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     }
 
     @Then("^I Validate the product enrollment is displayed at Product Enrollments table")
-    public void getProductEnrollmentsUsingTable(){
+    public void getProductEnrollmentsUsingTable() {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
