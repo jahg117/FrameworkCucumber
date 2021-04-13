@@ -48,7 +48,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
 
     public boolean isProductEnrollmentPageDisplayed() {
-        return waitForElementVisibility(button_newCareTeamMember, 30);
+        return waitForElementVisibility(button_newCareTeamMember, 15);
     }
 
     public void clickNewCareTeamMember() throws Exception {

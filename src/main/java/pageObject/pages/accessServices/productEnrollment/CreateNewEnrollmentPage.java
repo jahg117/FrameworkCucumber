@@ -53,6 +53,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             product = productType;
         }
         autoSwitchIframeByWebElement(input_product,shortWait());
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
         sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
         switchToParentFrame();
@@ -60,7 +61,9 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public void clickEnrollButton() throws Exception {
-        autoSwitchIframeByWebElement(button_enroll, shortWait());
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
+        waitForNumberOfElementsToBe(icon_loadPage, 0, 3);
+        waitForElementClickable(button_enroll, 10);
         scrollMethodToWebElement(button_enroll);
         if (!button_enroll.isDisplayed()) {
             scrollMethodToWebElement(button_enroll);
