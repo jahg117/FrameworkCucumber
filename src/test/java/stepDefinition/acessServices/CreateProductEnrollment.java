@@ -183,14 +183,15 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("^I create a list of product enrollments$")
     public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
         List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
-        ArrayList<String> productEnrollments = new ArrayList<>();
         for (Map<String, String> el : list) {
             String product = el.get("ProductEnrollment");
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
-
+            if(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase("")){
+                try{ accessServices.getCreateNewEnrollmentPage().clickEnrollButton(); }catch (Exception e){}
+            }
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
             String type[] = {"hca", "hcp"};
             String relationhsip[] = {"Treating Facility", "Treating Physician"};
