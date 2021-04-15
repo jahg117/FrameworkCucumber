@@ -18,7 +18,7 @@ public class HomePage extends CommonFunctions {
     @FindBy(xpath = "//div[contains(@class,'lafPageHost')]")
     private WebElement label_panelTab;
 
-    public boolean isSalesforcePageVisible() throws InterruptedException {
+    public boolean isSalesforcePageVisible() throws Exception {
         waitForPageToLoad();
         waitForElementVisibility(input_SearchBar, 30);
         return waitForElementAttributeContains(label_panelTab,"data-aura-class","lafPageHost", 30);

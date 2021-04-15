@@ -35,6 +35,7 @@ Position 9 = Member ID (Input)
 
 Example of a PMI Record:
 RND,Self,Vandame,4/6/2021,Danaher,Danaher Plan,2403061405,RND,RND,RND
+RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND
 
 dataPBM = array  that contains the data need it to create a PBM insurance the array layout is the following:
 Position 0 = Insurance Rank (Dropdown)
@@ -51,13 +52,13 @@ Position 10 = BIN Number (Input)
 Position 11 = PCN (Input)
 
 Example of a PBM Record:
-RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,RND,RND,RND,RND
+RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A
 
 Note: For PMI and PBM if some data is not required it can be ignore, putting in the record layout N_A and if some data needs to be
       random you shall put in the respective index the word RND.
 """
 
-  Scenario Outline: Create Patients T001
+  Scenario Outline: Create Patients EnrollT12
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
@@ -88,11 +89,13 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
-      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                | dataPMB                                                                     |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                      | dataPMB                                                              |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
+
+
+
+
+
 
 
 

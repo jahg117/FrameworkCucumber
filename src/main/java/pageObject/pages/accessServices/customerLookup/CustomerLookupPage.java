@@ -34,6 +34,9 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(@name,'dob')]")
     private WebElement input_searchDOB;
 
+    @FindBy(xpath = "//*[contains(@name,'email')]")
+    private WebElement input_email;
+
     @FindBy(xpath = "//legend/following::input[@type='checkbox']")
     private List<WebElement> checkbox_FilterList;
 
@@ -120,7 +123,20 @@ public class CustomerLookupPage extends CommonFunctions {
     private WebElement checkbox_usernameAddress;
 
     @FindBy(xpath = "//input[@class='casecontactFaxNumber']")
-    private WebElement checkbox_caseContactCaseNumber;
+    private List<WebElement> checkbox_caseContactCaseNumber;
+
+    @FindBy(xpath = "//input[@class='casecontactPhoneNumber']")
+    private List<WebElement> checkbox_casePhoneNumber;
+
+
+    /*
+    @FindBy(xpath = "//*[@class='pbSubsection']/..//*[@checked='checked']")
+    private WebElement checkbox_relationshipCheckbox;
+*/
+    @FindBy(xpath = "//*[@class='pbSubsection']/..//*[@type='checkbox']")
+    private List<WebElement> checkbox_relationshipCheckbox;
+    //private WebElement checkbox_relationshipCheckbox;
+
 
     public void searchRandomFirstName() throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -133,7 +149,9 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public HashMap<String, String> getAndSelectCareTeamMemberDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         HashMap<String, String> hcpDetails = new HashMap<>();
         waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
         int index = 1;
@@ -160,7 +178,9 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public void selectCareTeamMemberAddressDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
         waitForElementVisibility(checkbox_usernameAddress, 10);
         scrollToWebElementJS(checkbox_usernameAddress);
@@ -169,8 +189,11 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void selectCaseContactOption() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
+        }
+        /*
         if(waitForElementVisibility(checkbox_caseContact, 5)){
             waitForElementClickable(checkbox_caseContact, 5);
             scrollToWebElementJS(checkbox_caseContact);
@@ -179,7 +202,29 @@ public class CustomerLookupPage extends CommonFunctions {
             if(!isClickableElementSelected(checkbox_caseContactCaseNumber, 3)){
                 clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, 10);
             }
+        }*/
+        By relationshipCheckboxes = By.xpath("//*[@class='pbSubsection']/..//*[@type='checkbox']");
+        for (WebElement checkbox : getWebElementList(relationshipCheckboxes)) {
+            String checkboxFlag = checkbox.getAttribute("checked");
+            if (checkboxFlag == null || checkboxFlag.isEmpty() || !checkboxFlag.equalsIgnoreCase("true")) {
+                scrollToWebElementJS(checkbox);
+                waitForElementClickable(checkbox, shortWait());
+                clickElementJS(checkbox);
+                waitForPageToLoad();
+            }
         }
+        waitForPageToLoad();
+        if (!checkbox_caseContactCaseNumber.isEmpty()) {
+            waitForElementVisibility(checkbox_caseContactCaseNumber.get(0), shortWait());
+                if (!isClickableElementSelected(checkbox_caseContactCaseNumber.get(0), shortWait())) {
+                    clickElementJS(checkbox_caseContactCaseNumber.get(0));
+                    waitForPageToLoad();
+                    waitForElementVisibility(checkbox_casePhoneNumber.get(0), shortWait());
+                    clickElementJS(checkbox_casePhoneNumber.get(0));
+                    waitForPageToLoad();
+
+                }
+            }
         switchToParentFrame();
     }
 
@@ -188,6 +233,7 @@ public class CustomerLookupPage extends CommonFunctions {
         waitForElementVisibility(dropdown_relationship, 10);
         scrollToWebElementJS(dropdown_relationship);
         selectRandomDropDownNotNone(dropdown_relationship);
+        waitForPageToLoad();
         switchToParentFrame();
     }
 
@@ -196,16 +242,24 @@ public class CustomerLookupPage extends CommonFunctions {
         waitForElementVisibility(dropdown_relationship, 10);
         scrollToWebElementJS(dropdown_relationship);
         selectDropDownClickableByText(dropdown_relationship, option, 10);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        waitForPageToLoad();
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         switchToParentFrame();
     }
 
     public void clickCreateCareTeamMember() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         scrollToWebElementJS(button_createCareTeamMember);
         clickAndMoveToElementClickable(button_createCareTeamMember, mediumWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        waitForPageToLoad();
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         switchToParentFrame();
     }
 
@@ -317,7 +371,9 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
         sendKeysElementVisible(input_searchFirstName, firstName, 10);
         clickAndMoveToElementClickable(checkbox_hca, 10);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        }
         sendKeysElementVisible(input_searchFirstName, firstName, 10);
         clickAndMoveToElementClickable(button_search, 10);
         switchToParentFrame();
@@ -341,13 +397,19 @@ public class CustomerLookupPage extends CommonFunctions {
             case "hca":
                 waitForElementClickable(input_searchFacilityName, mediumWait());
                 clickAndMoveToElementVisible(input_searchFacilityName, mediumWait());
-                if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+                if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
+                    waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+                }
                 sendKeysAndMoveToElementClickable(input_searchFacilityName, searchValue, mediumWait());
                 break;
 
             case "hcp":
-                clickAndMoveToElementVisible(input_searchFirstName, mediumWait());
-                sendKeysAndMoveToElementClickable(input_searchFirstName, searchValue, mediumWait());
+                //clickAndMoveToElementVisible(input_searchFirstName, mediumWait());//JR
+                //sendKeysAndMoveToElementClickable(input_searchFirstName, searchValue, mediumWait());
+
+
+                clickAndMoveToElementVisible(input_email, mediumWait());//JR
+                sendKeysAndMoveToElementClickable(input_email, "testinghcp@testaz.com", mediumWait());
                 break;
 
             case "cpc":

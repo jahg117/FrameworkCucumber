@@ -1,0 +1,7 @@
+{"EXC_NSE":["The WebElement was not found"],
+  "consentType":["AZ","DSI"],
+  "consentTypeDSIOption":["DSI Family Consent","DSI Promotional","DSI Non-Promotional","AZ Family Consent","Non-Promotional","Promotional"],
+  "consentTypeAZOption":["AZ Family Consent","Non-Promotional","Promotional"],
+  "azConsentWarningMessages":["No AZ Non-Promotional Consent is on file."],
+  "DSINon-Promotional":["No DSI Non-Promotional Consent is on file."]
+}

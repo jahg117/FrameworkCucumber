@@ -190,10 +190,15 @@ public class CreateProductEnrollment extends ApplicationInstance {
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
             productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
-
+/*
             String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
             String type[] = {"hca", "hcp"};
             String relationhsip[] = {"Treating Facility", "Treating Physician"};
+
+ *///JR
+            String firstName[] = {"External FRM Facility", "Access"};
+            String type[] = {"hca", "hcp"};
+            String relationhsip[] = {"Treating Facility", "Prescribing Physician"};
             for (int i = 0; i < firstName.length; i++) {
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
                 accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);

@@ -66,8 +66,10 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewProductEnrollment() throws Exception {
+        switchToDefaultContentFrame();
         waitUntilVisibleLoop(button_newProductEnrollment, 2, mediumWait());
         clickAndMoveToElementClickable(button_newProductEnrollment, mediumWait());
+
     }
 
     public void clickNewCase() throws Exception {

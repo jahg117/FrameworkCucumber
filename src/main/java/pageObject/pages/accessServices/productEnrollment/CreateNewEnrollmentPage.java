@@ -2,10 +2,12 @@ package pageObject.pages.accessServices.productEnrollment;
 
 import base.functions.CommonFunctions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +36,19 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement button_loggedOut;
 
+    @FindBy(xpath = "//div[contains(@class,'truncate')]//slot[@name='primaryField']//lightning-formatted-text")
+    private WebElement label_productEnrollmentNumber;
+
+    List<Integer> enrollStartPosition = new ArrayList<>();
+
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
-        waitUntilVisibleLoop(button_loggedOut,2,shortWait());
+        if (!autoSwitchIframeByWebElement(input_product, shortWait())) {
+            autoSwitchIframeByWebElement(input_product, shortWait());
+        }
         String product = "";
         if (productType.equalsIgnoreCase("")) {
             productType = "AZ";
@@ -52,20 +61,35 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         } else {
             product = productType;
         }
-        autoSwitchIframeByWebElement(input_product,shortWait());
+
+        enrollStartPosition = getXYElementPosition(button_enroll);
         sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
-        switchToParentFrame();
+        //switchToParentFrame();
+        switchToDefaultContentFrame();
+        waitForPageToLoad();
         return product;
     }
 
     public void clickEnrollButton() throws Exception {
-        autoSwitchIframeByWebElement(button_enroll, shortWait());
+        autoSwitchIframeByWebElement(button_enroll, mediumWait());
         scrollMethodToWebElement(button_enroll);
-        if (!button_enroll.isDisplayed()) {
-            scrollMethodToWebElement(button_enroll);
-        }
         clickElementJS(button_enroll);
+        try {
+            waitForPageToLoad();
+            //if (!waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {//JR
+                List<Integer> enrollCurrentPosition = getXYElementPosition(getWebElement(By.xpath("//td[@class='pbButtonb ']//input[@value='Enroll']")));
+                if (!button_enroll.isDisplayed() || enrollStartPosition.get(0) != enrollCurrentPosition.get(0)) {
+                    scrollMethodToWebElement(button_enroll);
+                    clickElementJS(button_enroll);
+            //    }
+
+
+            }
+        } catch (NoSuchElementException e) {
+
+        }
+        enrollStartPosition.clear();
     }
 
     /**
