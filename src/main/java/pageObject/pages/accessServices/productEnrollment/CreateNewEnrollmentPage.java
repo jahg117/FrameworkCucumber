@@ -2,12 +2,10 @@ package pageObject.pages.accessServices.productEnrollment;
 
 import base.functions.CommonFunctions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,19 +34,12 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement button_loggedOut;
 
-    @FindBy(xpath = "//div[contains(@class,'truncate')]//slot[@name='primaryField']//lightning-formatted-text")
-    private WebElement label_productEnrollmentNumber;
-
-    List<Integer> enrollStartPosition = new ArrayList<>();
-
     public boolean isProductEnrollmentPageDisplayed() {
         return waitForElementVisibility(iframe_newProgramEnrollment, 30);
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
-        if (!autoSwitchIframeByWebElement(input_product, shortWait())) {
-            autoSwitchIframeByWebElement(input_product, shortWait());
-        }
+        waitUntilVisibleLoop(button_loggedOut,2,shortWait());
         String product = "";
         if (productType.equalsIgnoreCase("")) {
             productType = "AZ";
@@ -61,35 +52,23 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         } else {
             product = productType;
         }
-
-        enrollStartPosition = getXYElementPosition(button_enroll);
+        autoSwitchIframeByWebElement(input_product,shortWait());
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
         sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
-        //switchToParentFrame();
-        switchToDefaultContentFrame();
-        waitForPageToLoad();
+        switchToParentFrame();
         return product;
     }
 
     public void clickEnrollButton() throws Exception {
-        autoSwitchIframeByWebElement(button_enroll, mediumWait());
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
+        waitForNumberOfElementsToBe(icon_loadPage, 0, 3);
+        waitForElementClickable(button_enroll, 10);
         scrollMethodToWebElement(button_enroll);
-        clickElementJS(button_enroll);
-        try {
-            waitForPageToLoad();
-            //if (!waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {//JR
-                List<Integer> enrollCurrentPosition = getXYElementPosition(getWebElement(By.xpath("//td[@class='pbButtonb ']//input[@value='Enroll']")));
-                if (!button_enroll.isDisplayed() || enrollStartPosition.get(0) != enrollCurrentPosition.get(0)) {
-                    scrollMethodToWebElement(button_enroll);
-                    clickElementJS(button_enroll);
-            //    }
-
-
-            }
-        } catch (NoSuchElementException e) {
-
+        if (!button_enroll.isDisplayed()) {
+            scrollMethodToWebElement(button_enroll);
         }
-        enrollStartPosition.clear();
+        clickElementJS(button_enroll);
     }
 
     /**
