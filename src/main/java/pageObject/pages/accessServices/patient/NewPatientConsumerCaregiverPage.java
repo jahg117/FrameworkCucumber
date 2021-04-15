@@ -69,15 +69,13 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         JsonFiles jsonFiles = new JsonFiles();
         jsonFiles.setFileName("zipCode");
         HashMap<String, String> patientDetails = new HashMap<String, String>();
-        patientDetails.put("firstName", "AutoSPP_" + faker.name().firstName());//JR
+        patientDetails.put("firstName", faker.name().firstName());
         patientDetails.put("lastName", faker.name().lastName() + "_Automation");
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
-        //patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));//JR
-        patientDetails.put("phoneNumber", "2403061405");
+        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         patientDetails.put("date", getRandomDate());
-        //patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));//JR
-        patientDetails.put("zipcode", "06019");//JR
+        patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
         waitForElementClickable(dropdown_prefix, 20);
         input_firstName.clear();
         clickAndMoveToElementClickable(input_firstName, 10);
@@ -93,7 +91,6 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), 10);
         sendKeysElementVisible(input_city, patientDetails.get("city"), 10);
         scrollToWebElementJS(input_emailAddress);
-        //sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@test.com", 10);//JR
         sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", 10);
         selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
         sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), 10);

@@ -404,12 +404,8 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
 
             case "hcp":
-                //clickAndMoveToElementVisible(input_searchFirstName, mediumWait());//JR
-                //sendKeysAndMoveToElementClickable(input_searchFirstName, searchValue, mediumWait());
-
-
-                clickAndMoveToElementVisible(input_email, mediumWait());//JR
-                sendKeysAndMoveToElementClickable(input_email, "testinghcp@testaz.com", mediumWait());
+                clickAndMoveToElementVisible(input_searchFirstName, mediumWait());
+                sendKeysAndMoveToElementClickable(input_searchFirstName, searchValue, mediumWait());
                 break;
 
             case "cpc":
