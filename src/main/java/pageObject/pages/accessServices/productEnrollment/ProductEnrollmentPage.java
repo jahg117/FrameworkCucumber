@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class ProductEnrollmentPage extends CommonFunctions {
@@ -14,6 +15,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
+
+    @FindBy(xpath = "//li[@title='Care Team']/a")
+    private WebElement label_careTeamTabOption;
 
     @FindBy(xpath = "(//*[contains(text(),'Cases')]/following::*//a[@title='New Case'])[last()]")
     private WebElement button_newCase;
@@ -44,20 +48,35 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
 
     public boolean isProductEnrollmentPageDisplayed() {
-        return waitForElementVisibility(button_newCareTeamMember, 30);
+        return waitForElementVisibility(button_newCareTeamMember, 15);
     }
 
     public void clickNewCareTeamMember() throws Exception {
-        waitForElementVisibility(button_newCareTeamMember, 20);
         try {
-            clickElementClickable(button_newCareTeamMember, 20);
-        } catch (Exception e) {
-            clickElementClickable(button_newCareTeamMember, 20);
+            switchSubTabByIndexSF(0,shortWait());
+            switchSubTabByIndexSF(1,shortWait());
+            int exitCounter = 2;
+            for (int i = 0; i < exitCounter; i++) {
+                if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
+                    logger.info("Waiting For Attestation To Be Available");
+                } else {
+                    clickElementJS(label_attestationTabOption);
+                    waitForElementClickable(label_careTeamTabOption, shortWait());
+                    clickElementJS(label_careTeamTabOption);
+                    waitForElementVisibility(button_newCareTeamMember, mediumWait());
+                    clickElementClickable(button_newCareTeamMember, mediumWait());
+                    break;
+                }
+            }
+        } catch (NoSuchElementException e) {
+            waitForElementVisibility(button_newCareTeamMember, mediumWait());
+            clickElementClickable(button_newCareTeamMember, mediumWait());
         }
     }
 
-    public String getProductEnrollmentNumber() {
-        if (waitForElementVisibility(label_productEnrollmentNumber, 10)) {
+    public String getProductEnrollmentNumber() throws Exception {
+        waitForPageToLoad();
+        if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
             return getWebElementText(label_productEnrollmentNumber);
         } else {
             return "";
@@ -75,14 +94,14 @@ public class ProductEnrollmentPage extends CommonFunctions {
     public boolean validatePEDSIMessage(String messagePE) throws Exception {
         boolean result = false;
         waitForPageToLoad();
-        if (waitForElementVisibility(message_msgNoDSIConsent,shortWait())) {
+        if (waitForElementVisibility(message_msgNoDSIConsent, shortWait())) {
             if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
                 logger.info("The Message: " + messagePE + "Matched");
                 result = true;
             } else {
                 logger.info("The Message: " + messagePE + "Did Not Matched");
             }
-        }else{
+        } else {
             logger.info("No Warning Message Was Displayed");
         }
         return result;
@@ -115,16 +134,16 @@ public class ProductEnrollmentPage extends CommonFunctions {
     public boolean searchAndClickPEFromResults(String id_PE) throws Exception {
         boolean statusOperation = false;
         By labelList_pmServicesProvidedList = By.xpath("//tr//a[@title='" + id_PE + "']");
-       try {
+        try {
             waitForElementTextPresent(tableRow_pmFirstRow, id_PE, mediumWait());
             List<WebElement> productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
             if (!productNamesFound.isEmpty()) {
                 for (WebElement product : productNamesFound) {
-                        waitForElementVisibility(product, shortWait());
-                        clickAndMoveToElementClickable(product, shortWait());
-                        logger.info("The Product Enrollment Element was found");
-                        statusOperation = true;
-                        break;
+                    waitForElementVisibility(product, shortWait());
+                    clickAndMoveToElementClickable(product, shortWait());
+                    logger.info("The Product Enrollment Element was found");
+                    statusOperation = true;
+                    break;
                 }
             } else {
                 if (label_pmNoItemsMessage.isDisplayed()) {

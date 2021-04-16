@@ -26,7 +26,7 @@ public class NewCasePage extends CommonFunctions {
     private WebElement form_caseOptions;
 
 
-    public boolean isNewCaseFormDisplayed() {
+    public boolean isNewCaseFormDisplayed() throws Exception {
         waitForPageToLoad();
         return waitForElementVisibility(dropdown_recordType, 20);
     }

@@ -1,22 +1,21 @@
 package base.functions;
 
 import base.driverInitialize.DriverFactory;
-
 import com.github.javafaker.Faker;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
+import org.json.simple.JSONArray;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
-
 import utils.FileReading;
+import utils.JsonFiles;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import java.lang.reflect.Method;
 
 public class CommonFunctions {
 
@@ -24,7 +23,7 @@ public class CommonFunctions {
 
     protected FileReading fileReading = new FileReading();
 
-    private Logger logger = Logger.getLogger(CommonFunctions.class);
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
 
     public CommonFunctions() {
         fileReading.setLog4jFile();
@@ -34,7 +33,7 @@ public class CommonFunctions {
      * Return a WebElement if it is found
      *
      * @param locator to find as a WebElement
-     * @throws Exception if the WebElement is not located
+     * @return WebElement if it is found
      * @author Alejandro Hernandez
      */
     protected WebElement getWebElement(By locator) {
@@ -52,7 +51,6 @@ public class CommonFunctions {
      * @param webElement       to find
      * @param timeOutInMinutes Time to wait in minutes.
      * @param pollingEvery     Seconds to search a WebElement every specific second.
-     * @throws Exception if the element is not found
      * @author Alejandro Hernandez
      */
     protected void waitForElementFluentMinutes(WebElement webElement, int timeOutInMinutes, int pollingEvery) {
@@ -64,7 +62,7 @@ public class CommonFunctions {
             wait.ignoring(TimeoutException.class);
             wait.ignoring(StaleElementReferenceException.class);
 
-            WebElement el = wait.until(new Function<WebDriver, WebElement>() {
+            wait.until(new Function<WebDriver, WebElement>() {
                 public WebElement apply(WebDriver driver) {
                     logger.info("The WebElement was found: " + getWebElementLocatorPath(webElement));
                     return webElement;
@@ -419,8 +417,8 @@ public class CommonFunctions {
      *
      * @author Alejandro Hernandez
      */
-    protected void waitForPageToLoad() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+    protected void waitForPageToLoad() throws Exception {
+        WebDriverWait wait = new WebDriverWait(driver, waitDriverTimeOutInSeconds());
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
         ExpectedCondition<Boolean> jsLoad = webDriver -> ((JavascriptExecutor) webDriver)
@@ -441,7 +439,7 @@ public class CommonFunctions {
      *
      * @author Alejandro Hernandez
      */
-    protected void reloadPage() throws InterruptedException {
+    protected void reloadPage() throws Exception {
         DriverFactory.getDriver().navigate().refresh();
         waitForPageToLoad();
     }
@@ -2665,7 +2663,7 @@ public class CommonFunctions {
     protected void switchToDefaultContentFrame() throws Exception {
         try {
             driver.switchTo().defaultContent();
-            logger.error("Change to default content");
+            logger.info("Change to default content");
         } catch (Exception e) {
             logger.error("The default content was found");
             throw new Exception("No default content was found");
@@ -2678,7 +2676,6 @@ public class CommonFunctions {
      * @param name
      * @param waitTime
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     public void switchSubTabByNameSF(String name, int waitTime) throws Exception {
@@ -2707,7 +2704,6 @@ public class CommonFunctions {
      * @param index
      * @param waitTime
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     public void switchSubTabByIndexSF(int index, int waitTime) throws Exception {
@@ -2766,7 +2762,6 @@ public class CommonFunctions {
      * @param waitTime   time to wait for a WebElement
      * @throws Exception
      * @author J.Ruano
-     * @author J.Ruano
      */
     protected void selectDropDownRandomOptionNone(WebElement webElement, int waitTime) throws Exception {
         if (waitForElementClickable(webElement, waitTime)) {
@@ -2782,7 +2777,6 @@ public class CommonFunctions {
      *
      * @param webElement
      * @throws Exception
-     * @author J.Ruano
      * @author J.Ruano
      */
     protected void selectRandomDropDownNotNone(WebElement webElement) {
@@ -2909,7 +2903,6 @@ public class CommonFunctions {
     protected void clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int waitTime) throws Exception {
         if (waitForElementVisibility(webElement, waitTime)) {
             do {
-                //clickWebElementByActions(webElement);
                 clickElementClickable(webElement, mediumWait());
             } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
             logger.info("WebElement clicked");
@@ -3145,15 +3138,15 @@ public class CommonFunctions {
      */
     public int shortWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime = 0;
+        int timeOutInSeconds = 0;
         try {
-            waitTime = Integer.parseInt(fileReading.getField("shortWaitTime"));
-            logger.info(waitTime + " Seconds Will Be Wait For shortWaitTime");
+            timeOutInSeconds = Integer.parseInt(fileReading.getField("shortWaitTime"));
+            logger.info(timeOutInSeconds + " Seconds Will Be Wait For shortWaitTime");
 
         } catch (NumberFormatException e) {
             logger.warn("There is no valid value for shortWaitTime at GlobalConfig.properties File");
         }
-        return waitTime;
+        return timeOutInSeconds;
     }
 
     /**
@@ -3165,15 +3158,15 @@ public class CommonFunctions {
      */
     public int mediumWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime = 0;
+        int timeOutInSeconds = 0;
         try {
-            waitTime = Integer.parseInt(fileReading.getField("mediumWaitTime"));
-            logger.info(waitTime + " Seconds Will Be Wait For mediumWaitTime");
+            timeOutInSeconds = Integer.parseInt(fileReading.getField("mediumWaitTime"));
+            logger.info(timeOutInSeconds + " Seconds Will Be Wait For mediumWaitTime");
 
         } catch (NumberFormatException e) {
             logger.warn("There is no valid value for mediumWaitTime at GlobalConfig.properties File");
         }
-        return waitTime;
+        return timeOutInSeconds;
     }
 
     /**
@@ -3185,15 +3178,35 @@ public class CommonFunctions {
      */
     public int longWait() throws Exception {
         fileReading.setFileName("GlobalConfig.properties");
-        int waitTime = 0;
+        int timeOutInSeconds = 0;
         try {
-            waitTime = Integer.parseInt(fileReading.getField("longWaitTime"));
-            logger.info(waitTime + " Seconds Will Be Wait For longWaitTime");
+            timeOutInSeconds = Integer.parseInt(fileReading.getField("longWaitTime"));
+            logger.info(timeOutInSeconds + " Seconds Will Be Wait For longWaitTime");
 
         } catch (NumberFormatException e) {
             logger.warn("There is no valid value for longWaitTime at GlobalConfig.properties File");
         }
-        return waitTime;
+        return timeOutInSeconds;
+    }
+
+    /**
+     * Use to assign the the Wait Timeout in Seconds for the driver from the GlobalConfig.properties
+     *
+     * @return an integer value
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public int waitDriverTimeOutInSeconds() throws Exception {
+        fileReading.setFileName("GlobalConfig.properties");
+        int timeOutInSeconds = 0;
+        try {
+            timeOutInSeconds = Integer.parseInt(fileReading.getField("waitDriverTimeOutInSeconds"));
+            logger.info(timeOutInSeconds + " Seconds Will Be Wait For waitDriverTimeOutInSeconds");
+
+        } catch (NumberFormatException e) {
+            logger.warn("There is no valid value for waitDriverTimeOutInSeconds at GlobalConfig.properties File");
+        }
+        return timeOutInSeconds;
     }
 
     /**
@@ -3238,9 +3251,9 @@ public class CommonFunctions {
         int counter = 0;
         int size = 0;
         By frame = By.tagName("iframe");
-        if (waitForNumberOfElementsToBeMoreThanBy(frame, 0, shortWait())) {
+        if (waitForNumberOfElementsToBeMoreThanBy(frame, 0, waitTime)) {
             for (int i = 0; i <= iframeTries(); i++) {
-                foundIframeFlag = waitForNumberOfElementsToBeMoreThanBy(frame, 0, shortWait());
+                foundIframeFlag = waitForNumberOfElementsToBeMoreThanBy(frame, 0, waitTime);
                 if (foundIframeFlag) {
                     break;
                 }
@@ -3317,4 +3330,49 @@ public class CommonFunctions {
         }
         return iFrameTries;
     }
+
+    /**
+     * This method is used to trie n times to see if an element is displayed or not in case in the number of tries the element is not found
+     * it will refresh the page and will try again to search the element
+     *
+     * @param webElement it contains the webelement to verify if it is displayed or not
+     * @param whileTries it contains an int number of how many times it will try to find the element
+     * @param waitTime   it contains an int value of the wait time in Seconds
+     * @return it returns a boolean value true if element was found
+     * @throws Exception
+     * @author J.Ruano
+     */
+    protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int waitTime) throws Exception {
+        boolean statusOperation = false;
+        waitForPageToLoad();
+        for (int i = 0; i < whileTries; i++) {
+            if (webElement.isDisplayed()) {
+                logger.info("Element Found");
+                statusOperation = true;
+                break;
+            }
+        }
+        if (!statusOperation) {
+            logger.info("Executing A Reload Of Page");
+            reloadPage();
+            waitForPageToLoad();
+            statusOperation = waitForElementVisibility(webElement, waitTime);
+        }
+        return statusOperation;
+    }
+
+    protected String getMessage(String keyValue) throws Exception {
+        JsonFiles jsonFiles = new JsonFiles();
+        jsonFiles.setFileName("ConstantMessages");
+        String constantMessage = jsonFiles.getFieldArray(keyValue).toString();
+        return constantMessage;
+    }
+
+    protected List<Integer> getXYElementPosition(WebElement webElement) throws Exception {
+        List <Integer> positionXY = new ArrayList<>();
+        positionXY.add(webElement.getLocation().getY());
+        positionXY.add(webElement.getLocation().getX());
+        return positionXY;
+    }
+
 }
