@@ -109,6 +109,22 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
+    @Then("^I fill the fields from the account form$")
+    public void fillFieldsAccountForm(DataTable dataTable) throws Exception {
+        List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
+        HashMap<String, String> patientTable = new HashMap<>();
+        for (Map<String, String> el : list) {
+            patientTable.put("name", el.get("name"));
+            patientTable.put("fax", el.get("fax"));
+            patientTable.put("phoneType", el.get("phoneType"));
+            patientTable.put("zipcode", el.get("zipcode"));
+        }
+        accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
+        HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm(patientTable);
+        accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        commonData.patient = new Patient(patientDetails);
+    }
+
     @When("^I click on new and I select \"([^\"]*)\" account$")
     public void selectAccountType(String accountType) throws Exception {
         accessServices.getNewAccountPage().selectRecordType(accountType);
@@ -192,9 +208,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 try{ accessServices.getCreateNewEnrollmentPage().clickEnrollButton(); }catch (Exception e){}
             }
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-            String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
+            String firstName[] = {"internal.frm@hospital.com", "hcp.specialty@astrazeneca.com"};
             String type[] = {"hca", "hcp"};
-            String relationhsip[] = {"Treating Facility", "Treating Physician"};
+            String relationhsip[] = {"Treating Facility", "Prescribing Physician"};
             for (int i = 0; i < firstName.length; i++) {
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
                 accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);

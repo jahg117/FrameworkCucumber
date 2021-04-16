@@ -52,7 +52,6 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         } else {
             product = productType;
         }
-        autoSwitchIframeByWebElement(input_product,shortWait());
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
         sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
