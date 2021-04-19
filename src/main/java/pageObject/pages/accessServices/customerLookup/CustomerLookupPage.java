@@ -390,6 +390,7 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(button_search, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
         switchToDefaultContentFrame();
     }
 

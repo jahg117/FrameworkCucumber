@@ -22,6 +22,12 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "(//*[contains(text(),'Cases')]/following::*//a[@title='New Case'])[last()]")
     private WebElement button_newCase;
 
+    @FindBy(xpath = "(//li[@title='Product Enrollments'])[last()]")
+    private WebElement label_productEnrollmentsTabOption;
+
+    @FindBy(xpath = "(//li[@title='Cases'])[last()]")
+    private WebElement label_cases;
+
     @FindBy(xpath = "//th[@data-label='Product Enrollment Number']//a/span")
     private List<WebElement> list_productEnrollmentNumber;
 
@@ -67,14 +73,14 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickNewProductEnrollment() throws Exception {
         switchToDefaultContentFrame();
-        waitUntilVisibleLoop(button_newProductEnrollment, 2, mediumWait());
-        clickAndMoveToElementClickable(button_newProductEnrollment, mediumWait());
-
+        waitForElementClickable(button_newProductEnrollment, mediumWait());
+        clickElementClickable(button_newProductEnrollment, mediumWait());
     }
 
     public void clickNewCase() throws Exception {
         waitForElementVisibility(button_newCase, 30);
-        scrollToWebElementJS(button_newCase);
+        waitForElementVisibility(button_newProductEnrollment, 30);
+        scrollToWebElementJS(button_newProductEnrollment);
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 
