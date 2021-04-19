@@ -24,5 +24,3 @@ Feature: ChildCases
     Examples:
     | user    | productName  | caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
     | admin   | fasenra      | Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
-    | manager | fasenra      | Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
-    | agent   | fasenra      | Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
