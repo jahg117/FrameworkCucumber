@@ -76,7 +76,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
     public String getProductEnrollmentNumber() throws Exception {
         waitForPageToLoad();
-        if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
+        if (waitForElementVisibility(label_productEnrollmentNumber, longWait())) {
             return getWebElementText(label_productEnrollmentNumber);
         } else {
             return "";
