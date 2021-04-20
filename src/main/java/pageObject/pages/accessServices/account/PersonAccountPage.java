@@ -79,9 +79,9 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewCase() throws Exception {
-        waitForElementVisibility(button_newCase, 30);
-        waitForElementVisibility(button_newProductEnrollment, 30);
-        scrollToWebElementJS(button_newProductEnrollment);
+        waitForElementVisibility(label_cases, 30);
+        waitForElementVisibility(label_productEnrollmentsTabOption, 30);
+        scrollToWebElementJS(label_productEnrollmentsTabOption);
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 
