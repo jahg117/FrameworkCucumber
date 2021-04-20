@@ -26,7 +26,8 @@ public class NewConsentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectConsentType(String consentTypeOption) throws Exception {
-        autoSwitchIframeByWebElement(label_newConsent, longWait());
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        waitForElementVisibility(dropdown_consentType, longWait());
         if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
             selectDropDownRandomOptionNone(dropdown_consentType,longWait());
         }else{

@@ -1,4 +1,4 @@
-@smoke
+@cases
 Feature: ChildCases
 
   Scenario Outline: Create child cases
