@@ -39,7 +39,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
-        waitUntilVisibleLoop(button_loggedOut,2,shortWait());
+        waitForElementVisibility(button_loggedOut, mediumWait());
         String product = "";
         if (productType.equalsIgnoreCase("")) {
             productType = "AZ";
@@ -53,6 +53,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             product = productType;
         }
         switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
+        waitForElementVisibility(input_product, 20);
         sendKeysAndMoveToElementVisible(input_product, product, 20);
         clickElementVisible(input_programEndDate, 10);
         switchToParentFrame();
