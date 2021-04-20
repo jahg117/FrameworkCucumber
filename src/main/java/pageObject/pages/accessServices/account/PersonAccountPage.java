@@ -74,6 +74,7 @@ public class PersonAccountPage extends CommonFunctions {
     public void clickNewProductEnrollment() throws Exception {
         switchToDefaultContentFrame();
         waitForElementClickable(button_newProductEnrollment, mediumWait());
+        scrollTop();
         clickElementClickable(button_newProductEnrollment, mediumWait());
     }
 
@@ -86,6 +87,8 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickNewCasePersonalAccountPage() throws Exception {
         waitForElementVisibility(button_newCase, 30);
+        waitForElementVisibility(button_newProductEnrollment, 10);
+        scrollToWebElementJS(button_newProductEnrollment);
         clickAndMoveToElementClickable(button_newCase, 10);
     }
 
