@@ -70,9 +70,10 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I save the displayed patient ID
     Then I click on Payer tab from PersonAccountPage
     Then I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPMB>"
-    And I create a list of product enrollments
+    And I create a list of product enrollments with a care team member
       | ProductEnrollment |
       | Fasenra           |
+      | Enhertu           |
     And I click on the consent tab to click the new consent button at person account page
     And I select the "AZ Non-Promotional Consent" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page

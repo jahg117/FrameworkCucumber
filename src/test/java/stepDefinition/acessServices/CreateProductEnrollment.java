@@ -10,9 +10,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.it.Ma;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
+import utils.JsonFiles;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -196,8 +198,10 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
-    @And("^I create a list of product enrollments$")
+    @And("^I create a list of product enrollments with a care team member$")
     public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
+        JsonFiles file = new JsonFiles();
+        file.setFileName("CareTeamMember");
         List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> el : list) {
             String product = el.get("ProductEnrollment");
@@ -208,19 +212,18 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 try{ accessServices.getCreateNewEnrollmentPage().clickEnrollButton(); }catch (Exception e){}
             }
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-            String firstName[] = {"internal.frm@hospital.com", "hcp.specialty@astrazeneca.com"};
-            String type[] = {"hca", "hcp"};
-            String relationhsip[] = {"Treating Facility", "Prescribing Physician"};
-            for (int i = 0; i < firstName.length; i++) {
+            for(int i = 0; i < file.getFieldArray("email").size(); i++){
+                String email = file.getFieldArray("email").get(i).toString();
+                String type = file.getFieldArray("type").get(i).toString();
+                String relation = file.getFieldArray("relationship").get(i).toString();
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
-                accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);
+                accessServices.getCustomerLookupPage().doDummySearch(email, type);
                 accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
-                accessServices.getCustomerLookupPage().selectRelationshipOption(relationhsip[i]);
+                accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
                 accessServices.getCustomerLookupPage().selectCaseContactOption();
                 accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
                 accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             }
-
             accessServices.getSubTabsPage().closeSubTab(0);
         }
     }
