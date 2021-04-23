@@ -2755,6 +2755,21 @@ public class CommonFunctions {
         }
     }
 
+    public void closeLastTabSF(int waitTime) throws Exception {
+        try {
+            By tabs = By.xpath("(//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]//button)[last()]");
+            if (waitForPresenceOfAllElementsLocatedBy(tabs, waitTime)) {
+                clickAndMoveToElementClickable(getWebElement(tabs), waitTime);
+                logger.info("Tab " + tabs + " clicked");
+            } else {
+                logger.warn("The tab is not visible");
+            }
+        } catch (Exception e) {
+            logger.error("The tab was not found");
+            throw new NoSuchElementException("The tab was not found");
+        }
+    }
+
     /**
      * Method used to select a random dropdown excluding 'None'
      *
