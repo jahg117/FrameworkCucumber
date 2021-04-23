@@ -2,6 +2,7 @@ package stepDefinition.acessServices;
 
 
 import base.functions.CommonFunctions;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.log4j.Logger;
@@ -63,5 +64,10 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     @Then("I close all open tabs")
     public void closeOpenTabs() throws Exception {
         salesforce.getHomePage().closeOpenTabs();
+    }
+
+    @And("I close the last tab")
+    public void closeLastTab() throws Exception {
+        salesforce.getHomePage().closeLastTabSF(15);
     }
 }
