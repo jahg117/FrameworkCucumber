@@ -9,3 +9,4 @@ build/
 .idea/
 *.iml
 reports*/
+pdf-report/
