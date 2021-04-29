@@ -10,9 +10,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.it.Ma;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
+import utils.JsonFiles;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -110,6 +112,22 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
+    @Then("^I fill the fields from the account form$")
+    public void fillFieldsAccountForm(DataTable dataTable) throws Exception {
+        List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
+        HashMap<String, String> patientTable = new HashMap<>();
+        for (Map<String, String> el : list) {
+            patientTable.put("name", el.get("name"));
+            patientTable.put("fax", el.get("fax"));
+            patientTable.put("phoneType", el.get("phoneType"));
+            patientTable.put("zipcode", el.get("zipcode"));
+        }
+        accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
+        HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm(patientTable);
+        accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        commonData.patient = new Patient(patientDetails);
+    }
+
     @When("^I click on new and I select \"([^\"]*)\" account$")
     public void selectAccountType(String accountType) throws Exception {
         accessServices.getNewAccountPage().selectRecordType(accountType);
@@ -181,34 +199,32 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
-    @And("^I create a list of product enrollments$")
-    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception {
+    @And("^I create a list of product enrollments with a care team member$")
+    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
+        JsonFiles file = new JsonFiles();
+        file.setFileName("CareTeamMember");
         List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> el : list) {
             String product = el.get("ProductEnrollment");
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase("")) {
-                try {
-                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-                } catch (Exception e) {
-                }
+            if(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase("")){
+                try{ accessServices.getCreateNewEnrollmentPage().clickEnrollButton(); }catch (Exception e){}
             }
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-            String firstName[] = {"Facility Internal FRM", "Test HCP Sharing FRM"};
-            String type[] = {"hca", "hcp"};
-            String relationhsip[] = {"Treating Facility", "Treating Physician"};
-            for (int i = 0; i < firstName.length; i++) {
+            for(int i = 0; i < file.getFieldArray("email").size(); i++){
+                String email = file.getFieldArray("email").get(i).toString();
+                String type = file.getFieldArray("type").get(i).toString();
+                String relation = file.getFieldArray("relationship").get(i).toString();
                 accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
-                accessServices.getCustomerLookupPage().doDummySearch(firstName[i], type[i]);
+                accessServices.getCustomerLookupPage().doDummySearch(email, type);
                 accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
-                accessServices.getCustomerLookupPage().selectRelationshipOption(relationhsip[i]);
+                accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
                 accessServices.getCustomerLookupPage().selectCaseContactOption();
                 accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
                 accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
             }
-
             accessServices.getSubTabsPage().closeSubTab(0);
         }
     }

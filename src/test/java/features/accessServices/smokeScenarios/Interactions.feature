@@ -16,9 +16,6 @@ Feature: Interactions
     Examples:
     | user    |   channel    | caseStatus |
     | admin   |   random     | Open       |
-    | agent   |   random     | Open       |
-    | manager |   random     | Open       |
-
 
   Scenario Outline: Create interaction from cases option
     Given I login as an "<user>" user
@@ -32,5 +29,3 @@ Feature: Interactions
     Examples:
       | user    |   channel    | caseStatus |
       | admin   |   random     | Open       |
-      | agent   |   random     | Open       |
-      | manager |   random     | Open       |

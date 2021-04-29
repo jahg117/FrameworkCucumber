@@ -20,6 +20,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "(//div[contains(@class,'forceDetailPanelDesktop')])[last()]//*[contains(text(),'New Case')]")
     private WebElement form_caseOptions;
 
+    @FindBy(xpath = "//span[contains(text(),'Case Requested By')]/following::*[@class='select'][1]")
+    private WebElement dropdown_caseRequestedBy;
+
     @FindBy(xpath = "//span[contains(text(),'Case Information')]/following::*[@class='select'][1]")
     private WebElement dropdown_channel;
 
@@ -29,7 +32,7 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//span[contains(text(),'Case Status')]/../..//a[@class='select'][1]")
     private WebElement dropdown_caseStatus;
 
-    @FindBy(xpath = "//span[contains(text(),'Case Sub-Type')]/following::*[@class='select'][1]")
+    @FindBy(xpath = "(//span[contains(text(),'Case Sub-Type')]/following::*[@class='select'][1])[last()]")
     private WebElement dropdown_subType;
 
     @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//span[@class='slds-truncate']")
@@ -246,6 +249,65 @@ public class CaseInformationPage extends CommonFunctions {
         return statusOperation;
     }
 
+
+    public HashMap<String, String> fillAnonymousCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
+        HashMap<String, String> caseInformationForm = new HashMap<>();
+        String webElementOption;
+        webElementOption = selectDropdownOption(dropdown_caseRequestedBy, list_dropdownOptions, formDetails.get("Channel"));
+        caseInformationForm.put("CaseRequested", webElementOption);
+        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
+        caseInformationForm.put("Channel", webElementOption);
+        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
+        caseInformationForm.put("CaseStatus", webElementOption);
+        webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
+        caseInformationForm.put("CaseSubType", webElementOption);
+        if(waitForElementVisibility(input_interactionCase, 3)) {
+            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 3);
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), 10);
+        }
+        if(waitForElementListVisible(list_discussTopic, 3)){
+            if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
+                WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
+                waitForElementVisibility(el, 10);
+                scrollToWebElementJS(el);
+                webElementOption = getWebElementText(el);
+                clickAndMoveToElementClickable(el, 10);
+            }else{
+                for (WebElement el : list_discussTopic) {
+                    if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
+                        webElementOption = getWebElementText(el);
+                        clickAndMoveToElementClickable(el, 10);
+                    }
+                }
+            }
+            scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
+            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+        }else{
+            webElementOption = "";
+        }
+        caseInformationForm.put("DiscussTopic", webElementOption);
+        if(waitForElementVisibility(input_cardNumber, 1)){
+            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
+            caseInformationForm.put("CardNumber", webElementOption);
+            sendKeysAndMoveToElementVisible(input_cardNumber, webElementOption, 3);
+        }else{
+            webElementOption = "";
+        }
+        caseInformationForm.put("CardNumber", webElementOption);
+        if(waitForElementVisibility(input_interactionCase, 1)){
+            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 5);
+            waitForElementVisibility(list_autocomplete, 10);
+            waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
+            for(WebElement el : getWebElementList(list_autocompleteElements)){
+                if(getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))){
+                    clickAndMoveToElementClickable(el, 10);
+                    break;
+                }
+            }
+            caseInformationForm.put("CaseNumber", formDetails.get("CaseNumber"));
+        }
+        return caseInformationForm;
+    }
 
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
         HashMap<String, String> statusOperation = new HashMap<>();
