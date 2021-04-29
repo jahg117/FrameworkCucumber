@@ -34,6 +34,7 @@ public class Hooks {
         failed = fileReading.getField("screenshotFail");
         SharedDriver df = new SharedDriver(browser,featureName+","+scenario.getName());
         driver = DriverFactory.getDriver();
+        driver.manage().window().maximize();
         logger.info("Scenario started: "+scenario.getName());
     }
 
