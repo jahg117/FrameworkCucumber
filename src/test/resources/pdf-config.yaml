@@ -4,15 +4,14 @@ skipColor: a89132
 displayFeature: true
 displayScenario: true
 displayDetailed: true
+displayExpanded: true
 
 summaryConfig:
   title: Automation Report
   dataBackgroundColor: 4F0CC8
   titleColor: FF0000
   dateColor: 969696
-  startTimeColor: 000000
-  endTimeColor: 000000
-  durationColor: 000000
+  timeColor: 000000
   dial:
     featureRanges: 60 95
     scenarioRanges: 70 90
@@ -22,12 +21,10 @@ summaryConfig:
     goodColor: 32ecab
 
 featureConfig:
-  itemcount: 10
   totalColor: FF0000
   durationColor: FF0000
 
 scenarioConfig:
-  itemcount: 12
   totalColor: FF0000
   durationColor: FF0000
 
@@ -42,7 +39,7 @@ detailedFeatureConfig:
   durationBackgroundColor: 404040
 
 detailedScenarioConfig:
-  featureNameColor: C0C0C0
+  featureNameColor: 404040
   scenarioNameColor: FF0000
   startEndTimeColor: 000000
   tagColor: 404040
@@ -59,4 +56,3 @@ detailedStepHookConfig:
   durationColor: FF0000
   errorMsgColor: 000000
   logMsgColor: 000000
-  mediaMsgColor: FF0000
