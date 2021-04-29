@@ -20,7 +20,7 @@ public class CreateAConsent extends ApplicationInstance {
     JsonFiles jsonFiles = new JsonFiles();
 
 
-    public CreateAConsent(CommonData commonData) {
+    public CreateAConsent(CommonData commonData) throws Exception{
         this.commonData = commonData;
     }
 
@@ -30,7 +30,7 @@ public class CreateAConsent extends ApplicationInstance {
      * @param searchFromFile contains the value, that will be used as boolean, i.e. if it is come "", empty or with the value og "N_A" it will not create a product enrollment
      */
     @Given("{string} it selects which steps will be execute for consent purpose")
-    public void selectStepsToExecuteConsentFeature(String searchFromFile) {
+    public void selectStepsToExecuteConsentFeature(String searchFromFile) throws Exception{
         executionFlag = searchFromFile;
     }
 
@@ -224,8 +224,9 @@ public class CreateAConsent extends ApplicationInstance {
             accessServices.getAccountsPage().clickAccountCreated(commonData.patient.getPatientName());
         }
     }
+
     @And("I validate the consent ID is displayed")
-    public void consentIDDisplayed() {
+    public void consentIDDisplayed() throws Exception{
         String consentID = accessServices.getConsentPage().getConsentID();
     }
 

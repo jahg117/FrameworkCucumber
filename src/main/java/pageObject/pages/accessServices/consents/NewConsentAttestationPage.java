@@ -42,27 +42,27 @@ public class NewConsentAttestationPage extends CommonFunctions {
         }
     }
 
-    public String getProductEnrollment() {
+    public String getProductEnrollment() throws Exception{
         return getWebElementText(label_productEnrollment);
     }
 
-    public String getPatientName() {
+    public String getPatientName() throws Exception{
         return getWebElementText(label_patientName);
     }
 
-    public boolean isPrimaryCompanyDisplayed() {
+    public boolean isPrimaryCompanyDisplayed() throws Exception{
         return waitForElementVisibility(label_primaryCompany, 10);
     }
 
-    public boolean isConsentDateDisplayed() {
+    public boolean isConsentDateDisplayed()throws Exception {
         return waitForElementVisibility(input_consentDate, 10);
     }
 
-    public boolean isConsentStatusDisplayed() {
+    public boolean isConsentStatusDisplayed()throws Exception {
         return waitForElementVisibility(dropdown_consentStatus, 10);
     }
 
-    public boolean isConsentSourceDisplayed() {
+    public boolean isConsentSourceDisplayed()throws Exception {
         return waitForElementVisibility(dropdown_consentSource, 10);
     }
 

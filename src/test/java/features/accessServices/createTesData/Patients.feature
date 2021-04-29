@@ -1,4 +1,3 @@
-@createData
 Feature: Patients
 """
 //============Script Purpose:
@@ -56,8 +55,8 @@ RND,Self,Pepe Le Pu,4/5/2021,Danaher,Danaher Plan,2403061405,RND,RND,RND,RND,RND
 Note: For PMI and PBM if some data is not required it can be ignore, putting in the record layout N_A and if some data needs to be
       random you shall put in the respective index the word RND.
 """
-
-  Scenario Outline: Create Patients T001
+  @createData
+  Scenario Outline: Create Patients JR
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
@@ -72,6 +71,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
       | ProductEnrollment |
       | Fasenra           |
       | Enhertu           |
+      | Calquence         |
     And I click on the consent tab to click the new consent button at person account page
     And I select the "AZ Non-Promotional" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
@@ -89,23 +89,36 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
       | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                | dataPMB                                                                     |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NOPI          | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+
+
+  Scenario Outline: Create Patients
+    Given I login as an "<user>" user
+
+     Examples:
+      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                | dataPMB                                                                     |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 3/31/2021   | RND           | Self        | NoPI ,PMB,PMI  | RND,Self,Vandame,3/31/2021,Danaher,Danaher Plan,2403061405,N_A,RND,N_A | RND,Self,Pepe Le Pu,RND,Danaher,Danaher Plan,2403061405,RND,N_A,RND,N_A,N_A |

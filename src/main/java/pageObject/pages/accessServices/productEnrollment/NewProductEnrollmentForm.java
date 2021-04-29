@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
@@ -29,35 +30,35 @@ public class NewProductEnrollmentForm extends CommonFunctions {
     @FindBy(xpath = "//div[contains(@class,'modal-container')]//button[@title='Save']")
     private WebElement button_save;
 
-    public boolean isProductEnrollmentFormDisplayed(){
-        return waitForElementVisibility(form_productEnrollmentContainer, 10);
+    public boolean isProductEnrollmentFormDisplayed() throws Exception{
+        return waitForElementVisibility(form_productEnrollmentContainer, mediumWait());
     }
 
     public void fillProductEnrollmentForm(String patientName, String product) throws Exception {
         selectElementFromAutocompleteList(input_patientName, patientName);
         selectElementFromAutocompleteList(input_productName, product);
-        if(waitForElementVisibility(input_therapeuticArea, 5)){
-            sendKeysAndMoveToElementClickable(input_therapeuticArea, "test", 10);
+        if(waitForElementVisibility(input_therapeuticArea, shortWait())){
+            sendKeysAndMoveToElementClickable(input_therapeuticArea, "test", mediumWait());
         }
-        clickAndMoveToElementClickable(button_save, 10);
+        clickAndMoveToElementClickable(button_save, mediumWait());
     }
 
     private void selectElementFromAutocompleteList(WebElement element, String textElement) throws Exception {
-        sendKeysAndMoveToElementClickable(element, textElement, 10);
-        if (!waitForElementListVisible(list_autocompleteElements, 5)) {
+        sendKeysAndMoveToElementClickable(element, textElement, mediumWait());
+        if (!waitForElementListVisible(list_autocompleteElements, shortWait())) {
             sendKeysByActions(Keys.TAB.toString());
-            clickAndMoveToElementVisible(element, 5);
-            waitForElementListVisible(list_autocompleteElements, 5);
+            clickAndMoveToElementVisible(element, shortWait());
+            waitForElementListVisible(list_autocompleteElements, shortWait());
         }
         for (WebElement el : list_autocompleteElements) {
             if (getWebElementText(el).equalsIgnoreCase(textElement)) {
-                clickAndMoveToElementClickable(el, 10);
+                clickAndMoveToElementClickable(el, mediumWait());
                 break;
             }
         }
     }
 
-    public String getProduct(String productType) throws NoSuchFileException {
+    public String getProduct(String productType) throws Exception {
         String product = "";
         if(productType.equalsIgnoreCase("")){
             productType = "AZ";

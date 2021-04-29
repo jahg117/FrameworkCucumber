@@ -42,59 +42,59 @@ public class CasePage extends CommonFunctions {
     @FindBy(xpath = "//img[@title='Case']/following::*[./text()='Case Number']/../..//span[contains(@class,'field-value')]")
     private WebElement input_caseNumber;
 
-    public boolean isCasePageDisplayed(){
-        return waitForElementVisibility(button_edit, 20);
+    public boolean isCasePageDisplayed() throws Exception {
+        return waitForElementVisibility(button_edit, mediumWait());
     }
 
     public void clickChildCaseButton() throws Exception {
-        clickAndMoveToElementClickable(button_childCase, 20);
+        clickAndMoveToElementClickable(button_childCase, mediumWait());
     }
 
-    public String getCaseNumber(){
-        return waitForElementVisibility(input_caseNumber, 2) ? getWebElementText(input_caseNumber).split("\n")[0] : "";
+    public String getCaseNumber() throws Exception {
+        return waitForElementVisibility(input_caseNumber, shortWait()) ? getWebElementText(input_caseNumber).split("\n")[0] : "";
     }
 
-    public String getCaseStatus(){
-        if(waitForElementVisibility(input_caseStatus, 2)){
+    public String getCaseStatus() throws Exception {
+        if (waitForElementVisibility(input_caseStatus, shortWait())) {
             return getWebElementText(input_caseStatus).split("\n")[0];
-        }else{
-            if(waitForElementVisibility(input_status, 2)){
+        } else {
+            if (waitForElementVisibility(input_status, shortWait())) {
                 return getWebElementText(input_status).split("\n")[0];
-            }else{
+            } else {
                 return "";
             }
         }
     }
 
-    public String getStatus(){
-        return waitForElementVisibility(input_status, 2) ? getWebElementText(input_status).split("\n")[0] : "";
+    public String getStatus() throws Exception {
+        return waitForElementVisibility(input_status, shortWait()) ? getWebElementText(input_status).split("\n")[0] : "";
     }
 
-    public String getCaseRequestedBy(){
-        return waitForElementVisibility(input_caseRequestedBy, 2) ? getWebElementText(input_caseRequestedBy) : "";
+    public String getCaseRequestedBy() throws Exception {
+        return waitForElementVisibility(input_caseRequestedBy, shortWait()) ? getWebElementText(input_caseRequestedBy) : "";
     }
 
-    public String getEnrolledPatient(){
-        return waitForElementVisibility(input_enrolledPatient, 20) ? getWebElementText(input_enrolledPatient).split("\n")[0] : "";
+    public String getEnrolledPatient() throws Exception {
+        return waitForElementVisibility(input_enrolledPatient, mediumWait()) ? getWebElementText(input_enrolledPatient).split("\n")[0] : "";
     }
 
-    public String getProductEnrollment(){
-        return waitForElementVisibility(input_productEnrollment, 2) ? getWebElementText(input_productEnrollment) : "";
+    public String getProductEnrollment() throws Exception {
+        return waitForElementVisibility(input_productEnrollment, shortWait()) ? getWebElementText(input_productEnrollment) : "";
     }
 
-    public String getDateOfBirth(){
-        return waitForElementVisibility(input_dateOfBirth, 2) ? getWebElementText(input_dateOfBirth) : "";
+    public String getDateOfBirth() throws Exception {
+        return waitForElementVisibility(input_dateOfBirth, shortWait()) ? getWebElementText(input_dateOfBirth) : "";
     }
 
-    public String getChannel(){
-        return waitForElementVisibility(input_channel, 2) ? getWebElementText(input_channel).split("\n")[0] : "";
+    public String getChannel() throws Exception {
+        return waitForElementVisibility(input_channel, shortWait()) ? getWebElementText(input_channel).split("\n")[0] : "";
     }
 
-    public String getProduct(){
-        return waitForElementVisibility(input_product, 2) ? getWebElementText(input_product) : "";
+    public String getProduct() throws Exception {
+        return waitForElementVisibility(input_product, shortWait()) ? getWebElementText(input_product) : "";
     }
 
-    public String getPatientName(){
-        return waitForElementVisibility(input_patientName, 10) ? getWebElementText(input_patientName).split("\n")[0] : "";
+    public String getPatientName() throws Exception {
+        return waitForElementVisibility(input_patientName, mediumWait()) ? getWebElementText(input_patientName).split("\n")[0] : "";
     }
 }

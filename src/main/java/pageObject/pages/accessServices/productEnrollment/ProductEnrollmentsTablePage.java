@@ -14,14 +14,14 @@ public class ProductEnrollmentsTablePage extends CommonFunctions {
     @FindBy(xpath = "//h1[@title='Product Enrollments']")
     private WebElement label_productEnrollments;
 
-    public boolean isProductEnrollmentsPageDisplayed(){
-        return waitForElementVisibility(label_productEnrollments, 30);
+    public boolean isProductEnrollmentsPageDisplayed() throws Exception {
+        return waitForElementVisibility(label_productEnrollments, longWait());
     }
 
-    public ArrayList<String> getProductEnrollmentsList() {
-        waitForElementListVisible(list_productEnrollments, 20);
+    public ArrayList<String> getProductEnrollmentsList() throws Exception {
+        waitForElementListVisible(list_productEnrollments, mediumWait());
         ArrayList<String> productEnrollments = new ArrayList<>();
-        for(WebElement el : list_productEnrollments){
+        for (WebElement el : list_productEnrollments) {
             productEnrollments.add(getWebElementText(el));
         }
         return productEnrollments;

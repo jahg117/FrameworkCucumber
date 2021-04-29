@@ -23,13 +23,13 @@ public class SearchPatient extends ApplicationInstance {
     }
 
     @And("^I validate the patient ID is displayed$")
-    public void validatePatientIDDisplayed() {
+    public void validatePatientIDDisplayed() throws Exception {
         String pepID = accessServices.getPersonAccountPage().getPEPId();
         commonData.patient = new Patient(pepID);
     }
 
     @And("^I save the displayed patient ID$")
-    public void savePatientIntoExcelFile() throws FilloException {
+    public void savePatientIntoExcelFile() throws Exception {
         ExcelFiles excelFiles = new ExcelFiles();
         String pepID = accessServices.getPersonAccountPage().getPEPId();
         excelFiles.savePEPId(pepID);

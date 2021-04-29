@@ -1,8 +1,13 @@
 package pageObject.pages.accessServices.consents;
 
 import base.functions.CommonFunctions;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.FileReading;
+import utils.Values;
+
+import java.lang.reflect.Method;
 
 
 public class NewConsentPage extends CommonFunctions {
@@ -18,21 +23,57 @@ public class NewConsentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@class='actionBtns']/input[@value='Next']")
     private WebElement button_next;
 
+    protected FileReading fileReading = new FileReading();
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
+    public static int maxNumberOfTries = 0;
+
+    Class<?> myClass;
+
+    {
+        try {
+            fileReading.setLog4jFile();
+            fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+            maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
+            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Method used to select the type of consent
      *
      * @param consentTypeOption it contains the type of consent to be select
+     * @return
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectConsentType(String consentTypeOption) throws Exception {
-        autoSwitchIframeByWebElement(label_newConsent, longWait());
-        if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
-            selectDropDownRandomOptionNone(dropdown_consentType,longWait());
-        }else{
-            selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());
+    public boolean selectConsentType(String consentTypeOption) throws Exception {
+        boolean statusOperation = false;
+        try {
+            autoSwitchIframeByWebElement(label_newConsent, longWait());
+            if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
+                selectDropDownRandomOptionNone(dropdown_consentType, longWait());
+            } else {
+                selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());
+            }
+            clickAndMoveToElementVisible(button_next, mediumWait());
+            switchToParentFrame();
+            statusOperation = true;
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentType")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentType");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeOption);
+                        break;
+                    }
+                }
+            }
         }
-        clickAndMoveToElementVisible(button_next, mediumWait());
-        switchToParentFrame();
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 }

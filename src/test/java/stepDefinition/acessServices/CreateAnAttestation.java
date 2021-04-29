@@ -8,7 +8,7 @@ import stepDefinition.shareData.CommonData;
 public class CreateAnAttestation extends ApplicationInstance {
     private CommonData commonData;
 
-    public CreateAnAttestation(CommonData commonData){
+    public CreateAnAttestation(CommonData commonData) throws Exception {
         this.commonData = commonData;
     }
 
@@ -24,9 +24,9 @@ public class CreateAnAttestation extends ApplicationInstance {
         String productEnrollment = commonData.productEnrollment.getProductEnrollment();
         Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentFormDisplayed(), "The consent form page was not displayed");
         Assert.assertTrue(accessServices.getNewConsentAttestationPage().isPrimaryCompanyDisplayed(), "The primary company field was not displayed");
-        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentSourceDisplayed(),"The consent source field was not displayed");
-        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentStatusDisplayed(),"The consent status field was not displayed");
-        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentDateDisplayed(),"The consent date field was not displayed");
+        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentSourceDisplayed(), "The consent source field was not displayed");
+        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentStatusDisplayed(), "The consent status field was not displayed");
+        Assert.assertTrue(accessServices.getNewConsentAttestationPage().isConsentDateDisplayed(), "The consent date field was not displayed");
         Assert.assertEquals(accessServices.getNewConsentAttestationPage().getPatientName(), patientName, "The patient name is not matching");
         Assert.assertEquals(accessServices.getNewConsentAttestationPage().getProductEnrollment(), productEnrollment, "The product enrollment is not matching");
     }
@@ -61,7 +61,7 @@ public class CreateAnAttestation extends ApplicationInstance {
     }
 
     @And("^I verify the consent details displayed")
-    public void consentDetailsDisplayed() {
+    public void consentDetailsDisplayed() throws Exception {
         String address = commonData.patient.getAddress();
         String city = commonData.patient.getCity();
         String patientName = commonData.patient.getPatientName();
@@ -74,7 +74,7 @@ public class CreateAnAttestation extends ApplicationInstance {
     }
 
     @And("^I verify the DSI consent details displayed")
-    public void consentDetailsDSIDisplayed(){
+    public void consentDetailsDSIDisplayed() throws Exception {
         String patientName = commonData.patient.getPatientName();
         String providerFirstName = commonData.careTeamMember.getFirstName();
         String providerLastName = commonData.careTeamMember.getLastName();

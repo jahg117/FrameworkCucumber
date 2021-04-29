@@ -4,8 +4,11 @@ import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
+import utils.FileReading;
+import utils.Values;
 
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +16,8 @@ import java.util.Locale;
 public class CreatePayerInsurance extends ApplicationInstance {
 
     CommonFunctions commonFunctions = new CommonFunctions();
+
+
 
     @Then("I select the {string} and i fill the insurance form with {string} or {string}")
     public void iClickOnPayerTabFromAndSelectPersonAccountPage(String insuranceType, String dataPMI, String dataPMB) throws Exception {
