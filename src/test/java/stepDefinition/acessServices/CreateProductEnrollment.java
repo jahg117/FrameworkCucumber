@@ -153,6 +153,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void fillMandatoryFieldsProgramEnrollment(String productType) throws Exception {
         Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
         product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(productType);
+        commonData.product = new Product(product);
     }
 
     @And("^I click on enroll button$")

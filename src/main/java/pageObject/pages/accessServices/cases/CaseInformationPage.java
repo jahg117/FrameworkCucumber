@@ -348,6 +348,10 @@ public class CaseInformationPage extends CommonFunctions {
             } else {
                 webElementOption = "";
             }
+            if(waitForElementVisibility(input_searchProducts, 3)) {
+                sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
+                clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
+            }
             statusOperation.put("DiscussTopic", webElementOption);
             if (waitForElementVisibility(input_cardNumber, shortWait())) {
                 webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
@@ -411,21 +415,6 @@ public class CaseInformationPage extends CommonFunctions {
         String statusOperation = "";
         try {
             clickAndMoveToElementClickable(button_save, mediumWait());
-            if (waitForElementVisibility(label_genericError, shortWait())) {
-                if (waitForElementVisibility(button_iconRightFlagDiscussionTopic, shortWait())) {
-                    clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, shortWait());
-                }
-                sendKeysAndMoveToElementVisible(input_searchProducts, "Fasenra", shortWait());
-                waitForElementListVisible(getWebElementList(list_autocompleteElements), mediumWait());
-                for (WebElement el : getWebElementList(list_autocompleteElements)) {
-                    if (getWebElementText(el).equalsIgnoreCase("Fasenra")) {
-                        statusOperation = getWebElementText(el);
-                        clickAndMoveToElementClickable(el, mediumWait());
-                        break;
-                    }
-                }
-                clickAndMoveToElementClickable(button_save, mediumWait());
-            }
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {
                 Values.globalCounter++;
