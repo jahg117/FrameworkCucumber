@@ -34,7 +34,7 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//span[@class='slds-truncate']")
     private List<WebElement> list_discussTopic;
 
-    @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//*[@data-key='right']")
+    @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//div[contains(@class,'dueling-list')]//button[@title='Move selection to Chosen']")
     private WebElement button_iconRightFlagDiscussionTopic;
 
     @FindBy(xpath = "//ul[@class='lookup__list  visible']")
@@ -160,6 +160,7 @@ public class CaseInformationPage extends CommonFunctions {
                 scrollToWebElementJS(el);
                 webElementOption = getWebElementText(el);
                 clickAndMoveToElementClickable(el, 10);
+                clickElementJS(el);
             }else{
                 for (WebElement el : list_discussTopic) {
                     if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
@@ -170,8 +171,13 @@ public class CaseInformationPage extends CommonFunctions {
             }
             scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+            clickElementJS(button_iconRightFlagDiscussionTopic);
         }else{
             webElementOption = "";
+        }
+        if(waitForElementVisibility(input_searchProducts, 3)) {
+            sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
         }
         caseInformationForm.put("DiscussTopic", webElementOption);
         if(waitForElementVisibility(input_cardNumber, 1)){
@@ -262,8 +268,6 @@ public class CaseInformationPage extends CommonFunctions {
         String product = "";
         clickAndMoveToElementClickable(button_save, 10);
         if(waitForElementVisibility(label_genericError, 5)){
-            if(waitForElementVisibility(button_iconRightFlagDiscussionTopic,5)){
-            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 5);}
             sendKeysAndMoveToElementVisible(input_searchProducts, "Fasenra",5);
             waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
             for (WebElement el : getWebElementList(list_autocompleteElements)) {
