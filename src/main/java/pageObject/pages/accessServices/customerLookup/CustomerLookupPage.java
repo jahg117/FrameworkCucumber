@@ -17,6 +17,7 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
     private WebElement iframe_pageInformation;
 
+
     private By icon_loadPage = By.xpath("//span[contains(@id,'actionstatus.stop') and @style='display: none;']");
 
     @FindBy(xpath = "//button[contains(@onClick,'openAccountCreationTab')]")
@@ -146,12 +147,12 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public HashMap<String, String> getAndSelectCareTeamMemberDetails() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
-            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
         }
         HashMap<String, String> hcpDetails = new HashMap<>();
-        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
+        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, longWait());
         int index = 1;
         for (WebElement el : row_address) {
             if (getWebElementText(el).equalsIgnoreCase("")) {
@@ -161,50 +162,50 @@ public class CustomerLookupPage extends CommonFunctions {
             }
         }
         By rows = By.xpath("//table[@id='cust-table']//tbody/tr[" + index + "]//td");
-        if (waitForPresenceOfAllElementsLocatedBy(rows, 10)) {
+        if (waitForPresenceOfAllElementsLocatedBy(rows, mediumWait())) {
             List<WebElement> list_rows = getWebElementList(rows);
-            waitForElementListVisible(list_rows, 10);
+            waitForElementListVisible(list_rows, mediumWait());
             for (WebElement el : list_rows) {
                 hcpDetails.put(getWebElementAttribute(el, "data-label"), getWebElementText(el));
             }
-            waitForElementClickable(list_rows.get(0), 10);
-            clickAndMoveToElementClickable(list_rows.get(0), 10);
+            waitForElementClickable(list_rows.get(0), mediumWait());
+            clickAndMoveToElementClickable(list_rows.get(0), mediumWait());
         }
         switchToParentFrame();
         return hcpDetails;
     }
 
     public void selectCareTeamMemberAddressDetails() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
-        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, 30);
-        waitForElementVisibility(checkbox_usernameAddress, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
+        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, longWait());
+        waitForElementVisibility(checkbox_usernameAddress, mediumWait());
         scrollToWebElementJS(checkbox_usernameAddress);
-        clickAndMoveToElementClickable(checkbox_usernameAddress, 10);
+        clickAndMoveToElementClickable(checkbox_usernameAddress, mediumWait());
         switchToParentFrame();
     }
 
     public void selectCaseContactOption() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
-        if(waitForElementVisibility(checkbox_caseContact, 5)){
-            waitForElementClickable(checkbox_caseContact, 5);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
+        if(waitForElementVisibility(checkbox_caseContact, shortWait())){
+            waitForElementClickable(checkbox_caseContact, shortWait());
             scrollToWebElementJS(checkbox_caseContact);
-            clickAndMoveToElementClickable(checkbox_caseContact, 10);
-            waitForElementClickable(checkbox_caseContactCaseNumber, 20);
-            if(!isClickableElementSelected(checkbox_caseContactCaseNumber, 3)){
-                clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, 10);
+            clickAndMoveToElementClickable(checkbox_caseContact, mediumWait());
+            waitForElementClickable(checkbox_caseContactCaseNumber, mediumWait());
+            if(!isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
+                clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
             }
-            if(waitForElementClickable(checkbox_caseContactPhoneNumber, 3 )){
-                clickAndMoveToElementClickable(checkbox_caseContactPhoneNumber, 10);
+            if(waitForElementClickable(checkbox_caseContactPhoneNumber, shortWait() )){
+                clickAndMoveToElementClickable(checkbox_caseContactPhoneNumber, mediumWait());
             }
         }
         switchToParentFrame();
     }
 
     public void selectRelationShipOption() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        waitForElementVisibility(dropdown_relationship, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        waitForElementVisibility(dropdown_relationship, mediumWait());
         scrollToWebElementJS(dropdown_relationship);
         selectRandomDropDownNotNone(dropdown_relationship);
         waitForPageToLoad();
@@ -212,24 +213,24 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void selectRelationshipOption(String option) throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        waitForElementVisibility(dropdown_relationship, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        waitForElementVisibility(dropdown_relationship, mediumWait());
         scrollToWebElementJS(dropdown_relationship);
-        selectDropDownClickableByText(dropdown_relationship, option, 10);
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        selectDropDownClickableByText(dropdown_relationship, option, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
         switchToParentFrame();
     }
 
     public void clickCreateCareTeamMember() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
-            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
         }
         scrollToWebElementJS(button_createCareTeamMember);
         clickAndMoveToElementClickable(button_createCareTeamMember, mediumWait());
         waitForPageToLoad();
-        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
-            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
         }
         switchToParentFrame();
     }
@@ -332,21 +333,21 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void searchFirstName(String firstName) throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        sendKeysElementVisible(input_searchFirstName, firstName, 10);
-        clickAndMoveToElementClickable(button_search, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        sendKeysElementVisible(input_searchFirstName, firstName, mediumWait());
+        clickAndMoveToElementClickable(button_search, mediumWait());
         switchToParentFrame();
     }
 
     public void searchFirstNameByHCA(String firstName) throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 20);
-        sendKeysElementVisible(input_searchFirstName, firstName, 10);
-        clickAndMoveToElementClickable(checkbox_hca, 10);
-        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
-            waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        sendKeysElementVisible(input_searchFirstName, firstName, mediumWait());
+        clickAndMoveToElementClickable(checkbox_hca, mediumWait());
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
         }
-        sendKeysElementVisible(input_searchFirstName, firstName, 10);
-        clickAndMoveToElementClickable(button_search, 10);
+        sendKeysElementVisible(input_searchFirstName, firstName, mediumWait());
+        clickAndMoveToElementClickable(button_search, mediumWait());
         switchToParentFrame();
     }
 
@@ -360,16 +361,16 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doDummySearch(String searchValue, String accountType) throws Exception {
         waitForPageToLoad();
-        switchToFrameByWebElementIndexOrName(iframe_pageInformation, 15);
-        waitForElementVisibility(input_searchFirstName, 15);
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
+        waitForElementVisibility(input_searchFirstName, mediumWait());
         uncheckCheckbox(checkbox_CheckedList);
         filterByCheckbox(accountType);
         switch (accountType.trim().toLowerCase()) {
             case "hca":
                 waitForElementClickable(input_searchFacilityName, mediumWait());
                 clickAndMoveToElementVisible(input_searchEmail, mediumWait());
-                if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)) {
-                    waitForNumberOfElementsToBe(icon_loadPage, 0, 10);
+                if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+                    waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
                 }
                 sendKeysAndMoveToElementClickable(input_searchEmail, searchValue, mediumWait());
                 break;
@@ -390,7 +391,7 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(button_search, mediumWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, 3)){ waitForNumberOfElementsToBe(icon_loadPage, 0, 10); }
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
         switchToDefaultContentFrame();
     }
 

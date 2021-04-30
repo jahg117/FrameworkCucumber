@@ -1,10 +1,13 @@
 package stepDefinition.salesforce;
 
+import base.functions.CommonFunctions;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
@@ -16,15 +19,16 @@ import java.util.Map;
 public class SalesforceLoginSteps extends ApplicationInstance {
 
     private CommonData commonData;
+    CommonFunctions commonFunctions = new CommonFunctions();
 
-    public SalesforceLoginSteps(CommonData commonData){
+    public SalesforceLoginSteps(CommonData commonData) throws Exception {
         this.commonData = commonData;
     }
 
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
         salesforce.goTo();
-        salesforce.getLoginPage().enterUserPassword(salesForceUser);
+        Assert.assertTrue(salesforce.getLoginPage().enterUserPassword(salesForceUser), "The Operation Was Successful");
         commonData.userDetails = new UserDetails(salesForceUser);
     }
 

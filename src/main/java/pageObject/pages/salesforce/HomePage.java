@@ -20,8 +20,8 @@ public class HomePage extends CommonFunctions {
 
     public boolean isSalesforcePageVisible() throws Exception {
         waitForPageToLoad();
-        waitForElementVisibility(input_SearchBar, 30);
-        return waitForElementAttributeContains(label_panelTab,"data-aura-class","lafPageHost", 30);
+        waitForElementVisibility(input_SearchBar, longWait());
+        return waitForElementAttributeContains(label_panelTab,"data-aura-class","lafPageHost", longWait());
     }
 
     public void closeOpenTabs() throws Exception {

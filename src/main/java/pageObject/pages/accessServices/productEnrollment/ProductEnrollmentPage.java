@@ -6,12 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.FileReading;
+import utils.Values;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class ProductEnrollmentPage extends CommonFunctions {
-    private Logger logger = Logger.getLogger(CommonFunctions.class);
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
     private WebElement button_newCareTeamMember;
@@ -46,15 +47,50 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@id='brandBand_1']//tbody/tr[1]")
     private WebElement tableRow_pmFirstRow;
 
+    protected FileReading fileReading = new FileReading();
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
+    public static int maxNumberOfTries = 0;
 
-    public boolean isProductEnrollmentPageDisplayed() {
-        return waitForElementVisibility(button_newCareTeamMember, 15);
+    Class<?> myClass;
+
+    {
+        try {
+            fileReading.setLog4jFile();
+            fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+            maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
+            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void clickNewCareTeamMember() throws Exception {
+    public boolean isProductEnrollmentPageDisplayed() throws Exception {
+        boolean statusOperation = false;
         try {
-            switchSubTabByIndexSF(0,shortWait());
-            switchSubTabByIndexSF(1,shortWait());
+            statusOperation = waitForElementVisibility(button_newCareTeamMember, mediumWait());
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
+        }
+        Values.globalCounter = 0;
+        return statusOperation;
+    }
+
+
+    public boolean clickNewCareTeamMember() throws Exception {
+        boolean statusOperation = false;
+        try {
+            switchSubTabByIndexSF(0, shortWait());
+            switchSubTabByIndexSF(1, shortWait());
             int exitCounter = 2;
             for (int i = 0; i < exitCounter; i++) {
                 if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
@@ -65,23 +101,52 @@ public class ProductEnrollmentPage extends CommonFunctions {
                     clickElementJS(label_careTeamTabOption);
                     waitForElementVisibility(button_newCareTeamMember, mediumWait());
                     clickElementClickable(button_newCareTeamMember, mediumWait());
+                    statusOperation = true;
                     break;
                 }
             }
-        } catch (NoSuchElementException e) {
-            waitForElementVisibility(button_newCareTeamMember, mediumWait());
-            clickElementClickable(button_newCareTeamMember, mediumWait());
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewCareTeamMember")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewCareTeamMember");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
         }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 
+
     public String getProductEnrollmentNumber() throws Exception {
+        String statusOperation = "";
         waitForPageToLoad();
-        if (waitForElementVisibility(label_productEnrollmentNumber, longWait())) {
-            return getWebElementText(label_productEnrollmentNumber);
-        } else {
-            return "";
+        try {
+            if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
+                statusOperation = getWebElementText(label_productEnrollmentNumber);
+            }
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getProductEnrollmentNumber")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "getProductEnrollmentNumber");
+                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
         }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * Method to validate the message when No DSI Consent has been created
@@ -92,34 +157,87 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public boolean validatePEDSIMessage(String messagePE) throws Exception {
-        boolean result = false;
+        boolean statusOperation = false;
         waitForPageToLoad();
-        if (waitForElementVisibility(message_msgNoDSIConsent, shortWait())) {
-            if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
-                logger.info("The Message: " + messagePE + "Matched");
-                result = true;
+        try {
+            if (waitForElementVisibility(message_msgNoDSIConsent, shortWait())) {
+                if (message_msgNoDSIConsent.getText().trim().equalsIgnoreCase(messagePE.trim())) {
+                    logger.info("The Message: " + messagePE + "Matched");
+                    statusOperation = true;
+                } else {
+                    logger.info("The Message: " + messagePE + "Did Not Matched");
+                }
             } else {
-                logger.info("The Message: " + messagePE + "Did Not Matched");
+                logger.info("No Warning Message Was Displayed");
             }
-        } else {
-            logger.info("No Warning Message Was Displayed");
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("validatePEDSIMessage")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "validatePEDSIMessage");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), messagePE);
+                        break;
+                    }
+                }
+            }
         }
-        return result;
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 
-    public void createNewAttestationConsent() throws Exception {
-        clickElementClickable(button_newConsent, 30);
+    public boolean createNewAttestationConsent() throws Exception {
+        boolean statusOperation = false;
+        try {
+            statusOperation = clickElementClickable(button_newConsent, longWait());
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("createNewAttestationConsent")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "createNewAttestationConsent");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
+        }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * Used to click the New Case button and Product Enrollment Page
      *
+     * @return
      * @throws Exception
      * @author J.Ruano
      */
-    public void clickOnNewCase() throws Exception {
-        clickAndMoveToElementClickable(button_newCase, longWait());
+    public boolean clickOnNewCase() throws Exception {
+        boolean statusOperation = false;
+        try {
+            statusOperation = clickAndMoveToElementClickable(button_newCase, longWait());
+        } catch (
+                Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewCase")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewCase");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
+        }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * Used to select the PE that will contains the specified product (drug)
@@ -151,9 +269,19 @@ public class ProductEnrollmentPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.error("The Product Enrollment WebElement was not found");
-            new NoSuchElementException("The WebElement was not found");
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("searchAndClickPEFromResults")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "searchAndClickPEFromResults");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), id_PE);
+                        break;
+                    }
+                }
+            }
         }
+        Values.globalCounter = 0;
         return statusOperation;
     }
 }

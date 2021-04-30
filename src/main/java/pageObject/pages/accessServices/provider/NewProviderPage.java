@@ -26,27 +26,27 @@ public class NewProviderPage extends CommonFunctions {
     @FindBy(xpath = "//input[contains(@id,'sppContactName')]")
     private WebElement input_sppContactName;
 
-    public boolean isSppContactNameDisplayed(){
-        return waitForElementVisibility(input_sppContactName, 20);
+    public boolean isSppContactNameDisplayed() throws Exception{
+        return waitForElementVisibility(input_sppContactName, mediumWait());
     }
 
-    public boolean isSppNameDisplayed(){
-        return waitForElementVisibility(input_sppName, 20);
+    public boolean isSppNameDisplayed() throws Exception{
+        return waitForElementVisibility(input_sppName, mediumWait());
     }
 
     public boolean isProviderPageDisplayed() throws Exception {
         switchToParentFrame();
-        if(waitForElementVisibility(iframe_newProvider, 20)){
-            switchToFrameByWebElementIndexOrName(iframe_newProvider, 10);
+        if(waitForElementVisibility(iframe_newProvider, mediumWait())){
+            switchToFrameByWebElementIndexOrName(iframe_newProvider, shortWait());
             return true;
         }else{
             return false;
         }
     }
 
-    public boolean isTableElementDisplayed(String data){
+    public boolean isTableElementDisplayed(String data) throws Exception{
         boolean isVisible = false;
-        waitForElementListVisible(table_rows, 10);
+        waitForElementListVisible(table_rows, shortWait());
         for(WebElement el : table_rows){
             if(getWebElementText(el).equalsIgnoreCase(data)){
                 isVisible = true;
@@ -58,8 +58,8 @@ public class NewProviderPage extends CommonFunctions {
 
     public void selectAddressAndSaveConsent() throws Exception {
         isProviderPageDisplayed();
-        clickAndMoveToElementVisible(list_checkboxAddress.get(0), 10);
-        clickAndMoveToElementClickable(button_save, 10);
+        clickAndMoveToElementVisible(list_checkboxAddress.get(0), mediumWait());
+        clickAndMoveToElementClickable(button_save, mediumWait());
         switchToParentFrame();
     }
 }

@@ -20,15 +20,29 @@ public class LoginPage extends CommonFunctions {
     @FindBy(css = "#Login")
     private WebElement button_login;
 
-    public void enterUserPassword(String salesforceUser) throws Exception {
+    Class<?> myClass;//JR
+
+    {
+        try {
+            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public boolean enterUserPassword(String salesforceUser) throws Exception {
+        boolean statusOperation = false;
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
         waitForPageToLoad();
         String usr = new String(Base64.decodeBase64(fileReading.getField(salesforceUser).getBytes()));
         String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
-        sendKeysElementVisible(input_username, usr, 20);
-        sendKeysElementVisible(input_password, pass, 10);
-        clickElementVisible(button_login, 10);
+        sendKeysElementVisible(input_username, usr, mediumWait());
+        sendKeysElementVisible(input_password, pass, shortWait());
+        statusOperation = clickElementVisible(button_login, shortWait());
+        return statusOperation;
     }
 
     /**

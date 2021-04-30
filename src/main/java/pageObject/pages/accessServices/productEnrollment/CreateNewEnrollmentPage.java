@@ -1,11 +1,15 @@
 package pageObject.pages.accessServices.productEnrollment;
 
 import base.functions.CommonFunctions;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.FileReading;
 import utils.JsonFiles;
+import utils.Values;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -34,42 +38,110 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement button_loggedOut;
 
-    public boolean isProductEnrollmentPageDisplayed() {
-        return waitForElementVisibility(iframe_newProgramEnrollment, 30);
+    protected FileReading fileReading = new FileReading();
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
+    public static int maxNumberOfTries = 0;
+
+    Class<?> myClass;
+
+    {
+        try {
+            fileReading.setLog4jFile();
+            fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+            maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
+            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isProductEnrollmentPageDisplayed() throws Exception {
+        boolean statusOperation = false;
+        try {
+            statusOperation = waitForElementVisibility(iframe_newProgramEnrollment, longWait());
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
+        }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
-        waitForElementVisibility(button_loggedOut, mediumWait());
-        String product = "";
-        if (productType.equalsIgnoreCase("")) {
-            productType = "AZ";
+        String statusOperation = "";
+        try {
+            waitForElementVisibility(button_loggedOut, mediumWait());
+            if (productType.equalsIgnoreCase("")) {
+                productType = "AZ";
+            }
+            if (productType.equalsIgnoreCase("AZ")
+                    || productType.equalsIgnoreCase("DSI")) {
+                JsonFiles file = new JsonFiles();
+                file.setFileName("1372_EnrollmentProducts");
+                statusOperation = file.getRandomFieldArray(productType);
+            } else {
+                statusOperation = productType;
+            }
+            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+            waitForElementVisibility(input_product, mediumWait());
+            sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
+            clickElementVisible(input_programEndDate, mediumWait());
+            switchToParentFrame();
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillProductEnrollmentForm")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "fillProductEnrollmentForm");
+                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), productType);
+                        break;
+                    }
+                }
+            }
         }
-        if (productType.equalsIgnoreCase("AZ")
-                || productType.equalsIgnoreCase("DSI")) {
-            JsonFiles file = new JsonFiles();
-            file.setFileName("1372_EnrollmentProducts");
-            product = file.getRandomFieldArray(productType);
-        } else {
-            product = productType;
-        }
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
-        waitForElementVisibility(input_product, 20);
-        sendKeysAndMoveToElementVisible(input_product, product, 20);
-        clickElementVisible(input_programEndDate, 10);
-        switchToParentFrame();
-        return product;
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 
-    public void clickEnrollButton() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
-        waitForNumberOfElementsToBe(icon_loadPage, 0, 3);
-        waitForElementClickable(button_enroll, 10);
-        scrollMethodToWebElement(button_enroll);
-        if (!button_enroll.isDisplayed()) {
+    public boolean clickEnrollButton() throws Exception {
+        boolean statusOperation = false;
+        try {
+            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+            waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
+            waitForElementClickable(button_enroll, mediumWait());
             scrollMethodToWebElement(button_enroll);
+            if (!button_enroll.isDisplayed()) {
+                scrollMethodToWebElement(button_enroll);
+            }
+            clickElementJS(button_enroll);
+            statusOperation = true;
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickEnrollButton")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "clickEnrollButton");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
+                        break;
+                    }
+                }
+            }
         }
-        clickElementJS(button_enroll);
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * Use to select a random consent type or an specific accountType from table
@@ -81,28 +153,43 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
      */
     public String selectConsentTypeFromList(List<Map<String, String>> consentTypeList) throws Exception {
         int counter = 0;
-        String consentTypeSelected = "";
+        String statusOperation = "";
         boolean rndSelected = false;
-        for (Map<String, String> consentType : consentTypeList) {
-            if (consentTypeList.get(counter).get("consentType").equalsIgnoreCase("RND")) {
-                if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
-                    consentTypeSelected = consentTypeList.get(getRandomNumberByLimits(1, consentTypeList.size())).get("consentType");
-                    rndSelected = true;
-                    break;
-                }
-            }
-            counter++;
-        }
-        counter = 0;
-        if (!rndSelected) {
+        try {
             for (Map<String, String> consentType : consentTypeList) {
-                if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
-                    consentTypeSelected = consentTypeList.get(counter).get("consentType");
-                    break;
+                if (consentTypeList.get(counter).get("consentType").equalsIgnoreCase("RND")) {
+                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                        statusOperation = consentTypeList.get(getRandomNumberByLimits(1, consentTypeList.size())).get("consentType");
+                        rndSelected = true;
+                        break;
+                    }
                 }
                 counter++;
             }
+            counter = 0;
+            if (!rndSelected) {
+                for (Map<String, String> consentType : consentTypeList) {
+                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                        statusOperation = consentTypeList.get(counter).get("consentType");
+                        break;
+                    }
+                    counter++;
+                }
+            }
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentTypeFromList")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentTypeFromList");
+                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeList);
+                        break;
+                    }
+                }
+            }
         }
-        return consentTypeSelected;
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 }

@@ -19,27 +19,27 @@ public class NewDSIFLSPAttestationPage extends CommonFunctions {
     @FindBy(xpath = "//input[@value='Save']")
     private WebElement button_save;
 
-    public void isNewDSIFLSAttestationPageDisplayed(){
-        waitForElementVisibility(iframe_newAttestationPage, 20);
+    public void isNewDSIFLSAttestationPageDisplayed() throws Exception {
+        waitForElementVisibility(iframe_newAttestationPage, mediumWait());
     }
 
     public void selectHCP() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, 10);
-        waitForElementListVisible(list_checkboxHCP, 20);
-        clickElementClickable(list_checkboxHCP.get(0), 10);
+        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, mediumWait());
+        waitForElementListVisible(list_checkboxHCP, mediumWait());
+        clickElementClickable(list_checkboxHCP.get(0), mediumWait());
         switchToParentFrame();
     }
 
     public void clickSaveButton() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, 10);
-        clickElementClickable(button_save, 20);
+        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, mediumWait());
+        clickElementClickable(button_save, mediumWait());
         switchToParentFrame();
     }
 
     public void selectHCPAddress() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, 20);
-        waitForElementListVisible(list_checkboxHCPAddress, 10);
-        clickElementClickable(list_checkboxHCPAddress.get(0), 10);
+        switchToFrameByWebElementIndexOrName(iframe_newAttestationPage, mediumWait());
+        waitForElementListVisible(list_checkboxHCPAddress, mediumWait());
+        clickElementClickable(list_checkboxHCPAddress.get(0), mediumWait());
         switchToParentFrame();
     }
 }

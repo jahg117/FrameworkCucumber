@@ -5,12 +5,13 @@ import com.github.javafaker.Faker;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.FileReading;
+import utils.Values;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class NewPatientInsurancePMI extends CommonFunctions {
-    private Logger logger = Logger.getLogger(CommonFunctions.class);
-    Faker faker = new Faker();
     @FindBy(xpath = "//*[@name='SaveEdit']")
     private WebElement button_save;
 
@@ -62,164 +63,258 @@ public class NewPatientInsurancePMI extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Insurance Plan Name')]/..//span[contains(text(),'Show All Results for')][1]")
     private WebElement label_planNameShowResults;
 
+    Faker faker = new Faker();
+    protected FileReading fileReading = new FileReading();
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
+    public static int maxNumberOfTries = 0;
+
+    Class<?> myClass;
+
+    {
+        try {
+            fileReading.setLog4jFile();
+            fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+            maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
+            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * This method is used to filter if the date shall be created randomly or not
      *
      * @param dataPMI it contains all the date related to fill the PMI form
+     * @return
      * @throws Exception
      */
-    public void fillPMIForm(List<String> dataPMI) throws Exception {
+    public boolean fillPMIForm(List<String> dataPMI) throws Exception {
         int dataCounter = 0;
-        for (String data : dataPMI) {
-            if (data.trim().equalsIgnoreCase("RND")) {
-                fillPMIFormRandomly(data, dataCounter);
-            } else {
-                if (data.trim().equalsIgnoreCase("N_A")) {
-                    logger.info("The Data At Position : " + dataCounter + "Is Not Required");
+        boolean statusOperation = false;
+        try {
+            for (String data : dataPMI) {
+                if (data.trim().equalsIgnoreCase("RND")) {
+                    fillPMIFormRandomly(data, dataCounter);
                 } else {
-                    fillPMIForm(data, dataCounter);
+                    if (data.trim().equalsIgnoreCase("N_A")) {
+                        logger.info("The Data At Position : " + dataCounter + "Is Not Required");
+                    } else {
+                        fillPMIForm(data, dataCounter);
+                    }
+                }
+                dataCounter++;
+            }
+            clickAndMoveToElementClickable(button_save, shortWait());
+            statusOperation = true;
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIForm")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIForm");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI);
+                        break;
+                    }
                 }
             }
-            dataCounter++;
         }
-        clickAndMoveToElementClickable(button_save, shortWait());
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * It will create/select randomly all the data need it to create the PMI insurance type form
      *
      * @param dataPMI      it contains all the date related to fill the PMI form
      * @param dataPosition is a int number to identify which data from reord we need to create or select
+     * @return
      * @throws Exception
      */
-    public void fillPMIFormRandomly(String dataPMI, int dataPosition) throws Exception {
-        switch (dataPosition) {
-            case 0:
-                //============Insurance Rank Randomly
-                clickWhileCondition(dropdown_insuranceRank, "aria-expanded", "false", mediumWait());
-                clickAndMoveToElementVisible(getRandomWebElementFromList(elementList_insuranceRankList, mediumWait()), shortWait());
-                break;
-            case 1:
-                //============Relationship to Cardholder Randomly
-                clickWhileCondition(dropdown_relationshipCardholder, "aria-expanded", "false", mediumWait());
-                clickAndMoveToElementVisible(getRandomWebElementFromList(elementList_relationshipCardholderList, mediumWait()), shortWait());
-                break;
-            case 2:
-                //============Cardholder Name Randomly
-                clickAndMoveToElementClickable(input_cardHolderName, mediumWait());
-                sendKeysAndMoveToElementVisible(input_cardHolderName, String.valueOf(faker.name().firstName()), mediumWait());
-                break;
-            case 3:
-                //============CardHolder DOB
-                clickAndMoveToElementClickable(input_cardHolderDOB, mediumWait());
-                sendKeysAndMoveToElementVisible(input_cardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
-                break;
-            case 4:
-                //============Insurance Payer Name Randomly
-                clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
-                sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, faker.name().firstName(), mediumWait());
-                waitForElementVisibility(label_ShowResults, mediumWait());
-                clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
-                break;
-            case 5:
-                //============Insurance Plan Name Randomly
-                clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
-                sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, faker.name().firstName(), mediumWait());
-                waitForElementVisibility(label_planNameShowResults, mediumWait());
-                clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
-                break;
-            case 6:
-                //============Insurance Phone Number Randomly
-                clickAndMoveToElementClickable(input_insurancePhoneNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_insurancePhoneNumber, String.valueOf(faker.number().randomNumber(10, true)), mediumWait());
-                break;
-            case 7:
-                //============Insurance Group Number Randomly
-                clickAndMoveToElementClickable(input_groupNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_groupNumber, String.valueOf(faker.number().randomNumber(6, true)), mediumWait());
-                break;
-            case 8:
-                //============Insurance Policy Number Randomly
-                scrollToWebElementJS(input_policyNumber);
-                clickAndMoveToElementClickable(input_policyNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_policyNumber, String.valueOf(faker.number().randomNumber(5, true)), mediumWait());
-                break;
-            case 9:
-                //============Insurance MemberID Number Randomly
-                scrollToWebElementJS(input_memberID);
-                clickAndMoveToElementClickable(input_memberID, mediumWait());
-                sendKeysAndMoveToElementVisible(input_memberID, String.valueOf(faker.number().randomNumber(4, true)), mediumWait());
-                break;
+    public boolean fillPMIFormRandomly(String dataPMI, int dataPosition) throws Exception {
+        boolean statusOperation = false;
+        try {
+            switch (dataPosition) {
+                case 0:
+                    //============Insurance Rank Randomly
+                    clickWhileCondition(dropdown_insuranceRank, "aria-expanded", "false", mediumWait());
+                    clickAndMoveToElementVisible(getRandomWebElementFromList(elementList_insuranceRankList, mediumWait()), shortWait());
+                    statusOperation = true;
+                    break;
+                case 1:
+                    //============Relationship to Cardholder Randomly
+                    clickWhileCondition(dropdown_relationshipCardholder, "aria-expanded", "false", mediumWait());
+                    clickAndMoveToElementVisible(getRandomWebElementFromList(elementList_relationshipCardholderList, mediumWait()), shortWait());
+                    statusOperation = true;
+                    break;
+                case 2:
+                    //============Cardholder Name Randomly
+                    clickAndMoveToElementClickable(input_cardHolderName, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_cardHolderName, String.valueOf(faker.name().firstName()), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 3:
+                    //============CardHolder DOB
+                    clickAndMoveToElementClickable(input_cardHolderDOB, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_cardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 4:
+                    //============Insurance Payer Name Randomly
+                    clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
+                    sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, faker.name().firstName(), mediumWait());
+                    waitForElementVisibility(label_ShowResults, mediumWait());
+                    clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 5:
+                    //============Insurance Plan Name Randomly
+                    clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
+                    sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, faker.name().firstName(), mediumWait());
+                    waitForElementVisibility(label_planNameShowResults, mediumWait());
+                    clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 6:
+                    //============Insurance Phone Number Randomly
+                    clickAndMoveToElementClickable(input_insurancePhoneNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_insurancePhoneNumber, String.valueOf(faker.number().randomNumber(10, true)), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 7:
+                    //============Insurance Group Number Randomly
+                    clickAndMoveToElementClickable(input_groupNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_groupNumber, String.valueOf(faker.number().randomNumber(6, true)), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 8:
+                    //============Insurance Policy Number Randomly
+                    scrollToWebElementJS(input_policyNumber);
+                    clickAndMoveToElementClickable(input_policyNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_policyNumber, String.valueOf(faker.number().randomNumber(5, true)), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 9:
+                    //============Insurance MemberID Number Randomly
+                    scrollToWebElementJS(input_memberID);
+                    clickAndMoveToElementClickable(input_memberID, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_memberID, String.valueOf(faker.number().randomNumber(4, true)), mediumWait());
+                    statusOperation = true;
+                    break;
+            }
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIFormRandomly")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIFormRandomly");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI, dataPosition);
+                        break;
+                    }
+                }
+            }
         }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
+
 
     /**
      * It will fill the PMI form with the data provided in the dataPMI record (specific data)
      *
      * @param dataPMI      it contains all the date related to fill the PMI form
      * @param dataPosition is a int number to identify which data from reord we need to create or select
+     * @return
      * @throws Exception
      */
-    public void fillPMIForm(String dataPMI, int dataPosition) throws Exception {
-        switch (dataPosition) {
-            case 0:
-                //============Insurance Rank Randomly
-                clickWhileCondition(dropdown_insuranceRank, "aria-expanded", "false", mediumWait());
-                getWebElementByAttributeFromList(elementList_insuranceRankList, "data-value", dataPMI);
-                clickAndMoveToElementVisible(getWebElementByAttributeFromList(elementList_insuranceRankList, "data-value", dataPMI), shortWait());
-                break;
-            case 1:
-                //============Relationship to Cardholder Randomly
-                clickWhileCondition(dropdown_relationshipCardholder, "aria-expanded", "false", mediumWait());
-                clickAndMoveToElementVisible(getWebElementByAttributeFromList(elementList_relationshipCardholderList, "data-value", dataPMI), shortWait());
-                break;
-            case 2:
-                //============Cardholder Name Randomly
-                clickAndMoveToElementClickable(input_cardHolderName, mediumWait());
-                sendKeysAndMoveToElementVisible(input_cardHolderName, String.valueOf(faker.number().randomNumber(4, true)), mediumWait());
-                break;
-            case 3:
-                //============CardHolder DOB
-                clickAndMoveToElementClickable(input_cardHolderDOB, mediumWait());
-                sendKeysAndMoveToElementVisible(input_cardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
-                break;
-            case 4:
-                //============Insurance Payer Name Randomly
-                clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
-                sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, dataPMI, mediumWait());
-                waitForElementVisibility(label_ShowResults, mediumWait());
-                clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
-                break;
-            case 5:
-                //============Insurance Plan Name Randomly
-                clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
-                sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, dataPMI, mediumWait());
-                waitForElementVisibility(label_planNameShowResults, mediumWait());
-                clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
-                break;
-            case 6:
-                //============Insurance Phone Number Randomly
-                clickAndMoveToElementClickable(input_insurancePhoneNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_insurancePhoneNumber, dataPMI, mediumWait());
-                break;
-            case 7:
-                //============Insurance Group Number Randomly
-                clickAndMoveToElementClickable(input_groupNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_groupNumber, dataPMI, mediumWait());
-                break;
-            case 8:
-                //============Insurance Policy Number Randomly
-                scrollToWebElementJS(input_policyNumber);
-                clickAndMoveToElementClickable(input_policyNumber, mediumWait());
-                sendKeysAndMoveToElementVisible(input_policyNumber, dataPMI, mediumWait());
-                break;
-            case 9:
-                //============Insurance MemberID Number Randomly
-                scrollToWebElementJS(input_memberID);
-                clickAndMoveToElementClickable(input_memberID, mediumWait());
-                sendKeysAndMoveToElementVisible(input_memberID, dataPMI, mediumWait());
-                break;
+    public boolean fillPMIForm(String dataPMI, int dataPosition) throws Exception {
+        boolean statusOperation = false;
+        try {
+            switch (dataPosition) {
+                case 0:
+                    //============Insurance Rank Randomly
+                    clickWhileCondition(dropdown_insuranceRank, "aria-expanded", "false", mediumWait());
+                    getWebElementByAttributeFromList(elementList_insuranceRankList, "data-value", dataPMI);
+                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(elementList_insuranceRankList, "data-value", dataPMI), shortWait());
+                    statusOperation = true;
+                    break;
+                case 1:
+                    //============Relationship to Cardholder Randomly
+                    clickWhileCondition(dropdown_relationshipCardholder, "aria-expanded", "false", mediumWait());
+                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(elementList_relationshipCardholderList, "data-value", dataPMI), shortWait());
+                    statusOperation = true;
+                    break;
+                case 2:
+                    //============Cardholder Name Randomly
+                    clickAndMoveToElementClickable(input_cardHolderName, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_cardHolderName, String.valueOf(faker.number().randomNumber(4, true)), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 3:
+                    //============CardHolder DOB
+                    clickAndMoveToElementClickable(input_cardHolderDOB, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_cardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 4:
+                    //============Insurance Payer Name Randomly
+                    clickWhileCondition(dropdown_insurancePayerName, "aria-expanded", "false", mediumWait());
+                    sendKeysAndMoveToElementVisible(dropdown_insurancePayerName, dataPMI, mediumWait());
+                    waitForElementVisibility(label_ShowResults, mediumWait());
+                    clickAndMoveToElementVisible(elementList_insurancePayerNameList.get(0), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 5:
+                    //============Insurance Plan Name Randomly
+                    clickWhileCondition(dropdown_insurancePlanName, "aria-expanded", "false", mediumWait());
+                    sendKeysAndMoveToElementVisible(dropdown_insurancePlanName, dataPMI, mediumWait());
+                    waitForElementVisibility(label_planNameShowResults, mediumWait());
+                    clickAndMoveToElementVisible(elementList_insurancePlanNameList.get(0), mediumWait());
+                    statusOperation = true;
+                    break;
+                case 6:
+                    //============Insurance Phone Number Randomly
+                    clickAndMoveToElementClickable(input_insurancePhoneNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_insurancePhoneNumber, dataPMI, mediumWait());
+                    statusOperation = true;
+                    break;
+                case 7:
+                    //============Insurance Group Number Randomly
+                    clickAndMoveToElementClickable(input_groupNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_groupNumber, dataPMI, mediumWait());
+                    statusOperation = true;
+                    break;
+                case 8:
+                    //============Insurance Policy Number Randomly
+                    scrollToWebElementJS(input_policyNumber);
+                    clickAndMoveToElementClickable(input_policyNumber, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_policyNumber, dataPMI, mediumWait());
+                    statusOperation = true;
+                    break;
+                case 9:
+                    //============Insurance MemberID Number Randomly
+                    scrollToWebElementJS(input_memberID);
+                    clickAndMoveToElementClickable(input_memberID, mediumWait());
+                    sendKeysAndMoveToElementVisible(input_memberID, dataPMI, mediumWait());
+                    statusOperation = true;
+                    break;
+            }
+        } catch (Exception e) {
+            if (Values.globalCounter < maxNumberOfTries) {
+                Values.globalCounter++;
+                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
+                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIForm")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIForm");
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI, dataPosition);
+                        break;
+                    }
+                }
+            }
         }
+        Values.globalCounter = 0;
+        return statusOperation;
     }
 }
