@@ -76,11 +76,10 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         return statusOperation;
     }
 
-
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
         try {
-            waitUntilVisibleLoop(button_loggedOut, 2, shortWait());
+            waitForElementVisibility(button_loggedOut, mediumWait());
             if (productType.equalsIgnoreCase("")) {
                 productType = "AZ";
             }
@@ -92,10 +91,10 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             } else {
                 statusOperation = productType;
             }
-            autoSwitchIframeByWebElement(input_product, shortWait());
-            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, 15);
-            sendKeysAndMoveToElementVisible(input_product, statusOperation, 20);
-            clickElementVisible(input_programEndDate, 10);
+            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+            waitForElementVisibility(input_product, mediumWait());
+            sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
+            clickElementVisible(input_programEndDate, mediumWait());
             switchToParentFrame();
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {

@@ -1553,9 +1553,8 @@ public class CommonFunctions {
         boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                clickWebElementByActions(webElement);
+                statusOperation = clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
             }
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {
@@ -4221,8 +4220,8 @@ public class CommonFunctions {
                 Values.globalCounter++;
                 Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
                 for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("waitForElementVisibility")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "waitForElementVisibility");
+                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysWebElementByActions")) {
+                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysWebElementByActions");
                         statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
                         break;
                     }

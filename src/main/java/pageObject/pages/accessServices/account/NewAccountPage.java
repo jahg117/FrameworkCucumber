@@ -46,10 +46,10 @@ public class NewAccountPage extends CommonFunctions {
     public boolean selectRecordType(String dropdownOption) throws Exception {
         boolean statusOperation = false;
         try {
-            switchToFrameByWebElementIndexOrName(iframe_customerLookup.get(iframe_customerLookup.size() - 1), 20);
-            waitForElementVisibility(label_newAccountTitle, 20);
-            selectAndMoveDropdownByText(dropdown_recordType, dropdownOption, 20);
-            clickAndMoveToElementVisible(button_continue, 15);
+            switchToFrameByWebElementIndexOrName(iframe_customerLookup.get(iframe_customerLookup.size() - 1), mediumWait());
+            waitForElementVisibility(label_newAccountTitle, mediumWait());
+            selectAndMoveDropdownByText(dropdown_recordType, dropdownOption, mediumWait());
+            clickAndMoveToElementVisible(button_continue, mediumWait());
             switchToParentFrame();
             statusOperation = true;
         } catch (Exception e) {
