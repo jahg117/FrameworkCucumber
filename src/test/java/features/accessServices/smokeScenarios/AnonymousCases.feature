@@ -1,4 +1,4 @@
-@cases
+@smoke
 Feature: Cases
 
   Scenario Outline: Create cases from patient

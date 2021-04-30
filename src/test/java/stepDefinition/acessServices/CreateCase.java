@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
+import utils.JsonFiles;
 
 import java.util.HashMap;
 
@@ -65,6 +66,14 @@ public class CreateCase extends ApplicationInstance {
     @And("^I fill the new anonymous case fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public void fillNewCaseAnonymousFields(String productName, String caseRequested, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
+        try{ if(commonData.product.getProduct()!=null){productName=commonData.product.getProduct();} }catch (Exception e){
+            if (productName.equalsIgnoreCase("AZ")
+                    || productName.equalsIgnoreCase("DSI")) {
+                JsonFiles file = new JsonFiles();
+                file.setFileName("1372_EnrollmentProducts");
+                productName = file.getRandomFieldArray(productName);
+            }
+        }
         caseForm.put("ProductName", productName);
         caseForm.put("CaseRequested", caseRequested);
         caseForm.put("Channel", channel);
@@ -75,15 +84,17 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillAnonymousCaseInformationForm(caseForm);
-        String product = accessServices.getCaseInformationPage().clickSaveButton();
+        accessServices.getCaseInformationPage().clickSaveButton();
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);
-        commonData.product = new Product(product);
+        commonData.product = new Product(productName);
     }
 
-    @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void fillNewCaseMandatoryFields(String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+    @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+    public void fillNewCaseMandatoryFields(String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
+        if(commonData.product.getProduct()!=null){productName=commonData.product.getProduct();}
+        caseForm.put("ProductName", productName);
         caseForm.put("Channel", channel);
         caseForm.put("CaseStatus", caseStatus);
         caseForm.put("CaseSubType", caseSubType);
@@ -93,10 +104,10 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
-        String product = accessServices.getCaseInformationPage().clickSaveButton();
+        accessServices.getCaseInformationPage().clickSaveButton();
         accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
         commonData.caseForm = new Case(caseFormInformation);
-        commonData.product = new Product(product);
+        commonData.product = new Product(productName);
     }
 
     @And("^I fill the child case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")

@@ -1,4 +1,4 @@
-@smokeTest
+@smoke
 Feature: Cases
 
   Scenario Outline: Create cases from patient
@@ -19,7 +19,7 @@ Feature: Cases
     And I validate the product enrollment is displayed
     And I click on new Case from the product enrollment page
     And I select the case type "<caseType>"
-    And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
+    And I fill the new case mandatory fields "<productName>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
     Examples:
       | user    | productName | caseType | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
@@ -44,8 +44,8 @@ Feature: Cases
         And I close the last sub tab
         And I click on new Case from the person account tab
         And I select the case type option "<caseType>"
-        And I fill the new case mandatory fields "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
+        And I fill the new case mandatory fields "<productName>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
         And I validate the correct case information is displayed
       Examples:
         | user  | productName | caseType         | channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-        | admin | AZ          | Claims Support   | random     | Open       | random      | random       | random     |
+        | admin | FASENRA     | Claims Support   | random     | Open       | random      | random       | random     |
