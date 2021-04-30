@@ -20,23 +20,23 @@ public class NewChildCasePage extends CommonFunctions {
     @FindBy(xpath = "//button[@title='Continue' and contains(text(),'Continue')]")
     private WebElement button_continue;
 
-    public boolean isChildCaseFormDisplayed() {
-        return waitForElementVisibility(label_childCaseTitle, 20);
+    public boolean isChildCaseFormDisplayed() throws Exception {
+        return waitForElementVisibility(label_childCaseTitle, mediumWait());
     }
 
     public void selectCaseOption(String caseOption) throws Exception {
-        clickAndMoveToElementClickable(dropdown_recordType, 10);
-        waitForElementListVisible(list_dropdownElements, 10);
-        if(caseOption.equalsIgnoreCase("random")) {
-            clickAndMoveToElementClickable(getRandomWebElementFromList(list_dropdownElements,5),5);
-        }else{
+        clickAndMoveToElementClickable(dropdown_recordType, mediumWait());
+        waitForElementListVisible(list_dropdownElements, mediumWait());
+        if (caseOption.equalsIgnoreCase("random")) {
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_dropdownElements, shortWait()), shortWait());
+        } else {
             for (WebElement el : list_dropdownElements) {
-                if(getWebElementText(el).equalsIgnoreCase(caseOption)){
-                    clickAndMoveToElementClickable(el, 10);
+                if (getWebElementText(el).equalsIgnoreCase(caseOption)) {
+                    clickAndMoveToElementClickable(el, mediumWait());
                     break;
                 }
             }
         }
-        clickAndMoveToElementClickable(button_continue, 10);
+        clickAndMoveToElementClickable(button_continue, mediumWait());
     }
 }

@@ -27,8 +27,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     private String product;
     private static String executionFlag = "";
+    CommonFunctions commonFunctions = new CommonFunctions();
 
-    public CreateProductEnrollment(CommonData commonData) {
+    public CreateProductEnrollment(CommonData commonData) throws Exception {
         this.commonData = commonData;
     }
 
@@ -38,7 +39,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
      * @param searchFromFile contains the value, that will be used as boolean, i.e. if it is come "", empty or with the value og "N_A" it will not create a product enrollment
      */
     @Given("{string} it selects which steps will be execute")
-    public void selectStepsToExecute(String searchFromFile) {
+    public void selectStepsToExecute(String searchFromFile) throws Exception {
         executionFlag = searchFromFile;
     }
 
@@ -297,7 +298,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     }
 
     @Then("^I Validate the product enrollment is displayed at Product Enrollments table")
-    public void getProductEnrollmentsUsingTable() {
+    public void getProductEnrollmentsUsingTable() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
@@ -367,7 +368,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
      * Used to assign empty value to the executionFlag in case there is more than one execute of the script
      */
     @Then("delete the value of the executionFlag")
-    public void deleteTheValueOfTheExecutionFlag() {
+    public void deleteTheValueOfTheExecutionFlag() throws Exception {
         executionFlag = "";
     }
 }

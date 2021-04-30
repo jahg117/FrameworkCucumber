@@ -57,7 +57,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
       random you shall put in the respective index the word RND.
 """
 
-  Scenario Outline: Create Patients T001
+  Scenario Outline: Create Patients JRTRYTEST001
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
@@ -90,5 +90,9 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
-      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                      | dataPMB                                                    |
+      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                      | dataPMB                                                              |
+      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
+      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
       | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |

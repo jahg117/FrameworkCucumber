@@ -1,4 +1,5 @@
-{"accountType":["HCA","HCP","CPC","EMP"],
+{ "globalProperties":["GlobalConfig.properties"],
+  "accountType":["HCA","HCP","CPC","EMP"],
   "consentType":["AZ","DSI"],
   "consentTypeDSIOption":["DSI Family Consent","DSI Promotional","DSI Non-Promotional","AZ Family Consent","Non-Promotional","Promotional"],
   "consentTypeAZOption":["AZ Family Consent","Non-Promotional","Promotional"],
