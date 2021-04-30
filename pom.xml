@@ -49,7 +49,7 @@
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>4.1.0</version>
+      <version>4.4.1</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
@@ -164,7 +164,7 @@
           <version>2.22.2</version>
           <configuration>
             <!-- Activate the use of TCP to transmit events to the plugin -->
-            <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
+            <!-- <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/> -->
             <testFailureIgnore>true</testFailureIgnore>
             <suiteXmlFiles>
               <suiteXmlFile>src/test/java/testng.xml</suiteXmlFile>
