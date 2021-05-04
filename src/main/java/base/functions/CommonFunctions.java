@@ -156,24 +156,13 @@ public class CommonFunctions {
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
-        /*} catch (Exception e) {
-            logger.warn("Element was not found " + getWebElementLocatorPath(webElement));
-            return false;
-        }*/
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("waitForElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "waitForElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.warn("Element not clickable: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            args.put(1, timeOutInSeconds);
+            executeReflection("waitForElementClickable", args);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
