@@ -1,6 +1,7 @@
 package base.functions;
 
 import base.driverInitialize.DriverFactory;
+import com.akiban.sql.parser.CastNode;
 import com.github.javafaker.Faker;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.ui.*;
 import utils.FileReading;
 import utils.JsonFiles;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -1842,6 +1844,7 @@ public class CommonFunctions {
                 }
             }
             if (waitForElementClickable(webElement, mediumWait()) && statusOperation) {
+                scrollMethodToWebElement(webElement);
                 webElement.click();
                 statusOperation = true;
             }
@@ -5528,6 +5531,8 @@ public class CommonFunctions {
         return timeOutInSeconds;
     }
 
+
+
     /**
      * Use to assign the long wait time from the GlobalConfig.properties
      *
@@ -5599,12 +5604,13 @@ public class CommonFunctions {
                 for (int j = 0; j < arrayDeclaredMethods.length; j++) {
                     if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("autoSwitchIframeByLocator")) {
                         logger.warn(Values.TXT_RETRYMSG001 + "autoSwitchIframeByLocator");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), locator);
+                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(),locator);
                         break;
                     }
                 }
             }
         }
+
         Values.globalCounter = 0;
         return statusOperation;
     }

@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 
 public class NewPatientInsuranceNoPI extends CommonFunctions {
     @FindBy(xpath = "//*[@name='SaveEdit']")
-    private WebElement button_save;
+    private WebElement buttonSave;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -39,7 +39,7 @@ public class NewPatientInsuranceNoPI extends CommonFunctions {
     public boolean clickOnSaveNoPI() throws Exception {
         boolean statusOperation = false;
         try {
-            statusOperation = clickAndMoveToElementClickable(button_save, mediumWait());
+            statusOperation = clickAndMoveToElementClickable(buttonSave, mediumWait());
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {
                 Values.globalCounter++;
