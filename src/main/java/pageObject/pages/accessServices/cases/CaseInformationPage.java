@@ -390,25 +390,8 @@ public class CaseInformationPage extends CommonFunctions {
         return statusOperation;
     }
 
-    public boolean clickSaveInteraction() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(button_save, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickSaveInteraction")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickSaveInteraction");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickSaveInteraction() throws Exception {
+        clickAndMoveToElementClickable(button_save, mediumWait());
     }
 
     public String clickSaveButton() throws Exception {

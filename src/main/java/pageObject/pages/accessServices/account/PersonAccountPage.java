@@ -334,7 +334,7 @@ public class PersonAccountPage extends CommonFunctions {
      * Method to change from one tab to another according to an index
      *
      * @param idxTab it contains an integer with the number of the tab related to a list that contains all the corrently open tabs
-     * @return it returns a boolean value
+     * @return
      * @throws Exception
      * @author J.Ruano
      */
@@ -453,25 +453,8 @@ public class PersonAccountPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickProductEnrollment() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(tabProductEnrollment, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickProductEnrollment")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickProductEnrollment");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickProductEnrollment() throws Exception {
+        clickAndMoveToElementClickable(tabProductEnrollment, mediumWait());
     }
 
 
@@ -482,24 +465,7 @@ public class PersonAccountPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickNewPatientInsurances() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(buttonNewPatientInsurances, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewPatientInsurances")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewPatientInsurances");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickNewPatientInsurances() throws Exception {
+        clickAndMoveToElementClickable(buttonNewPatientInsurances, mediumWait());
     }
 }
