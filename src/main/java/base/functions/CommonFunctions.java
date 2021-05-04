@@ -67,19 +67,10 @@ public class CommonFunctions {
         try {
             return driver.findElements(locator);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElementList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElementList");
-                        webElements = (List<WebElement>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), locator);
-                        break;
-                    }
-                }
-            }
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, locator);
+            executeReflection("getWebElementList", args);
         }
-        Values.globalCounter = 0;
         return webElements;
     }
 
