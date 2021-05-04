@@ -187,25 +187,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
         return statusOperation;
     }
 
-    public boolean createNewAttestationConsent() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickElementClickable(button_newConsent, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("createNewAttestationConsent")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "createNewAttestationConsent");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void createNewAttestationConsent() throws Exception {
+        clickElementClickable(button_newConsent, longWait());
     }
 
 
@@ -216,26 +199,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickOnNewCase() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(button_newCase, longWait());
-        } catch (
-                Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewCase")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewCase");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickOnNewCase() throws Exception {
+        clickAndMoveToElementClickable(button_newCase, longWait());
     }
 
 

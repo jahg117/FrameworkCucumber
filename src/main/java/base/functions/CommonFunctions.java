@@ -1038,29 +1038,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("The WebElement is not valid");
+            throw new NoSuchElementException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1073,29 +1062,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not visibe¡le");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("The WebElement is not visible");
+            throw new NoSuchElementException("WebElement not visible or clickable");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1108,29 +1086,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("The WebElement is not visible");
+            throw new NoSuchElementException("WebElement not visible or clickable");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1143,29 +1110,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("The WebElement is not visible");
+            throw new NoSuchElementException("WebElement not visible or clickable");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
     /**
@@ -1318,28 +1274,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                statusOperation = clickWebElementByActions(webElement);
+                clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                logger.error("WebElement not clickable");
+                throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1351,33 +1297,20 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
             } else {
                 logger.error("The Web Element was not found");
                 throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
+
 
     /**
      * Method used to double click and wait for a visible WebElement
@@ -1388,29 +1321,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1423,29 +1345,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1458,29 +1369,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1493,29 +1393,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+                throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1528,29 +1417,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -1563,29 +1441,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    public boolean clickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    public void clickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                logger.error("The Web Element was not found");
+                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            throw new ElementNotInteractableException("WebElement not valid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -4073,28 +3940,17 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private boolean clickAndMoveToWebElementByActions(WebElement webElement) throws Exception {
-        boolean statusOperation = false;
+    private void clickAndMoveToWebElementByActions(WebElement webElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).click(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            executeReflection("clickAndMoveToWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -4105,28 +3961,17 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private boolean clickWebElementByActions(WebElement webElement) throws Exception {
-        boolean statusOperation = false;
+    private void clickWebElementByActions(WebElement webElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.click(webElement).build().perform();
-            logger.info("Element found: " + getWebElementLocatorPath(webElement));
-            statusOperation = true;
+            logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            executeReflection("clickWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -4137,28 +3982,17 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private boolean doubleClickAndMoveToWebElementByActions(WebElement webElement) throws Exception {
-        boolean statusOperation = false;
+    private void doubleClickAndMoveToWebElementByActions(WebElement webElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            executeReflection("doubleClickAndMoveToWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -4169,28 +4003,17 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private boolean doubleClickWebElementByActions(WebElement webElement) throws Exception {
-        boolean statusOperation = false;
+    private void doubleClickWebElementByActions(WebElement webElement) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            executeReflection("doubleClickWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -4233,27 +4056,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    private boolean scrollToWebElementByAction(WebElement webElement) throws Exception {
-        boolean statusOperation = false;
+    private void scrollToWebElementByAction(WebElement webElement) throws Exception {
         Actions actions = new Actions(driver);
         try {
             actions.moveToElement(webElement).build().perform();
-            statusOperation = true;
+            logger.info("Scrolling to webElement: "+getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("scrollToWebElementByAction")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "scrollToWebElementByAction");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            logger.warn("WebElement is not visible: "+getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            executeReflection("scrollToWebElementByAction", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
     /**
@@ -4265,29 +4078,19 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveToDropDownByText(WebElement webElement, String text) throws Exception {
-        boolean statusOperation = false;
+    protected void selectAndMoveToDropDownByText(WebElement webElement, String text) throws Exception {
         try {
             scrollToWebElementByAction(webElement);
             Select select = new Select(webElement);
             select.selectByVisibleText(text);
             logger.info("Selected option: " + text);
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveToDropDownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveToDropDownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            logger.warn("Dropdown option is not displayed: "+text);
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            args.put(1, text);
+            executeReflection("selectAndMoveToDropDownByText", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
     /**
