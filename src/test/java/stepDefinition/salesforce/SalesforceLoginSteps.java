@@ -28,7 +28,7 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
         salesforce.goTo();
-        Assert.assertTrue(salesforce.getLoginPage().enterUserPassword(salesForceUser), "The Operation Was Successful");
+        salesforce.getLoginPage().enterUserPassword(salesForceUser);
         commonData.userDetails = new UserDetails(salesForceUser);
     }
 
