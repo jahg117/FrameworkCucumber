@@ -3,7 +3,6 @@ package base.functions;
 import base.driverInitialize.DriverFactory;
 import com.github.javafaker.Faker;
 import org.apache.log4j.Logger;
-import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -12,8 +11,6 @@ import utils.FileReading;
 import utils.JsonFiles;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.TypeVariable;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -31,7 +28,6 @@ public class CommonFunctions {
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
-    List<T> myList;
     Class<?> myClass;
 
     {
@@ -58,19 +54,10 @@ public class CommonFunctions {
         try {
             webElement = driver.findElement(locator);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElement")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElement");
-                        webElement = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), locator);
-                        break;
-                    }
-                }
-            }
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, locator);
+            executeReflection("getWebElement", args);
         }
-        Values.globalCounter = 0;
         return webElement;
     }
 
@@ -5839,7 +5826,6 @@ public class CommonFunctions {
     }
 
     private void executeReflection(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        boolean statusOperation = false;
         Method method = null;
         if (Values.globalCounter < maxNumberOfTries) {
             Values.globalCounter++;
@@ -5854,33 +5840,32 @@ public class CommonFunctions {
                 logger.warn(Values.TXT_RETRYMSG001 + methodName);
                 switch(args.size()){
                     case 1:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0));
                         break;
                     case 2:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1));
                         break;
                     case 3:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2));
                         break;
                     case 4:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3));
                         break;
                     case 5:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4));
                         break;
                     case 6:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
                         break;
                     case 7:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6));
                         break;
                     case 8:
-                        statusOperation = (boolean) method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6), args.get(7));
+                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6), args.get(7));
                         break;
                 }
             }
         }
         Values.globalCounter = 0;
-        //return statusOperation;
     }
 }
