@@ -2546,28 +2546,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(webElement, text);
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -2580,28 +2569,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(webElement, text);
-                statusOperation = true;
+            } else{
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -2614,29 +2592,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                Actions actions = new Actions(driver);
-                actions.moveToElement(webElement, 5, 5).click().sendKeys(text).perform();
-                statusOperation = true;
+                sendKeysAndMoveToWebElementWithCoordinatesByActions(webElement, text, xOffset, yOffset, timeOutInSeconds);
+            } else{
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisibleWithCoordinates")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisibleWithCoordinates");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, xOffset, yOffset, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -2649,27 +2615,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(webElement, text);
+            } else {
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
     /**
@@ -2681,30 +2637,19 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected boolean sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected void sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickElementJS(webElement);
                 js.executeScript("arguments[0].value='" + text + "';", webElement);
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisibleJS")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisibleJS");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -2717,28 +2662,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(webElement, text);
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
+            throw new NoSuchElementException("WebElement not found or invalid");
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -3716,9 +3650,6 @@ public class CommonFunctions {
         Values.globalCounter = 0;
     }
 
-//***********************************************************************
-// private methods
-
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
@@ -3726,28 +3657,19 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysWebElementByActions(WebElement webElement, String text) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysWebElementByActions(WebElement webElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.click(webElement).sendKeys(webElement, text).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            args.put(1, text);
+            executeReflection("sendKeysWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
     /**
@@ -3758,28 +3680,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysByActions(String text) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysByActions(String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.sendKeys(text).build().perform();
             logger.info("Keys sent: " + text);
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), text);
-                        break;
-                    }
-                }
-            }
+            logger.error("Keys not sent " + text);
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, text);
+            executeReflection("sendKeysByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
@@ -3790,29 +3701,43 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToWebElementByActions(WebElement webElement, String text) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToWebElementByActions(WebElement webElement, String text) throws Exception {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).sendKeys(webElement, text).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
-            statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            args.put(1, text);
+            executeReflection("sendKeysAndMoveToWebElementByActions", args);
         }
-        Values.globalCounter = 0;
-        return statusOperation;
+    }
+    /**
+     * This method is used to move and SendKeys to a WebElement by Action
+     *
+     * @param webElement
+     * @return
+     * @author Alejandro Hernandez
+     */
+    protected void sendKeysAndMoveToWebElementWithCoordinatesByActions(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(webElement, xOffset, yOffset).click().sendKeys(text).perform();
+            logger.info("Element found: " + getWebElementLocatorPath(webElement));
+            logger.info("Keys sent: " + text);
+        } catch (Exception e) {
+            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
+            HashMap<Integer, Object> args = new HashMap<>();
+            args.put(0, webElement);
+            args.put(1, text);
+            args.put(2, xOffset);
+            args.put(3, yOffset);
+            args.put(4, timeOutInSeconds);
+            executeReflection("sendKeysAndMoveToWebElementWithCoordinatesByActions", args);
+        }
     }
 
     /**
