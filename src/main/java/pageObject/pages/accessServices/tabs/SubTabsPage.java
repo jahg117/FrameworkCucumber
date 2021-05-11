@@ -27,67 +27,16 @@ public class SubTabsPage extends CommonFunctions {
         }
     }
 
-    public boolean switchSubTab(int tab) throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = switchSubTabByIndexSF(tab, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchSubTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchSubTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), tab);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void switchSubTab(int tab) throws Exception {
+        switchSubTabByIndexSF(tab, mediumWait());
     }
 
 
-    public boolean closeSubTab(int tab) throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = closeSubTabByIndexSF(tab, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("closeSubTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "closeSubTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), tab);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void closeSubTab(int tab) throws Exception {
+        closeSubTabByIndexSF(tab, mediumWait());
     }
 
-    public boolean closeLastSubTab() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = closeLastSubTabSF(mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("closeLastSubTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "closeLastSubTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void closeLastSubTab() throws Exception {
+        closeLastSubTabSF(mediumWait());
     }
 }
