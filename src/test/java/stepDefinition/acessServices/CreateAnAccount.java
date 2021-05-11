@@ -57,10 +57,10 @@ public class CreateAnAccount extends ApplicationInstance {
         accessServices.getNewAccountPage().selectRecordType(cpcOption);
     }
 
-    @Then("I fill the form with the values {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} at CPC Wizard Page")
-    public void fieldsAccountFormCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
+    @Then("I fill the form with the values {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} at CPC Wizard Page")
+    public void fieldsAccountFormCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String emailType, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         accessServices.getNewCPCWizardPage().isNewCPCWizardFormDisplayed();
-        accessServices.getNewCPCWizardPage().validateAndCreateCPC(identifier, firstName, middleName, lastName, dateOfBird, careGiver, email, phoneOrFax, addressLine1, state, city, zipCode, country, randomRecord);
+        accessServices.getNewCPCWizardPage().validateAndCreateCPC(identifier, firstName, middleName, lastName, dateOfBird, careGiver, email, emailType, phoneOrFax, addressLine1, state, city, zipCode, country, randomRecord);
     }
 
     //============EMPLOYEE

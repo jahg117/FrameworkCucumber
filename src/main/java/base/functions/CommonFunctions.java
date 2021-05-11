@@ -1,7 +1,6 @@
 package base.functions;
 
 import base.driverInitialize.DriverFactory;
-import com.akiban.sql.parser.CastNode;
 import com.github.javafaker.Faker;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,14 +10,12 @@ import org.openqa.selenium.support.ui.*;
 import utils.FileReading;
 import utils.JsonFiles;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
-import java.lang.reflect.Method;
 
 import utils.Values;
 
@@ -29,6 +26,7 @@ public class CommonFunctions {
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
+    public static Object reflectionReturnValue;
     Class<?> myClass;
 
     {
@@ -55,9 +53,7 @@ public class CommonFunctions {
         try {
             webElement = driver.findElement(locator);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            executeReflection("getWebElement", args);
+            webElement = autoCasting(executeReflection(locator));
         }
         return webElement;
     }
@@ -66,11 +62,9 @@ public class CommonFunctions {
     protected List<WebElement> getWebElementList(By locator) throws Exception {
         List<WebElement> webElements = new ArrayList<>();
         try {
-            return driver.findElements(locator);
+            webElements = driver.findElements(locator);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            executeReflection("getWebElementList", args);
+            webElements = autoCasting(executeReflection(locator));
         }
         return webElements;
     }
@@ -158,11 +152,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not clickable: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementClickable", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -175,22 +165,19 @@ public class CommonFunctions {
      * @return boolean
      * @author Alejandro Hernandez
      */
-    protected boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
+    public boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, 3);
             wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementVisibility", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
+
     /**
      * Return true if a WebElement is not visible or false if it's visible
      *
@@ -207,11 +194,7 @@ public class CommonFunctions {
             logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementNotVisible", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -232,11 +215,7 @@ public class CommonFunctions {
             logger.info("List of web elements is not visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("List of web elements is visible: " + getWebElementLocatorPath(webElements));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElements);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementListNotVisible", args);
+            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -257,11 +236,7 @@ public class CommonFunctions {
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("List of web elements is not visible: " + getWebElementLocatorPath(webElements));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElements);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementListVisible", args);
+            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -281,10 +256,7 @@ public class CommonFunctions {
             logger.info("Alert is visible");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Alert is not visible");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, timeOutInSeconds);
-            executeReflection("waitForAlertVisible", args);
+            statusOperation = autoCasting(executeReflection(timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -308,13 +280,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeContains", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -336,12 +302,7 @@ public class CommonFunctions {
             logger.info("Element not found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementAttributeNotEmpty", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -365,13 +326,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeToBe", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -393,11 +348,7 @@ public class CommonFunctions {
             logger.info("The page with title " + title + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("The page with title " + title + "is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, title);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementPageTitle", args);
+            statusOperation = autoCasting(executeReflection(title, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -418,11 +369,7 @@ public class CommonFunctions {
             logger.info("The page with URL " + url + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("The page with URL " + url + "is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, url);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementUrlToBe", args);
+            statusOperation = autoCasting(executeReflection(url, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -443,11 +390,7 @@ public class CommonFunctions {
             logger.info("Element frame found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element frame not found " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementFrameAndSwitchToIt", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -469,11 +412,7 @@ public class CommonFunctions {
             logger.info("WebElement is selected " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement is not selected " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementSelected", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -496,12 +435,7 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, textElement);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextPresent", args);
+            statusOperation = autoCasting(executeReflection(webElement, textElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -524,12 +458,7 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, textElementValue);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextPresentValue", args);
+            statusOperation = autoCasting(executeReflection(webElement, textElementValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -583,11 +512,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementPresenceBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -608,12 +533,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -636,12 +556,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with value: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with value: " + text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextToBePresentInElementValueBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -663,11 +578,7 @@ public class CommonFunctions {
             logger.info("Element already selected: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element is not selected: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementTextToBePresentInElementValueBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -689,11 +600,7 @@ public class CommonFunctions {
             logger.info("iFrame found and switch to it: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("iFrame not found and switch to it: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementFrameToBeAvailableAndSwitchToItBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -717,13 +624,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, attribute);
-            args.put(2, value);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -747,13 +648,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, attribute);
-            args.put(2, value);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeContainsBy", args);
+            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -775,11 +670,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementToBeClickableBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -801,11 +692,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementVisibilityOfElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -828,12 +715,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, selectionState);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementSelectionStateToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, selectionState, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -855,11 +737,7 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementInvisibilityOfElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -882,12 +760,7 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementInvisibilityOfElementWithTextBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -910,12 +783,7 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBe", args);
+            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -938,12 +806,7 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements less than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBeLessThanBy", args);
+            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -966,12 +829,9 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBeMoreThanBy", args);
+            if ((statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds)) == null)) {
+                logger.warn("There Was An Exeption");
+            }
         }
         return statusOperation;
     }
@@ -993,11 +853,9 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForPresenceOfAllElementsLocatedBy", args);
+            if ((statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds)) == null)) {
+                logger.info("The following Error Occured: " + e);
+            }
         }
         return statusOperation;
     }
@@ -1019,12 +877,7 @@ public class CommonFunctions {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForTextToBePresentInElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -1048,8 +901,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not valid");
-            throw new NoSuchElementException("WebElement not valid");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1072,8 +924,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not visibe¡le");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1096,8 +947,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1120,8 +970,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1143,19 +992,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1178,19 +1016,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1213,19 +1040,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1249,19 +1065,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1285,7 +1090,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
     }
 
@@ -1303,12 +1108,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1327,12 +1129,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1351,12 +1150,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1375,12 +1171,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1399,12 +1192,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-                throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1423,12 +1213,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1447,12 +1234,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1484,10 +1268,7 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickMethod", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -1508,14 +1289,10 @@ public class CommonFunctions {
         //===========================================================================
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         try {
-            //logger.info("USING " + usedMethod + " TO SCROLL TO AN ELEMENT");
             jsExecutor.executeScript(scrollElementIntoMiddle, webElement);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollMethodToWebElement", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1556,13 +1333,9 @@ public class CommonFunctions {
                 statusOperation = false;
             }
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, scrollDirection);
-            args.put(1, pixels);
-            executeReflection("scrollMethodByPixels", args);
+            statusOperation = autoCasting(executeReflection(scrollDirection, pixels));
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -1581,10 +1354,7 @@ public class CommonFunctions {
             jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
             statusOperation = waitForElementVisibility(webElement, mediumWait());
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToElementByCoordinates", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1602,9 +1372,7 @@ public class CommonFunctions {
             js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
             logger.info("Scrolled to the bottom page");
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            executeReflection("scrollBottom", args);
+            autoCasting(executeReflection());
         }
     }
 
@@ -1623,8 +1391,7 @@ public class CommonFunctions {
             logger.info("Scrolled to the top page");
         } catch (Exception e) {
             logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            executeReflection("scrollTop", args);
+            autoCasting(executeReflection());
         }
     }
 
@@ -1641,10 +1408,7 @@ public class CommonFunctions {
         try {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToWebElementJS", args);
+            autoCasting(executeReflection(webElement));
         }
     }
 
@@ -1663,10 +1427,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).build().perform();
             statusOperation = waitForElementVisibility(webElement, mediumWait());
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollMethodToWebElementByActions", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1675,22 +1436,21 @@ public class CommonFunctions {
     /**
      * This method is used to move to a visible element by Action Class
      *
-     * @param webElement  contains the WebElement to move
-     * @param timeSeconds to wait
+     * @param webElement       contains the WebElement to move
+     * @param timeOutInSeconds to wait
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void scrollToWebElementVisibleByAction(WebElement webElement, int timeSeconds) throws Exception {
+    protected void scrollToWebElementVisibleByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 scrollToWebElementByAction(webElement);
-            } else{
+            } else {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1698,22 +1458,21 @@ public class CommonFunctions {
     /**
      * This method is used to move to a clickable element by Action Class
      *
-     * @param webElement  contains the WebElement to move
-     * @param timeSeconds to wait
+     * @param webElement       contains the WebElement to move
+     * @param timeOutInSeconds to wait
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void scrollToWebElementClickableByAction(WebElement webElement, int timeSeconds) throws Exception {
+    protected void scrollToWebElementClickableByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 scrollToWebElementByAction(webElement);
-            } else{
+            } else {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1732,10 +1491,6 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
         } catch (ElementClickInterceptedException e) {
             clickElementJS(webElement);
-        } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickElementActions", args);
         }
     }
 
@@ -1753,10 +1508,7 @@ public class CommonFunctions {
             jsExecutor.executeScript("arguments[0].click();", webElement);
             logger.info("Web Element selected");
         } catch (Exception e) {
-            logger.warn("Element not clicked");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickElementJS", args);
+            autoCasting(executeReflection(webElement));
         }
     }
 
@@ -1778,19 +1530,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1812,19 +1553,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1846,19 +1576,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1880,19 +1599,9 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -1915,19 +1624,9 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -1950,19 +1649,9 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -1985,19 +1674,9 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -2020,19 +1699,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2050,8 +1718,7 @@ public class CommonFunctions {
         if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
             selectDropDownByText(getWebElement(webElement), text);
         } else {
-            logger.error("The Web Element was not found");
-            throw new NoSuchElementException("Element not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -2073,19 +1740,9 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownClickableByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownClickableByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -2107,19 +1764,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownClickableByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownClickableByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2141,19 +1787,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownClickableByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownClickableByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2175,19 +1810,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownVisibleRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownVisibleRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2210,19 +1834,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropDownVisibleRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropDownVisibleRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2244,19 +1857,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownClickableRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownClickableRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2279,19 +1881,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropDownClickableRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropDownClickableRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2300,31 +1891,20 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement>
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromList(By webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromList(By webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForPresenceOfAllElementsLocatedBy(webElementList, timeSeconds)) {
+            if (waitForPresenceOfAllElementsLocatedBy(webElementList, timeOutInSeconds)) {
                 Random random = new Random();
                 statusOperation = getWebElementList(webElementList).get(random.nextInt(getWebElementList(webElementList).size()));
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementFromList");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2333,14 +1913,14 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement> except the first
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForElementListVisible(webElementList, timeSeconds)) {
+            if (waitForElementListVisible(webElementList, timeOutInSeconds)) {
                 if (webElementList.size() != 1) {
                     statusOperation = webElementList.get((int) (Math.random() * webElementList.size() - 1) + 1);
                 } else {
@@ -2348,19 +1928,9 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementFromListExceptFirst")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementFromListExceptFirst");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -2387,19 +1957,8 @@ public class CommonFunctions {
                 return statusOperation;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElementByAttributeFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElementByAttributeFromList");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, attribute, attributeValue);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2408,32 +1967,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementSelected(By webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementSelected(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeSeconds)) {
+            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isSelected();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isVisibleElementSelected")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isVisibleElementSelected");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2441,32 +1989,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementSelected(By webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementSelected(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeSeconds)) {
+            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isSelected();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isClickableElementSelected")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isClickableElementSelected");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2475,32 +2012,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementEnabled(By webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeSeconds)) {
+            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isEnabled();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isVisibleElementEnabled")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isVisibleElementEnabled");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2509,32 +2035,21 @@ public class CommonFunctions {
      * Method used to validate if a clickable webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementEnabled(By webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeSeconds)) {
+            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isEnabled();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isClickableElementEnabled")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isClickableElementEnabled");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2556,19 +2071,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2590,19 +2094,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2625,19 +2118,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisibleWithCoordinates")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisibleWithCoordinates");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, xOffset, yOffset, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2658,19 +2140,8 @@ public class CommonFunctions {
                 sendKeysWebElementByActions(webElement, text);
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2693,22 +2164,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementVisibleJS")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementVisibleJS");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to sendKeys and wait for a visible WebElement
@@ -2727,19 +2186,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2762,22 +2210,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to move and select a dropdown option by text
@@ -2797,22 +2233,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to select a dropdown option by index
@@ -2832,22 +2256,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to move and select a dropdown option by index
@@ -2867,22 +2279,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to select a dropdown option by text
@@ -2902,19 +2302,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownClickableByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownClickableByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2936,19 +2325,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownClickableByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownClickableByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2971,19 +2349,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownClickableByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownClickableByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3006,22 +2373,10 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownClickableByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownClickableByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
-
 
     /**
      * Method used to get a random date with format mm/dd/yyyy
@@ -3039,19 +2394,8 @@ public class CommonFunctions {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             statusOperation = simpleDateFormat.format(randomDate);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomDate")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomDate");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3067,19 +2411,9 @@ public class CommonFunctions {
         try {
             statusOperation = String.valueOf(random.nextInt(100000));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomNumber")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomNumber");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -3100,19 +2434,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownVisibleRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownVisibleRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3135,19 +2458,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropDownVisibleRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropDownVisibleRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3169,19 +2481,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownClickableRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownClickableRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3204,19 +2505,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropDownClickableRandomOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropDownClickableRandomOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3225,31 +2515,20 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement>
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForElementListVisible(webElementList, timeSeconds)) {
+            if (waitForElementListVisible(webElementList, timeOutInSeconds)) {
                 Random random = new Random();
                 statusOperation = webElementList.get(random.nextInt(webElementList.size()));
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementFromList");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3277,19 +2556,8 @@ public class CommonFunctions {
                 return statusOperation;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElementByAttributeFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElementByAttributeFromList");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, attribute, attributeValue);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElementList, attribute, attributeValue));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3297,32 +2565,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementSelected(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isSelected();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isVisibleElementSelected")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isVisibleElementSelected");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3331,32 +2588,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementSelected(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isSelected();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isClickableElementSelected")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isClickableElementSelected");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3365,32 +2611,21 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementEnabled(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isEnabled();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isVisibleElementEnabled")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isVisibleElementEnabled");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3399,32 +2634,21 @@ public class CommonFunctions {
      * Method used to validate if a clickable webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementEnabled(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isEnabled();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isClickableElementEnabled")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isClickableElementEnabled");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3432,12 +2656,12 @@ public class CommonFunctions {
     /**
      * Method used to switch in a frame By WebElement, Index or Name
      *
-     * @param frame       WebElement, int or String
-     * @param timeSeconds wait only if the WebElement option is used.
+     * @param frame            WebElement, int or String
+     * @param timeOutInSeconds wait only if the WebElement option is used.
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeSeconds) throws Exception {
+    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeOutInSeconds) throws Exception {
         try {
             String frameType = frame.getClass().getName();
             if (frameType.contains("Integer")) {
@@ -3446,7 +2670,7 @@ public class CommonFunctions {
                 if (frameType.contains("String")) {
                     driver.switchTo().frame(frame.toString());
                 } else {
-                    if (waitForElementVisibility((WebElement) frame, timeSeconds)) {
+                    if (waitForElementVisibility((WebElement) frame, timeOutInSeconds)) {
                         driver.switchTo().frame((WebElement) frame);
                     } else {
                         logger.error("The Web Element was not found");
@@ -3455,19 +2679,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToFrameByWebElementIndexOrName")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToFrameByWebElementIndexOrName");
-                        arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), frame, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
     }
 
     /**
@@ -3484,19 +2697,8 @@ public class CommonFunctions {
             logger.info("Switch to parent frame");
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToParentFrame")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToParentFrame");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection());
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3504,32 +2706,21 @@ public class CommonFunctions {
     /**
      * Method used to accept an alert
      *
-     * @param timeSeconds wait for an alter to be visible
+     * @param timeOutInSeconds wait for an alter to be visible
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean switchToAlertAccept(int timeSeconds) throws Exception {
+    protected boolean switchToAlertAccept(int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForAlertVisible(timeSeconds)) {
+            if (waitForAlertVisible(timeOutInSeconds)) {
                 driver.switchTo().alert().accept();
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToAlertAccept")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToAlertAccept");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3537,32 +2728,21 @@ public class CommonFunctions {
     /**
      * Method used to dismiss an alert
      *
-     * @param timeSeconds wait for an alter to be visible
+     * @param timeOutInSeconds wait for an alter to be visible
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean switchToAlertDismiss(int timeSeconds) throws Exception {
+    protected boolean switchToAlertDismiss(int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForAlertVisible(timeSeconds)) {
+            if (waitForAlertVisible(timeOutInSeconds)) {
                 driver.switchTo().alert().dismiss();
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToAlertDismiss")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToAlertDismiss");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3570,31 +2750,20 @@ public class CommonFunctions {
     /**
      * Method used to get text from an alert
      *
-     * @param timeSeconds wait for an alter to be visible
+     * @param timeOutInSeconds wait for an alter to be visible
      * @return String
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected String switchToAlertGetText(int timeSeconds) throws Exception {
+    protected String switchToAlertGetText(int timeOutInSeconds) throws Exception {
         String statusOperation = "";
         try {
-            if (waitForAlertVisible(timeSeconds)) {
+            if (waitForAlertVisible(timeOutInSeconds)) {
                 statusOperation = driver.switchTo().alert().getText();
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToAlertGetText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToAlertGetText");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3602,33 +2771,22 @@ public class CommonFunctions {
     /**
      * Method used to accept an alert
      *
-     * @param text        to be send in the alert
-     * @param timeSeconds wait for an alter to be visible
+     * @param text             to be send in the alert
+     * @param timeOutInSeconds wait for an alter to be visible
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean switchToAlertSendKeys(String text, int timeSeconds) throws Exception {
+    protected boolean switchToAlertSendKeys(String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForAlertVisible(timeSeconds)) {
+            if (waitForAlertVisible(timeOutInSeconds)) {
                 driver.switchTo().alert().sendKeys(text);
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToAlertSendKeys")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToAlertSendKeys");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), text, timeSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3649,19 +2807,8 @@ public class CommonFunctions {
             logger.info("Change to tab: " + tabIndex);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToWindow")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToWindow");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), tabIndex);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(tabIndex));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3678,19 +2825,8 @@ public class CommonFunctions {
             ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
             statusOperation = tabs.size();
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getOpenTabsSize")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getOpenTabsSize");
-                        statusOperation = (int) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection());
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3703,19 +2839,9 @@ public class CommonFunctions {
         try {
             driver.close();
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("closeWindow")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "closeWindow");
-                        arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            executeReflection();
         }
-        Values.globalCounter = 0;
+
     }
 
 //***********************************************************************
@@ -3736,19 +2862,8 @@ public class CommonFunctions {
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3768,19 +2883,8 @@ public class CommonFunctions {
             logger.info("Keys sent: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), text);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(text));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3801,19 +2905,8 @@ public class CommonFunctions {
             logger.info("Keys sent: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("sendKeysAndMoveToWebElementByActions")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "sendKeysAndMoveToWebElementByActions");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -3830,10 +2923,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).click(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickAndMoveToWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3851,10 +2941,7 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
             logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3872,10 +2959,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("doubleClickAndMoveToWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3893,10 +2977,7 @@ public class CommonFunctions {
             actions.doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("doubleClickWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3944,12 +3025,9 @@ public class CommonFunctions {
         Actions actions = new Actions(driver);
         try {
             actions.moveToElement(webElement).build().perform();
-            logger.info("Scrolling to webElement: "+getWebElementLocatorPath(webElement));
+            logger.info("Scrolling to webElement: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement is not visible: "+getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToWebElementByAction", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3969,11 +3047,7 @@ public class CommonFunctions {
             select.selectByVisibleText(text);
             logger.info("Selected option: " + text);
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            executeReflection("selectAndMoveToDropDownByText", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -3995,19 +3069,8 @@ public class CommonFunctions {
             logger.info("Selected option: " + index);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveToDropDownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveToDropDownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4029,19 +3092,8 @@ public class CommonFunctions {
             logger.info("Selected option: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByText");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, text);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4063,19 +3115,9 @@ public class CommonFunctions {
             logger.info("Selected option: " + index);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownByIndex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownByIndex");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, index);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, index));
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -4098,19 +3140,8 @@ public class CommonFunctions {
             logger.info("Selected option: " + optionIndex++);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRandomDropDownOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRandomDropDownOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4128,19 +3159,8 @@ public class CommonFunctions {
             logger.info("Change to default content");
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToDefaultContentFrame")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToDefaultContentFrame");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection());
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4169,19 +3189,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchSubTabByNameSF")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchSubTabByNameSF");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), name, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4206,19 +3215,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchSubTabByIndexSF")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchSubTabByIndexSF");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4242,19 +3240,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("closeSubTabByIndexSF")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "closeSubTabByIndexSF");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), index, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4278,19 +3265,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("closeLastSubTabSF")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "closeLastSubTabSF");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4327,19 +3303,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropDownRandomOptionNone")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropDownRandomOptionNone");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4365,19 +3330,8 @@ public class CommonFunctions {
             logger.info("Selected option: " + optionIndex++);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRandomDropDownNotNone")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRandomDropDownNotNone");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4398,19 +3352,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getVisibleElements")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getVisibleElements");
-                        statusOperation = (List<WebElement>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElementList));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4427,19 +3370,8 @@ public class CommonFunctions {
         try {
             statusOperation = webElement.getText();
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElementText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElementText");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4457,19 +3389,8 @@ public class CommonFunctions {
         try {
             statusOperation = webElement.getAttribute(attribute);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getWebElementAttribute")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getWebElementAttribute");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, attribute);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, attribute));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4487,19 +3408,8 @@ public class CommonFunctions {
             statusOperation = Arrays.asList(textToSplit.split(regexRule));
             textToSplit.split(regexRule);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("splitRegex")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "splitRegex");
-                        statusOperation = (List<String>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), textToSplit, regexRule);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(textToSplit, regexRule));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4536,19 +3446,8 @@ public class CommonFunctions {
             actions.sendKeys(Keys.ENTER).build().perform();
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("moveDownUpAction")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "moveDownUpAction");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, moveDirection, ammountOfMoves);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, moveDirection, ammountOfMoves));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4573,19 +3472,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickWhileCondition")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickWhileCondition");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, attribute, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4602,19 +3490,8 @@ public class CommonFunctions {
         try {
             statusOperation = new SimpleDateFormat(strFormat).format(new Date()).replace(".", "");
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("generateTimeStamp")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "generateTimeStamp");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), strFormat);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(strFormat));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4642,19 +3519,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementClickableFromListByAttribute")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementClickableFromListByAttribute");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, attribute, attributeValue);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4682,19 +3548,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementClickableFromListByText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementClickableFromListByText");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, textValue);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4716,19 +3571,8 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (randomNumber == ignoreValue);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementIgnoreIdexValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementIgnoreIdexValue");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, ignoreValue);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElementList, ignoreValue));
         }
-        Values.globalCounter = 0;
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
     }
@@ -4750,19 +3594,8 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (webElementList.get(randomNumber).getText().equalsIgnoreCase(searchValue));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementIgnoreText")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementIgnoreText");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, searchValue);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElementList, searchValue));
         }
-        Values.globalCounter = 0;
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
     }
@@ -4784,19 +3617,8 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (webElementList.get(randomNumber).getAttribute(attributeValue.trim()).equalsIgnoreCase(searchValue));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomWebElementIgnoreAttribute")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomWebElementIgnoreAttribute");
-                        statusOperation = (WebElement) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementList, attributeValue, searchValue);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElementList, searchValue));
         }
-        Values.globalCounter = 0;
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
     }
@@ -4819,19 +3641,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveDropdownByOptionAttributeValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveDropdownByOptionAttributeValue");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, value, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4859,19 +3670,8 @@ public class CommonFunctions {
             logger.info("Selected option: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAndMoveToDropDownByOptionValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAndMoveToDropDownByOptionValue");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, value);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4889,19 +3689,8 @@ public class CommonFunctions {
         try {
             statusOperation = (int) (Math.floor(Math.random() * (1 + max - 1)));
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getRandomNumberByLimits")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getRandomNumberByLimits");
-                        statusOperation = (int) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), min, max);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(min, max));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4928,19 +3717,8 @@ public class CommonFunctions {
                 attemptsCounter++;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("retryingFindElementByLocator")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "retryingFindElementByLocator");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), locator, amountOfAttempts);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -4983,7 +3761,6 @@ public class CommonFunctions {
         }
         return timeOutInSeconds;
     }
-
 
 
     /**
@@ -5051,20 +3828,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("autoSwitchIframeByLocator")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "autoSwitchIframeByLocator");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(),locator);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5101,19 +3866,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("autoSwitchIframeByWebElement")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "autoSwitchIframeByWebElement");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementFound, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5153,19 +3907,8 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchingIframeUntilElementFound")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchingIframeUntilElementFound");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElementFound, counter, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5183,19 +3926,8 @@ public class CommonFunctions {
             statusOperation = Integer.parseInt(fileReading.getField("iFrameTries"));
             logger.info(statusOperation + " Tries to Search An Iframe");
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("iframeTries")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "iframeTries");
-                        statusOperation = (int) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection());
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5228,19 +3960,8 @@ public class CommonFunctions {
                 statusOperation = waitForElementVisibility(webElement, timeOutInSeconds);
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("waitUntilVisibleLoop")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "waitUntilVisibleLoop");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, whileTries, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5251,6 +3972,7 @@ public class CommonFunctions {
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
      * @throws Exception
+     * @author J.Ruano
      */
     protected String getMessage(String keyValue) throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -5262,9 +3984,10 @@ public class CommonFunctions {
     /**
      * Method to get the X and Y position of an webElement
      *
-     * @param webElement
+     * @param webElement it will contain the WebElement from where the position will be retreive
      * @return a list that contains at position 0 Y coordinates and position 1 X coordinates
-     * @throws Exception
+     * @throws Exception selenium exception
+     * @author J.Ruano
      */
     protected List<Integer> getXYElementPosition(WebElement webElement) throws Exception {
         List<Integer> statusOperation = new ArrayList<>();
@@ -5272,19 +3995,8 @@ public class CommonFunctions {
             statusOperation.add(webElement.getLocation().getY());
             statusOperation.add(webElement.getLocation().getX());
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getXYElementPosition")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getXYElementPosition");
-                        statusOperation = (List<Integer>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -5293,7 +4005,7 @@ public class CommonFunctions {
      *
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
-     * @throws Exception
+     * @throws Exception JSON object
      */
     public String getJSONData(String fileName, String keyValue) throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -5301,20 +4013,25 @@ public class CommonFunctions {
         return jsonFiles.getFieldArray(keyValue).toString();
     }
 
-    private void executeReflection(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private void executeReflection2(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Method method = null;
         if (Values.globalCounter < maxNumberOfTries) {
             Values.globalCounter++;
-            for(Method m : myClass.getDeclaredMethods()){
-                if(m.getName().equalsIgnoreCase(methodName)){
+            for (Method m : myClass.getDeclaredMethods()) {
+                if (m.getName().equalsIgnoreCase(getCallerMethodName())) {
                     method = m;
+                    Parameter[] para1 = method.getParameters();
+                    TypeVariable<Method>[] para2 = method.getTypeParameters();
+                    Class<?>[] para3 = method.getParameterTypes();
+                    method.invoke(this.myClass.getConstructor().newInstance(), para3);
                     System.out.println(m.getReturnType());
                     break;
                 }
             }
-            if(method!=null){
-                logger.warn(Values.TXT_RETRYMSG001 + methodName);
-                switch(args.size()){
+
+            if (method != null) {
+                logger.warn(Values.TXT_RETRYMSG001 + getCallerMethodName());
+                switch (method.getParameters().length) {
                     case 0:
                         method.invoke(this.myClass.getConstructor().newInstance());
                     case 1:
@@ -5345,5 +4062,92 @@ public class CommonFunctions {
             }
         }
         Values.globalCounter = 0;
+    }
+
+
+    /**
+     * Method to invoke again a method n times when an exception occurred
+     *
+     * @param <Obj> array of objects (Params of the method)
+     * @param args  it contains an array of objects from where it contain the parameters of the method to be invoke
+     * @return it returns and object that contain the object value
+     * @throws NoSuchMethodException     method invoke exception
+     * @throws InvocationTargetException method invoke exception
+     * @throws InstantiationException    method invoke exception
+     * @throws IllegalAccessException    method invoke exception
+     * @author J.Ruano
+     */
+    protected <Obj> Object executeReflection(Object... args) throws Exception {
+        Method method = null;
+        Object returnObj = null;
+        if (Values.globalCounter < maxNumberOfTries) {
+            Values.globalCounter++;
+            for (Method m : this.myClass.getDeclaredMethods()) {
+                if (m.getName().equalsIgnoreCase(getCallerMethodName())) {
+                    method = m;
+                    System.out.println(m.getReturnType());
+                    break;
+                }
+            }
+            logger.warn(Values.TXT_RETRYMSG001 + getCallerMethodName());
+            returnObj = method.invoke(this.myClass.getConstructor().newInstance(), args);
+        }
+        Values.globalCounter = 0;
+        return returnObj;
+    }
+
+    /**
+     * It is used to get the curren method name in execution
+     *
+     * @return the name of the method currently executed
+     * @author J.Ruano
+     */
+    public String getMethodName() {
+        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+        StackTraceElement e = stacktrace[1];
+        return e.getMethodName();
+    }
+
+    /**
+     * Method to get the name of the current method
+     *
+     * @return the name of the current method
+     * @author J.Ruano
+     */
+    public static String getCurrentMethodName() {
+        StackWalker stackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+        return StackWalker.getInstance().walk(s -> s.skip(1).findFirst()).get().getMethodName();
+    }
+
+
+    /**
+     * Method to get the name of the Caller method i.e the waitMethod calls getCallerMethodName, it will retyrn the waitMethod since is the caller method
+     *
+     * @return the name of the caller method
+     * @author J.Ruano
+     */
+    public static String getCallerMethodName() {
+        return StackWalker.getInstance()
+                .walk(s -> s.skip(2).findFirst())
+                .get()
+                .getMethodName();
+    }
+
+    /**
+     * Method to get the value of the Object doing a cast
+     *
+     * @param objectToCast it contains the object to be cast
+     * @param <T>
+     * @return the value contained in the object
+     * @author J.Ruano
+     */
+    public <T> T autoCasting(Object objectToCast) {
+        T returnedValue = null;
+        try {
+            returnedValue = (T) objectToCast.getClass().cast(objectToCast);
+        } catch (Exception e) {
+            logger.warn("The valor of the object is null");
+        }
+        return returnedValue;
     }
 }

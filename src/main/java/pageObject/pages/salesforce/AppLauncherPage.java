@@ -57,19 +57,8 @@ public class AppLauncherPage extends CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("searchAppName")) {
-                        logger.warn(getMessage(Values.TXT_RETRYMSG001) + "searchAppName");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), appName);
-                        break;
-                    }
-                }
-            }
+            //statusOperation = autoCasting(executeReflection(appName));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

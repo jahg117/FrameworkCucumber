@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 public final class Values {
     //============STRING VALUES
     public static final String TXT_GLOBAL_PROPERTIES = "GlobalConfig.properties";
-    public static final String TXT_RETRYMSG001 = "Invoking Again The Method ============> ";
+    public static final String TXT_RETRYMSG001 = "Invoking Again The Method =================================================> ";
     public static final String TXT_RETRYWHILE = "retryWhileExceptionTries";
     public static final String TXT_SWITCHDEFAULTMESSAGE = "This Value it is not supported or handdle please review the value";
     public static final String TXT_NOTAPPLY = "N_A";
@@ -20,6 +20,7 @@ public final class Values {
     public static final String TXT_NOPI = "nopi";
     public static final String TXT_PMI = "pmi";
     public static final String TXT_PBM = "pbm";
+    public static final String TXT_EXCREFLECTION = "There Was An Exception Reflection Executed";
 
 
 
