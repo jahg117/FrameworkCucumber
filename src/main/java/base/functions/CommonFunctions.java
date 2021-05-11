@@ -10,14 +10,12 @@ import org.openqa.selenium.support.ui.*;
 import utils.FileReading;
 import utils.JsonFiles;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
-import java.lang.reflect.Method;
 
 import utils.Values;
 
@@ -28,6 +26,7 @@ public class CommonFunctions {
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
+    public static Object reflectionReturnValue;
     Class<?> myClass;
 
     {
@@ -54,9 +53,7 @@ public class CommonFunctions {
         try {
             webElement = driver.findElement(locator);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            executeReflection("getWebElement", args);
+            webElement = autoCasting(executeReflection(locator));
         }
         return webElement;
     }
@@ -65,11 +62,9 @@ public class CommonFunctions {
     protected List<WebElement> getWebElementList(By locator) throws Exception {
         List<WebElement> webElements = new ArrayList<>();
         try {
-            return driver.findElements(locator);
+            webElements = driver.findElements(locator);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            executeReflection("getWebElementList", args);
+            webElements = autoCasting(executeReflection(locator));
         }
         return webElements;
     }
@@ -157,11 +152,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not clickable: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementClickable", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -174,22 +165,19 @@ public class CommonFunctions {
      * @return boolean
      * @author Alejandro Hernandez
      */
-    protected boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
+    public boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, 3);
             wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementVisibility", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
+
     /**
      * Return true if a WebElement is not visible or false if it's visible
      *
@@ -206,11 +194,7 @@ public class CommonFunctions {
             logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementNotVisible", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -231,11 +215,7 @@ public class CommonFunctions {
             logger.info("List of web elements is not visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("List of web elements is visible: " + getWebElementLocatorPath(webElements));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElements);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementListNotVisible", args);
+            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -256,11 +236,7 @@ public class CommonFunctions {
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("List of web elements is not visible: " + getWebElementLocatorPath(webElements));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElements);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementListVisible", args);
+            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -280,10 +256,7 @@ public class CommonFunctions {
             logger.info("Alert is visible");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Alert is not visible");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, timeOutInSeconds);
-            executeReflection("waitForAlertVisible", args);
+            statusOperation = autoCasting(executeReflection(timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -307,13 +280,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeContains", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -335,12 +302,7 @@ public class CommonFunctions {
             logger.info("Element not found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementAttributeNotEmpty", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -364,13 +326,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element was found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeToBe", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -392,11 +348,7 @@ public class CommonFunctions {
             logger.info("The page with title " + title + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("The page with title " + title + "is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, title);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementPageTitle", args);
+            statusOperation = autoCasting(executeReflection(title, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -417,11 +369,7 @@ public class CommonFunctions {
             logger.info("The page with URL " + url + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("The page with URL " + url + "is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, url);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementUrlToBe", args);
+            statusOperation = autoCasting(executeReflection(url, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -442,11 +390,7 @@ public class CommonFunctions {
             logger.info("Element frame found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element frame not found " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementFrameAndSwitchToIt", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -468,11 +412,7 @@ public class CommonFunctions {
             logger.info("WebElement is selected " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement is not selected " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementSelected", args);
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -495,12 +435,7 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, textElement);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextPresent", args);
+            statusOperation = autoCasting(executeReflection(webElement, textElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -523,12 +458,7 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is not displayed");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, textElementValue);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextPresentValue", args);
+            statusOperation = autoCasting(executeReflection(webElement, textElementValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -582,11 +512,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementPresenceBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -607,12 +533,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -635,12 +556,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with value: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with value: " + text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementTextToBePresentInElementValueBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -662,11 +578,7 @@ public class CommonFunctions {
             logger.info("Element already selected: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element is not selected: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementTextToBePresentInElementValueBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -688,11 +600,7 @@ public class CommonFunctions {
             logger.info("iFrame found and switch to it: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("iFrame not found and switch to it: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementFrameToBeAvailableAndSwitchToItBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -716,13 +624,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, attribute);
-            args.put(2, value);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -746,13 +648,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, attribute);
-            args.put(2, value);
-            args.put(3, timeOutInSeconds);
-            executeReflection("waitForElementAttributeContainsBy", args);
+            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -774,11 +670,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementToBeClickableBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -800,11 +692,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementVisibilityOfElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -827,12 +715,7 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, selectionState);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementSelectionStateToBeBy", args);
+            statusOperation = autoCasting(executeReflection(locator, selectionState, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -854,11 +737,7 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForElementInvisibilityOfElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -881,12 +760,7 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForElementInvisibilityOfElementWithTextBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -909,12 +783,7 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBe", args);
+            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -937,12 +806,7 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements less than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBeLessThanBy", args);
+            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -965,12 +829,9 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, numberElements);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForNumberOfElementsToBeMoreThanBy", args);
+            if ((statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds)) == null)) {
+                logger.warn("There Was An Exeption");
+            }
         }
         return statusOperation;
     }
@@ -992,11 +853,9 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, timeOutInSeconds);
-            executeReflection("waitForPresenceOfAllElementsLocatedBy", args);
+            if ((statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds)) == null)) {
+                logger.info("The following Error Occured: " + e);
+            }
         }
         return statusOperation;
     }
@@ -1018,12 +877,7 @@ public class CommonFunctions {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, text);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitForTextToBePresentInElementLocatedBy", args);
+            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -1047,8 +901,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not valid");
-            throw new NoSuchElementException("WebElement not valid");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1071,8 +924,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not visibe¡le");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1095,8 +947,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1119,8 +970,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.error("The WebElement is not visible");
-            throw new NoSuchElementException("WebElement not visible or clickable");
+            executeReflection(webElement, timeOutInSeconds);
         }
     }
 
@@ -1142,19 +992,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1177,19 +1016,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("doubleClickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "doubleClickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1212,19 +1040,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1248,19 +1065,8 @@ public class CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickAndMoveToElementClickable")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickAndMoveToElementClickable");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), webElement, timeOutInSeconds);
-                        break;
-                    }
-                }
-            }
+            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -1284,7 +1090,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            autoCasting(executeReflection(webElement, timeOutInSeconds));
         }
     }
 
@@ -1302,12 +1108,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1326,12 +1129,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1350,12 +1150,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1374,12 +1171,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1398,12 +1192,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-                throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1422,12 +1213,9 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1446,12 +1234,9 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
-            } else {
-                logger.error("The Web Element was not found");
-                throw new NoSuchElementException("Element not found");
             }
         } catch (Exception e) {
-            throw new ElementNotInteractableException("WebElement not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1478,14 +1263,12 @@ public class CommonFunctions {
                 }
             }
             if (waitForElementClickable(webElement, mediumWait()) && statusOperation) {
+                scrollMethodToWebElement(webElement);
                 webElement.click();
                 statusOperation = true;
             }
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickMethod", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -1506,14 +1289,10 @@ public class CommonFunctions {
         //===========================================================================
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         try {
-            //logger.info("USING " + usedMethod + " TO SCROLL TO AN ELEMENT");
             jsExecutor.executeScript(scrollElementIntoMiddle, webElement);
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Elements not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollMethodToWebElement", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1554,13 +1333,9 @@ public class CommonFunctions {
                 statusOperation = false;
             }
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, scrollDirection);
-            args.put(1, pixels);
-            executeReflection("scrollMethodByPixels", args);
+            statusOperation = autoCasting(executeReflection(scrollDirection, pixels));
         }
-        Values.globalCounter = 0;
+
         return statusOperation;
     }
 
@@ -1579,10 +1354,7 @@ public class CommonFunctions {
             jsExecutor.executeScript("window.scrollBy(" + x_coordinate + ", " + y_coordinate + ");");
             statusOperation = waitForElementVisibility(webElement, mediumWait());
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToElementByCoordinates", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1600,9 +1372,7 @@ public class CommonFunctions {
             js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
             logger.info("Scrolled to the bottom page");
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            executeReflection("scrollBottom", args);
+            autoCasting(executeReflection());
         }
     }
 
@@ -1621,8 +1391,7 @@ public class CommonFunctions {
             logger.info("Scrolled to the top page");
         } catch (Exception e) {
             logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            executeReflection("scrollTop", args);
+            autoCasting(executeReflection());
         }
     }
 
@@ -1639,10 +1408,7 @@ public class CommonFunctions {
         try {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToWebElementJS", args);
+            autoCasting(executeReflection(webElement));
         }
     }
 
@@ -1661,10 +1427,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).build().perform();
             statusOperation = waitForElementVisibility(webElement, mediumWait());
         } catch (Exception e) {
-            logger.warn("Scroll method was not applied");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollMethodToWebElementByActions", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -1673,22 +1436,21 @@ public class CommonFunctions {
     /**
      * This method is used to move to a visible element by Action Class
      *
-     * @param webElement  contains the WebElement to move
-     * @param timeSeconds to wait
+     * @param webElement       contains the WebElement to move
+     * @param timeOutInSeconds to wait
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void scrollToWebElementVisibleByAction(WebElement webElement, int timeSeconds) throws Exception {
+    protected void scrollToWebElementVisibleByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 scrollToWebElementByAction(webElement);
-            } else{
+            } else {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1696,22 +1458,21 @@ public class CommonFunctions {
     /**
      * This method is used to move to a clickable element by Action Class
      *
-     * @param webElement  contains the WebElement to move
-     * @param timeSeconds to wait
+     * @param webElement       contains the WebElement to move
+     * @param timeOutInSeconds to wait
      * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void scrollToWebElementClickableByAction(WebElement webElement, int timeSeconds) throws Exception {
+    protected void scrollToWebElementClickableByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 scrollToWebElementByAction(webElement);
-            } else{
+            } else {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1730,10 +1491,6 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
         } catch (ElementClickInterceptedException e) {
             clickElementJS(webElement);
-        } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickElementActions", args);
         }
     }
 
@@ -1751,10 +1508,7 @@ public class CommonFunctions {
             jsExecutor.executeScript("arguments[0].click();", webElement);
             logger.info("Web Element selected");
         } catch (Exception e) {
-            logger.warn("Element not clicked");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickElementJS", args);
+            autoCasting(executeReflection(webElement));
         }
     }
 
@@ -1768,17 +1522,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysAndMoveToElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -1791,17 +1545,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysAndMoveToElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -1814,17 +1568,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -1837,17 +1591,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
+        return statusOperation;
     }
 
 
@@ -1861,17 +1616,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectDropDownByTextAction(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                selectDropDownByText(getWebElement(webElement), text);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
+        return statusOperation;
     }
 
 
@@ -1885,17 +1641,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByText(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
+        return statusOperation;
     }
 
 
@@ -1909,17 +1666,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectDropDownByIndexAction(getWebElement(webElement), index);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                selectDropDownByIndex(getWebElement(webElement), index);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
+        return statusOperation;
     }
 
 
@@ -1933,17 +1691,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
-            } else {
-                throw new NoSuchElementException("WebElement not found");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -1957,15 +1715,10 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      */
     protected void selectDropDownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
-        try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectDropDownByTextAction(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("Element not valid");
-            }
-        } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+        if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
+            selectDropDownByText(getWebElement(webElement), text);
+        } else {
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -1979,17 +1732,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByText(getWebElement(webElement), text);
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
+        return statusOperation;
     }
 
     /**
@@ -2002,17 +1756,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectDropDownByIndexAction(getWebElement(webElement), index);
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                selectDropDownByIndex(getWebElement(webElement), index);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
     /**
@@ -2025,17 +1779,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2048,17 +1802,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 selectRandomDropDownOption(getWebElement(webElement));
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2071,18 +1825,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 scrollMethodToWebElementByActions(getWebElement(webElement));
                 selectRandomDropDownOption(getWebElement(webElement));
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2095,17 +1849,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 selectRandomDropDownOption(getWebElement(webElement));
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2118,18 +1872,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 scrollMethodToWebElementByActions(getWebElement(webElement));
                 selectRandomDropDownOption(getWebElement(webElement));
-            } else {
-                throw new NoSuchElementException("Element not valid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElement.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2137,24 +1891,19 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement>
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromList(By webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromList(By webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForPresenceOfAllElementsLocatedBy(webElementList, timeSeconds)) {
+            if (waitForPresenceOfAllElementsLocatedBy(webElementList, timeOutInSeconds)) {
                 Random random = new Random();
                 statusOperation = getWebElementList(webElementList).get(random.nextInt(getWebElementList(webElementList).size()));
-            } else {
-                throw new NoSuchElementException("Element not valid");
             }
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, timeSeconds);
-            executeReflection("getRandomWebElementFromList", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2164,26 +1913,24 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement> except the first
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForElementListVisible(webElementList, timeSeconds)) {
+            if (waitForElementListVisible(webElementList, timeOutInSeconds)) {
                 if (webElementList.size() != 1) {
                     statusOperation = webElementList.get((int) (Math.random() * webElementList.size() - 1) + 1);
                 } else {
                     statusOperation = webElementList.get(0);
                 }
-            } else {
-                throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.error("WebElement invalid or not found: "+webElementList.toString());
-            throw new NoSuchElementException("WebElement not found");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
         return statusOperation;
     }
 
@@ -2210,12 +1957,7 @@ public class CommonFunctions {
                 return statusOperation;
             }
         } catch (Exception e) {
-            logger.warn("Not web element with attribute found");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            executeReflection("getWebElementByAttributeFromList", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2225,24 +1967,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementSelected(By webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementSelected(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeSeconds)) {
+            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isSelected();
             }
         } catch (Exception e) {
-            logger.warn("WebElement is not selected: "+webElement.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeSeconds);
-            executeReflection("isVisibleElementSelected", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2251,24 +1989,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementSelected(By webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementSelected(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeSeconds)) {
+            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isSelected();
             }
         } catch (Exception e) {
-            logger.warn("WebElement is not selected: "+webElement.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeSeconds);
-            executeReflection("isClickableElementSelected", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2278,24 +2012,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementEnabled(By webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeSeconds)) {
+            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isEnabled();
             }
         } catch (Exception e) {
-            logger.warn("WebElement is not enabled: "+webElement.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeSeconds);
-            executeReflection("isVisibleElementEnabled", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2305,24 +2035,20 @@ public class CommonFunctions {
      * Method used to validate if a clickable webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementEnabled(By webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeSeconds)) {
+            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
                 statusOperation = getWebElement(webElement).isEnabled();
             }
         } catch (Exception e) {
-            logger.warn("WebElement is not enabled: "+webElement.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, timeSeconds);
-            executeReflection("isClickableElementEnabled", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2337,17 +2063,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2360,17 +2086,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 sendKeysAndMoveToWebElementByActions(webElement, text);
-            } else{
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2383,17 +2109,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementWithCoordinatesByActions(webElement, text, xOffset, yOffset, timeOutInSeconds);
-            } else{
-                throw new NoSuchElementException("WebElement not found or invalid");
+                Actions actions = new Actions(driver);
+                actions.moveToElement(webElement, 5, 5).click().sendKeys(text).perform();
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2406,17 +2133,16 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
     /**
@@ -2428,21 +2154,20 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         JavascriptExecutor js = (JavascriptExecutor) driver;
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickElementJS(webElement);
                 js.executeScript("arguments[0].value='" + text + "';", webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to sendKeys and wait for a visible WebElement
@@ -2453,17 +2178,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2477,19 +2202,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                selectDropDownByTextAction(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                selectDropDownByText(webElement, text);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to move and select a dropdown option by text
@@ -2501,19 +2225,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByText(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to select a dropdown option by index
@@ -2525,20 +2248,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByIndexAction(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                selectDropDownByIndexAction(webElement, index);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
-
+                selectDropDownByIndex(webElement, index);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to move and select a dropdown option by index
@@ -2550,19 +2271,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByIndex(webElement, index);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to select a dropdown option by text
@@ -2574,17 +2294,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                selectDropDownByTextAction(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                selectDropDownByText(webElement, text);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
     /**
@@ -2597,17 +2317,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByText(webElement, text);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2621,17 +2341,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                selectDropDownByIndexAction(webElement, index);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                selectDropDownByIndex(webElement, index);
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2645,19 +2365,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropdownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByIndex(webElement, index);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
-
 
     /**
      * Method used to get a random date with format mm/dd/yyyy
@@ -2675,8 +2394,7 @@ public class CommonFunctions {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             statusOperation = simpleDateFormat.format(randomDate);
         } catch (Exception e) {
-            logger.error("The date is not valid");
-            throw new NoSuchElementException("The date is not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2693,9 +2411,9 @@ public class CommonFunctions {
         try {
             statusOperation = String.valueOf(random.nextInt(100000));
         } catch (Exception e) {
-            logger.error("The number is not valid");
-            throw new NoSuchElementException("The number is not valid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+
         return statusOperation;
     }
 
@@ -2708,17 +2426,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 selectRandomDropDownOption(webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2731,18 +2449,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 scrollMethodToWebElementByActions(webElement);
                 selectRandomDropDownOption(webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2755,17 +2473,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 selectRandomDropDownOption(webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2778,18 +2496,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 scrollMethodToWebElementByActions(webElement);
                 selectRandomDropDownOption(webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -2797,22 +2515,19 @@ public class CommonFunctions {
      * Method used to return a random webElement from a List<WebElement>
      *
      * @param webElementList
-     * @param timeSeconds    to wait for visible elements
+     * @param timeOutInSeconds to wait for visible elements
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForElementListVisible(webElementList, timeSeconds)) {
+            if (waitForElementListVisible(webElementList, timeOutInSeconds)) {
                 Random random = new Random();
                 statusOperation = webElementList.get(random.nextInt(webElementList.size()));
             }
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, timeSeconds);
-            executeReflection("getRandomWebElementFromList", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2841,13 +2556,8 @@ public class CommonFunctions {
                 return statusOperation;
             }
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            executeReflection("getWebElementByAttributeFromList", args);
+            statusOperation = autoCasting(executeReflection(webElementList, attribute, attributeValue));
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -2855,23 +2565,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementSelected(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isSelected();
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2881,23 +2588,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is selected or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementSelected(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 logger.info("WebElement selected: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isSelected();
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2907,23 +2611,20 @@ public class CommonFunctions {
      * Method used to validate if a visible webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementEnabled(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isVisibleElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementVisibility(webElement, timeSeconds)) {
+            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isEnabled();
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2933,23 +2634,20 @@ public class CommonFunctions {
      * Method used to validate if a clickable webElement is enabled or not
      *
      * @param webElement
-     * @param timeSeconds
+     * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementEnabled(WebElement webElement, int timeSeconds) throws Exception {
+    protected boolean isClickableElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementClickable(webElement, timeSeconds)) {
+            if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 logger.info("WebElement enabled: " + getWebElementLocatorPath(webElement) + ": " + webElement.isSelected());
                 statusOperation = webElement.isEnabled();
-            } else {
-                throw new NoSuchElementException("WebElement not found or invalid");
             }
         } catch (Exception e) {
-            logger.error("WebElement not found: "+getWebElementLocatorPath(webElement));
-            throw new NoSuchElementException("WebElement not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -2958,12 +2656,12 @@ public class CommonFunctions {
     /**
      * Method used to switch in a frame By WebElement, Index or Name
      *
-     * @param frame       WebElement, int or String
-     * @param timeSeconds wait only if the WebElement option is used.
+     * @param frame            WebElement, int or String
+     * @param timeOutInSeconds wait only if the WebElement option is used.
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeSeconds) throws Exception {
+    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeOutInSeconds) throws Exception {
         try {
             String frameType = frame.getClass().getName();
             if (frameType.contains("Integer")) {
@@ -2972,7 +2670,7 @@ public class CommonFunctions {
                 if (frameType.contains("String")) {
                     driver.switchTo().frame(frame.toString());
                 } else {
-                    if (waitForElementVisibility((WebElement) frame, timeSeconds)) {
+                    if (waitForElementVisibility((WebElement) frame, timeOutInSeconds)) {
                         driver.switchTo().frame((WebElement) frame);
                     } else {
                         logger.error("The Web Element was not found");
@@ -2981,7 +2679,7 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            throw new NoSuchElementException("iFrame not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -2992,79 +2690,14 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void switchToParentFrame() throws Exception {
+    protected boolean switchToParentFrame() throws Exception {
+        boolean statusOperation = false;
         try {
             driver.switchTo().parentFrame();
             logger.info("Switch to parent frame");
+            statusOperation = true;
         } catch (Exception e) {
-            throw new NoSuchElementException("Parent frame not found or invalid");
-        }
-    }
-
-
-    /**
-     * Method used to accept an alert
-     *
-     * @param timeSeconds wait for an alter to be visible
-     * @return
-     * @throws Exception
-     * @author Alejandro Hernandez
-     */
-    protected void switchToAlertAccept(int timeSeconds) throws Exception {
-        try {
-            if (waitForAlertVisible(timeSeconds)) {
-                driver.switchTo().alert().accept();
-            } else {
-                throw new NoSuchElementException("Alert not found or invalid");
-            }
-        } catch (Exception e) {
-            logger.error("The alert was not found");
-            throw new NoSuchElementException("Alert not found or invalid");
-        }
-    }
-
-
-    /**
-     * Method used to dismiss an alert
-     *
-     * @param timeSeconds wait for an alter to be visible
-     * @return
-     * @throws Exception
-     * @author Alejandro Hernandez
-     */
-    protected void switchToAlertDismiss(int timeSeconds) throws Exception {
-        try {
-            if (waitForAlertVisible(timeSeconds)) {
-                driver.switchTo().alert().dismiss();
-            } else {
-                throw new NoSuchElementException("Alert not found or invalid");
-            }
-        } catch (Exception e) {
-            logger.error("The alert was not found");
-            throw new NoSuchElementException("Alert not found or invalid");
-        }
-    }
-
-
-    /**
-     * Method used to get text from an alert
-     *
-     * @param timeSeconds wait for an alter to be visible
-     * @return String
-     * @throws Exception
-     * @author Alejandro Hernandez
-     */
-    protected String switchToAlertGetText(int timeSeconds) throws Exception {
-        String statusOperation = "";
-        try {
-            if (waitForAlertVisible(timeSeconds)) {
-                statusOperation = driver.switchTo().alert().getText();
-            } else {
-                throw new NoSuchElementException("Alert not found or invalid");
-            }
-        } catch (Exception e) {
-            logger.error("The alert was not found");
-            throw new NoSuchElementException("Alert not found or invalid");
+            statusOperation = autoCasting(executeReflection());
         }
         return statusOperation;
     }
@@ -3073,22 +2706,88 @@ public class CommonFunctions {
     /**
      * Method used to accept an alert
      *
-     * @param text        to be send in the alert
-     * @param timeSeconds wait for an alter to be visible
+     * @param timeOutInSeconds wait for an alter to be visible
+     * @return
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void switchToAlertSendKeys(String text, int timeSeconds) throws Exception {
+    protected boolean switchToAlertAccept(int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
-            if (waitForAlertVisible(timeSeconds)) {
-                driver.switchTo().alert().sendKeys(text);
-            } else {
-                throw new NoSuchElementException("Alert not found or invalid");
+            if (waitForAlertVisible(timeOutInSeconds)) {
+                driver.switchTo().alert().accept();
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("The alert was not found");
-            throw new NoSuchElementException("Alert not found or invalid");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
+    }
+
+
+    /**
+     * Method used to dismiss an alert
+     *
+     * @param timeOutInSeconds wait for an alter to be visible
+     * @return
+     * @throws Exception
+     * @author Alejandro Hernandez
+     */
+    protected boolean switchToAlertDismiss(int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        try {
+            if (waitForAlertVisible(timeOutInSeconds)) {
+                driver.switchTo().alert().dismiss();
+                statusOperation = true;
+            }
+        } catch (Exception e) {
+            logger.info(Values.TXT_EXCREFLECTION);
+        }
+        return statusOperation;
+    }
+
+
+    /**
+     * Method used to get text from an alert
+     *
+     * @param timeOutInSeconds wait for an alter to be visible
+     * @return String
+     * @throws Exception
+     * @author Alejandro Hernandez
+     */
+    protected String switchToAlertGetText(int timeOutInSeconds) throws Exception {
+        String statusOperation = "";
+        try {
+            if (waitForAlertVisible(timeOutInSeconds)) {
+                statusOperation = driver.switchTo().alert().getText();
+            }
+        } catch (Exception e) {
+            logger.info(Values.TXT_EXCREFLECTION);
+        }
+        return statusOperation;
+    }
+
+
+    /**
+     * Method used to accept an alert
+     *
+     * @param text             to be send in the alert
+     * @param timeOutInSeconds wait for an alter to be visible
+     * @return
+     * @throws Exception
+     * @author Alejandro Hernandez
+     */
+    protected boolean switchToAlertSendKeys(String text, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        try {
+            if (waitForAlertVisible(timeOutInSeconds)) {
+                driver.switchTo().alert().sendKeys(text);
+                statusOperation = true;
+            }
+        } catch (Exception e) {
+            logger.info(Values.TXT_EXCREFLECTION);
+        }
+        return statusOperation;
     }
 
 
@@ -3100,14 +2799,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void switchToWindow(int tabIndex) throws Exception {
+    protected boolean switchToWindow(int tabIndex) throws Exception {
+        boolean statusOperation = false;
         try {
             ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
             driver.switchTo().window(tabs.get(tabIndex));
             logger.info("Change to tab: " + tabIndex);
+            statusOperation = true;
         } catch (Exception e) {
-            throw new NoSuchElementException("Window not found or invalid");
+            statusOperation = autoCasting(executeReflection(tabIndex));
         }
+        return statusOperation;
     }
 
 
@@ -3123,7 +2825,7 @@ public class CommonFunctions {
             ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
             statusOperation = tabs.size();
         } catch (Exception e) {
-            throw new NoSuchElementException("Window not found or invalid");
+            statusOperation = autoCasting(executeReflection());
         }
         return statusOperation;
     }
@@ -3137,9 +2839,13 @@ public class CommonFunctions {
         try {
             driver.close();
         } catch (Exception e) {
-            throw new NoSuchElementException("Window not found or invalid");
+            executeReflection();
         }
+
     }
+
+//***********************************************************************
+// private methods
 
     /**
      * This method is used to SendKeys to a WebElement by Action
@@ -3148,19 +2854,17 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    protected void sendKeysWebElementByActions(WebElement webElement, String text) throws Exception {
+    protected boolean sendKeysWebElementByActions(WebElement webElement, String text) throws Exception {
+        boolean statusOperation = false;
         try {
             Actions actions = new Actions(driver);
             actions.click(webElement).sendKeys(webElement, text).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
         } catch (Exception e) {
-            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            executeReflection("sendKeysWebElementByActions", args);
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
+        return statusOperation;
     }
 
     /**
@@ -3171,17 +2875,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void sendKeysByActions(String text) throws Exception {
+    protected boolean sendKeysByActions(String text) throws Exception {
+        boolean statusOperation = false;
         try {
             Actions actions = new Actions(driver);
             actions.sendKeys(text).build().perform();
             logger.info("Keys sent: " + text);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.error("Keys not sent " + text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, text);
-            executeReflection("sendKeysByActions", args);
+            statusOperation = autoCasting(executeReflection(text));
         }
+        return statusOperation;
     }
 
 
@@ -3192,43 +2896,18 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    protected void sendKeysAndMoveToWebElementByActions(WebElement webElement, String text) throws Exception {
+    protected boolean sendKeysAndMoveToWebElementByActions(WebElement webElement, String text) throws Exception {
+        boolean statusOperation = false;
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).sendKeys(webElement, text).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            executeReflection("sendKeysAndMoveToWebElementByActions", args);
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
-    }
-    /**
-     * This method is used to move and SendKeys to a WebElement by Action
-     *
-     * @param webElement
-     * @return
-     * @author Alejandro Hernandez
-     */
-    protected void sendKeysAndMoveToWebElementWithCoordinatesByActions(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
-        try {
-            Actions actions = new Actions(driver);
-            actions.moveToElement(webElement, xOffset, yOffset).click().sendKeys(text).perform();
-            logger.info("Element found: " + getWebElementLocatorPath(webElement));
-            logger.info("Keys sent: " + text);
-        } catch (Exception e) {
-            logger.info("Element not found: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            args.put(2, xOffset);
-            args.put(3, yOffset);
-            args.put(4, timeOutInSeconds);
-            executeReflection("sendKeysAndMoveToWebElementWithCoordinatesByActions", args);
-        }
+        return statusOperation;
     }
 
     /**
@@ -3244,10 +2923,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).click(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickAndMoveToWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3265,10 +2941,7 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
             logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("clickWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3286,10 +2959,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("doubleClickAndMoveToWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3307,10 +2977,7 @@ public class CommonFunctions {
             actions.doubleClick(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("doubleClickWebElementByActions", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3358,12 +3025,9 @@ public class CommonFunctions {
         Actions actions = new Actions(driver);
         try {
             actions.moveToElement(webElement).build().perform();
-            logger.info("Scrolling to webElement: "+getWebElementLocatorPath(webElement));
+            logger.info("Scrolling to webElement: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement is not visible: "+getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("scrollToWebElementByAction", args);
+            executeReflection(webElement);
         }
     }
 
@@ -3383,11 +3047,7 @@ public class CommonFunctions {
             select.selectByVisibleText(text);
             logger.info("Selected option: " + text);
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            executeReflection("selectAndMoveToDropDownByText", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
     }
 
@@ -3400,20 +3060,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectAndMoveToDropDownByIndex(WebElement webElement, int index) throws Exception {
+    protected boolean selectAndMoveToDropDownByIndex(WebElement webElement, int index) throws Exception {
+        boolean statusOperation = false;
         try {
             scrollToWebElementByAction(webElement);
             Select select = new Select(webElement);
             select.selectByIndex(index);
             logger.info("Selected option: " + index);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+index);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, index);
-            executeReflection("selectAndMoveToDropDownByIndex", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
+        return statusOperation;
     }
 
 
@@ -3426,19 +3084,19 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByTextAction(WebElement webElement, String text) throws Exception {
+    protected boolean selectDropDownByText(WebElement webElement, String text) throws Exception {
+        boolean statusOperation = false;
         try {
             Select select = new Select(webElement);
             select.selectByVisibleText(text);
             logger.info("Selected option: " + text);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+text);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, text);
-            executeReflection("selectDropDownByTextAction", args);
+            statusOperation = autoCasting(executeReflection(webElement, text));
         }
+        return statusOperation;
     }
+
 
     /**
      * This method is used to select a dropdown option by index
@@ -3449,18 +3107,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownByIndexAction(WebElement webElement, int index) throws Exception {
+    protected boolean selectDropDownByIndex(WebElement webElement, int index) throws Exception {
+        boolean statusOperation = false;
         try {
             Select select = new Select(webElement);
             select.selectByIndex(index);
             logger.info("Selected option: " + index);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+index);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, index);
-            executeReflection("selectDropDownByIndexAction", args);
+            statusOperation = autoCasting(executeReflection(webElement, index));
         }
+
+        return statusOperation;
     }
 
 
@@ -3472,19 +3130,19 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected void selectRandomDropDownOption(WebElement webElement) throws Exception {
+    protected boolean selectRandomDropDownOption(WebElement webElement) throws Exception {
+        boolean statusOperation = false;
         try {
             Random random = new Random();
             Select select = new Select(webElement);
             int optionIndex = random.nextInt(select.getOptions().size() - 1);
             select.selectByIndex(optionIndex++);
             logger.info("Selected option: " + optionIndex++);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("selectRandomDropDownOption", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
+        return statusOperation;
     }
 
 
@@ -3494,13 +3152,16 @@ public class CommonFunctions {
      * @return
      * @author J.Ruano
      */
-    protected void switchToDefaultContentFrame() throws Exception {
+    protected boolean switchToDefaultContentFrame() throws Exception {
+        boolean statusOperation = false;
         try {
             driver.switchTo().defaultContent();
             logger.info("Change to default content");
+            statusOperation = true;
         } catch (Exception e) {
-             logger.error("The frame doesn't change to the default content");
+            statusOperation = autoCasting(executeReflection());
         }
+        return statusOperation;
     }
 
 
@@ -3513,7 +3174,8 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void switchSubTabByNameSF(String name, int timeOutInSeconds) throws Exception {
+    public boolean switchSubTabByNameSF(String name, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, timeOutInSeconds)) {
@@ -3521,16 +3183,15 @@ public class CommonFunctions {
                     if (getWebElementAttribute(tab, "title").trim().equalsIgnoreCase(name.trim())) {
                         clickAndMoveToElementClickable(tab, mediumWait());
                         logger.info("Switch to sub-tab");
+                        statusOperation = true;
                         break;
                     }
                 }
-            } else{
-                throw new NoSuchElementException("The salesforce sub-tab is not displayed");
             }
         } catch (Exception e) {
-            logger.error("The salesforce sub-tab is not displayed: "+name);
-            throw new NoSuchElementException("The salesforce sub-tab is not displayed");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3543,20 +3204,20 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void switchSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
+    public boolean switchSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, timeOutInSeconds)) {
                 List<WebElement> subTabsList = getWebElementList(pathForSubTabs);
                 clickAndMoveToElementClickable(subTabsList.get(index), mediumWait());
                 logger.info("Switch to sub-tab");
-            }else{
-                throw new NoSuchElementException("The salesforce sub-tab is not displayed");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("The salesforce sub-tab is not displayed: "+index);
-            throw new NoSuchElementException("The salesforce sub-tab is not displayed");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3565,22 +3226,23 @@ public class CommonFunctions {
      *
      * @param index            contains the number of the subtab to close
      * @param timeOutInSeconds is the time to wait until the operation is done
+     * @return
      * @throws Exception
      */
-    protected void closeSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
+    protected boolean closeSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, timeOutInSeconds)) {
                 List<WebElement> subTabsList = getWebElementList(pathForSubTabs);
                 clickAndMoveToElementClickable(subTabsList.get(index), mediumWait());
                 logger.info("Switch to sub-tab");
-            } else{
-                throw new NoSuchElementException("The salesforce sub-tab is not displayed");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("The salesforce sub-tab is not displayed: "+index);
-            throw new NoSuchElementException("The salesforce sub-tab is not displayed");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3588,9 +3250,11 @@ public class CommonFunctions {
      * method to close the subtabs open at Salesforce
      *
      * @param timeOutInSeconds is the time to wait until the operation is done
+     * @return
      * @throws Exception
      */
-    public void closeLastSubTabSF(int timeOutInSeconds) throws Exception {
+    public boolean closeLastSubTabSF(int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             By subTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]");
             By lastSubTab = By.xpath("(//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]//*[starts-with(@class,'close')]//button)[last()]");
@@ -3598,13 +3262,12 @@ public class CommonFunctions {
                 waitForPresenceOfAllElementsLocatedBy(subTabs, timeOutInSeconds);
                 clickAndMoveToElementClickable(getWebElement(lastSubTab), timeOutInSeconds);
                 logger.info("sub-tab " + lastSubTab + " clicked");
-            } else {
-                throw new NoSuchElementException("The salesforce last sub-tab is not displayed");
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("The salesforce last sub-tab is not displayed");
-            throw new NoSuchElementException("The salesforce last sub-tab is not displayed");
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3632,17 +3295,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void selectDropDownRandomOptionNone(WebElement webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownRandomOptionNone(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 selectRandomDropDownNotNone(webElement);
-            } else {
-                throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found");
-            throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3654,7 +3317,8 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void selectRandomDropDownNotNone(WebElement webElement) throws Exception {
+    protected boolean selectRandomDropDownNotNone(WebElement webElement) throws Exception {
+        boolean statusOperation = false;
         int optionIndex = 0;
         Random random = new Random();
         Select select = new Select(webElement);
@@ -3664,12 +3328,11 @@ public class CommonFunctions {
             } while (optionIndex == 0);
             select.selectByIndex(optionIndex++);
             logger.info("Selected option: " + optionIndex++);
+            statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Dropdown option is not displayed: "+getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("selectRandomDropDownNotNone", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
+        return statusOperation;
     }
 
 
@@ -3689,10 +3352,7 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.warn("The web element  list was not found");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            executeReflection("getVisibleElements", args);
+            statusOperation = autoCasting(executeReflection(webElementList));
         }
         return statusOperation;
     }
@@ -3710,10 +3370,7 @@ public class CommonFunctions {
         try {
             statusOperation = webElement.getText();
         } catch (Exception e) {
-            logger.warn("The web element "+getWebElementLocatorPath(webElement));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("getWebElementText", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -3732,11 +3389,7 @@ public class CommonFunctions {
         try {
             statusOperation = webElement.getAttribute(attribute);
         } catch (Exception e) {
-            logger.warn("The web element or attribute is invalid: "+getWebElementLocatorPath(webElement) +" : "+attribute);
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, attribute);
-            executeReflection("getWebElementAttribute", args);
+            statusOperation = autoCasting(executeReflection(webElement, attribute));
         }
         return statusOperation;
     }
@@ -3755,10 +3408,7 @@ public class CommonFunctions {
             statusOperation = Arrays.asList(textToSplit.split(regexRule));
             textToSplit.split(regexRule);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, textToSplit);
-            args.put(1, regexRule);
-            executeReflection("splitRegex", args);
+            statusOperation = autoCasting(executeReflection(textToSplit, regexRule));
         }
         return statusOperation;
     }
@@ -3772,7 +3422,8 @@ public class CommonFunctions {
      * @return
      * @author J.Ruano
      */
-    protected void moveDownUpAction(WebElement webElement, String moveDirection, int ammountOfMoves) throws Exception {
+    protected boolean moveDownUpAction(WebElement webElement, String moveDirection, int ammountOfMoves) throws Exception {
+        boolean statusOperation = false;
         Actions actions = new Actions(driver);
         int counter = 0;
         boolean notNone = false;
@@ -3793,13 +3444,11 @@ public class CommonFunctions {
                 counter++;
             } while (counter <= ammountOfMoves || notNone == true);
             actions.sendKeys(Keys.ENTER).build().perform();
+            statusOperation = true;
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, moveDirection);
-            args.put(2, moveDirection);
-            executeReflection("moveDownUpAction", args);
+            statusOperation = autoCasting(executeReflection(webElement, moveDirection, ammountOfMoves));
         }
+        return statusOperation;
     }
 
 
@@ -3812,20 +3461,20 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
+    protected boolean clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 do {
                     clickElementClickable(webElement, mediumWait());
                 } while (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim()));
                 logger.info("WebElement clicked");
-            } else {
-                throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found");
-            throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -3841,7 +3490,7 @@ public class CommonFunctions {
         try {
             statusOperation = new SimpleDateFormat(strFormat).format(new Date()).replace(".", "");
         } catch (Exception e) {
-            throw new Exception("TimeStamp not valid");
+            statusOperation = autoCasting(executeReflection(strFormat));
         }
         return statusOperation;
     }
@@ -3857,6 +3506,7 @@ public class CommonFunctions {
      * @author J.Ruano
      */
     protected WebElement clickAndMoveToElementClickableFromListByAttribute(List<WebElement> webElementList, String attribute, String attributeValue) throws Exception {
+        boolean webElementFound = false;
         WebElement statusOperation = null;
         try {
             for (WebElement webElement : webElementList) {
@@ -3864,15 +3514,12 @@ public class CommonFunctions {
                     clickAndMoveToWebElementByActions(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
+                    webElementFound = true;
                     break;
                 }
             }
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, attribute);
-            args.put(2, attributeValue);
-            executeReflection("clickAndMoveToElementClickableFromListByAttribute", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -3888,6 +3535,7 @@ public class CommonFunctions {
      * @author J.Ruano
      */
     protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> webElementList, String textValue) throws Exception {
+        boolean webElementFound = false;
         WebElement statusOperation = null;
         try {
             for (WebElement webElement : webElementList) {
@@ -3895,14 +3543,12 @@ public class CommonFunctions {
                     clickMethod(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
+                    webElementFound = true;
                     break;
                 }
             }
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, textValue);
-            executeReflection("clickAndMoveToElementClickableFromListByText", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -3925,10 +3571,7 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (randomNumber == ignoreValue);
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, ignoreValue);
-            executeReflection("getRandomWebElementIgnoreIdexValue", args);
+            statusOperation = autoCasting(executeReflection(webElementList, ignoreValue));
         }
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
@@ -3951,10 +3594,7 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (webElementList.get(randomNumber).getText().equalsIgnoreCase(searchValue));
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, searchValue);
-            executeReflection("getRandomWebElementIgnoreText", args);
+            statusOperation = autoCasting(executeReflection(webElementList, searchValue));
         }
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
@@ -3977,11 +3617,7 @@ public class CommonFunctions {
                 randomNumber = random.nextInt(webElementList.size());
             } while (webElementList.get(randomNumber).getAttribute(attributeValue.trim()).equalsIgnoreCase(searchValue));
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementList);
-            args.put(1, attributeValue);
-            args.put(2, searchValue);
-            executeReflection("getRandomWebElementIgnoreAttribute", args);
+            statusOperation = autoCasting(executeReflection(webElementList, searchValue));
         }
         statusOperation = webElementList.get(randomNumber);
         return statusOperation;
@@ -3997,17 +3633,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void selectAndMoveDropdownByOptionAttributeValue(WebElement webElement, String value, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByOptionAttributeValue(WebElement webElement, String value, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 selectAndMoveToDropDownByOptionValue(webElement, value);
-            } else {
-                throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+                statusOperation = true;
             }
         } catch (Exception e) {
-            logger.error("WebElement not found");
-            throw new NoSuchElementException("WebElement not found: "+ getWebElementText(webElement));
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -4034,10 +3670,7 @@ public class CommonFunctions {
             logger.info("Selected option: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, value);
-            executeReflection("selectAndMoveToDropDownByOptionValue", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -4056,11 +3689,7 @@ public class CommonFunctions {
         try {
             statusOperation = (int) (Math.floor(Math.random() * (1 + max - 1)));
         } catch (Exception e) {
-            logger.warn("Invalid limit range");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, min);
-            args.put(1, max);
-            executeReflection("getRandomNumberByLimits", args);
+            statusOperation = autoCasting(executeReflection(min, max));
         }
         return statusOperation;
     }
@@ -4074,24 +3703,23 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void retryingFindElementByLocator(By locator, int amountOfAttempts) throws Exception {
+    public boolean retryingFindElementByLocator(By locator, int amountOfAttempts) throws Exception {
         int attemptsCounter = 0;
+        boolean statusOperation = false;
         try {
             while (attemptsCounter < amountOfAttempts) {
                 try {
                     getWebElement(locator);
+                    statusOperation = true;
                     break;
                 } catch (StaleElementReferenceException e) {
                 }
                 attemptsCounter++;
             }
         } catch (Exception e) {
-            logger.warn("Element not found");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            args.put(1, amountOfAttempts);
-            executeReflection("retryingFindElementByLocator", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
     /**
@@ -4133,6 +3761,7 @@ public class CommonFunctions {
         }
         return timeOutInSeconds;
     }
+
 
     /**
      * Use to assign the long wait time from the GlobalConfig.properties
@@ -4199,10 +3828,7 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Element not found " + locator.toString());
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, locator);
-            executeReflection("autoSwitchIframeByLocator", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -4217,7 +3843,7 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void autoSwitchIframeByWebElement(WebElement webElementFound, int timeOutInSeconds) throws Exception {
+    public boolean autoSwitchIframeByWebElement(WebElement webElementFound, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         boolean foundIframeFlag = false;
         int size = 0;
@@ -4240,12 +3866,9 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Element not found " + getWebElementLocatorPath(webElementFound));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementFound);
-            args.put(1, timeOutInSeconds);
-            executeReflection("autoSwitchIframeByWebElement", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -4284,12 +3907,7 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.warn("Element not found " + getWebElementLocatorPath(webElementFound));
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElementFound);
-            args.put(1, counter);
-            args.put(2, timeOutInSeconds);
-            executeReflection("switchingIframeUntilElementFound", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
     }
@@ -4308,9 +3926,7 @@ public class CommonFunctions {
             statusOperation = Integer.parseInt(fileReading.getField("iFrameTries"));
             logger.info(statusOperation + " Tries to Search An Iframe");
         } catch (Exception e) {
-            logger.warn("iFrame not found");
-            HashMap<Integer, Object> args = new HashMap<>();
-            executeReflection("iframeTries", args);
+            statusOperation = autoCasting(executeReflection());
         }
         return statusOperation;
     }
@@ -4326,7 +3942,7 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    protected void waitUntilVisibleLoop(WebElement webElement, int whileTries, int timeOutInSeconds) throws Exception {
+    protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         waitForPageToLoad();
         try {
@@ -4344,13 +3960,9 @@ public class CommonFunctions {
                 statusOperation = waitForElementVisibility(webElement, timeOutInSeconds);
             }
         } catch (Exception e) {
-            logger.warn("Element not found");
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            args.put(1, whileTries);
-            args.put(2, timeOutInSeconds);
-            executeReflection("waitUntilVisibleLoop", args);
+            logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
 
@@ -4360,6 +3972,7 @@ public class CommonFunctions {
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
      * @throws Exception
+     * @author J.Ruano
      */
     protected String getMessage(String keyValue) throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -4371,9 +3984,10 @@ public class CommonFunctions {
     /**
      * Method to get the X and Y position of an webElement
      *
-     * @param webElement
+     * @param webElement it will contain the WebElement from where the position will be retreive
      * @return a list that contains at position 0 Y coordinates and position 1 X coordinates
-     * @throws Exception
+     * @throws Exception selenium exception
+     * @author J.Ruano
      */
     protected List<Integer> getXYElementPosition(WebElement webElement) throws Exception {
         List<Integer> statusOperation = new ArrayList<>();
@@ -4381,9 +3995,7 @@ public class CommonFunctions {
             statusOperation.add(webElement.getLocation().getY());
             statusOperation.add(webElement.getLocation().getX());
         } catch (Exception e) {
-            HashMap<Integer, Object> args = new HashMap<>();
-            args.put(0, webElement);
-            executeReflection("getXYElementPosition", args);
+            statusOperation = autoCasting(executeReflection(webElement));
         }
         return statusOperation;
     }
@@ -4393,7 +4005,7 @@ public class CommonFunctions {
      *
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
-     * @throws Exception
+     * @throws Exception JSON object
      */
     public String getJSONData(String fileName, String keyValue) throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -4401,20 +4013,25 @@ public class CommonFunctions {
         return jsonFiles.getFieldArray(keyValue).toString();
     }
 
-    private void executeReflection(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private void executeReflection2(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Method method = null;
         if (Values.globalCounter < maxNumberOfTries) {
             Values.globalCounter++;
-            for(Method m : myClass.getDeclaredMethods()){
-                if(m.getName().equalsIgnoreCase(methodName)){
+            for (Method m : myClass.getDeclaredMethods()) {
+                if (m.getName().equalsIgnoreCase(getCallerMethodName())) {
                     method = m;
+                    Parameter[] para1 = method.getParameters();
+                    TypeVariable<Method>[] para2 = method.getTypeParameters();
+                    Class<?>[] para3 = method.getParameterTypes();
+                    method.invoke(this.myClass.getConstructor().newInstance(), para3);
                     System.out.println(m.getReturnType());
                     break;
                 }
             }
-            if(method!=null){
-                logger.warn(Values.TXT_RETRYMSG001 + methodName);
-                switch(args.size()){
+
+            if (method != null) {
+                logger.warn(Values.TXT_RETRYMSG001 + getCallerMethodName());
+                switch (method.getParameters().length) {
                     case 0:
                         method.invoke(this.myClass.getConstructor().newInstance());
                     case 1:
@@ -4445,5 +4062,92 @@ public class CommonFunctions {
             }
         }
         Values.globalCounter = 0;
+    }
+
+
+    /**
+     * Method to invoke again a method n times when an exception occurred
+     *
+     * @param <Obj> array of objects (Params of the method)
+     * @param args  it contains an array of objects from where it contain the parameters of the method to be invoke
+     * @return it returns and object that contain the object value
+     * @throws NoSuchMethodException     method invoke exception
+     * @throws InvocationTargetException method invoke exception
+     * @throws InstantiationException    method invoke exception
+     * @throws IllegalAccessException    method invoke exception
+     * @author J.Ruano
+     */
+    protected <Obj> Object executeReflection(Object... args) throws Exception {
+        Method method = null;
+        Object returnObj = null;
+        if (Values.globalCounter < maxNumberOfTries) {
+            Values.globalCounter++;
+            for (Method m : this.myClass.getDeclaredMethods()) {
+                if (m.getName().equalsIgnoreCase(getCallerMethodName())) {
+                    method = m;
+                    System.out.println(m.getReturnType());
+                    break;
+                }
+            }
+            logger.warn(Values.TXT_RETRYMSG001 + getCallerMethodName());
+            returnObj = method.invoke(this.myClass.getConstructor().newInstance(), args);
+        }
+        Values.globalCounter = 0;
+        return returnObj;
+    }
+
+    /**
+     * It is used to get the curren method name in execution
+     *
+     * @return the name of the method currently executed
+     * @author J.Ruano
+     */
+    public String getMethodName() {
+        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+        StackTraceElement e = stacktrace[1];
+        return e.getMethodName();
+    }
+
+    /**
+     * Method to get the name of the current method
+     *
+     * @return the name of the current method
+     * @author J.Ruano
+     */
+    public static String getCurrentMethodName() {
+        StackWalker stackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+        return StackWalker.getInstance().walk(s -> s.skip(1).findFirst()).get().getMethodName();
+    }
+
+
+    /**
+     * Method to get the name of the Caller method i.e the waitMethod calls getCallerMethodName, it will retyrn the waitMethod since is the caller method
+     *
+     * @return the name of the caller method
+     * @author J.Ruano
+     */
+    public static String getCallerMethodName() {
+        return StackWalker.getInstance()
+                .walk(s -> s.skip(2).findFirst())
+                .get()
+                .getMethodName();
+    }
+
+    /**
+     * Method to get the value of the Object doing a cast
+     *
+     * @param objectToCast it contains the object to be cast
+     * @param <T>
+     * @return the value contained in the object
+     * @author J.Ruano
+     */
+    public <T> T autoCasting(Object objectToCast) {
+        T returnedValue = null;
+        try {
+            returnedValue = (T) objectToCast.getClass().cast(objectToCast);
+        } catch (Exception e) {
+            logger.warn("The valor of the object is null");
+        }
+        return returnedValue;
     }
 }

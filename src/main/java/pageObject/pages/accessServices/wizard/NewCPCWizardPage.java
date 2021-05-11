@@ -31,6 +31,9 @@ public class NewCPCWizardPage extends CommonFunctions {
     @FindBy(xpath = "//select[contains(@data-name,'Country')]")
     private WebElement dropdown_country;
 
+    @FindBy(xpath = "//select[@data-name='type']")
+    private WebElement dropdownEmailType;
+
     @FindBy(xpath = "//input[contains(@data-name,'Zip')]")
     private WebElement input_zipCode;
 
@@ -39,6 +42,9 @@ public class NewCPCWizardPage extends CommonFunctions {
 
     @FindBy(xpath = "//select[contains(@data-name,'Country')]/option")
     private List<WebElement> elementList_countriesList;
+
+    @FindBy(xpath = "//select[@data-name='type']/option")
+    private List<WebElement> elementListEmailTypeList;
 
     @FindBy(xpath = "//a[@data-label='System Info']")
     private WebElement label_systemInfo;
@@ -113,7 +119,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new CPC account (required)
      * @param middleName   it contains the middle name for the new CPC account (optional)
      * @param lastName     it contains the last name for the new CPC account (required)
-     * @param dateOfBirth   it contains the DOB for the new CPC account (required)
+     * @param dateOfBirth  it contains the DOB for the new CPC account (required)
      * @param careGiver    this is used in case there is a caregiver into the new CPC account so it can be selected (optional)
      * @param email        it contains the email for the new CPC account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new CPC account (required)
@@ -126,7 +132,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void validateAndCreateCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
+    public void validateAndCreateCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String emailType, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("CPCRecord");
         HashMap<String, String> cpcDetailsStoreData = new HashMap<String, String>();
@@ -135,7 +141,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         if (randomRecord.trim().equalsIgnoreCase("RND")) {
             cpcDetailsStoreData = fullCPCFormRND(identifier, careGiver);
         } else {
-            cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBirth, careGiver, email, phoneOrFax, addressLine1, state, city, zipCode, country);
+            cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBirth, careGiver, email, emailType, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridCPCForm(cpcDetailsStoreData);
         }
         scrollMethodToWebElement(button_saveAccount);
@@ -168,6 +174,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("careGiver", "");
         cpcDetails.put("dateOfBirth", getRandomDate().replace("/", ""));
         cpcDetails.put("email", cpcDetails.get("lastName") + "@sharklasers.com");
+        cpcDetails.put("emailType", cpcDetails.get("emailType"));
         cpcDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         cpcDetails.put("addressLine1", faker.address().streetName());
         cpcDetails.put("city", faker.address().cityName());
@@ -204,7 +211,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), mediumWait());
         clickAndMoveToElementVisible(input_city, mediumWait());
         input_city.clear();
-        sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), 10);
+        sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), mediumWait());
         scrollMethodToWebElement(dropdown_state);
         cpcDetails.put("stateCode", getRandomWebElementFromList(elementList_stateCodesList, mediumWait()).getAttribute("value"));
         selectAndMoveDropdownClickableByText(dropdown_state, cpcDetails.get("stateCode"), mediumWait());
@@ -217,6 +224,9 @@ public class NewCPCWizardPage extends CommonFunctions {
         clickAndMoveToElementVisible(input_email, mediumWait());
         input_email.clear();
         sendKeysAndMoveToElementVisible(input_email, cpcDetails.get("email"), mediumWait());
+        scrollMethodToWebElement(dropdownEmailType);
+        cpcDetails.put("emailType", (getRandomWebElementFromList(elementListEmailTypeList, mediumWait())).getAttribute("value"));
+        selectAndMoveDropdownByText(dropdownEmailType, cpcDetails.get("emailType"), mediumWait());
         return cpcDetails;
     }
 
@@ -228,7 +238,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @param firstName    it contains the first name for the new CPC account (required)
      * @param middleName   it contains the middle name for the new CPC account (optional)
      * @param lastName     it contains the last name for the new CPC account (required)
-     * @param dateOfBirth   it contains the DOB for the new CPC account (required)
+     * @param dateOfBirth  it contains the DOB for the new CPC account (required)
      * @param careGiver    this is used in case there is a caregiver into the new CPC account so it can be selected (optional)
      * @param email        it contains the email for the new CPC account (optional)
      * @param phoneOrFax   it contains the phone or fax for the new CPC account (required)
@@ -241,7 +251,7 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    private HashMap<String, String> hibrydCPCForm(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
+    private HashMap<String, String> hibrydCPCForm(String identifier, String firstName, String middleName, String lastName, String dateOfBirth, String careGiver, String email, String emailType, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
@@ -255,6 +265,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("careGiver", "");
         cpcDetails.put("dateOfBirth", hibrydCPCFormFilter(dateOfBirth, "dateOfBirth").replace("/", ""));
         cpcDetails.put("email", hibrydCPCFormFilter(email, "email"));
+        cpcDetails.put("emailType", hibrydCPCFormFilter(emailType, "emailType"));
         cpcDetails.put("phoneOrFax", hibrydCPCFormFilter(phoneOrFax, "phoneOrFax"));
         cpcDetails.put("addressLine1", hibrydCPCFormFilter(addressLine1, "addressLine1"));
         cpcDetails.put("stateCode", hibrydCPCFormFilter(state, "stateCode"));
@@ -333,6 +344,18 @@ public class NewCPCWizardPage extends CommonFunctions {
             case "email":
                 if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
                     returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat) + "@sharklasers.com";
+                } else {
+                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                        returnedValue = cpcValue;
+                    } else {
+                        returnedValue = cpcValue;
+                    }
+                }
+                break;
+
+            case "emailType":
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                    returnedValue = String.valueOf(faker.number().numberBetween(0, elementListEmailTypeList.size() - 1));
                 } else {
                     if (cpcValue.trim().equalsIgnoreCase(notApply)) {
                         returnedValue = cpcValue;
@@ -476,6 +499,15 @@ public class NewCPCWizardPage extends CommonFunctions {
             scrollMethodToWebElement(dropdown_country);
             selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), mediumWait());
         }
+
+        if (!cpcDetails.get("email").trim().equalsIgnoreCase(notApply)) {
+            sendKeysAndMoveToElementVisible(input_email, cpcDetails.get("email"), mediumWait());
+        }
+
+        if (!cpcDetails.get("emailType").trim().equalsIgnoreCase(notApply)) {
+            scrollMethodToWebElement(dropdownEmailType);
+            selectAndMoveDropdownByText(dropdownEmailType, cpcDetails.get("emailType"), mediumWait());
+        }
     }
 
     /**
@@ -504,9 +536,9 @@ public class NewCPCWizardPage extends CommonFunctions {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         clickMethod(label_accountHistory);
-        clickAndMoveToElementClickable(label_systemInfo,shortWait());
+        clickAndMoveToElementClickable(label_systemInfo, shortWait());
         By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
-        waitForElementPresenceBy(azID,shortWait());
+        waitForElementPresenceBy(azID, shortWait());
         scrollToElementByCoordinates(label_externalID);
         return label_externalID.getText().replace("Account ID", "").trim();
     }

@@ -31,7 +31,6 @@ public class LoginPage extends CommonFunctions {
     }
 
 
-
     public void enterUserPassword(String salesforceUser) throws Exception {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
@@ -41,6 +40,7 @@ public class LoginPage extends CommonFunctions {
         sendKeysElementVisible(input_username, usr, mediumWait());
         sendKeysElementVisible(input_password, pass, shortWait());
         clickElementVisible(button_login, shortWait());
+
     }
 
     /**
