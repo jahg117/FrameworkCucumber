@@ -152,7 +152,8 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -168,14 +169,13 @@ public class CommonFunctions {
     public boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 3);
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            if (statusOperation = (autoCasting(executeReflection(webElement, timeOutInSeconds)) == null)) {
-                logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
-            }
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -196,7 +196,8 @@ public class CommonFunctions {
             logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            logger.warn("Element found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -217,7 +218,8 @@ public class CommonFunctions {
             logger.info("List of web elements is not visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
+            logger.warn("Element List found: " + getWebElementLocatorPath(webElements));
+            statusOperation = autoCastingBoolean(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -238,7 +240,8 @@ public class CommonFunctions {
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElements, timeOutInSeconds));
+            logger.warn("Element List not found: " + getWebElementLocatorPath(webElements));
+            statusOperation = autoCastingBoolean(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -258,7 +261,8 @@ public class CommonFunctions {
             logger.info("Alert is visible");
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(timeOutInSeconds));
+            logger.warn("Alert not found");
+            statusOperation = autoCastingBoolean(executeReflection(timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -282,7 +286,8 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement) +" with attribute: "+attribute+" value: "+attributeValue);
+            statusOperation = autoCastingBoolean(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -304,7 +309,8 @@ public class CommonFunctions {
             logger.info("Element not found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, attribute, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, attribute, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -328,7 +334,8 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement)+" with attribute: "+attribute);
+            statusOperation = autoCastingBoolean(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -350,7 +357,8 @@ public class CommonFunctions {
             logger.info("The page with title " + title + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(title, timeOutInSeconds));
+            logger.warn("The page with title was not found: " + title);
+            statusOperation = autoCastingBoolean(executeReflection(title, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -371,7 +379,8 @@ public class CommonFunctions {
             logger.info("The page with URL " + url + "is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(url, timeOutInSeconds));
+            logger.warn("URL not found: " + url);
+            statusOperation = autoCastingBoolean(executeReflection(url, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -392,7 +401,8 @@ public class CommonFunctions {
             logger.info("Element frame found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -414,7 +424,8 @@ public class CommonFunctions {
             logger.info("WebElement is selected " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -437,7 +448,8 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, textElement, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, textElement, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -460,7 +472,8 @@ public class CommonFunctions {
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is displayed");
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, textElementValue, timeOutInSeconds));
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            statusOperation = autoCastingBoolean(executeReflection(webElement, textElementValue, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -514,7 +527,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -535,7 +549,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -558,7 +573,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with value: " + text);
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -580,7 +596,8 @@ public class CommonFunctions {
             logger.info("Element already selected: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -602,7 +619,8 @@ public class CommonFunctions {
             logger.info("iFrame found and switch to it: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -626,7 +644,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -650,7 +669,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, attribute, value, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, attribute, value, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -672,7 +692,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -694,7 +715,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -717,7 +739,8 @@ public class CommonFunctions {
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, selectionState, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, selectionState, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -739,7 +762,8 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -762,7 +786,8 @@ public class CommonFunctions {
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
+            logger.warn("Element not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -785,7 +810,8 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
+            logger.warn("Elements not found: " + locator.toString() + " with umber of elements: " + numberElements);
+            statusOperation = autoCastingBoolean(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -808,7 +834,8 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements less than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds));
+            logger.warn("Elements not found: " + locator.toString() + " with number of elements less than: " + numberElements);
+            statusOperation = autoCastingBoolean(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -831,9 +858,8 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
             statusOperation = true;
         } catch (Exception e) {
-            if ((statusOperation = autoCasting(executeReflection(locator, numberElements, timeOutInSeconds)) == null)) {
-                logger.warn("There Was An Exeption");
-            }
+            logger.warn("Elements not found: " + locator.toString() + " number of elements more than: " + numberElements);
+            statusOperation = autoCastingBoolean(executeReflection(locator, numberElements, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -855,9 +881,8 @@ public class CommonFunctions {
             logger.info("Elements found: " + locator.toString());
             statusOperation = true;
         } catch (Exception e) {
-            if ((statusOperation = autoCasting(executeReflection(locator, timeOutInSeconds)) == null)) {
-                logger.info("The following Error Occured: " + e);
-            }
+            logger.warn("Elements not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -879,7 +904,8 @@ public class CommonFunctions {
             wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(locator, text, timeOutInSeconds));
+            logger.warn("Elements not found: " + locator.toString());
+            statusOperation = autoCastingBoolean(executeReflection(locator, text, timeOutInSeconds));
         }
         return statusOperation;
     }
@@ -903,7 +929,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            executeReflection(webElement, timeOutInSeconds);
+            throw new NoSuchElementException("WebElement invalid or not clickable");
         }
     }
 
@@ -923,10 +949,10 @@ public class CommonFunctions {
                 clickWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
             } else {
-                throw new NoSuchElementException("WebElement not visibe¡le");
+                throw new NoSuchElementException("WebElement not visible");
             }
         } catch (Exception e) {
-            executeReflection(webElement, timeOutInSeconds);
+            throw new NoSuchElementException("WebElement invalid or not clickable");
         }
     }
 
@@ -949,7 +975,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            executeReflection(webElement, timeOutInSeconds);
+            throw new NoSuchElementException("WebElement invalid or not clickable");
         }
     }
 
@@ -972,7 +998,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            executeReflection(webElement, timeOutInSeconds);
+            throw new NoSuchElementException("WebElement invalid or not clickable");
         }
     }
 
@@ -985,18 +1011,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            throw new NoSuchElementException("WebElement invalid or not clickable");
         }
-        return statusOperation;
     }
 
 
@@ -1009,18 +1034,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean doubleClickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void doubleClickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            throw new NoSuchElementException("WebElement not clickable");
         }
-        return statusOperation;
     }
 
 
@@ -1033,18 +1057,17 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean clickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            throw new NoSuchElementException("WebElement not clickable");
         }
-        return statusOperation;
     }
 
 
@@ -1058,18 +1081,18 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      */
 
-    protected boolean clickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void clickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
-                statusOperation = true;
+
+            }else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            throw new NoSuchElementException("WebElement not clickable");
         }
-        return statusOperation;
     }
 
 
@@ -1092,7 +1115,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            autoCasting(executeReflection(webElement, timeOutInSeconds));
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1110,9 +1133,11 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1131,9 +1156,11 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1152,9 +1179,11 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1173,9 +1202,11 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1194,9 +1225,11 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 doubleClickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1215,9 +1248,11 @@ public class CommonFunctions {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1236,9 +1271,11 @@ public class CommonFunctions {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
                 clickAndMoveToWebElementByActions(webElement);
                 logger.info("WebElement clicked");
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
     }
 
@@ -1268,9 +1305,11 @@ public class CommonFunctions {
                 scrollMethodToWebElement(webElement);
                 webElement.click();
                 statusOperation = true;
+            } else {
+                throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not clickable");
         }
         return statusOperation;
     }
@@ -1452,7 +1491,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not found");
         }
     }
 
@@ -1474,7 +1513,7 @@ public class CommonFunctions {
                 throw new NoSuchElementException("WebElement not found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("WebElement not found");
         }
     }
 
@@ -2135,17 +2174,16 @@ public class CommonFunctions {
      * @throws Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 sendKeysWebElementByActions(webElement, text);
+            } else {
+                throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
-
-            logger.info(Values.TXT_EXCREFLECTION);
+            throw new NoSuchElementException("Not element found");
         }
-        return statusOperation;
     }
 
     /**
@@ -2847,9 +2885,6 @@ public class CommonFunctions {
 
     }
 
-//***********************************************************************
-// private methods
-
     /**
      * This method is used to SendKeys to a WebElement by Action
      *
@@ -2944,6 +2979,7 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
             logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
+            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
             executeReflection(webElement);
         }
     }
@@ -2960,8 +2996,9 @@ public class CommonFunctions {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).doubleClick(webElement).build().perform();
-            logger.info("Element found: " + getWebElementLocatorPath(webElement));
+            logger.info("Element clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
+            logger.info("Element not clicked: " + getWebElementLocatorPath(webElement));
             executeReflection(webElement);
         }
     }
@@ -2978,8 +3015,9 @@ public class CommonFunctions {
         try {
             Actions actions = new Actions(driver);
             actions.doubleClick(webElement).build().perform();
-            logger.info("Element found: " + getWebElementLocatorPath(webElement));
+            logger.info("Element clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
+            logger.info("Element not clicked: " + getWebElementLocatorPath(webElement));
             executeReflection(webElement);
         }
     }
@@ -4149,7 +4187,29 @@ public class CommonFunctions {
         try {
             returnedValue = (T) objectToCast.getClass().cast(objectToCast);
         } catch (Exception e) {
-            logger.warn("The valor of the object is null");
+            logger.warn("The value of the object is null");
+        }
+        return returnedValue;
+    }
+
+    /**
+     * Method to get the value of the Object doing a cast
+     *
+     * @param objectToCast it contains the object to be cast
+     * @return the value contained in the object
+     * @author Alejandro Hernandez
+     */
+    private boolean autoCastingBoolean(Object objectToCast) {
+        boolean returnedValue = false;
+        try {
+            returnedValue = (boolean) objectToCast.getClass().cast(objectToCast);
+        } catch (Exception e) {
+            logger.warn("The value of the object is null");
+            if(objectToCast == null) {
+                returnedValue = false;
+            } else {
+                returnedValue = true;
+            }
         }
         return returnedValue;
     }

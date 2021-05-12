@@ -37,7 +37,7 @@ public class LoginPage extends CommonFunctions {
         waitForPageToLoad();
         String usr = new String(Base64.decodeBase64(fileReading.getField(salesforceUser).getBytes()));
         String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
-        sendKeysElementVisible(input_username, usr, mediumWait());
+        sendKeysElementVisible(input_username, usr, shortWait());
         sendKeysElementVisible(input_password, pass, shortWait());
         clickElementVisible(button_login, shortWait());
 

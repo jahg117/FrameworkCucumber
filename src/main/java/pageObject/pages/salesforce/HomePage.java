@@ -26,12 +26,12 @@ public class HomePage extends CommonFunctions {
 
     public void closeOpenTabs() throws Exception {
         waitForPageToLoad();
-        if(waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 0, 15)){
+        if(waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 0, 5)){
             try {
                 for (WebElement close : getWebElementList(button_closeTabsBy)) {
-                    clickElementVisible(close, 10);
+                    clickElementVisible(close, 5);
                 }
-                if(waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 0, 10)){
+                if(waitForNumberOfElementsToBeMoreThanBy(button_closeTabsBy, 0, 5)){
                     closeOpenTabs();
                 }
             }
