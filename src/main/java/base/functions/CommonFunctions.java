@@ -4200,6 +4200,17 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      */
     private boolean autoCastingBoolean(Object objectToCast) {
-        return objectToCast == null ? false : true;
+        boolean returnedValue = false;
+        try {
+            returnedValue = (boolean) objectToCast.getClass().cast(objectToCast);
+        } catch (Exception e) {
+            logger.warn("The value of the object is null");
+            if(objectToCast == null) {
+                returnedValue = false;
+            } else {
+                returnedValue = true;
+            }
+        }
+        return returnedValue;
     }
 }
