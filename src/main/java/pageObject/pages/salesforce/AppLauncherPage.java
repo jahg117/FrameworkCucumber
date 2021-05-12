@@ -57,7 +57,6 @@ public class AppLauncherPage extends CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            //statusOperation = autoCasting(executeReflection(appName));
         }
         return statusOperation;
     }

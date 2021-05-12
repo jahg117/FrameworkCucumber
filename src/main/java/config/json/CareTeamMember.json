@@ -1,8 +1,8 @@
 {
-  "email": ["internal.frm@hospital.com",
-    "hcp.specialty@astrazeneca.com"],
+  "email": ["external.facility@hospital.com",
+    "hcp.access.services@hcp.com"],
   "type": ["hca",
     "hcp"],
-  "relationship": ["Treating Facility",
+  "relationship": ["Prescribing Facility",
     "Prescribing Physician"]
 }

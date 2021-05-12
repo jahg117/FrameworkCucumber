@@ -43,19 +43,8 @@ public class ConsentPage extends CommonFunctions {
             waitForElementVisibility(label_consentID, mediumWait());
             statusOperation = getWebElementText(label_consentID);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getConsentID")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getConsentID");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -92,19 +81,8 @@ public class ConsentPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isConsentDetailDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isConsentDetailDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentDetail);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

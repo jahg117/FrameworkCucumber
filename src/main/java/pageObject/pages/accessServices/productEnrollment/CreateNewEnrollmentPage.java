@@ -60,19 +60,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         try {
             statusOperation = waitForElementVisibility(iframe_newProgramEnrollment, longWait());
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -97,19 +85,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             clickElementVisible(input_programEndDate, mediumWait());
             switchToParentFrame();
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillProductEnrollmentForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillProductEnrollmentForm");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), productType);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -126,19 +103,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             clickElementJS(button_enroll);
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickEnrollButton")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickEnrollButton");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -177,19 +143,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentTypeFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentTypeFromList");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeList);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

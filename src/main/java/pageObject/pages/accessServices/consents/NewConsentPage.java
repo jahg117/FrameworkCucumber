@@ -62,19 +62,8 @@ public class NewConsentPage extends CommonFunctions {
             switchToParentFrame();
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentType")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentType");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeOption);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

@@ -52,19 +52,7 @@ public class NewAccountPage extends CommonFunctions {
             switchToParentFrame();
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRecordType")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRecordType");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dropdownOption);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -75,19 +63,7 @@ public class NewAccountPage extends CommonFunctions {
         try {
             selectedElement = jsonFile.getRandomFieldArray(keyName);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("randomSelectionJSONFile")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "randomSelectionJSONFile");
-                        selectedElement = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), keyName, fileName);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return selectedElement;
     }
 
@@ -127,19 +103,7 @@ public class NewAccountPage extends CommonFunctions {
                     break;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("assignCorrectAccountTypeValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "assignCorrectAccountTypeValue");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), accountType);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -177,19 +141,8 @@ public class NewAccountPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAccountTypeFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAccountTypeFromList");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), accountTypeList);
-                        break;
-                    }
-                }
-            }
+
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

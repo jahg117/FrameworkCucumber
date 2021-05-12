@@ -95,19 +95,8 @@ public class CaseInformationPage extends CommonFunctions {
             waitForElementVisibility(label_productEnrollment, mediumWait());
             statusOperation = getWebElementText(label_productEnrollment);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getProductEnrollment")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getProductEnrollment");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -126,19 +115,8 @@ public class CaseInformationPage extends CommonFunctions {
             }
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillCaseInformationForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillCaseInformationForm");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -152,19 +130,8 @@ public class CaseInformationPage extends CommonFunctions {
             webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
             statusOperation.put("Channel", webElementOption);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillCaseInteractionForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillCaseInteractionForm");
-                        statusOperation = (HashMap<String, String>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), interactionForm);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -183,19 +150,8 @@ public class CaseInformationPage extends CommonFunctions {
             }
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillSearchProduct")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillSearchProduct");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), product);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -232,19 +188,8 @@ public class CaseInformationPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), patientName, productEnrollment);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -260,21 +205,21 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
         caseInformationForm.put("CaseSubType", webElementOption);
-        if(waitForElementVisibility(input_interactionCase, 3)) {
+        if (waitForElementVisibility(input_interactionCase, 3)) {
             sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 3);
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), 10);
         }
-        if(waitForElementListVisible(list_discussTopic, 3)){
-            if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
+        if (waitForElementListVisible(list_discussTopic, 3)) {
+            if (formDetails.get("DiscussTopic").equalsIgnoreCase("random")) {
                 WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
                 waitForElementVisibility(el, 10);
                 scrollToWebElementJS(el);
                 webElementOption = getWebElementText(el);
                 clickAndMoveToElementClickable(el, 10);
                 clickElementJS(el);
-            }else{
+            } else {
                 for (WebElement el : list_discussTopic) {
-                    if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
+                    if (getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))) {
                         webElementOption = getWebElementText(el);
                         clickAndMoveToElementClickable(el, 10);
                     }
@@ -283,28 +228,28 @@ public class CaseInformationPage extends CommonFunctions {
             scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
             clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
             clickElementJS(button_iconRightFlagDiscussionTopic);
-        }else{
+        } else {
             webElementOption = "";
         }
-        if(waitForElementVisibility(input_searchProducts, 3)) {
+        if (waitForElementVisibility(input_searchProducts, 3)) {
             sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
         }
         caseInformationForm.put("DiscussTopic", webElementOption);
-        if(waitForElementVisibility(input_cardNumber, 1)){
+        if (waitForElementVisibility(input_cardNumber, 1)) {
             webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
             caseInformationForm.put("CardNumber", webElementOption);
             sendKeysAndMoveToElementVisible(input_cardNumber, webElementOption, 3);
-        }else{
+        } else {
             webElementOption = "";
         }
         caseInformationForm.put("CardNumber", webElementOption);
-        if(waitForElementVisibility(input_interactionCase, 1)){
+        if (waitForElementVisibility(input_interactionCase, 1)) {
             sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 5);
             waitForElementVisibility(list_autocomplete, 10);
             waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
-            for(WebElement el : getWebElementList(list_autocompleteElements)){
-                if(getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))){
+            for (WebElement el : getWebElementList(list_autocompleteElements)) {
+                if (getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))) {
                     clickAndMoveToElementClickable(el, 10);
                     break;
                 }
@@ -348,7 +293,7 @@ public class CaseInformationPage extends CommonFunctions {
             } else {
                 webElementOption = "";
             }
-            if(waitForElementVisibility(input_searchProducts, 3)) {
+            if (waitForElementVisibility(input_searchProducts, 3)) {
                 sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
                 clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
             }
@@ -374,19 +319,8 @@ public class CaseInformationPage extends CommonFunctions {
                 statusOperation.put("CaseNumber", formDetails.get("CaseNumber"));
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillCaseInformationForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillCaseInformationForm");
-                        statusOperation = (HashMap<String, String>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), formDetails);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -399,19 +333,8 @@ public class CaseInformationPage extends CommonFunctions {
         try {
             clickAndMoveToElementClickable(button_save, mediumWait());
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickSaveButton")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickSaveButton");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -421,19 +344,8 @@ public class CaseInformationPage extends CommonFunctions {
         try {
             statusOperation = waitForElementVisibility(form_caseOptions, longWait());
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isCaseOptionPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isCaseOptionPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -457,19 +369,8 @@ public class CaseInformationPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectDropdownOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectDropdownOption");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), element, listElement, option);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -482,19 +383,8 @@ public class CaseInformationPage extends CommonFunctions {
             clickAndMoveToElementClickable(getRandomWebElementFromListExceptFirst(listElement, mediumWait()), mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRandomDropdownOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRandomDropdownOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), element, listElement);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -511,19 +401,8 @@ public class CaseInformationPage extends CommonFunctions {
             }
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectSpecificDropdownOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectSpecificDropdownOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), element, listElement, dropdownOption);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

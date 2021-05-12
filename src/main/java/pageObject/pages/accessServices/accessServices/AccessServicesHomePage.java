@@ -62,19 +62,8 @@ public class AccessServicesHomePage extends CommonFunctions {
         try {
             statusOperation = waitForElementVisibility(label_accessServicesTitle, longWait());
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isAccessServicesTitleVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isAccessServicesTitleVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -94,19 +83,8 @@ public class AccessServicesHomePage extends CommonFunctions {
                 statusOperation = true;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectMenuOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectMenuOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), menuOption);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

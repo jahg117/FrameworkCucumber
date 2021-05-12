@@ -281,19 +281,8 @@ public class PersonAccountPage extends CommonFunctions {
                 return statusOperation;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickProductEnrollmentAdded")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickProductEnrollmentAdded");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), product);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -313,19 +302,8 @@ public class PersonAccountPage extends CommonFunctions {
             clickAndMoveToElementVisible(buttonNewConsent, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewConsent")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewConsent");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -344,19 +322,8 @@ public class PersonAccountPage extends CommonFunctions {
             switchSubTabByIndexSF(0, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("switchToTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "switchToTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), idxTab);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -374,19 +341,8 @@ public class PersonAccountPage extends CommonFunctions {
             clickAndMoveToElementVisible(tabProductEnrollment, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnProgramEnrollments")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnProgramEnrollments");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -397,19 +353,8 @@ public class PersonAccountPage extends CommonFunctions {
             clickAndMoveToElementVisible(tabProductEnrollment, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("filterConsentWarningMessages")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "filterConsentWarningMessages");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeForm);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -429,19 +374,8 @@ public class PersonAccountPage extends CommonFunctions {
             clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickPayerTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickPayerTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 

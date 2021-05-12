@@ -173,7 +173,9 @@ public class CommonFunctions {
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(webElement, timeOutInSeconds));
+            if (statusOperation = (autoCasting(executeReflection(webElement, timeOutInSeconds)) == null)) {
+                logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+            }
         }
         return statusOperation;
     }
@@ -2140,6 +2142,7 @@ public class CommonFunctions {
                 sendKeysWebElementByActions(webElement, text);
             }
         } catch (Exception e) {
+
             logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
