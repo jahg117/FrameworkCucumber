@@ -78,35 +78,17 @@ public class AccessServicesHomePage extends CommonFunctions {
         return statusOperation;
     }
 
-    public boolean selectMenuOption(String menuOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForPageToLoad();
-            if (waitForElementVisibility(label_navigationName, mediumWait())) {
-                if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
+    public void selectMenuOption(String menuOption) throws Exception {
+        waitForPageToLoad();
+        if (waitForElementVisibility(label_navigationName, mediumWait())) {
+            if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
+                clickElementVisible(button_navigationMenu, mediumWait());
+                if (!waitForElementVisibility(list_navigationMenu, mediumWait())) {
                     clickElementVisible(button_navigationMenu, mediumWait());
-                    if (!waitForElementVisibility(list_navigationMenu, mediumWait())) {
-                        clickElementVisible(button_navigationMenu, mediumWait());
-                        waitForElementVisibility(list_navigationMenu, longWait());
-                    }
-                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), mediumWait());
+                    waitForElementVisibility(list_navigationMenu, longWait());
                 }
-                statusOperation = true;
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectMenuOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectMenuOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), menuOption);
-                        break;
-                    }
-                }
+                clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), mediumWait());
             }
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 }
