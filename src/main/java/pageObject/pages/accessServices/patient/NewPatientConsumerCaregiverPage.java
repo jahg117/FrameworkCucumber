@@ -191,7 +191,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(input_city, patientDetails.get("city"), 10);
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", 10);
-        selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
+        scrollToWebElementJS(dropdown_emailType);
+        selectRandomDropDownNotNone(dropdown_emailType);
         sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), 10);
         if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
             input_firstName.clear();

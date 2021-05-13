@@ -178,10 +178,10 @@ public class CustomerLookupPage extends CommonFunctions {
     public void selectCareTeamMemberAddressDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
         if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
-        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, longWait());
-        waitForElementVisibility(checkbox_usernameAddress, mediumWait());
+        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, shortWait());
+        waitForElementVisibility(checkbox_usernameAddress, shortWait());
         scrollToWebElementJS(checkbox_usernameAddress);
-        clickAndMoveToElementClickable(checkbox_usernameAddress, mediumWait());
+        clickAndMoveToElementClickable(checkbox_usernameAddress, shortWait());
         switchToParentFrame();
     }
 
@@ -192,13 +192,16 @@ public class CustomerLookupPage extends CommonFunctions {
             waitForElementClickable(checkbox_caseContact, shortWait());
             scrollToWebElementJS(checkbox_caseContact);
             clickAndMoveToElementClickable(checkbox_caseContact, mediumWait());
-            waitForElementClickable(checkbox_caseContactCaseNumber, mediumWait());
-            if(!isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
-                clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
-            }
-            if(waitForElementClickable(checkbox_caseContactPhoneNumber, shortWait() )){
+            //waitForElementClickable(checkbox_caseContactCaseNumber, mediumWait());
+            if(waitForElementVisibility(checkbox_caseContactPhoneNumber, shortWait() )){
                 clickAndMoveToElementClickable(checkbox_caseContactPhoneNumber, mediumWait());
             }
+            if(waitForElementVisibility(checkbox_caseContactCaseNumber, mediumWait()) && !isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
+                clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
+            }
+            //       if(!isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
+            //           clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
+            //       }
         }
         switchToParentFrame();
     }
