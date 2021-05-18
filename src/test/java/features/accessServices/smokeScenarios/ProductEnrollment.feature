@@ -10,9 +10,9 @@ Feature: Product Enrollment
     Then I fill the mandatory fields from the account form
     And I enter a product enrollment in the product enrollment form
       | ProductEnrollment |
-      | AZ                |
-      | AZ                |
-      | DSI               |
+      | Fasenra           |
+      | Fasenra           |
+      | Enhertu           |
     Examples:
     | user    |
     | admin   |

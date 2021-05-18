@@ -38,46 +38,12 @@ public class ConsentPage extends CommonFunctions {
     }
 
     public String getConsentID() throws Exception {
-        String statusOperation = "";
-        try {
-            waitForElementVisibility(label_consentID, mediumWait());
-            statusOperation = getWebElementText(label_consentID);
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getConsentID")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getConsentID");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        waitForElementVisibility(label_consentID, mediumWait());
+        return getWebElementText(label_consentID);
     }
 
     public boolean isConsentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementClickable(button_newContact, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isConsentPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isConsentPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+       return waitForElementClickable(button_newContact, longWait());
     }
 
 

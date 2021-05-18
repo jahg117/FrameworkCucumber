@@ -86,24 +86,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     }
 
     public boolean isConsumerPatientCaregiverFormDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(form_patientConsumerCaregiver, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isConsumerPatientCaregiverFormDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isConsumerPatientCaregiverFormDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(form_patientConsumerCaregiver, longWait());
     }
 
     public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
