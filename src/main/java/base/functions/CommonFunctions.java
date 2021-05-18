@@ -193,10 +193,10 @@ public class CommonFunctions {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOf(webElement));
-            logger.info("Element not visible " + getWebElementLocatorPath(webElement));
+            //logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + getWebElementLocatorPath(webElement));
+            //logger.warn("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
@@ -240,7 +240,7 @@ public class CommonFunctions {
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element List not found: " + getWebElementLocatorPath(webElements));
+            logger.warn("Element List not found");
             statusOperation = autoCastingBoolean(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;

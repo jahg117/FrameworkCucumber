@@ -42,30 +42,12 @@ public class NewAccountPage extends CommonFunctions {
         }
     }
 
-    public boolean selectRecordType(String dropdownOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframeCustomerLookup.get(iframeCustomerLookup.size() - 1), mediumWait());
-            waitForElementVisibility(labelNewAccountTitle, mediumWait());
-            selectAndMoveDropdownByText(dropdownRecordType, dropdownOption, mediumWait());
-            clickAndMoveToElementVisible(buttonContinue, mediumWait());
-            switchToParentFrame();
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRecordType")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRecordType");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dropdownOption);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void selectRecordType(String dropdownOption) throws Exception {
+        switchToFrameByWebElementIndexOrName(iframeCustomerLookup.get(iframeCustomerLookup.size() - 1), mediumWait());
+        waitForElementVisibility(labelNewAccountTitle, mediumWait());
+        selectAndMoveDropdownByText(dropdownRecordType, dropdownOption, mediumWait());
+        clickAndMoveToElementVisible(buttonContinue, mediumWait());
+        switchToParentFrame();
     }
 
     public String randomSelectionJSONFile(String keyName, String fileName) throws Exception {
@@ -104,43 +86,24 @@ public class NewAccountPage extends CommonFunctions {
      */
     public String assignCorrectAccountTypeValue(String accountType) throws Exception {
         String statusOperation = "";
-        try {
-            switch (accountType.trim().toLowerCase()) {
-                case "hca":
-                    statusOperation = Values.TXT_HEALTHCAREACCOUNT;
-                    break;
-
-                case "hcp":
-                    statusOperation = Values.TXT_HEALTHCAREPROVIDER;
-                    break;
-
-                case "cpc":
-                    statusOperation = Values.TXT_CPC;
-                    break;
-
-                case "emp":
-                    statusOperation = Values.TXT_EMPLOYEE;
-                    break;
-
-                default:
-                    logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
-                    break;
+        switch (accountType.trim().toLowerCase()) {
+            case "hca":
+                statusOperation = Values.TXT_HEALTHCAREACCOUNT;
+                break;
+            case "hcp":
+                statusOperation = Values.TXT_HEALTHCAREPROVIDER;
+                break;
+            case "cpc":
+                statusOperation = Values.TXT_CPC;
+                break;
+            case "emp":
+                statusOperation = Values.TXT_EMPLOYEE;
+                break;
+            default:
+                logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
+                break;
             }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("assignCorrectAccountTypeValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "assignCorrectAccountTypeValue");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), accountType);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+            return statusOperation;
     }
 
     /**
