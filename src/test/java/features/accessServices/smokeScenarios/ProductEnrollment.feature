@@ -1,4 +1,3 @@
-@smoke
 Feature: Product Enrollment
 
   Scenario Outline: Create product enrollment
@@ -11,7 +10,6 @@ Feature: Product Enrollment
     Then I fill the mandatory fields from the account form
     And I enter a product enrollment in the product enrollment form
       | ProductEnrollment |
-      | AZ                |
       | AZ                |
       | AZ                |
       | DSI               |

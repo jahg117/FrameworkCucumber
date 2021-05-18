@@ -65,24 +65,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(button_newCareTeamMember, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(button_newCareTeamMember, mediumWait());
     }
 
 
@@ -126,24 +109,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
     public String getProductEnrollmentNumber() throws Exception {
         String statusOperation = "";
         waitForPageToLoad();
-        try {
-            if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
-                statusOperation = getWebElementText(label_productEnrollmentNumber);
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getProductEnrollmentNumber")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getProductEnrollmentNumber");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+        if (waitForElementVisibility(label_productEnrollmentNumber, longWait())) {
+            statusOperation = getWebElementText(label_productEnrollmentNumber);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 

@@ -8,7 +8,10 @@ public class CasesListPage extends CommonFunctions {
     @FindBy(xpath = "//a[@title='New']")
     private WebElement button_new;
 
+    public boolean isCasesListPageDisplayed() throws Exception {
+        return waitForElementVisibility(button_new, mediumWait());
+    }
     public void clickNewCase() throws Exception {
-        clickAndMoveToElementClickable(button_new, 20);
+        clickAndMoveToElementClickable(button_new, mediumWait());
     }
 }

@@ -58,24 +58,7 @@ public class AccessServicesHomePage extends CommonFunctions {
 
 
     public boolean isAccessServicesTitleVisible() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(label_accessServicesTitle, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isAccessServicesTitleVisible")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isAccessServicesTitleVisible");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(label_accessServicesTitle, longWait());
     }
 
     public void selectMenuOption(String menuOption) throws Exception {

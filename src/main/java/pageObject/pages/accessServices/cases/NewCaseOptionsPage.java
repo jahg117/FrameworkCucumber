@@ -39,56 +39,21 @@ public class NewCaseOptionsPage extends CommonFunctions {
     }
 
     public boolean isFormCaseOptionsPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(form_caseOptionsPage, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isFormCaseOptionsPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isFormCaseOptionsPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(form_caseOptionsPage, mediumWait());
     }
 
-    public boolean selectCaseOption(String caseOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForElementListVisible(list_caseOptions, mediumWait());
-            if (!caseOption.equalsIgnoreCase("random")) {
-                for (WebElement el : list_caseOptions) {
-                    if (getWebElementText(el).equalsIgnoreCase(caseOption)) {
-                        clickAndMoveToElementClickable(el, mediumWait());
-                        break;
-                    }
-                }
-            } else {
-                clickAndMoveToElementClickable(getRandomWebElementFromList(list_caseOptions, mediumWait()), mediumWait());
-            }
-            clickAndMoveToElementClickable(button_next, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectCaseOption")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectCaseOption");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), caseOption);
-                        break;
-                    }
+    public void selectCaseOption(String caseOption) throws Exception {
+        waitForElementListVisible(list_caseOptions, mediumWait());
+        if (!caseOption.equalsIgnoreCase("random")) {
+            for (WebElement el : list_caseOptions) {
+                if (getWebElementText(el).equalsIgnoreCase(caseOption)) {
+                    clickAndMoveToElementClickable(el, mediumWait());
+                    break;
                 }
             }
+        } else {
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_caseOptions, mediumWait()), mediumWait());
         }
-        Values.globalCounter = 0;
-        return statusOperation;
-    }
+        clickAndMoveToElementClickable(button_next, mediumWait());
+        }
 }
