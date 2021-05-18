@@ -15,23 +15,22 @@ import java.util.Map;
 public class NewAccountPage extends CommonFunctions {
 
     @FindBy(xpath = "//div[@class='bPageTitle']")
-    private WebElement label_newAccountTitle;
+    private WebElement labelNewAccountTitle;
 
     @FindBy(xpath = "//select[contains(@name,'CreateAccount')]")
-    private WebElement dropdown_recordType;
+    private WebElement dropdownRecordType;
 
     @FindBy(xpath = "//table//input[contains(@id,'ACS_CreateAccount')]")
-    private WebElement button_continue;
+    private WebElement buttonContinue;
 
     @FindBy(xpath = "//iframe[@title='accessibility title']")
-    private List<WebElement> iframe_customerLookup;
+    private List<WebElement> iframeCustomerLookup;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
 
     Class<?> myClass;
-
     {
         try {
             fileReading.setLog4jFile();
@@ -43,30 +42,12 @@ public class NewAccountPage extends CommonFunctions {
         }
     }
 
-    public boolean selectRecordType(String dropdownOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframe_customerLookup.get(iframe_customerLookup.size() - 1), mediumWait());
-            waitForElementVisibility(label_newAccountTitle, mediumWait());
-            selectAndMoveDropdownByText(dropdown_recordType, dropdownOption, mediumWait());
-            clickAndMoveToElementVisible(button_continue, mediumWait());
-            switchToParentFrame();
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectRecordType")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectRecordType");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dropdownOption);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void selectRecordType(String dropdownOption) throws Exception {
+        switchToFrameByWebElementIndexOrName(iframeCustomerLookup.get(iframeCustomerLookup.size() - 1), mediumWait());
+        waitForElementVisibility(labelNewAccountTitle, mediumWait());
+        selectAndMoveDropdownByText(dropdownRecordType, dropdownOption, mediumWait());
+        clickAndMoveToElementVisible(buttonContinue, mediumWait());
+        switchToParentFrame();
     }
 
     public String randomSelectionJSONFile(String keyName, String fileName) throws Exception {
@@ -100,44 +81,29 @@ public class NewAccountPage extends CommonFunctions {
      *                    hcp (Health Care Provider)
      *                    cpc (Consumer/Patient/Caregiver)
      *                    emp (Employee)
-     * @throws Exception
+     * @throws Exception related to selenium
      * @author J.Ruano
      */
     public String assignCorrectAccountTypeValue(String accountType) throws Exception {
         String statusOperation = "";
-        try {
-            switch (accountType.trim().toLowerCase()) {
-                case "hca":
-                    statusOperation = "Health Care Account";
-                    break;
-
-                case "hcp":
-                    statusOperation = "Health Care Provider";
-                    break;
-
-                case "cpc":
-                    statusOperation = "Consumer/Patient/Caregiver";
-                    break;
-
-                case "emp":
-                    statusOperation = "Internal AZ";
-                    break;
+        switch (accountType.trim().toLowerCase()) {
+            case "hca":
+                statusOperation = Values.TXT_HEALTHCAREACCOUNT;
+                break;
+            case "hcp":
+                statusOperation = Values.TXT_HEALTHCAREPROVIDER;
+                break;
+            case "cpc":
+                statusOperation = Values.TXT_CPC;
+                break;
+            case "emp":
+                statusOperation = Values.TXT_EMPLOYEE;
+                break;
+            default:
+                logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
+                break;
             }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("assignCorrectAccountTypeValue")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "assignCorrectAccountTypeValue");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), accountType);
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+            return statusOperation;
     }
 
     /**
@@ -145,7 +111,7 @@ public class NewAccountPage extends CommonFunctions {
      *
      * @param accountTypeList it contains all the accounts type
      * @return it returns the account type to be used
-     * @throws Exception
+     * @throws Exception related to selenium
      * @author J.Ruano
      */
     public String selectAccountTypeFromList(List<Map<String, String>> accountTypeList) throws Exception {
@@ -154,8 +120,8 @@ public class NewAccountPage extends CommonFunctions {
         boolean rndSelected = false;
         try {
             for (Map<String, String> accountType : accountTypeList) {
-                if (accountTypeList.get(counter).get("accountType").equalsIgnoreCase("RND")) {
-                    if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                if (accountTypeList.get(counter).get("accountType").equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
                         statusOperation = accountTypeList.get(getRandomNumberByLimits(1, accountTypeList.size())).get("accountType");
                         rndSelected = true;
                         break;
@@ -166,7 +132,7 @@ public class NewAccountPage extends CommonFunctions {
             counter = 0;
             if (!rndSelected) {
                 for (Map<String, String> accountType : accountTypeList) {
-                    if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
+                    if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
                         statusOperation = accountTypeList.get(counter).get("accountType");
                         break;
                     }

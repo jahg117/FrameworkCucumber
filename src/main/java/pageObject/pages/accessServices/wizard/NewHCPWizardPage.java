@@ -507,7 +507,7 @@ public class NewHCPWizardPage extends CommonFunctions {
             waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
-        clickMethod(label_accountHistory);
+        clickElementJS(label_accountHistory);
         clickAndMoveToElementClickable(label_systemInfo,shortWait());
         By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
         waitForElementPresenceBy(azID,shortWait());

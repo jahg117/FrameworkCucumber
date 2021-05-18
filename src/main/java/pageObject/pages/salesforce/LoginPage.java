@@ -31,18 +31,16 @@ public class LoginPage extends CommonFunctions {
     }
 
 
-
-    public boolean enterUserPassword(String salesforceUser) throws Exception {
-        boolean statusOperation = false;
+    public void enterUserPassword(String salesforceUser) throws Exception {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
         waitForPageToLoad();
         String usr = new String(Base64.decodeBase64(fileReading.getField(salesforceUser).getBytes()));
         String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
-        sendKeysElementVisible(input_username, usr, mediumWait());
+        sendKeysElementVisible(input_username, usr, shortWait());
         sendKeysElementVisible(input_password, pass, shortWait());
-        statusOperation = clickElementVisible(button_login, shortWait());
-        return statusOperation;
+        clickElementVisible(button_login, shortWait());
+
     }
 
     /**

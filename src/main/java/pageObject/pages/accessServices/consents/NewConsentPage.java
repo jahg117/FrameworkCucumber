@@ -48,33 +48,15 @@ public class NewConsentPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean selectConsentType(String consentTypeOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-            waitForElementVisibility(dropdown_consentType, longWait());
-            if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
-                selectDropDownRandomOptionNone(dropdown_consentType, longWait());
-            } else {
-                selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());
-            }
-            clickAndMoveToElementVisible(button_next, mediumWait());
-            switchToParentFrame();
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentType")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentType");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentTypeOption);
-                        break;
-                    }
-                }
-            }
+    public void selectConsentType(String consentTypeOption) throws Exception {
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        waitForElementVisibility(dropdown_consentType, longWait());
+        if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
+            selectDropDownRandomOptionNone(dropdown_consentType, longWait());
+        } else {
+            selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());
         }
-        Values.globalCounter = 0;
-        return statusOperation;
+        clickAndMoveToElementVisible(button_next, mediumWait());
+        switchToParentFrame();
     }
 }

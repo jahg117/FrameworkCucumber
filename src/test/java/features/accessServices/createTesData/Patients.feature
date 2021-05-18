@@ -1,4 +1,4 @@
-@createData
+@Patients
 Feature: Patients
 """
 //============Script Purpose:
@@ -90,9 +90,5 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
-      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                      | dataPMB                                                              |
-      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 4/15/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND | RND,Self,N_A,N_A,Danaher,Danaher Plan,2403061405,RND,RND,RND,N_A,N_A |
+      | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                         | dataPMB                                                                                 |
+      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 2,UAT Payer Test Plan 2,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 2,UAT Payer Test Plan 2,13019658622,RND,RND,RND,N_A,N_A |

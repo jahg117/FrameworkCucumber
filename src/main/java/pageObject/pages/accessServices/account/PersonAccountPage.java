@@ -13,57 +13,57 @@ import java.util.List;
 
 public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//slot[@name='primaryField']")
-    private WebElement label_accountPersonName;
+    private WebElement labelAccountPersonName;
 
     @FindBy(xpath = "//*[contains(text(),'Product Enrollments')]/following::*[@title='New']")
-    private WebElement button_newProductEnrollment;
+    private WebElement buttonNewProductEnrollment;
 
     @FindBy(xpath = "(//*[contains(text(),'Cases')]/following::*//a[@title='New Case'])[last()]")
-    private WebElement button_newCase;
+    private WebElement buttonNewCase;
 
     @FindBy(xpath = "(//li[@title='Product Enrollments'])[last()]")
-    private WebElement label_productEnrollmentsTabOption;
+    private WebElement labelProductEnrollmentsTabOption;
 
     @FindBy(xpath = "(//li[@title='Cases'])[last()]")
-    private WebElement label_cases;
+    private WebElement labelCases;
 
     @FindBy(xpath = "//th[@data-label='Product Enrollment Number']//a/span")
-    private List<WebElement> list_productEnrollmentNumber;
+    private List<WebElement> listProductEnrollmentNumber;
 
     @FindBy(xpath = "//td[@data-label='Product']")
-    private List<WebElement> list_products;
+    private List<WebElement> listProducts;
 
     @FindBy(xpath = "//td[@data-label='PAF']//*[contains(@src,'green')]")
-    private List<WebElement> list_greenPAFIcon;
+    private List<WebElement> listGreenPAFIcon;
 
     @FindBy(xpath = "//td[@data-label='PAF']//*[contains(@src,'red')]")
-    private List<WebElement> list_redPAFIcon;
+    private List<WebElement> listRedPAFIcon;
 
     @FindBy(xpath = "//a[@data-label='Consent']")
-    private WebElement tab_Consent;
+    private WebElement tabConsent;
 
     @FindBy(xpath = "//*[@title='New Consent']")
-    private WebElement button_newConsent;
+    private WebElement buttonNewConsent;
 
     @FindBy(xpath = "//a[@data-label='Product Enrollments']")
-    private WebElement tab_productEnrollment;
+    private WebElement tabProductEnrollment;
 
     @FindBy(xpath = "//p[@title='PEP ID']/..//lightning-formatted-text")
-    private WebElement label_pepId;
+    private WebElement labelPepId;
 
     @FindBy(xpath = "//*[@title='Payer']")
-    private WebElement tabButton_payer;
+    private WebElement tabButtonPayer;
 
     @FindBy(xpath = "//span[@title='Patient Insurances']/following::*[@name='New'][1]")
-    private WebElement button_newPatientInsurances;
+    private WebElement buttonNewPatientInsurances;
 
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
-    private WebElement button_loggedOut;
+    private WebElement buttonLoggedOut;
 
 
-    private By button_closeSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
+    private By buttonCloseSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
-    private By link_viewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
+    private By linkViewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -82,123 +82,35 @@ public class PersonAccountPage extends CommonFunctions {
         }
     }
 
-    public boolean clickViewAllProgramEnrollments() throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForPresenceOfAllElementsLocatedBy(link_viewAllProgramEnrollment, longWait());
-            clickElementJS(getWebElement(link_viewAllProgramEnrollment));
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickViewAllProgramEnrollments")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickViewAllProgramEnrollments");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickViewAllProgramEnrollments() throws Exception {
+        waitForPresenceOfAllElementsLocatedBy(linkViewAllProgramEnrollment, longWait());
+        clickElementJS(getWebElement(linkViewAllProgramEnrollment));
     }
 
-    public boolean clickNewProductEnrollment() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToDefaultContentFrame();
-            waitUntilVisibleLoop(button_newProductEnrollment, 2, mediumWait());
-            clickAndMoveToElementClickable(button_newProductEnrollment, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewProductEnrollment")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewProductEnrollment");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickNewProductEnrollment() throws Exception {
+        switchToDefaultContentFrame();
+        waitUntilVisibleLoop(buttonNewProductEnrollment, 2, mediumWait());
+        clickAndMoveToElementClickable(buttonNewProductEnrollment, mediumWait());
     }
 
-    public boolean clickNewCase() throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForElementVisibility(button_newCase, longWait());
-            scrollToWebElementJS(button_newCase);
-            clickAndMoveToElementClickable(button_newCase, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewCase")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewCase");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickNewCase() throws Exception {
+        waitForElementVisibility(buttonNewCase, longWait());
+        scrollToWebElementJS(buttonNewCase);
+        clickAndMoveToElementClickable(buttonNewCase, mediumWait());
     }
 
 
-    public boolean clickNewCasePersonalAccountPage() throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForElementVisibility(button_newCase, longWait());
-            clickAndMoveToElementClickable(button_newCase, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewCasePersonalAccountPage")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewCasePersonalAccountPage");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickNewCasePersonalAccountPage() throws Exception {
+        waitForElementVisibility(buttonNewCase, longWait());
+        clickAndMoveToElementClickable(buttonNewCase, mediumWait());
     }
 
 
     public String getPEPId() throws Exception {
         String statusOperation = "";
-        try {
-            waitForElementVisibility(button_newCase, longWait());
-            waitForElementVisibility(label_pepId, mediumWait());
-            statusOperation = getWebElementText(label_pepId);
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getPEPId")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getPEPId");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
+        waitForElementVisibility(buttonNewCase, longWait());
+        waitForElementVisibility(labelPepId, mediumWait());
+        statusOperation = getWebElementText(labelPepId);
         return statusOperation;
     }
 
@@ -206,11 +118,11 @@ public class PersonAccountPage extends CommonFunctions {
         String newProduct = null;
         boolean statusOperation = false;
         try {
-            waitForElementListVisible(list_products, mediumWait());
-            for (int i = 0; i < list_products.size(); i++) {
-                newProduct = list_products.get(i).getText();
+            waitForElementListVisible(listProducts, mediumWait());
+            for (int i = 0; i < listProducts.size(); i++) {
+                newProduct = listProducts.get(i).getText();
                 if (newProduct.equalsIgnoreCase(product)) {
-                    statusOperation = waitForElementVisibility(list_redPAFIcon.get(i), mediumWait());
+                    statusOperation = waitForElementVisibility(listRedPAFIcon.get(i), mediumWait());
                     break;
                 }
             }
@@ -236,11 +148,11 @@ public class PersonAccountPage extends CommonFunctions {
         String newProduct = "";
         String statusOperation = "";
         try {
-            waitForElementListVisible(list_products, mediumWait());
-            for (int i = 0; i < list_products.size(); i++) {
-                newProduct = list_products.get(i).getText();
+            waitForElementListVisible(listProducts, mediumWait());
+            for (int i = 0; i < listProducts.size(); i++) {
+                newProduct = listProducts.get(i).getText();
                 if (newProduct.equalsIgnoreCase(product)) {
-                    statusOperation = list_productEnrollmentNumber.get(i).getText();
+                    statusOperation = listProductEnrollmentNumber.get(i).getText();
                     break;
                 }
             }
@@ -266,11 +178,11 @@ public class PersonAccountPage extends CommonFunctions {
         boolean flag = false;
         String statusOperation = null;
         try {
-            waitForElementListVisible(list_products, mediumWait());
-            for (int i = 0; i < list_products.size(); i++) {
-                statusOperation = list_products.get(i).getText();
+            waitForElementListVisible(listProducts, mediumWait());
+            for (int i = 0; i < listProducts.size(); i++) {
+                statusOperation = listProducts.get(i).getText();
                 if (statusOperation.equalsIgnoreCase(product)) {
-                    clickElementVisible(list_productEnrollmentNumber.get(i), shortWait());
+                    clickElementVisible(listProductEnrollmentNumber.get(i), shortWait());
                     flag = true;
                     break;
                 }
@@ -301,32 +213,14 @@ public class PersonAccountPage extends CommonFunctions {
     /**
      * Method to click the button New Consent located at Person Page
      *
-     * @return
+     * @return it returns a boolean value
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickOnNewConsent() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToDefaultContentFrame();
-            clickAndMoveToElementVisible(tab_Consent, mediumWait());
-            clickAndMoveToElementVisible(button_newConsent, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewConsent")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewConsent");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickOnNewConsent() throws Exception {
+        switchToDefaultContentFrame();
+        clickAndMoveToElementVisible(tabConsent, mediumWait());
+        clickAndMoveToElementVisible(buttonNewConsent, mediumWait());
     }
 
 
@@ -364,14 +258,14 @@ public class PersonAccountPage extends CommonFunctions {
     /**
      * Method to click the program enrollment from Program Enrollments page
      *
-     * @return
+     * @return it returns a boolean value
      * @throws Exception
      * @author J.Ruano
      */
     public boolean clickOnProgramEnrollments() throws Exception {
         boolean statusOperation = false;
         try {
-            clickAndMoveToElementVisible(tab_productEnrollment, mediumWait());
+            clickAndMoveToElementVisible(tabProductEnrollment, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {
@@ -394,7 +288,7 @@ public class PersonAccountPage extends CommonFunctions {
     public boolean filterConsentWarningMessages(String consentTypeForm) throws Exception {
         boolean statusOperation = false;
         try {
-            clickAndMoveToElementVisible(tab_productEnrollment, mediumWait());
+            clickAndMoveToElementVisible(tabProductEnrollment, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
             if (Values.globalCounter < maxNumberOfTries) {
@@ -417,90 +311,37 @@ public class PersonAccountPage extends CommonFunctions {
     /**
      * Method to click the Payer Tab Person Account
      *
-     * @return
+     * @return it returns a boolean value
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickPayerTab() throws Exception {
-        boolean statusOperation = false;
-        try {
-            clickAndMoveToElementClickable(tabButton_payer, mediumWait());
-            clickProductEnrollment();
-            clickAndMoveToElementClickable(tabButton_payer, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickPayerTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickPayerTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickPayerTab() throws Exception {
+        clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
+        clickProductEnrollment();
+        clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
     }
 
 
     /**
      * Method to click the Product Enrollment Tab
      *
-     * @return
+     * @return it returns a boolean value
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickProductEnrollment() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(tab_productEnrollment, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickProductEnrollment")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickProductEnrollment");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickProductEnrollment() throws Exception {
+        clickAndMoveToElementClickable(tabProductEnrollment, mediumWait());
     }
 
 
     /**
      * Method to click the New button to create a Insurance
      *
-     * @return
+     * @return it returns a boolean value
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickNewPatientInsurances() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(button_newPatientInsurances, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewPatientInsurances")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewPatientInsurances");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickNewPatientInsurances() throws Exception {
+        clickAndMoveToElementClickable(buttonNewPatientInsurances, mediumWait());
     }
-
 }

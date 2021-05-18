@@ -1,9 +1,7 @@
 package stepDefinition.acessServices;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.testng.Assert;
 import pageObject.ApplicationInstance;
 
 public class CreateAnAccount extends ApplicationInstance {
@@ -24,6 +22,11 @@ public class CreateAnAccount extends ApplicationInstance {
     public void fieldsAccountFormHCA(String identifier, String npi, String nameHCA, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         accessServices.getNewHCAWizardPage().isNewHCAWizardFormDisplayed();
         accessServices.getNewHCAWizardPage().validateAndCreateHCA(identifier, npi, nameHCA, email, phoneOrFax, addressLine1, state, city, zipCode, country, randomRecord);
+    }
+
+    @Given("An account record type for HCA {string} i click continue button at New Account page")
+    public void selectHCARecordType(String hcaOption) throws Exception {
+        accessServices.getNewAccountPage().selectRecordType(hcaOption);
     }
 
     //============HCP
@@ -54,10 +57,10 @@ public class CreateAnAccount extends ApplicationInstance {
         accessServices.getNewAccountPage().selectRecordType(cpcOption);
     }
 
-    @Then("I fill the form with the values {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} at CPC Wizard Page")
-    public void fieldsAccountFormCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
+    @Then("I fill the form with the values {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} at CPC Wizard Page")
+    public void fieldsAccountFormCPC(String identifier, String firstName, String middleName, String lastName, String dateOfBird, String careGiver, String email, String emailType, String phoneOrFax, String addressLine1, String state, String city, String zipCode, String country, String randomRecord) throws Exception {
         accessServices.getNewCPCWizardPage().isNewCPCWizardFormDisplayed();
-        accessServices.getNewCPCWizardPage().validateAndCreateCPC(identifier, firstName, middleName, lastName, dateOfBird, careGiver, email, phoneOrFax, addressLine1, state, city, zipCode, country, randomRecord);
+        accessServices.getNewCPCWizardPage().validateAndCreateCPC(identifier, firstName, middleName, lastName, dateOfBird, careGiver, email, emailType, phoneOrFax, addressLine1, state, city, zipCode, country, randomRecord);
     }
 
     //============EMPLOYEE
@@ -81,6 +84,4 @@ public class CreateAnAccount extends ApplicationInstance {
     public void selectProductView(String productView) throws Exception {
         accessServices.getProductsPage().selectProductView(productView);
     }
-
-
 }

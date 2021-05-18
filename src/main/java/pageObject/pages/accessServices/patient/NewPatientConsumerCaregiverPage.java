@@ -86,24 +86,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     }
 
     public boolean isConsumerPatientCaregiverFormDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(form_patientConsumerCaregiver, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isConsumerPatientCaregiverFormDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isConsumerPatientCaregiverFormDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(form_patientConsumerCaregiver, longWait());
     }
 
     public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
@@ -111,54 +94,42 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         JsonFiles jsonFiles = new JsonFiles();
         jsonFiles.setFileName("zipCode");
         HashMap<String, String> patientDetails = new HashMap<String, String>();
-        try {
-            patientDetails.put("firstName", faker.name().firstName());
-            patientDetails.put("lastName", faker.name().lastName() + "_Automation");
-            patientDetails.put("address", faker.address().streetName());
-            patientDetails.put("city", faker.address().cityName());
-            patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
-            patientDetails.put("date", getRandomDate());
-            patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
-            waitForElementClickable(dropdown_prefix, mediumWait());
-            input_firstName.clear();
-            clickAndMoveToElementClickable(input_firstName, mediumWait());
-            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
-            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
-            String randomDate = patientDetails.get("date").replace("/", "");
-            clickElementVisible(input_informalName, shortWait());
-            sendKeysByActions(Keys.TAB.toString());
-            sendKeysByActions(randomDate);
-            scrollToWebElementJS(input_searchAccounts);
-            sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-            scrollToWebElementJS(input_searchPlaces);
-            sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
-            sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
-            scrollToWebElementJS(input_emailAddress);
-            sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-            selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, mediumWait());
-            sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
-            if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
-                input_firstName.clear();
-                sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
-            }
-            if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
-                input_lastName.clear();
-                sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPatientConsumerCaregiverForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPatientConsumerCaregiverForm");
-                        patientDetails = (HashMap<String, String>) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+        patientDetails.put("firstName", faker.name().firstName());
+        patientDetails.put("lastName", faker.name().lastName() + "_Automation");
+        patientDetails.put("address", faker.address().streetName());
+        patientDetails.put("city", faker.address().cityName());
+        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
+        patientDetails.put("date", getRandomDate());
+        patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
+        waitForElementClickable(dropdown_prefix, mediumWait());
+        input_firstName.clear();
+        clickAndMoveToElementClickable(input_firstName, mediumWait());
+        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        String randomDate = patientDetails.get("date").replace("/", "");
+        clickElementVisible(input_informalName, shortWait());
+        sendKeysByActions(Keys.TAB.toString());
+        sendKeysByActions(randomDate);
+        scrollToWebElementJS(input_searchAccounts);
+        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
+        scrollToWebElementJS(input_searchPlaces);
+        sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
+        sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
+        scrollToWebElementJS(input_emailAddress);
+        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
+        if(waitForElementVisibility(dropdown_emailType, shortWait())){
+            scrollToWebElementJS(dropdown_emailType);
+            selectRandomDropDownNotNone(dropdown_emailType);
         }
-        Values.globalCounter = 0;
+        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
+        if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
+            input_firstName.clear();
+            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        }
+        if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
+            input_lastName.clear();
+            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        }
         return patientDetails;
     }
 
@@ -191,7 +162,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(input_city, patientDetails.get("city"), 10);
         scrollToWebElementJS(input_emailAddress);
         sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", 10);
-        selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, 10);
+        scrollToWebElementJS(dropdown_emailType);
+        selectRandomDropDownNotNone(dropdown_emailType);
         sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), 10);
         if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
             input_firstName.clear();
@@ -204,27 +176,9 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         return patientDetails;
     }
 
-    public boolean clickSaveButton() throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForElementVisibility(button_saveAccount, mediumWait());
-            scrollToWebElementJS(button_saveAccount);
-            clickElementClickable(button_saveAccount, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickSaveButton")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickSaveButton");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickSaveButton() throws Exception {
+        waitForElementVisibility(button_saveAccount, mediumWait());
+        scrollToWebElementJS(button_saveAccount);
+        clickElementClickable(button_saveAccount, mediumWait());
     }
 }

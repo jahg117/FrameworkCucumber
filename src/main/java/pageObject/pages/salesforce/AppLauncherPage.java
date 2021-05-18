@@ -38,38 +38,23 @@ public class AppLauncherPage extends CommonFunctions {
 
     public boolean searchAppName(String appName) throws Exception {
         boolean statusOperation = false;
-        try {
-            waitForElementFluentMinutes(button_AppLauncher, 2, 1);
-            if (!label_AppNameTitle.getAttribute("title").trim().equalsIgnoreCase(appName)) {
+        waitForElementFluentMinutes(button_AppLauncher, 2, 1);
+        if (!label_AppNameTitle.getAttribute("title").trim().equalsIgnoreCase(appName)) {
+            clickAndMoveToElementVisible(button_AppLauncher, mediumWait());
+            if (!waitForElementVisibility(input_AppLauncher, mediumWait())) {
                 clickAndMoveToElementVisible(button_AppLauncher, mediumWait());
-                if (!waitForElementVisibility(input_AppLauncher, mediumWait())) {
-                    clickAndMoveToElementVisible(button_AppLauncher, mediumWait());
-                }
-                sendKeysElementVisible(input_AppLauncher, appName, mediumWait());
-                sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), mediumWait());
-                waitForElementNotVisible(input_AppLauncher, mediumWait());
-                if (waitForElementVisibility(label_AppNameTitle, mediumWait())) {
-                    statusOperation = true;
-                } else {
-                    statusOperation = false;
-                }
-            } else {
+            }
+            sendKeysElementVisible(input_AppLauncher, appName, mediumWait());
+            sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), mediumWait());
+            waitForElementNotVisible(input_AppLauncher, mediumWait());
+            if (waitForElementVisibility(label_AppNameTitle, mediumWait())) {
                 statusOperation = true;
+            } else {
+                statusOperation = false;
             }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("searchAppName")) {
-                        logger.warn(getMessage(Values.TXT_RETRYMSG001) + "searchAppName");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), appName);
-                        break;
-                    }
-                }
-            }
+        } else {
+            statusOperation = true;
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

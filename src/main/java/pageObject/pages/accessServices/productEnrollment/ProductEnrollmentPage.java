@@ -65,85 +65,35 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(button_newCareTeamMember, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(button_newCareTeamMember, mediumWait());
     }
 
 
-    public boolean clickNewCareTeamMember() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchSubTabByIndexSF(0, shortWait());
-            switchSubTabByIndexSF(1, shortWait());
-            int exitCounter = 2;
-            for (int i = 0; i < exitCounter; i++) {
-                if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
-                    logger.info("Waiting For Attestation To Be Available");
-                } else {
-                    clickElementJS(label_attestationTabOption);
-                    waitForElementClickable(label_careTeamTabOption, shortWait());
-                    clickElementJS(label_careTeamTabOption);
-                    waitForElementVisibility(button_newCareTeamMember, mediumWait());
-                    clickElementClickable(button_newCareTeamMember, mediumWait());
-                    statusOperation = true;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewCareTeamMember")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewCareTeamMember");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
+    public void clickNewCareTeamMember() throws Exception {
+        switchSubTabByIndexSF(0, shortWait());
+        switchSubTabByIndexSF(1, shortWait());
+        int exitCounter = 2;
+        for (int i = 0; i < exitCounter; i++) {
+            if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
+                logger.info("Waiting For Attestation To Be Available");
+            } else {
+                clickElementJS(label_attestationTabOption);
+                waitForElementClickable(label_careTeamTabOption, shortWait());
+                clickElementJS(label_careTeamTabOption);
+                waitForElementVisibility(button_newCareTeamMember, mediumWait());
+                clickElementClickable(button_newCareTeamMember, mediumWait());
+                break;
             }
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
     public String getProductEnrollmentNumber() throws Exception {
         String statusOperation = "";
         waitForPageToLoad();
-        try {
-            if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
-                statusOperation = getWebElementText(label_productEnrollmentNumber);
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getProductEnrollmentNumber")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getProductEnrollmentNumber");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+        if (waitForElementVisibility(label_productEnrollmentNumber, longWait())) {
+            statusOperation = getWebElementText(label_productEnrollmentNumber);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -187,25 +137,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
         return statusOperation;
     }
 
-    public boolean createNewAttestationConsent() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickElementClickable(button_newConsent, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("createNewAttestationConsent")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "createNewAttestationConsent");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void createNewAttestationConsent() throws Exception {
+        clickElementClickable(button_newConsent, longWait());
     }
 
 
@@ -216,26 +149,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickOnNewCase() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(button_newCase, longWait());
-        } catch (
-                Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewCase")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewCase");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickOnNewCase() throws Exception {
+        clickAndMoveToElementClickable(button_newCase, longWait());
     }
 
 

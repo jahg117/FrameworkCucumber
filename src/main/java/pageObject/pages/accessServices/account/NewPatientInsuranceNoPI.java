@@ -36,24 +36,7 @@ public class NewPatientInsuranceNoPI extends CommonFunctions {
      * @return
      * @throws Exception
      */
-    public boolean clickOnSaveNoPI() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = clickAndMoveToElementClickable(button_save, mediumWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnSaveNoPI")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnSaveNoPI");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickOnSaveNoPI() throws Exception {
+        clickAndMoveToElementClickable(button_save, mediumWait());
     }
 }

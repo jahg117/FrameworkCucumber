@@ -56,90 +56,40 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(iframe_newProgramEnrollment, longWait());
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isProductEnrollmentPageDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isProductEnrollmentPageDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+        return waitForElementVisibility(iframe_newProgramEnrollment, longWait());
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
-        try {
-            waitForElementVisibility(button_loggedOut, mediumWait());
-            if (productType.equalsIgnoreCase("")) {
-                productType = "AZ";
-            }
-            if (productType.equalsIgnoreCase("AZ")
-                    || productType.equalsIgnoreCase("DSI")) {
-                JsonFiles file = new JsonFiles();
-                file.setFileName("1372_EnrollmentProducts");
-                statusOperation = file.getRandomFieldArray(productType);
-            } else {
-                statusOperation = productType;
-            }
-            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-            waitForElementVisibility(input_product, mediumWait());
-            sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
-            clickElementVisible(input_programEndDate, mediumWait());
-            switchToParentFrame();
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillProductEnrollmentForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillProductEnrollmentForm");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), productType);
-                        break;
-                    }
-                }
-            }
+        waitForElementVisibility(button_loggedOut, mediumWait());
+        if (productType.equalsIgnoreCase("")) {
+            productType = "AZ";
         }
-        Values.globalCounter = 0;
+        if (productType.equalsIgnoreCase("AZ")
+                || productType.equalsIgnoreCase("DSI")) {
+            JsonFiles file = new JsonFiles();
+            file.setFileName("1372_EnrollmentProducts");
+            statusOperation = file.getRandomFieldArray(productType);
+        } else {
+            statusOperation = productType;
+        }
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+        waitForElementVisibility(input_product, mediumWait());
+        sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
+        clickElementVisible(input_programEndDate, mediumWait());
+        switchToParentFrame();
         return statusOperation;
     }
 
-    public boolean clickEnrollButton() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-            waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
-            waitForElementClickable(button_enroll, mediumWait());
+    public void clickEnrollButton() throws Exception {
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+        waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
+        waitForElementClickable(button_enroll, mediumWait());
+        scrollMethodToWebElement(button_enroll);
+        if (!button_enroll.isDisplayed()) {
             scrollMethodToWebElement(button_enroll);
-            if (!button_enroll.isDisplayed()) {
-                scrollMethodToWebElement(button_enroll);
-            }
-            clickElementJS(button_enroll);
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickEnrollButton")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickEnrollButton");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
-        return statusOperation;
+        clickElementJS(button_enroll);
     }
 
 

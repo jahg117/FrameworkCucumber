@@ -2,17 +2,16 @@ package pageObject.pages.accessServices.wizard;
 
 import base.functions.CommonFunctions;
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class NewEmployeeWizardPage extends CommonFunctions {
-    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
-
+    private final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CommonFunctions.class);
     @FindBy(xpath = "//*[contains(text(),'Sub Type')]/..//*[@role='none']")
     private WebElement dropdown_subType;
 
@@ -50,6 +49,7 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * This method is use only to ensure that the element has been displayed correctly, more use to know if a page is ready
      *
      * @return it returns a boolean value in case the form has been displayed
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     public boolean isNewEmployeeWizardFormDisplayed() throws Exception {
@@ -57,7 +57,7 @@ public class NewEmployeeWizardPage extends CommonFunctions {
     }
 
     /**
-     * /**
+     *
      * It validates if the new Account will be created completely random or specific data at columns in ConfigurableCustomerLookup.feature tables, can contains
      * specific data or "RND" if that columns requires random data, or "N_A" if it does not need to be filled
      *
@@ -66,16 +66,16 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @param middleName   it contains the middle name for the new Employee account (optional)
      * @param lastName     it contains the last name for the new Employee account (required)
      * @param randomRecord value used to know if the account will be fill with random data "RND" when it is random
-     * @throws Exception
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     public void validateAndCreateEmployee(String identifier, String firstName, String middleName, String lastName, String randomRecord) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
-        jsonFile.setFileName("EmployeeRecord");
-        HashMap<String, String> employeeDetailsStoreData = new HashMap<String, String>();
+        jsonFile.setFileName(Values.KEYVALUE_EMPLOYEERECORD);
+        HashMap<String, String> employeeDetailsStoreData;
 
         boolean allDataRND = false;
-        if (randomRecord.trim().equalsIgnoreCase("RND")) {
+        if (randomRecord.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
             employeeDetailsStoreData = fullEmployeeFormRND(identifier);
         } else {
             employeeDetailsStoreData = hibrydEmployeeForm(identifier, firstName, middleName, lastName);
@@ -83,7 +83,7 @@ public class NewEmployeeWizardPage extends CommonFunctions {
         }
         scrollMethodToWebElement(button_saveAccount);
         clickSaveButton();
-        employeeDetailsStoreData.put("externalID", getExternalID());
+        //employeeDetailsStoreData.put("externalID", getExternalID());DO NOT DELETE THIS LINE WAITING FOR CONFIRMATION IF ID WILL BE CREATED
         jsonFile.storeDataIntoJSON(employeeDetailsStoreData);
     }
 
@@ -92,34 +92,30 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      *
      * @param identifier it is used to add a label at the beginning of the first name, use to identify the records created by Automation, it can have any value
      * @return it returns a HashMap with string data used to fill the Employee form
-     * @throws Exception
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     public HashMap<String, String> fullEmployeeFormRND(String identifier) throws Exception {
-        JsonFiles jsonFile = new JsonFiles();
-        jsonFile.setFileName("statesUSCodes");
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         Faker faker = new Faker();
-        //============Storing Data Into employeeDetails
-        HashMap<String, String> employeeDetails = new HashMap<String, String>();
-        employeeDetails.put("firstName", identifier + faker.name().firstName());
-        employeeDetails.put("middleName", faker.name().firstName());
-        employeeDetails.put("lastName", faker.name().lastName() + underScore + generateTimeStamp(dateFormat));
 
+        //============Storing Data Into employeeDetails
+        HashMap<String, String> employeeDetails = new HashMap<>();
+        employeeDetails.put(Values.KEYVALUE_FIRSTNAME, identifier + faker.name().firstName());
+        employeeDetails.put(Values.KEYVALUE_MIDDLENAME, faker.name().firstName());
+        employeeDetails.put(Values.KEYVALUE_LASTNAME, faker.name().lastName() + Values.CHAR_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
 
         //============Populating The Employee Data
         clickAndMoveToElementVisible(dropdown_subType, mediumWait());
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, Values.VALUESTOSEARCH_NONE), mediumWait());
         clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get(Values.KEYVALUE_FIRSTNAME), mediumWait());
         clickAndMoveToElementVisible(input_middleName, mediumWait());
         input_middleName.clear();
-        sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get(Values.KEYVALUE_MIDDLENAME), mediumWait());
         clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get(Values.KEYVALUE_LASTNAME), mediumWait());
         return employeeDetails;
     }
 
@@ -133,18 +129,16 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @param middleName it contains the middle name for the new Employee account (optional)
      * @param lastName   it contains the last name for the new Employee account (required)
      * @return it returns a HashMap with string data used to fill the Employee form
-     * @throws Exception
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     private HashMap<String, String> hibrydEmployeeForm(String identifier, String firstName, String middleName, String lastName) throws Exception {
-        Faker faker = new Faker();
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
+
         //============Storing Data Into employeeDetails
-        HashMap<String, String> employeeDetails = new HashMap<String, String>();
-        employeeDetails.put("firstName", identifier + hibrydEmployeeFormFilter(firstName, "firstName"));
-        employeeDetails.put("middleName", hibrydEmployeeFormFilter(middleName, "middleName"));
-        employeeDetails.put("lastName", hibrydEmployeeFormFilter(lastName, "lastName") + underScore + generateTimeStamp(dateFormat));
+        HashMap<String, String> employeeDetails = new HashMap<>();
+        employeeDetails.put(Values.KEYVALUE_FIRSTNAME, identifier + hibrydEmployeeFormFilter(firstName, Values.KEYVALUE_FIRSTNAME));
+        employeeDetails.put(Values.KEYVALUE_MIDDLENAME, hibrydEmployeeFormFilter(middleName, Values.KEYVALUE_MIDDLENAME));
+        employeeDetails.put(Values.KEYVALUE_LASTNAME, hibrydEmployeeFormFilter(lastName, Values.KEYVALUE_LASTNAME) + Values.CHAR_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
         return employeeDetails;
     }
 
@@ -154,23 +148,18 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * @param employeeValue it will contains the data for each field to be populated
      * @param nameOfField   it is used to know which field will be evaluated
      * @return it will return the valued used to fill the Employee form
-     * @throws Exception
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     public String hibrydEmployeeFormFilter(String employeeValue, String nameOfField) throws Exception {
-        WebElement backUpWElement = null;
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
-        String notApply = "N_A";
-        String randomOption = "RND";
         String returnedValue = "";
         Faker faker = new Faker();
         switch (nameOfField) {
-            case "firstName":
-                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(randomOption)) {
+            case Values.KEYVALUE_FIRSTNAME:
+                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.name().firstName();
                 } else {
-                    if (employeeValue.trim().equalsIgnoreCase(notApply)) {
+                    if (employeeValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = employeeValue;
                     } else {
                         returnedValue = employeeValue;
@@ -178,11 +167,11 @@ public class NewEmployeeWizardPage extends CommonFunctions {
                 }
                 break;
 
-            case "middleName":
-                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(randomOption)) {
+            case Values.KEYVALUE_MIDDLENAME:
+                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.funnyName().name();
                 } else {
-                    if (employeeValue.trim().equalsIgnoreCase(notApply)) {
+                    if (employeeValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = employeeValue;
                     } else {
                         returnedValue = employeeValue;
@@ -190,16 +179,20 @@ public class NewEmployeeWizardPage extends CommonFunctions {
                 }
                 break;
 
-            case "lastName":
-                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat);
+            case Values.KEYVALUE_LASTNAME:
+                if (!employeeValue.trim().isEmpty() && employeeValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().lastName() + Values.CHAR_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM);
                 } else {
-                    if (employeeValue.trim().equalsIgnoreCase(notApply)) {
+                    if (employeeValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = employeeValue;
                     } else {
                         returnedValue = employeeValue;
                     }
                 }
+                break;
+
+            default:
+                logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
                 break;
         }
         return returnedValue;
@@ -209,32 +202,30 @@ public class NewEmployeeWizardPage extends CommonFunctions {
      * It is used to fulfill the Employee New Account form, validating which elements are going to be fill
      *
      * @param employeeDetails it contains the list of all the fields with their respective data
-     * @throws Exception
+     * @throws Exception Selenium exception
      * @author J.Ruano
      */
     public void fillingHybridEmployeeForm(HashMap<String, String> employeeDetails) throws Exception {
-        String notApply = "N_A";
-        Faker faker = new Faker();
         clickAndMoveToElementVisible(dropdown_subType, mediumWait());
-        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, "--None--"), mediumWait());
+        clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_subTypeList, Values.VALUESTOSEARCH_NONE), mediumWait());
 
         clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
-        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_firstName, employeeDetails.get(Values.KEYVALUE_FIRSTNAME), mediumWait());
 
-        if (!employeeDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
-            sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get("middleName"), mediumWait());
+        if (!employeeDetails.get(Values.KEYVALUE_MIDDLENAME).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            sendKeysAndMoveToElementVisible(input_middleName, employeeDetails.get(Values.KEYVALUE_MIDDLENAME), mediumWait());
         }
         clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
-        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get("lastName"), mediumWait());
+        sendKeysAndMoveToElementVisible(input_lastName, employeeDetails.get(Values.KEYVALUE_LASTNAME), mediumWait());
     }
 
     /**
      * It retrieves the Account ID generated for the new Employee account created
      *
      * @return the Account ID added to the new Employee account
-     * @throws Exception
+     * @throws Exception Selenium exception
      */
     public String getExternalID() throws Exception {
         waitForElementVisibility(label_systemInfo, longWait());
@@ -246,17 +237,16 @@ public class NewEmployeeWizardPage extends CommonFunctions {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         clickMethod(label_accountHistory);
-        clickAndMoveToElementClickable(label_systemInfo,shortWait());
-        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
-        waitForElementPresenceBy(azID,shortWait());
+        clickAndMoveToElementClickable(label_systemInfo, shortWait());
+        waitForElementPresenceBy(Values.BYPATH_AZID, shortWait());
         scrollToElementByCoordinates(label_externalID);
-        return label_externalID.getText().replace("Account ID", "").trim();
+        return label_externalID.getText().replace(Values.TXT_ACCOUNTID,Values.REPLACETO_EMPTY ).trim();
     }
 
     /**
      * It clicks the save button after all the data required for the Employee account is populated
      *
-     * @throws Exception
+     * @throws Exception Selenium exception
      */
     public void clickSaveButton() throws Exception {
         clickAndMoveToElementClickable(button_saveAccount, mediumWait());
