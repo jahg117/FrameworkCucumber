@@ -108,24 +108,9 @@ public class PersonAccountPage extends CommonFunctions {
 
     public String getPEPId() throws Exception {
         String statusOperation = "";
-        try {
-            waitForElementVisibility(buttonNewCase, longWait());
-            waitForElementVisibility(labelPepId, mediumWait());
-            statusOperation = getWebElementText(labelPepId);
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getPEPId")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getPEPId");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
+        waitForElementVisibility(buttonNewCase, longWait());
+        waitForElementVisibility(labelPepId, mediumWait());
+        statusOperation = getWebElementText(labelPepId);
         return statusOperation;
     }
 
@@ -232,28 +217,10 @@ public class PersonAccountPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickOnNewConsent() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToDefaultContentFrame();
-            clickAndMoveToElementVisible(tabConsent, mediumWait());
-            clickAndMoveToElementVisible(buttonNewConsent, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickOnNewConsent")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickOnNewConsent");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickOnNewConsent() throws Exception {
+        switchToDefaultContentFrame();
+        clickAndMoveToElementVisible(tabConsent, mediumWait());
+        clickAndMoveToElementVisible(buttonNewConsent, mediumWait());
     }
 
 
@@ -348,28 +315,10 @@ public class PersonAccountPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean clickPayerTab() throws Exception {
-        boolean statusOperation = false;
-        try {
-            clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
-            clickProductEnrollment();
-            clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickPayerTab")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickPayerTab");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
-        }
-        Values.globalCounter = 0;
-        return statusOperation;
+    public void clickPayerTab() throws Exception {
+        clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
+        clickProductEnrollment();
+        clickAndMoveToElementClickable(tabButtonPayer, mediumWait());
     }
 
 

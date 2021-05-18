@@ -69,40 +69,22 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
 
-    public boolean clickNewCareTeamMember() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchSubTabByIndexSF(0, shortWait());
-            switchSubTabByIndexSF(1, shortWait());
-            int exitCounter = 2;
-            for (int i = 0; i < exitCounter; i++) {
-                if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
-                    logger.info("Waiting For Attestation To Be Available");
-                } else {
-                    clickElementJS(label_attestationTabOption);
-                    waitForElementClickable(label_careTeamTabOption, shortWait());
-                    clickElementJS(label_careTeamTabOption);
-                    waitForElementVisibility(button_newCareTeamMember, mediumWait());
-                    clickElementClickable(button_newCareTeamMember, mediumWait());
-                    statusOperation = true;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("clickNewCareTeamMember")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "clickNewCareTeamMember");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
+    public void clickNewCareTeamMember() throws Exception {
+        switchSubTabByIndexSF(0, shortWait());
+        switchSubTabByIndexSF(1, shortWait());
+        int exitCounter = 2;
+        for (int i = 0; i < exitCounter; i++) {
+            if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
+                logger.info("Waiting For Attestation To Be Available");
+            } else {
+                clickElementJS(label_attestationTabOption);
+                waitForElementClickable(label_careTeamTabOption, shortWait());
+                clickElementJS(label_careTeamTabOption);
+                waitForElementVisibility(button_newCareTeamMember, mediumWait());
+                clickElementClickable(button_newCareTeamMember, mediumWait());
+                break;
             }
         }
-        Values.globalCounter = 0;
-        return statusOperation;
     }
 
 
