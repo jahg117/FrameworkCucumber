@@ -7,6 +7,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class CustomerLookupPage extends CommonFunctions {
     private List<WebElement> row_address;
     private By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
 
-    @FindBy(xpath = "//label[contains(text(),'Relationship')]/../..//select")
+    @FindBy(xpath = "//label[contains(text(),'Relationship')]/following::select")
     private WebElement dropdown_relationship;
 
     @FindBy(xpath = "//input[@value='Create CareTeam Member']")
@@ -216,10 +217,12 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void selectRelationshipOption(String option) throws Exception {
+        String relationShipValue="";
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
         waitForElementVisibility(dropdown_relationship, mediumWait());
         scrollToWebElementJS(dropdown_relationship);
-        selectDropDownClickableByText(dropdown_relationship, option, mediumWait());
+        //selectDropDownClickableByText(dropdown_relationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
+        selectAndMoveDropdownClickableByText(dropdown_relationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
         if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
             waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
         }
@@ -1390,4 +1393,37 @@ public class CustomerLookupPage extends CommonFunctions {
             sendKeysAndMoveToElementVisible(input_searchLastName, employeeDetails.get("lastName"), mediumWait());
         }
     }
+    public String ctmRelationShipFilter(String ctmRelationship) throws Exception {
+        switch (ctmRelationship.trim().toUpperCase()) {
+            case "PP":
+                ctmRelationship = Values.CTM_PRESCRIBINGPHYSICIAN;
+                break;
+            case "PF":
+                ctmRelationship = Values.CTM_PRESCRIBINGFACILITY;
+                break;
+            case "TP":
+                ctmRelationship = Values.CTM_TREATINGPHYSICIAN;
+                break;
+            case "TF":
+                ctmRelationship = Values.CTM_TREATINGFACILITY;
+                break;
+            case "PH":
+                ctmRelationship = Values.CTM_HCAPHARMACIST;
+                break;
+            case "PM":
+                ctmRelationship = Values.CTM_PHARMACIST;
+                break;
+            case "OS":
+                ctmRelationship = Values.CTM_OFFICESTAFF;
+                break;
+            case "OT":
+                ctmRelationship = Values.CTM_OTHER;
+                break;
+            case "OF":
+                ctmRelationship = Values.CTM_HCAOTHERFACILITY;
+                break;
+        }
+        return ctmRelationship;
+    }
+
 }

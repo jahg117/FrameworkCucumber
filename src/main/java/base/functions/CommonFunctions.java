@@ -2,6 +2,7 @@ package base.functions;
 
 import base.driverInitialize.DriverFactory;
 import com.github.javafaker.Faker;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -286,7 +287,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + getWebElementLocatorPath(webElement) +" with attribute: "+attribute+" value: "+attributeValue);
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement) + " with attribute: " + attribute + " value: " + attributeValue);
             statusOperation = autoCastingBoolean(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
@@ -334,7 +335,7 @@ public class CommonFunctions {
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element not found: " + getWebElementLocatorPath(webElement)+" with attribute: "+attribute);
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement) + " with attribute: " + attribute);
             statusOperation = autoCastingBoolean(executeReflection(webElement, attribute, attributeValue, timeOutInSeconds));
         }
         return statusOperation;
@@ -1087,7 +1088,7 @@ public class CommonFunctions {
                 clickAndMoveToWebElementByActions(getWebElement(webElement));
                 logger.info("WebElement clicked");
 
-            }else {
+            } else {
                 throw new NoSuchElementException("WebElement not clickable");
             }
         } catch (Exception e) {
@@ -4205,7 +4206,7 @@ public class CommonFunctions {
             returnedValue = (boolean) objectToCast.getClass().cast(objectToCast);
         } catch (Exception e) {
             logger.warn("The value of the object is null");
-            if(objectToCast == null) {
+            if (objectToCast == null) {
                 returnedValue = false;
             } else {
                 returnedValue = true;
@@ -4213,4 +4214,48 @@ public class CommonFunctions {
         }
         return returnedValue;
     }
+
+    public List<ArrayList<String>> splitIntoLists2(List<String> listToSplit,String splitCharacter) throws Exception {
+        ArrayList<ArrayList<String>> ctmListOfList = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < listToSplit.size(); i++) {
+            String[] listToArray = (String[]) splitRegex(listToSplit.get(i), splitCharacter).toArray(new String[splitRegex(listToSplit.get(i), splitCharacter).size()]);
+
+        }
+
+
+
+
+
+
+        return ctmListOfList;
+    }
+
+    /**
+     * @author Jonathan Ruano
+     * @method This method creates a list of list with multiple records that are created from the string received to
+     * 		   the method
+     * @param record	it contains the record(s) in a single string
+     * @param dataSeparator it contains the char to be able to split the Data on each record
+     * @param recordSeparator it contains the char to be able to split Each Record
+     * @return it returns a list of list
+     * @throws Exception
+     */
+    public List<List<String>> splitIntoLists(String record, String recordSeparator, String dataSeparator) throws Exception{
+        List<List<String>> listOfListWithAllRecords = Lists.newArrayList();
+        String[] listOfRecords = null;
+        String[] arrayDataList = null;
+        //===================Split Of Each Record
+        listOfRecords = record.split(recordSeparator);
+        for (int i = 0; i < listOfRecords.length; i++) {
+            //===================Split Of Data for each record
+            arrayDataList = listOfRecords[i].split(dataSeparator);
+            listOfListWithAllRecords.add(new ArrayList<String>());
+            for (int j = 0; j < arrayDataList.length; j++) {
+                listOfListWithAllRecords.get(i).add(arrayDataList[j]);
+            }
+        }
+        return listOfListWithAllRecords;
+    }
+
+
 }

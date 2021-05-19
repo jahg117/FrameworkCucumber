@@ -15,6 +15,7 @@ import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     private CommonData commonData;
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     private String product;
-    private static String executionFlag = "";
+    private static String executionFlag = Values.REPLACETO_EMPTY;
     CommonFunctions commonFunctions = new CommonFunctions();
 
     public CreateProductEnrollment(CommonData commonData) throws Exception {
@@ -49,11 +50,11 @@ public class CreateProductEnrollment extends ApplicationInstance {
         Faker faker = new Faker();
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-                    if (!commonData.userDetails.getUsername().equalsIgnoreCase("admin")) {
-                        accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hca");
+                    if (!commonData.userDetails.getUsername().equalsIgnoreCase(Values.TXT_ADMIN)) {
+                        accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), Values.TXT_HCA);
                     }
                     accessServices.getCustomerLookupPage().clickNewAccount();
                 } else {
@@ -62,8 +63,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-            if (!commonData.userDetails.getUsername().equalsIgnoreCase("admin")) {
-                accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), "hcp");
+            if (!commonData.userDetails.getUsername().equalsIgnoreCase(Values.TXT_ADMIN)) {
+                accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), Values.TXT_HCP);
             }
             accessServices.getCustomerLookupPage().clickNewAccount();
         }
@@ -82,7 +83,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("^I enter a valid consentType to get an available product in the product enrollment form$")
     public void fillMandatoryFieldsProgramEnrollmentUsingTable(DataTable dataTable) throws Exception {
         List<Map<String, String>> consentTypeList = dataTable.asMaps(String.class, String.class);
-        Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
         String consentType = accessServices.getNewAccountPage().selectAccountTypeFromList(consentTypeList);
         product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
     }
@@ -92,8 +93,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void mandatoryFieldsAccountForm() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     boolean page = accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
                     Assert.assertTrue(page, "The Patient/Consumer/Caregiver page was not displayed");
                     HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
@@ -137,8 +138,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void clickNewProductEnrollment() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getPersonAccountPage().clickNewProductEnrollment();
                 } else {
                     logger.info("Does not required to be executed Since Flag: " + executionFlag);
@@ -151,7 +152,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
     @And("^I enter a valid \"([^\"]*)\" product in the product enrollment form$")
     public void fillMandatoryFieldsProgramEnrollment(String productType) throws Exception {
-        Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
         product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(productType);
         commonData.product = new Product(product);
     }
@@ -160,8 +161,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void clickEnrollButton() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
                 } else {
                     logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
@@ -176,32 +177,32 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void selectProgramEnrollment() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
                     Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
                     String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
                     Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
-                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                    Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
                 } else {
                     logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
-            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
             String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
             Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
             String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
             Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
-            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
             Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
         }
     }
 
     @And("^I create a list of product enrollments with a care team member$")
-    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception{
+    public void createProductEnrollmentFlow(DataTable dataTable) throws Exception {
         JsonFiles file = new JsonFiles();
         file.setFileName("CareTeamMember");
         List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
@@ -210,11 +211,14 @@ public class CreateProductEnrollment extends ApplicationInstance {
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
             accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            if(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase("")){
-                try{ accessServices.getCreateNewEnrollmentPage().clickEnrollButton(); }catch (Exception e){}
+            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                try {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                } catch (Exception e) {
+                }
             }
             accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-            for(int i = 0; i < file.getFieldArray("email").size(); i++){
+            for (int i = 0; i < file.getFieldArray("email").size(); i++) {
                 String email = file.getFieldArray("email").get(i).toString();
                 String type = file.getFieldArray("type").get(i).toString();
                 String relation = file.getFieldArray("relationship").get(i).toString();
@@ -234,8 +238,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void createProductEnrollment(DataTable dataTable) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
                     ArrayList<String> productEnrollments = new ArrayList<>();
                     for (Map<String, String> el : list) {
@@ -275,7 +279,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
     @And("^I validate the product enrollment is displayed")
     public void productEnrollmentDisplayed() throws Exception {
-        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
         commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
     }
 
@@ -283,8 +287,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void selectFromTableAccountType(String accountType) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accountType = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(accountType);
                     accessServices.getNewAccountPage().selectRecordType(accountType);
                 } else {
@@ -302,8 +306,8 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void getProductEnrollmentsUsingTable() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentsTablePage().getProductEnrollmentsList().get(0));
                 } else {
                     logger.info("Does not required to be executed Since Flag: " + commonData.globalShareData.getExecutionFlag());
@@ -321,9 +325,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
             Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || accountType.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || accountType.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                         accountType = accessServices.getNewAccountPage().randomSelectionJSONFile(accountKeyJSON, fileNameJSON);
                     }
                     String dropdownOption = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(accountType);
@@ -343,13 +347,13 @@ public class CreateProductEnrollment extends ApplicationInstance {
             fileNameJSON) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentType.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentType.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                         consentType = accessServices.getNewAccountPage().randomSelectionJSONFile(consentKeyJSON, fileNameJSON);
                     }
                     commonData.consentType = new ConsentType(consentType);
-                    Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+                    Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
                     commonData.product = new Product(product);
                 } else {
@@ -358,7 +362,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             commonData.consentType = new ConsentType(consentType);
-            Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+            Assert.assertTrue(accessServices.getCreateNewEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
             product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(consentType);
             commonData.product = new Product(product);
         }
@@ -370,6 +374,58 @@ public class CreateProductEnrollment extends ApplicationInstance {
      */
     @Then("delete the value of the executionFlag")
     public void deleteTheValueOfTheExecutionFlag() throws Exception {
-        executionFlag = "";
+        executionFlag = Values.REPLACETO_EMPTY;
+    }
+
+    //==================================================================PatientDataCreation.feature Steps Definition
+    @And("I fill the fields from the account form PDC Using {string}")
+    public void fillFieldsAccountFormPDC(String accData) throws Exception {
+        accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
+        HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverFormPDC(accData);
+        accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        commonData.patient = new Patient(patientDetails);
+    }
+
+    @And("I create a list of product enrollments with a care team member Using for PDC")
+    public void createProductEnrollmentFlowPDC(DataTable dataTable) throws Exception {
+        JsonFiles file = new JsonFiles();
+        file.setFileName("CareTeamMember");
+        List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> el : list) {
+            String product = el.get("ProductEnrollment");
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product));
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                try {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                } catch (Exception e) {
+                }
+            }
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+
+            String ctmData = commonData.globalShareData.getRecordData();
+            List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+
+            for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                String type = ctmListOfList.get(0).get(i);
+                String email = ctmListOfList.get(1).get(i);
+                String relation = ctmListOfList.get(2).get(i);
+                accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
+                accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                accessServices.getCustomerLookupPage().selectCaseContactOption();
+                accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            }
+            accessServices.getSubTabsPage().closeSubTab(0);
+        }
+    }
+
+    @Then("I create the Care Team Member data using {string} for PDC")
+    public void createCTMForPDC(String ctmData) {
+        commonData.globalShareData = new GlobalShareData(ctmData);
+        commonData.globalShareData.getRecordData();
     }
 }

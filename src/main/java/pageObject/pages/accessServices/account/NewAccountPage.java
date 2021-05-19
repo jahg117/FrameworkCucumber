@@ -91,7 +91,7 @@ public class NewAccountPage extends CommonFunctions {
                     break;
 
                 case "cpc":
-                    statusOperation = Values.TXT_CPC;
+                    statusOperation = Values.TXT_PATIENTCPC;
                     break;
 
                 case "emp":

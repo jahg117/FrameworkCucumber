@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.Values;
-
 public class NewPatientInsurance extends CommonFunctions {
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     @FindBy(xpath = "//*[contains(text(),'No Patient Insurance')]")
@@ -23,7 +22,8 @@ public class NewPatientInsurance extends CommonFunctions {
     @FindBy(xpath = "//*[@slot='primaryField']/..//*[starts-with(text(),'PI')]")
     private WebElement labelPatientInsuranceNumber;
 
-
+    @FindBy(xpath = "//h2[normalize-space(text())='New Patient Insurance']")
+    private WebElement labelNewPatientInsurance;
     /**
      * It will select the insurance type i.e. NOPI (No Patient Insurance), PMI and PBM
      *
@@ -31,7 +31,7 @@ public class NewPatientInsurance extends CommonFunctions {
      * @author J.Ruano
      */
     public void selectInsuranceType(String insuranceType) throws Exception {
-        waitForElementClickable(radioButtonNoPI, mediumWait());
+        waitForElementClickable(labelNewPatientInsurance, mediumWait());
         switch (insuranceType.trim().toLowerCase()) {
             case Values.TXT_NOPI:
                 clickAndMoveToElementClickable(radioButtonNoPI, shortWait());
@@ -57,7 +57,7 @@ public class NewPatientInsurance extends CommonFunctions {
      * @author J.Ruano
      */
     public String getPatientInsuranceNumber() throws Exception {
-        waitForElementVisibility(labelPatientInsuranceNumber, shortWait());
+        waitForElementVisibility(labelPatientInsuranceNumber, mediumWait());
         return getWebElementText(labelPatientInsuranceNumber);
     }
 }

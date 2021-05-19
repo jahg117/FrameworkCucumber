@@ -129,19 +129,7 @@ public class NewConsentWizardPage extends CommonFunctions {
             clickAndMoveToElementVisible(button_next, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillConsentForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillConsentForm");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentStatus, consentDate, consentSource, consentAuth);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -174,19 +162,7 @@ public class NewConsentWizardPage extends CommonFunctions {
             waitForElementInvisibilityOfElementLocatedBy(newConsentTab, mediumWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectConsentAddress")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectConsentAddress");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), randomAddress, idxCheckbox);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

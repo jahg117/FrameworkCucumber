@@ -355,7 +355,7 @@ public class CaseInformationPage extends CommonFunctions {
         try {
             clickAndMoveToElementClickable(element, mediumWait());
             waitForElementListVisible(listElement, mediumWait());
-            if (option.equalsIgnoreCase("random")) {
+            if (option.equalsIgnoreCase(Values.TXT_RANDOM)) {
                 WebElement el = getRandomWebElementFromListExceptFirst(listElement, mediumWait());
                 statusOperation = getWebElementText(el);
                 clickAndMoveToElementClickable(el, mediumWait());
