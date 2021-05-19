@@ -10,17 +10,20 @@ import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.ConsentType;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class CreateAConsent extends ApplicationInstance {
     private CommonData commonData;
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    private static String executionFlag = "";
+    private static String executionFlag = Values.REPLACETO_EMPTY;
     JsonFiles jsonFiles = new JsonFiles();
+    CommonFunctions commonFunctions = new CommonFunctions();
 
 
-    public CreateAConsent(CommonData commonData) throws Exception{
+    public CreateAConsent(CommonData commonData) throws Exception {
         this.commonData = commonData;
     }
 
@@ -30,7 +33,7 @@ public class CreateAConsent extends ApplicationInstance {
      * @param searchFromFile contains the value, that will be used as boolean, i.e. if it is come "", empty or with the value og "N_A" it will not create a product enrollment
      */
     @Given("{string} it selects which steps will be execute for consent purpose")
-    public void selectStepsToExecuteConsentFeature(String searchFromFile) throws Exception{
+    public void selectStepsToExecuteConsentFeature(String searchFromFile) throws Exception {
         executionFlag = searchFromFile;
     }
 
@@ -39,8 +42,8 @@ public class CreateAConsent extends ApplicationInstance {
     public void searchCPCByID(String cpcID) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
                 } else {
                     accessServices.getCustomerLookupPage().searchCPCByID(cpcID);
@@ -55,8 +58,8 @@ public class CreateAConsent extends ApplicationInstance {
     public void selectAndClickAZID() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
                 } else {
                     accessServices.getCustomerLookupPage().selectAndClickAZID();
@@ -74,14 +77,15 @@ public class CreateAConsent extends ApplicationInstance {
 
     @And("I select the {string} consent type at new consent wizard page")
     public void selectConsentType(String consentTypeOption) throws Exception {
+        consentTypeOption = accessServices.getConsentPage().consentTypeFilter(consentTypeOption);
         try {
             if (commonData.globalShareData.getRandomSelectionFlag() != null) {
-                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                     consentTypeOption = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
-                accessServices.getNewConsentPage().selectConsentType(consentTypeOption);
-                commonData.consentType = new ConsentType(consentTypeOption);
             }
+            accessServices.getNewConsentPage().selectConsentType(consentTypeOption);
+            commonData.consentType = new ConsentType(consentTypeOption);
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getNewConsentPage().selectConsentType(consentTypeOption);
             commonData.consentType = new ConsentType(consentTypeOption);
@@ -93,16 +97,16 @@ public class CreateAConsent extends ApplicationInstance {
     public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
         try {
             if (commonData.globalShareData.getRandomSelectionFlag() != null) {
-                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentStatus.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentStatus.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                     consentStatus = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
-                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentDate.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentDate.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                     consentDate = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
-                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentSource.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentSource.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                     consentSource = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
-                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase("RND".trim()) || consentAuth.trim().equalsIgnoreCase("RND".trim())) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentAuth.trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
                     consentAuth = commonData.globalShareData.getRandomSelectionFlag().trim();
                 }
                 accessServices.getNewConsentWizard().fillConsentForm(consentStatus, consentDate, consentSource, consentAuth);
@@ -122,8 +126,8 @@ public class CreateAConsent extends ApplicationInstance {
         jsonFiles.setFileName("1372_EnrollmentProducts");
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     if (commonData.product.getProduct() != null || !commonData.product.getProduct().isEmpty()) {
                         product = commonData.product.getProduct().trim();
                     }
@@ -143,16 +147,16 @@ public class CreateAConsent extends ApplicationInstance {
 
     @Then("I validate that no warning {string} {string} message is displayed related to the type lacking of a consent at the product enrollment page")
     public void validatePEDSIMessage(String consentTypeForm, String fileNameJSON) throws Exception {
-        String messageJSONKey = "";
-        String messagePE = "";
+        String messageJSONKey = Values.REPLACETO_EMPTY;
+        String messagePE = Values.REPLACETO_EMPTY;
         jsonFiles.setFileName("ConstantData");
         boolean messageConsentType = false;
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     if (commonData.consentType.getConsentType() != null || !commonData.consentType.getConsentType().isEmpty()) {
-                        messageJSONKey = commonData.consentType.getConsentType().trim().replaceAll("[(\\s)]", "");
+                        messageJSONKey = commonData.consentType.getConsentType().trim().replaceAll(Values.REGEX_WITHESPACE, Values.REPLACETO_EMPTY);
                         messagePE = accessServices.getNewAccountPage().randomSelectionJSONFile(messageJSONKey, fileNameJSON);
                     }
                     accessServices.getProductEnrollmentPage().validatePEDSIMessage(messagePE);
@@ -171,8 +175,8 @@ public class CreateAConsent extends ApplicationInstance {
     public void validateValidPAFValue(String validPAF) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     if (commonData.consentType.getConsentType() != null || !commonData.consentType.getConsentType().isEmpty()) {
                         if (commonData.consentType.getConsentType().trim().contains("DSI")) {
                             validPAF = "DSI";
@@ -197,8 +201,8 @@ public class CreateAConsent extends ApplicationInstance {
     public void doDummySearchCPC(String dummyValue, String accountType) throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getCustomerLookupPage().doDummySearch(dummyValue, accountType);
                 } else {
                     logger.info("Does not required to be executed Since Flag: " + executionFlag);
@@ -213,8 +217,8 @@ public class CreateAConsent extends ApplicationInstance {
     public void clickOnAccountCreated() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getAccountsPage().clickAccountCreated(commonData.patient.getPatientName());
                 } else {
                     logger.info("Does not required to be executed Since Flag: " + executionFlag);
@@ -226,8 +230,33 @@ public class CreateAConsent extends ApplicationInstance {
     }
 
     @And("I validate the consent ID is displayed")
-    public void consentIDDisplayed() throws Exception{
-        String consentID = accessServices.getConsentPage().getConsentID();
+    public void consentIDDisplayed() throws Exception {
+        accessServices.getConsentPage().getConsentID();
     }
 
+    @And("I fill the selected consent type form with the following data {string} at new consent wizard page for PDC")
+    public void fillConsentForm(String consentData) throws Exception {
+        List<String> consentDataList = commonFunctions.splitRegex(consentData = consentData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
+        try {
+            if (commonData.globalShareData.getRandomSelectionFlag() != null) {
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentDataList.get(0).trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
+                    consentDataList.set(0, commonData.globalShareData.getRandomSelectionFlag().trim());
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentDataList.get(1).trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
+                    consentDataList.set(1, commonData.globalShareData.getRandomSelectionFlag().trim());
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentDataList.get(2).trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
+                    consentDataList.set(2, commonData.globalShareData.getRandomSelectionFlag().trim());
+                }
+                if (commonData.globalShareData.getRandomSelectionFlag().trim().equalsIgnoreCase(Values.TXT_RANDOM.trim()) || consentDataList.get(3).trim().equalsIgnoreCase(Values.TXT_RANDOM.trim())) {
+                    consentDataList.set(3, commonData.globalShareData.getRandomSelectionFlag().trim());
+                }
+                accessServices.getNewConsentWizard().fillConsentForm(consentDataList.get(0), consentDataList.get(0), consentDataList.get(0), consentDataList.get(0));
+            } else {
+                accessServices.getNewConsentWizard().fillConsentForm(consentDataList.get(0), consentDataList.get(1), consentDataList.get(2), consentDataList.get(3));
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            accessServices.getNewConsentWizard().fillConsentForm(consentDataList.get(0), consentDataList.get(1), consentDataList.get(2), consentDataList.get(3));
+        }
+    }
 }

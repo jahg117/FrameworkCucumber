@@ -57,19 +57,7 @@ public class NewAccountPage extends CommonFunctions {
         try {
             selectedElement = jsonFile.getRandomFieldArray(keyName);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("randomSelectionJSONFile")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "randomSelectionJSONFile");
-                        selectedElement = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), keyName, fileName);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return selectedElement;
     }
 
@@ -86,24 +74,28 @@ public class NewAccountPage extends CommonFunctions {
      */
     public String assignCorrectAccountTypeValue(String accountType) throws Exception {
         String statusOperation = "";
-        switch (accountType.trim().toLowerCase()) {
-            case "hca":
-                statusOperation = Values.TXT_HEALTHCAREACCOUNT;
-                break;
-            case "hcp":
-                statusOperation = Values.TXT_HEALTHCAREPROVIDER;
-                break;
-            case "cpc":
-                statusOperation = Values.TXT_CPC;
-                break;
-            case "emp":
-                statusOperation = Values.TXT_EMPLOYEE;
-                break;
-            default:
-                logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
-                break;
+            switch (accountType.trim().toLowerCase()) {
+                case "hca":
+                    statusOperation = Values.TXT_HEALTHCAREACCOUNT;
+                    break;
+
+                case "hcp":
+                    statusOperation = Values.TXT_HEALTHCAREPROVIDER;
+                    break;
+
+                case "cpc":
+                    statusOperation = Values.TXT_PATIENTCPC;
+                    break;
+
+                case "emp":
+                    statusOperation = Values.TXT_EMPLOYEE;
+                    break;
+
+                default:
+                    logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
+                    break;
             }
-            return statusOperation;
+        return statusOperation;
     }
 
     /**
@@ -140,19 +132,8 @@ public class NewAccountPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("selectAccountTypeFromList")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "selectAccountTypeFromList");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), accountTypeList);
-                        break;
-                    }
-                }
-            }
+
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

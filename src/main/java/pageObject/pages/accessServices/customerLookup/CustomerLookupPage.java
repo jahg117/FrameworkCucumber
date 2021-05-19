@@ -7,6 +7,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class CustomerLookupPage extends CommonFunctions {
     private List<WebElement> row_address;
     private By row_addressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
 
-    @FindBy(xpath = "//label[contains(text(),'Relationship')]/../..//select")
+    @FindBy(xpath = "//label[contains(text(),'Relationship')]/following::select")
     private WebElement dropdown_relationship;
 
     @FindBy(xpath = "//input[@value='Create CareTeam Member']")
@@ -187,21 +188,19 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public void selectCaseContactOption() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
-        if(waitForElementVisibility(checkbox_caseContact, shortWait())){
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
+        }
+        if (waitForElementVisibility(checkbox_caseContact, shortWait())) {
             waitForElementClickable(checkbox_caseContact, shortWait());
             scrollToWebElementJS(checkbox_caseContact);
             clickAndMoveToElementClickable(checkbox_caseContact, mediumWait());
-            //waitForElementClickable(checkbox_caseContactCaseNumber, mediumWait());
-            if(waitForElementVisibility(checkbox_caseContactPhoneNumber, shortWait() )){
+            if (waitForElementVisibility(checkbox_caseContactPhoneNumber, shortWait())) {
                 clickAndMoveToElementClickable(checkbox_caseContactPhoneNumber, mediumWait());
             }
-            if(waitForElementVisibility(checkbox_caseContactCaseNumber, mediumWait()) && !isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
+            if (waitForElementVisibility(checkbox_caseContactCaseNumber, mediumWait()) && !isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())) {
                 clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
             }
-            //       if(!isClickableElementSelected(checkbox_caseContactCaseNumber, shortWait())){
-            //           clickAndMoveToElementClickable(checkbox_caseContactCaseNumber, mediumWait());
-            //       }
         }
         switchToParentFrame();
     }
@@ -216,11 +215,14 @@ public class CustomerLookupPage extends CommonFunctions {
     }
 
     public void selectRelationshipOption(String option) throws Exception {
+        String relationShipValue="";
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
         waitForElementVisibility(dropdown_relationship, mediumWait());
         scrollToWebElementJS(dropdown_relationship);
-        selectDropDownClickableByText(dropdown_relationship, option, mediumWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
+        selectAndMoveDropdownClickableByText(dropdown_relationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
+        }
         switchToParentFrame();
     }
 
@@ -394,7 +396,9 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(button_search, mediumWait());
-        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
+        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
+            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
+        }
         switchToDefaultContentFrame();
     }
 
@@ -1386,4 +1390,37 @@ public class CustomerLookupPage extends CommonFunctions {
             sendKeysAndMoveToElementVisible(input_searchLastName, employeeDetails.get("lastName"), mediumWait());
         }
     }
+    public String ctmRelationShipFilter(String ctmRelationship) throws Exception {
+        switch (ctmRelationship.trim().toUpperCase()) {
+            case "PP":
+                ctmRelationship = Values.CTM_PRESCRIBINGPHYSICIAN;
+                break;
+            case "PF":
+                ctmRelationship = Values.CTM_PRESCRIBINGFACILITY;
+                break;
+            case "TP":
+                ctmRelationship = Values.CTM_TREATINGPHYSICIAN;
+                break;
+            case "TF":
+                ctmRelationship = Values.CTM_TREATINGFACILITY;
+                break;
+            case "PH":
+                ctmRelationship = Values.CTM_HCAPHARMACIST;
+                break;
+            case "PM":
+                ctmRelationship = Values.CTM_PHARMACIST;
+                break;
+            case "OS":
+                ctmRelationship = Values.CTM_OFFICESTAFF;
+                break;
+            case "OT":
+                ctmRelationship = Values.CTM_OTHER;
+                break;
+            case "OF":
+                ctmRelationship = Values.CTM_HCAOTHERFACILITY;
+                break;
+        }
+        return ctmRelationship;
+    }
+
 }

@@ -107,19 +107,7 @@ public class NewPatientInsurancePMI extends CommonFunctions {
             clickAndMoveToElementClickable(buttonSave, shortWait());
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIForm");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -207,19 +195,7 @@ public class NewPatientInsurancePMI extends CommonFunctions {
                     break;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIFormRandomly")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIFormRandomly");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI, dataPosition);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -308,19 +284,7 @@ public class NewPatientInsurancePMI extends CommonFunctions {
                     break;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPMIForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPMIForm");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPMI, dataPosition);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }

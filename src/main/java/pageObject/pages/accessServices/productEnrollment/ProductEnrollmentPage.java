@@ -121,19 +121,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
                 logger.info("No Warning Message Was Displayed");
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("validatePEDSIMessage")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "validatePEDSIMessage");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), messagePE);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -184,19 +172,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("searchAndClickPEFromResults")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "searchAndClickPEFromResults");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), id_PE);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }
