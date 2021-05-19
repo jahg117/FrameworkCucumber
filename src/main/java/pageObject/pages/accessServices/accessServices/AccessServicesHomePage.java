@@ -58,13 +58,7 @@ public class AccessServicesHomePage extends CommonFunctions {
 
 
     public boolean isAccessServicesTitleVisible() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(label_accessServicesTitle, longWait());
-        } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
-        }
-        return statusOperation;
+        return waitForElementVisibility(label_accessServicesTitle, longWait());
     }
 
     public void selectMenuOption(String menuOption) throws Exception {

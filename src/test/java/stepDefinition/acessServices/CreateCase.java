@@ -40,6 +40,7 @@ public class CreateCase extends ApplicationInstance {
 
     @And("^I click on new Case from the cases list page")
     public void clickNewCaseListCases() throws Exception {
+        Assert.assertTrue(accessServices.getCasesListPage().isCasesListPageDisplayed(), "The Cases List Page was not displayed");
         accessServices.getCasesListPage().clickNewCase();
     }
 
@@ -51,7 +52,7 @@ public class CreateCase extends ApplicationInstance {
 
     @And("^I select the case type option \"([^\"]*)\"$")
     public void selectCaseTypeOptionsPage(String caseOption) throws Exception {
-        accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed();
+        Assert.assertTrue(accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed(), "The case form option was not displayed");
         accessServices.getNewCaseOptionsPage().selectCaseOption(caseOption);
     }
 

@@ -56,56 +56,40 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(iframe_newProgramEnrollment, longWait());
-        } catch (Exception e) {
-        }
-        return statusOperation;
+        return waitForElementVisibility(iframe_newProgramEnrollment, longWait());
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
-        try {
-            waitForElementVisibility(button_loggedOut, mediumWait());
-            if (productType.equalsIgnoreCase("")) {
-                productType = "AZ";
-            }
-            if (productType.equalsIgnoreCase("AZ")
-                    || productType.equalsIgnoreCase("DSI")) {
-                JsonFiles file = new JsonFiles();
-                file.setFileName("1372_EnrollmentProducts");
-                statusOperation = file.getRandomFieldArray(productType);
-            } else {
-                statusOperation = productType;
-            }
-            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-            waitForElementVisibility(input_product, mediumWait());
-            sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
-            clickElementVisible(input_programEndDate, mediumWait());
-            switchToParentFrame();
-        } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+        waitForElementVisibility(button_loggedOut, mediumWait());
+        if (productType.equalsIgnoreCase("")) {
+            productType = "AZ";
         }
+        if (productType.equalsIgnoreCase("AZ")
+                || productType.equalsIgnoreCase("DSI")) {
+            JsonFiles file = new JsonFiles();
+            file.setFileName("1372_EnrollmentProducts");
+            statusOperation = file.getRandomFieldArray(productType);
+        } else {
+            statusOperation = productType;
+        }
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+        waitForElementVisibility(input_product, mediumWait());
+        sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
+        clickElementVisible(input_programEndDate, mediumWait());
+        switchToParentFrame();
         return statusOperation;
     }
 
-    public boolean clickEnrollButton() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-            waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
-            waitForElementClickable(button_enroll, mediumWait());
+    public void clickEnrollButton() throws Exception {
+        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
+        waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
+        waitForElementClickable(button_enroll, mediumWait());
+        scrollMethodToWebElement(button_enroll);
+        if (!button_enroll.isDisplayed()) {
             scrollMethodToWebElement(button_enroll);
-            if (!button_enroll.isDisplayed()) {
-                scrollMethodToWebElement(button_enroll);
-            }
-            clickElementJS(button_enroll);
-            statusOperation = true;
-        } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
         }
-        return statusOperation;
+        clickElementJS(button_enroll);
     }
 
 

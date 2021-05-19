@@ -65,15 +65,14 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I click on new Account
     And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the fields from the account form
-      | name   | fax         | phoneType | zipcode |
-      | AutSPP | 13019658622 | Home Fax  | 06019   |
+      | name    | fax        | phoneType | zipcode |
+      | AutoSPP | 2403061405 | Home Fax  | 06023   |
     And I save the displayed patient ID
     Then I click on Payer tab from PersonAccountPage
     Then I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPMB>"
     And I create a list of product enrollments with a care team member
       | ProductEnrollment |
       | Fasenra           |
-      | Calquence         |
       | Enhertu           |
     And I click on the consent tab to click the new consent button at person account page
     And I select the "AZ Non-Promotional Consent" consent type at new consent wizard page
@@ -92,14 +91,4 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     Examples:
       | user  | channel | caseStatus | consentStatus | consentDate | consentSource | consentAuth | insuranceType | dataPMI                                                                         | dataPMB                                                                                 |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 1,UAT Payer Test Plan 1,13019658622,RND,RND,RND,N_A,N_A |
-
+      | admin | random  | Open       | Active        | 5/12/2021   | RND           | Self        | PBM,PMI       | RND,Self,N_A,N_A,UAT Test Payer 2,UAT Payer Test Plan 2,13019658622,RND,RND,RND | RND,Self,N_A,N_A,UAT Test Payer 2,UAT Payer Test Plan 2,13019658622,RND,RND,RND,N_A,N_A |

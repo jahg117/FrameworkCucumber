@@ -77,61 +77,51 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
+    public void fillConsentForm(String consentStatus, String consentDate, String consentSource, String consentAuth) throws Exception {
         int requiredValues = 4;
         int valueCounter = 1;
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-            do {
-                switch (valueCounter) {
-                    case 1:
-                        if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase("RND")) {
-                            selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, longWait());
-                        } else {
-                            selectDropDownRandomOptionNone(dropdown_consentStatus, mediumWait());
-                        }
-                        valueCounter++;
-                        break;
-
-                    case 2:
-                        if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase("RND")) {
-                            sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, mediumWait());
-                            datePicker_consentDateManual.sendKeys(Keys.ESCAPE);
-                        } else {
-                            clickAndMoveToElementClickable(datePicker_consentDateCurrent, mediumWait());
-                        }
-                        valueCounter++;
-                        break;
-
-                    case 3:
-                        if (!consentSource.trim().isEmpty() && !consentSource.trim().equalsIgnoreCase("RND")) {
-                            selectAndMoveDropdownByText(dropdown_consentSource, consentSource, longWait());
-                        } else {
-                            selectDropDownRandomOptionNone(dropdown_consentSource, mediumWait());
-                        }
-                        valueCounter++;
-                        break;
-
-                    case 4:
-                        if (!consentAuth.trim().isEmpty() && consentAuth.trim().equalsIgnoreCase("Self")) {
-                            clickAndMoveToElementClickable(checkbox_consentSelf, mediumWait());
-                        } else if (consentAuth.trim().equalsIgnoreCase("LAR")) {
-                            clickAndMoveToElementClickable(checkbox_consentLAF, mediumWait());
-                        } else {
-                            clickAndMoveToElementClickable(getRandomWebElementFromList(checkbox_consentByList, mediumWait()), mediumWait());
-                        }
-                        valueCounter++;
-                        break;
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        do {
+            switch (valueCounter) {
+                case 1:
+                    if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase("RND")) {
+                        selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, longWait());
+                    } else {
+                        selectDropDownRandomOptionNone(dropdown_consentStatus, mediumWait());
+                    }
+                    valueCounter++;
+                    break;
+                case 2:
+                    if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase("RND")) {
+                        sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, mediumWait());
+                        datePicker_consentDateManual.sendKeys(Keys.ESCAPE);
+                    } else {
+                        clickAndMoveToElementClickable(datePicker_consentDateCurrent, mediumWait());
+                    }
+                    valueCounter++;
+                    break;
+                case 3:
+                    if (!consentSource.trim().isEmpty() && !consentSource.trim().equalsIgnoreCase("RND")) {
+                        selectAndMoveDropdownByText(dropdown_consentSource, consentSource, longWait());
+                    } else {
+                        selectDropDownRandomOptionNone(dropdown_consentSource, mediumWait());
+                    }
+                    valueCounter++;
+                    break;
+                case 4:
+                    if (!consentAuth.trim().isEmpty() && consentAuth.trim().equalsIgnoreCase("Self")) {
+                        clickAndMoveToElementClickable(checkbox_consentSelf, mediumWait());
+                    } else if (consentAuth.trim().equalsIgnoreCase("LAR")) {
+                        clickAndMoveToElementClickable(checkbox_consentLAF, mediumWait());
+                    } else {
+                        clickAndMoveToElementClickable(getRandomWebElementFromList(checkbox_consentByList, mediumWait()), mediumWait());
+                    }
+                    valueCounter++;
+                    break;
                 }
-            }
-            while (valueCounter <= requiredValues);
+            } while (valueCounter <= requiredValues);
             clickAndMoveToElementVisible(button_next, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
         }
-        return statusOperation;
-    }
 
 
     /**
@@ -143,26 +133,20 @@ public class NewConsentWizardPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
+    public void selectConsentAddress(boolean randomAddress, int idxCheckbox) throws Exception {
         By newConsentTab = By.xpath("//span[normalize-space(text())='New Consent Wizard']");
-        boolean statusOperation = false;
-        try {
-            switchToParentFrame();
-            switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
-            waitForPresenceOfAllElementsLocatedBy(checkbox_addressesCheckBoxes, mediumWait());
-            waitForNumberOfElementsToBeMoreThanBy(checkbox_addressesCheckBoxes, 0, mediumWait());
-            List<WebElement> visibleWebElements = getVisibleElements(getWebElementList(checkbox_addressesCheckBoxes));
-            waitForElementListVisible(visibleWebElements, mediumWait());
-            if (randomAddress == true) {
-                clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, mediumWait()), mediumWait());
-            } else {
-                clickAndMoveToElementClickable(visibleWebElements.get(idxCheckbox), mediumWait());
-            }
-            clickAndMoveToElementClickable(button_addressSave, mediumWait());
-            waitForElementInvisibilityOfElementLocatedBy(newConsentTab, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
+        switchToParentFrame();
+        switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
+        waitForPresenceOfAllElementsLocatedBy(checkbox_addressesCheckBoxes, mediumWait());
+        waitForNumberOfElementsToBeMoreThanBy(checkbox_addressesCheckBoxes, 0, mediumWait());
+        List<WebElement> visibleWebElements = getVisibleElements(getWebElementList(checkbox_addressesCheckBoxes));
+        waitForElementListVisible(visibleWebElements, mediumWait());
+        if (randomAddress == true) {
+            clickAndMoveToElementClickable(getRandomWebElementFromList(visibleWebElements, mediumWait()), mediumWait());
+        } else {
+            clickAndMoveToElementClickable(visibleWebElements.get(idxCheckbox), mediumWait());
         }
-        return statusOperation;
+        clickAndMoveToElementClickable(button_addressSave, mediumWait());
+        waitForElementInvisibilityOfElementLocatedBy(newConsentTab, mediumWait());
     }
 }

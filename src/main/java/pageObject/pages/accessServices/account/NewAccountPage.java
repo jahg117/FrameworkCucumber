@@ -42,18 +42,12 @@ public class NewAccountPage extends CommonFunctions {
         }
     }
 
-    public boolean selectRecordType(String dropdownOption) throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchToFrameByWebElementIndexOrName(iframeCustomerLookup.get(iframeCustomerLookup.size() - 1), mediumWait());
-            waitForElementVisibility(labelNewAccountTitle, mediumWait());
-            selectAndMoveDropdownByText(dropdownRecordType, dropdownOption, mediumWait());
-            clickAndMoveToElementVisible(buttonContinue, mediumWait());
-            switchToParentFrame();
-            statusOperation = true;
-        } catch (Exception e) {
-        }
-        return statusOperation;
+    public void selectRecordType(String dropdownOption) throws Exception {
+        switchToFrameByWebElementIndexOrName(iframeCustomerLookup.get(iframeCustomerLookup.size() - 1), mediumWait());
+        waitForElementVisibility(labelNewAccountTitle, mediumWait());
+        selectAndMoveDropdownByText(dropdownRecordType, dropdownOption, mediumWait());
+        clickAndMoveToElementVisible(buttonContinue, mediumWait());
+        switchToParentFrame();
     }
 
     public String randomSelectionJSONFile(String keyName, String fileName) throws Exception {
@@ -80,7 +74,6 @@ public class NewAccountPage extends CommonFunctions {
      */
     public String assignCorrectAccountTypeValue(String accountType) throws Exception {
         String statusOperation = "";
-        try {
             switch (accountType.trim().toLowerCase()) {
                 case "hca":
                     statusOperation = Values.TXT_HEALTHCAREACCOUNT;
@@ -102,8 +95,6 @@ public class NewAccountPage extends CommonFunctions {
                     logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
                     break;
             }
-        } catch (Exception e) {
-        }
         return statusOperation;
     }
 

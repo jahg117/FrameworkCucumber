@@ -178,13 +178,11 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public void selectCareTeamMemberAddressDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
-        if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
-            waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());
-        }
-        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, longWait());
-        waitForElementVisibility(checkbox_usernameAddress, mediumWait());
+        if(waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())){ waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait()); }
+        waitForNumberOfElementsToBeMoreThanBy(row_addressElements, 0, shortWait());
+        waitForElementVisibility(checkbox_usernameAddress, shortWait());
         scrollToWebElementJS(checkbox_usernameAddress);
-        clickAndMoveToElementClickable(checkbox_usernameAddress, mediumWait());
+        clickAndMoveToElementClickable(checkbox_usernameAddress, shortWait());
         switchToParentFrame();
     }
 
@@ -221,7 +219,6 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, mediumWait());
         waitForElementVisibility(dropdown_relationship, mediumWait());
         scrollToWebElementJS(dropdown_relationship);
-        //selectDropDownClickableByText(dropdown_relationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
         selectAndMoveDropdownClickableByText(dropdown_relationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
         if (waitForPresenceOfAllElementsLocatedBy(icon_loadPage, shortWait())) {
             waitForNumberOfElementsToBe(icon_loadPage, 0, mediumWait());

@@ -194,10 +194,10 @@ public class CommonFunctions {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.until(ExpectedConditions.invisibilityOf(webElement));
-            logger.info("Element not visible " + getWebElementLocatorPath(webElement));
+            //logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element found: " + getWebElementLocatorPath(webElement));
+            //logger.warn("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
         return statusOperation;
@@ -241,7 +241,7 @@ public class CommonFunctions {
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
         } catch (Exception e) {
-            logger.warn("Element List not found: " + getWebElementLocatorPath(webElements));
+            logger.warn("Element List not found");
             statusOperation = autoCastingBoolean(executeReflection(webElements, timeOutInSeconds));
         }
         return statusOperation;
@@ -3246,20 +3246,18 @@ public class CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public boolean switchSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    public void switchSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
         try {
             By pathForSubTabs = By.xpath("//*[starts-with(@aria-label,'Subtabs')]//li[starts-with(@class,'oneConsoleTabItem')]");
             if (waitForPresenceOfAllElementsLocatedBy(pathForSubTabs, timeOutInSeconds)) {
                 List<WebElement> subTabsList = getWebElementList(pathForSubTabs);
                 clickAndMoveToElementClickable(subTabsList.get(index), mediumWait());
                 logger.info("Switch to sub-tab");
-                statusOperation = true;
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
+            executeReflection(index, timeOutInSeconds);
         }
-        return statusOperation;
     }
 
 
@@ -4054,58 +4052,6 @@ public class CommonFunctions {
         jsonFiles.setFileName(fileName);
         return jsonFiles.getFieldArray(keyValue).toString();
     }
-
-    private void executeReflection2(String methodName, HashMap<Integer, Object> args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Method method = null;
-        if (Values.globalCounter < maxNumberOfTries) {
-            Values.globalCounter++;
-            for (Method m : myClass.getDeclaredMethods()) {
-                if (m.getName().equalsIgnoreCase(getCallerMethodName())) {
-                    method = m;
-                    Parameter[] para1 = method.getParameters();
-                    TypeVariable<Method>[] para2 = method.getTypeParameters();
-                    Class<?>[] para3 = method.getParameterTypes();
-                    method.invoke(this.myClass.getConstructor().newInstance(), para3);
-                    System.out.println(m.getReturnType());
-                    break;
-                }
-            }
-
-            if (method != null) {
-                logger.warn(Values.TXT_RETRYMSG001 + getCallerMethodName());
-                switch (method.getParameters().length) {
-                    case 0:
-                        method.invoke(this.myClass.getConstructor().newInstance());
-                    case 1:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0));
-                        break;
-                    case 2:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1));
-                        break;
-                    case 3:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2));
-                        break;
-                    case 4:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3));
-                        break;
-                    case 5:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4));
-                        break;
-                    case 6:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
-                        break;
-                    case 7:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6));
-                        break;
-                    case 8:
-                        method.invoke(this.myClass.getConstructor().newInstance(), args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5), args.get(6), args.get(7));
-                        break;
-                }
-            }
-        }
-        Values.globalCounter = 0;
-    }
-
 
     /**
      * Method to invoke again a method n times when an exception occurred

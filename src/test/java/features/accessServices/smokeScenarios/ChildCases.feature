@@ -1,4 +1,3 @@
-@smoke
 Feature: ChildCases
 
   Scenario Outline: Create child cases
@@ -23,4 +22,4 @@ Feature: ChildCases
     And I validate the correct case information is displayed
     Examples:
     | user    | productName  | caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-    | admin   | fasenra      | Asset Request    | fasenra        |  random     | Open       | random      | random       | random     |
+    | admin   | fasenra      | Asset Request    | FASENRA        |  random     | Open       | random      | random       | random     |

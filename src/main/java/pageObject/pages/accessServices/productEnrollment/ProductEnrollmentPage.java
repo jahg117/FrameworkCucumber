@@ -65,48 +65,34 @@ public class ProductEnrollmentPage extends CommonFunctions {
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(button_newCareTeamMember, mediumWait());
-        } catch (Exception e) {
-        }
-        return statusOperation;
+        return waitForElementVisibility(button_newCareTeamMember, mediumWait());
     }
 
 
-    public boolean clickNewCareTeamMember() throws Exception {
-        boolean statusOperation = false;
-        try {
-            switchSubTabByIndexSF(0, shortWait());
-            switchSubTabByIndexSF(1, shortWait());
-            int exitCounter = 2;
-            for (int i = 0; i < exitCounter; i++) {
-                if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
-                    logger.info("Waiting For Attestation To Be Available");
-                } else {
-                    clickElementJS(label_attestationTabOption);
-                    waitForElementClickable(label_careTeamTabOption, shortWait());
-                    clickElementJS(label_careTeamTabOption);
-                    waitForElementVisibility(button_newCareTeamMember, mediumWait());
-                    clickElementClickable(button_newCareTeamMember, mediumWait());
-                    statusOperation = true;
-                    break;
-                }
+    public void clickNewCareTeamMember() throws Exception {
+        switchSubTabByIndexSF(0, shortWait());
+        switchSubTabByIndexSF(1, shortWait());
+        int exitCounter = 2;
+        for (int i = 0; i < exitCounter; i++) {
+            if (!waitForElementClickable(label_attestationTabOption, shortWait())) {
+                logger.info("Waiting For Attestation To Be Available");
+            } else {
+                clickElementJS(label_attestationTabOption);
+                waitForElementClickable(label_careTeamTabOption, shortWait());
+                clickElementJS(label_careTeamTabOption);
+                waitForElementVisibility(button_newCareTeamMember, mediumWait());
+                clickElementClickable(button_newCareTeamMember, mediumWait());
+                break;
             }
-        } catch (Exception e) {
         }
-        return statusOperation;
     }
 
 
     public String getProductEnrollmentNumber() throws Exception {
         String statusOperation = "";
         waitForPageToLoad();
-        try {
-            if (waitForElementVisibility(label_productEnrollmentNumber, mediumWait())) {
-                statusOperation = getWebElementText(label_productEnrollmentNumber);
-            }
-        } catch (Exception e) {
+        if (waitForElementVisibility(label_productEnrollmentNumber, longWait())) {
+            statusOperation = getWebElementText(label_productEnrollmentNumber);
         }
         return statusOperation;
     }

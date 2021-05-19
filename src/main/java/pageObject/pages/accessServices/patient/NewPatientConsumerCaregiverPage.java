@@ -99,12 +99,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     }
 
     public boolean isConsumerPatientCaregiverFormDisplayed() throws Exception {
-        boolean statusOperation = false;
-        try {
-            statusOperation = waitForElementVisibility(form_patientConsumerCaregiver, longWait());
-        } catch (Exception e) {
-        }
-        return statusOperation;
+        return waitForElementVisibility(form_patientConsumerCaregiver, longWait());
     }
 
     public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
@@ -112,41 +107,41 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         JsonFiles jsonFiles = new JsonFiles();
         jsonFiles.setFileName("zipCode");
         HashMap<String, String> patientDetails = new HashMap<String, String>();
-        try {
-            patientDetails.put("firstName", faker.name().firstName());
-            patientDetails.put("lastName", faker.name().lastName() + "_Automation");
-            patientDetails.put("address", faker.address().streetName());
-            patientDetails.put("city", faker.address().cityName());
-            patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
-            patientDetails.put("date", getRandomDate());
-            patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
-            waitForElementClickable(dropdown_prefix, mediumWait());
+        patientDetails.put("firstName", faker.name().firstName());
+        patientDetails.put("lastName", faker.name().lastName() + "_Automation");
+        patientDetails.put("address", faker.address().streetName());
+        patientDetails.put("city", faker.address().cityName());
+        patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
+        patientDetails.put("date", getRandomDate());
+        patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
+        waitForElementClickable(dropdown_prefix, mediumWait());
+        input_firstName.clear();
+        clickAndMoveToElementClickable(input_firstName, mediumWait());
+        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        String randomDate = patientDetails.get("date").replace("/", "");
+        clickElementVisible(input_informalName, shortWait());
+        sendKeysByActions(Keys.TAB.toString());
+        sendKeysByActions(randomDate);
+        scrollToWebElementJS(input_searchAccounts);
+        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
+        scrollToWebElementJS(input_searchPlaces);
+        sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
+        sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
+        scrollToWebElementJS(input_emailAddress);
+        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
+        if(waitForElementVisibility(dropdown_emailType, shortWait())){
+            scrollToWebElementJS(dropdown_emailType);
+            selectRandomDropDownNotNone(dropdown_emailType);
+        }
+        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
+        if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
             input_firstName.clear();
-            clickAndMoveToElementClickable(input_firstName, mediumWait());
             sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        }
+        if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
+            input_lastName.clear();
             sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
-            String randomDate = patientDetails.get("date").replace("/", "");
-            clickElementVisible(input_informalName, shortWait());
-            sendKeysByActions(Keys.TAB.toString());
-            sendKeysByActions(randomDate);
-            scrollToWebElementJS(input_searchAccounts);
-            sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-            scrollToWebElementJS(input_searchPlaces);
-            sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
-            sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
-            scrollToWebElementJS(input_emailAddress);
-            sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-            selectAndMoveDropDownVisibleRandomOption(dropdown_emailType, mediumWait());
-            sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
-            if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
-                input_firstName.clear();
-                sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
-            }
-            if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
-                input_lastName.clear();
-                sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
-            }
-        } catch (Exception e) {
         }
         return patientDetails;
     }
@@ -197,16 +192,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         return patientDetails;
     }
 
-    public boolean clickSaveButton() throws Exception {
-        boolean statusOperation = false;
-        try {
-            waitForElementVisibility(button_saveAccount, mediumWait());
-            scrollToWebElementJS(button_saveAccount);
-            clickElementClickable(button_saveAccount, mediumWait());
-            statusOperation = true;
-        } catch (Exception e) {
-        }
-        return statusOperation;
+    public void clickSaveButton() throws Exception {
+        waitForElementVisibility(button_saveAccount, mediumWait());
+        scrollToWebElementJS(button_saveAccount);
+        clickElementClickable(button_saveAccount, mediumWait());
     }
 
 
