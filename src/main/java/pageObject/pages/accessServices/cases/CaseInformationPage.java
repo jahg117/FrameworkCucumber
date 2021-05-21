@@ -142,7 +142,7 @@ public class CaseInformationPage extends CommonFunctions {
 
     public void fillPatientProductEnrollmentFields(String patientName, String productEnrollment) throws Exception {
         if (waitForElementVisibility(input_searchAccounts, shortWait())) {
-            sendKeysAndMoveToElementVisible(input_searchAccounts, patientName, mediumWait());
+            clickAndMoveToElementClickable(input_searchAccounts, mediumWait());
             waitForElementVisibility(list_autocomplete, mediumWait());
             waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, shortWait());
             if (!waitForElementListVisible(getWebElementList(list_autocompleteElements), shortWait())) {
