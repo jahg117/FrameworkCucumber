@@ -1,5 +1,6 @@
 package stepDefinition.acessServices;
 
+import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
 import org.apache.tools.ant.types.selectors.SelectSelector;
 import org.testng.Assert;
@@ -7,14 +8,17 @@ import org.testng.asserts.SoftAssert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class CreateCase extends ApplicationInstance {
 
     private CommonData commonData;
+    CommonFunctions commonFunctions = new CommonFunctions();
 
-    public CreateCase(CommonData commonData){
+    public CreateCase(CommonData commonData) {
         this.commonData = commonData;
     }
 
@@ -67,7 +71,11 @@ public class CreateCase extends ApplicationInstance {
     @And("^I fill the new anonymous case fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public void fillNewCaseAnonymousFields(String productName, String caseRequested, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
-        try{ if(commonData.product.getProduct()!=null){productName=commonData.product.getProduct();} }catch (Exception e){
+        try {
+            if (commonData.product.getProduct() != null) {
+                productName = commonData.product.getProduct();
+            }
+        } catch (Exception e) {
             if (productName.equalsIgnoreCase("AZ")
                     || productName.equalsIgnoreCase("DSI")) {
                 JsonFiles file = new JsonFiles();
@@ -94,7 +102,9 @@ public class CreateCase extends ApplicationInstance {
     @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
     public void fillNewCaseMandatoryFields(String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
-        if(commonData.product.getProduct()!=null){productName=commonData.product.getProduct();}
+        if (commonData.product.getProduct() != null) {
+            productName = commonData.product.getProduct();
+        }
         caseForm.put("ProductName", productName);
         caseForm.put("Channel", channel);
         caseForm.put("CaseStatus", caseStatus);
@@ -150,7 +160,7 @@ public class CreateCase extends ApplicationInstance {
     @And("^I validate the correct case interaction information displayed$")
     public void validateCaseInteractionInformation() throws Exception {
         accessServices.getCasePage().isCasePageDisplayed();
-        if(!accessServices.getCasePage().getPatientName().equalsIgnoreCase("")){
+        if (!accessServices.getCasePage().getPatientName().equalsIgnoreCase("")) {
             Assert.assertEquals(accessServices.getCasePage().getPatientName(), commonData.patient.getPatientName(), "The patient name is not matching");
         }
         Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.interaction.getCaseStatus(), "The case status is not matching");
@@ -176,18 +186,31 @@ public class CreateCase extends ApplicationInstance {
 
     @And("^I create a/an \"([^\"]*)\" case$")
     public void createCaseType(String caseOption) throws Exception {
-       accessServices.getPersonAccountPage().clickNewProductEnrollment();
-       String product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm("fasenra");
-       accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-       accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-       String productEnrollment = accessServices.getProductEnrollmentPage().getProductEnrollmentNumber();
-       accessServices.getProductEnrollmentPage().clickOnNewCase();
-       accessServices.getNewCasePage().isNewCaseFormDisplayed();
-       accessServices.getNewCasePage().selectCaseOption(caseOption);
-       accessServices.getNewCasePage().clickContinueButton();
-       accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
-       accessServices.getCaseInformationPage().fillCaseInformationForm();
-       accessServices.getCaseInformationPage().clickSaveButton();
-       accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
+        accessServices.getPersonAccountPage().clickNewProductEnrollment();
+        String product = accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm("fasenra");
+        accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+        accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+        String productEnrollment = accessServices.getProductEnrollmentPage().getProductEnrollmentNumber();
+        accessServices.getProductEnrollmentPage().clickOnNewCase();
+        accessServices.getNewCasePage().isNewCaseFormDisplayed();
+        accessServices.getNewCasePage().selectCaseOption(caseOption);
+        accessServices.getNewCasePage().clickContinueButton();
+        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+        accessServices.getCaseInformationPage().fillCaseInformationForm();
+        accessServices.getCaseInformationPage().clickSaveButton();
+        accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
     }
+
+    @And("I fill the new interaction mandatory fields {string} for PDC")
+    public void fillNewInteractionMandatoryFieldsPDC(String irData) throws Exception {
+        List<String> irDataList = commonFunctions.splitRegex(irData = irData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
+        HashMap<String, String> interaction = new HashMap<>();
+        interaction.put("Channel", irDataList.get(0));
+        interaction.put("CaseStatus", irDataList.get(1));
+        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+        HashMap<String, String> interactionForm = accessServices.getCaseInformationPage().fillCaseInteractionForm(interaction);
+        accessServices.getCaseInformationPage().clickSaveInteraction();
+        commonData.interaction = new Interaction(interactionForm);
+    }
+
 }

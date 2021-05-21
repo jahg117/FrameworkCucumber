@@ -58,19 +58,38 @@ public class ConsentPage extends CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("isConsentDetailDisplayed")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "isConsentDetailDisplayed");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), consentDetail);
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
+    }
+
+    public String consentTypeFilter(String consentType) throws Exception {
+        switch (consentType.trim().toUpperCase()) {
+            case "DFM":
+                consentType = Values.TXT_DFM;
+                break;
+            case "DCC":
+                consentType = Values.TXT_DCC;
+                break;
+            case "APC":
+                consentType = Values.TXT_APC;
+                break;
+            case "DPC":
+                consentType = Values.TXT_DPC;
+                break;
+            case "AFP":
+                consentType = Values.TXT_AFP;
+                break;
+            case "ANP":
+                consentType = Values.TXT_ANP;
+                break;
+            case "DNC":
+                consentType = Values.TXT_DNC;
+                break;
+            case "ACC":
+                consentType = Values.TXT_ACC;
+                break;
+        }
+        return consentType;
     }
 }

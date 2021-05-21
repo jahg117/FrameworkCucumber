@@ -95,19 +95,8 @@ public class CaseInformationPage extends CommonFunctions {
             waitForElementVisibility(label_productEnrollment, mediumWait());
             statusOperation = getWebElementText(label_productEnrollment);
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("getProductEnrollment")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "getProductEnrollment");
-                        statusOperation = (String) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -126,19 +115,8 @@ public class CaseInformationPage extends CommonFunctions {
             }
             statusOperation = true;
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillCaseInformationForm")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillCaseInformationForm");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance());
-                        break;
-                    }
-                }
-            }
+            logger.info(Values.TXT_EXCREFLECTION);
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -164,7 +142,7 @@ public class CaseInformationPage extends CommonFunctions {
 
     public void fillPatientProductEnrollmentFields(String patientName, String productEnrollment) throws Exception {
         if (waitForElementVisibility(input_searchAccounts, shortWait())) {
-            sendKeysAndMoveToElementVisible(input_searchAccounts, patientName, mediumWait());
+            clickAndMoveToElementClickable(input_searchAccounts, mediumWait());
             waitForElementVisibility(list_autocomplete, mediumWait());
             waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, shortWait());
             if (!waitForElementListVisible(getWebElementList(list_autocompleteElements), shortWait())) {

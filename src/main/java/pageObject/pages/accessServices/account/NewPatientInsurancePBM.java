@@ -192,19 +192,7 @@ public class NewPatientInsurancePBM extends CommonFunctions {
                     break;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPBMFormRandomly")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPBMFormRandomly");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPBM, dataPosition);
-                        break;
-                    }
-                }
-            }
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 
@@ -289,19 +277,8 @@ public class NewPatientInsurancePBM extends CommonFunctions {
                     break;
             }
         } catch (Exception e) {
-            if (Values.globalCounter < maxNumberOfTries) {
-                Values.globalCounter++;
-                Method[] arrayDeclaredMethods = myClass.getDeclaredMethods();
-                for (int j = 0; j < arrayDeclaredMethods.length; j++) {
-                    if (arrayDeclaredMethods[j].getName().equalsIgnoreCase("fillPBMFormRandomly")) {
-                        logger.warn(Values.TXT_RETRYMSG001 + "fillPBMFormRandomly");
-                        statusOperation = (boolean) arrayDeclaredMethods[j].invoke(this.myClass.getConstructor().newInstance(), dataPBM, dataPosition);
-                        break;
-                    }
-                }
-            }
+
         }
-        Values.globalCounter = 0;
         return statusOperation;
     }
 }
