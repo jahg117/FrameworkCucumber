@@ -11,7 +11,7 @@ Feature: Product Enrollment
     And I enter a product enrollment in the product enrollment form
       | ProductEnrollment |
       | Fasenra           |
-      | Fasenra           |
+      | Calquence           |
       | Enhertu           |
     Examples:
     | user    |
