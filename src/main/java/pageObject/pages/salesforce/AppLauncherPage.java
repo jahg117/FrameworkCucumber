@@ -5,21 +5,18 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.lang.reflect.Method;
-
 import utils.Values;
 
 public class AppLauncherPage extends CommonFunctions {
 
     @FindBy(xpath = "//*[@class='appLauncher slds-context-bar__icon-action']")
-    private WebElement button_AppLauncher;
+    private WebElement buttonAppLauncher;
 
     @FindBy(xpath = "//*[@placeholder='Search apps and items...']")
-    private WebElement input_AppLauncher;
+    private WebElement inputAppLauncher;
 
     @FindBy(xpath = "//*[starts-with(@class,'appName')]/span[@title]")
-    private WebElement label_AppNameTitle;
+    private WebElement labelAppNameTitle;
 
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
 
@@ -30,7 +27,7 @@ public class AppLauncherPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -38,16 +35,16 @@ public class AppLauncherPage extends CommonFunctions {
 
     public boolean searchAppName(String appName) throws Exception {
         boolean statusOperation = false;
-        waitForElementFluentMinutes(button_AppLauncher, 2, 1);
-        if (!label_AppNameTitle.getAttribute("title").trim().equalsIgnoreCase(appName)) {
-            clickAndMoveToElementVisible(button_AppLauncher, mediumWait());
-            if (!waitForElementVisibility(input_AppLauncher, mediumWait())) {
-                clickAndMoveToElementVisible(button_AppLauncher, mediumWait());
+        waitForElementFluentMinutes(buttonAppLauncher, 2, 1);
+        if (!labelAppNameTitle.getAttribute("title").trim().equalsIgnoreCase(appName)) {
+            clickAndMoveToElementVisible(buttonAppLauncher, mediumWait());
+            if (!waitForElementVisibility(inputAppLauncher, mediumWait())) {
+                clickAndMoveToElementVisible(buttonAppLauncher, mediumWait());
             }
-            sendKeysElementVisible(input_AppLauncher, appName, mediumWait());
-            sendKeysElementVisible(input_AppLauncher, Keys.ENTER.toString(), mediumWait());
-            waitForElementNotVisible(input_AppLauncher, mediumWait());
-            if (waitForElementVisibility(label_AppNameTitle, mediumWait())) {
+            sendKeysElementVisible(inputAppLauncher, appName, mediumWait());
+            sendKeysElementVisible(inputAppLauncher, Keys.ENTER.toString(), mediumWait());
+            waitForElementNotVisible(inputAppLauncher, mediumWait());
+            if (waitForElementVisibility(labelAppNameTitle, mediumWait())) {
                 statusOperation = true;
             } else {
                 statusOperation = false;

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
@@ -124,7 +125,7 @@ public class NewHCPWizardPage extends CommonFunctions {
         HashMap<String, String> hcpDetailsStoreData = new HashMap<String, String>();
 
         boolean allDataRND = false;
-        if (randomRecord.trim().equalsIgnoreCase("RND")) {
+        if (randomRecord.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
             hcpDetailsStoreData = fullHCPFormRND(identifier);
         } else {
             hcpDetailsStoreData = hibrydHCPForm(identifier, npi, firstName, middleName, lastName, dateOfBirth, email, phoneOrFax, addressLine1, state, city, zipCode, country);
@@ -147,8 +148,6 @@ public class NewHCPWizardPage extends CommonFunctions {
     public HashMap<String, String> fullHCPFormRND(String identifier) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         WebElement backUpWElement = null;
         Faker faker = new Faker();
         //============Storing Data Into hcpDetails
@@ -156,17 +155,17 @@ public class NewHCPWizardPage extends CommonFunctions {
         hcpDetails.put("npi", String.valueOf(faker.number().randomNumber(10, true)));
         hcpDetails.put("firstName", identifier + faker.name().firstName());
         hcpDetails.put("middleName", faker.name().firstName());
-        hcpDetails.put("lastName", faker.name().lastName() + underScore + generateTimeStamp(dateFormat));
+        hcpDetails.put("lastName", faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
         hcpDetails.put("dateOfBirth", getRandomDate());
-        hcpDetails.put("email", hcpDetails.get("lastName") + "@sharklasers.com");
-        hcpDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
+        hcpDetails.put("email", hcpDetails.get("lastName") + Values.ARRAY_FULLEMAILDOMAINVALUES[0]);
+        hcpDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", Values.REPLACETO_EMPTY).replace("-", Values.REPLACETO_EMPTY));
         hcpDetails.put("addressLine1", faker.address().streetName());
         hcpDetails.put("city", faker.address().cityName());
         hcpDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
         //============Populating The HCP Data
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_type, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_subType, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
         clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
@@ -192,14 +191,14 @@ public class NewHCPWizardPage extends CommonFunctions {
         clickAndMoveToElementVisible(input_city, mediumWait());
         input_city.clear();
         sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), mediumWait());
-        clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
-        hcpDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute("data-value"));
+        clickWhileCondition(dropdown_state, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+        hcpDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute(Values.ATTRIBUTE_DATAVALUE_VALUE));
         clickAndMoveToElementClickable(backUpWElement, mediumWait());
         clickAndMoveToElementVisible(input_zipCode, mediumWait());
         input_zipCode.clear();
         sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), mediumWait());
-        clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
-        hcpDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute("data-value"));
+        clickWhileCondition(dropdown_country, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+        hcpDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute(Values.ATTRIBUTE_DATAVALUE_VALUE));
         clickAndMoveToElementClickable(backUpWElement, mediumWait());
         clickAndMoveToElementVisible(input_email, mediumWait());
         input_email.clear();
@@ -231,14 +230,12 @@ public class NewHCPWizardPage extends CommonFunctions {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         //============Storing Data Into hcpDetails
         HashMap<String, String> hcpDetails = new HashMap<String, String>();
         hcpDetails.put("npi", hibrydHCPFormFilter(npi, "npi"));
         hcpDetails.put("firstName", identifier + hibrydHCPFormFilter(firstName, "firstName"));
         hcpDetails.put("middleName", hibrydHCPFormFilter(middleName, "middleName"));
-        hcpDetails.put("lastName", hibrydHCPFormFilter(lastName, "lastName") + underScore + generateTimeStamp(dateFormat));
+        hcpDetails.put("lastName", hibrydHCPFormFilter(lastName, "lastName") + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
         hcpDetails.put("dateOfBirth", hibrydHCPFormFilter(dateOfBirth, "dateOfBirth"));
         hcpDetails.put("email", hibrydHCPFormFilter(email, "email"));
         hcpDetails.put("phoneOrFax", hibrydHCPFormFilter(phoneOrFax, "phoneOrFax"));
@@ -261,18 +258,14 @@ public class NewHCPWizardPage extends CommonFunctions {
      */
     public String hibrydHCPFormFilter(String hcpValue, String nameOfField) throws Exception {
         WebElement backUpWElement = null;
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
-        String notApply = "N_A";
-        String randomOption = "RND";
         String returnedValue = "";
         Faker faker = new Faker();
         switch (nameOfField) {
             case "npi":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().randomNumber(10, true));
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -281,10 +274,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "firstName":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.name().firstName();
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -293,10 +286,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "middleName":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.funnyName().name();
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -305,10 +298,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "lastName":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat);
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM);
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -317,10 +310,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "dateOfBirth":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = getRandomDate();
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -329,10 +322,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "email":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat) + "@sharklasers.com";
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM) + Values.ARRAY_FULLEMAILDOMAINVALUES[0];
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -341,10 +334,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "phoneOrFax":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.phoneNumber().cellPhone().replace(".", "").replace("-", "");
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.phoneNumber().cellPhone().replace(".", Values.REPLACETO_EMPTY).replace("-", Values.REPLACETO_EMPTY);
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -353,10 +346,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "addressLine1":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().streetName();
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -365,10 +358,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "stateCode":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_stateCodesList.size() - 1));
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -377,10 +370,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "city":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().cityName();
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -389,10 +382,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "zipCode":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().randomNumber(5, true));
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -401,10 +394,10 @@ public class NewHCPWizardPage extends CommonFunctions {
                 break;
 
             case "country":
-                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcpValue.trim().isEmpty() && hcpValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_countriesList.size() - 1));
                 } else {
-                    if (hcpValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcpValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcpValue;
                     } else {
                         returnedValue = hcpValue;
@@ -423,29 +416,28 @@ public class NewHCPWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void fillingHybridHCPForm(HashMap<String, String> hcpDetails) throws Exception {
-        String notApply = "N_A";
         Faker faker = new Faker();
 
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_type, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_subType, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
         clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
         sendKeysAndMoveToElementVisible(input_firstName, hcpDetails.get("firstName"), mediumWait());
 
-        if (!hcpDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("middleName").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_middleName, hcpDetails.get("middleName"), mediumWait());
         }
         clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
         sendKeysAndMoveToElementVisible(input_lastName, hcpDetails.get("lastName"), mediumWait());
 
-        if (!hcpDetails.get("npi").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("npi").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_npi, hcpDetails.get("npi"), mediumWait());
         }
 
-        if (!hcpDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("dateOfBirth").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
             datePicker_DOB.clear();
             sendKeysAndMoveToElementVisible(datePicker_DOB, hcpDetails.get("dateOfBirth"), mediumWait());
@@ -454,32 +446,32 @@ public class NewHCPWizardPage extends CommonFunctions {
         input_phoneOrFax.clear();
         sendKeysAndMoveToElementVisible(input_phoneOrFax, hcpDetails.get("phoneOrFax"), mediumWait());
 
-        if (!hcpDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("addressLine1").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_addressLine1, mediumWait());
             input_addressLine1.clear();
             sendKeysAndMoveToElementVisible(input_addressLine1, hcpDetails.get("addressLine1"), mediumWait());
         }
 
-        if (!hcpDetails.get("city").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("city").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_city, mediumWait());
             input_city.clear();
             sendKeysAndMoveToElementVisible(input_city, hcpDetails.get("city"), mediumWait());
         }
 
-        if (!hcpDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
-            clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, "data-value", hcpDetails.get("stateCode"));
+        if (!hcpDetails.get("stateCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            clickWhileCondition(dropdown_state, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+            clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, Values.ATTRIBUTE_DATAVALUE_VALUE, hcpDetails.get("stateCode"));
         }
 
-        if (!hcpDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
+        if (!hcpDetails.get("zipCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_zipCode, mediumWait());
             input_zipCode.clear();
             sendKeysAndMoveToElementVisible(input_zipCode, hcpDetails.get("zipCode"), mediumWait());
         }
 
-        if (!hcpDetails.get("country").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
-            clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, "data-value", hcpDetails.get("country"));
+        if (!hcpDetails.get("country").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            clickWhileCondition(dropdown_country, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+            clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, Values.ATTRIBUTE_DATAVALUE_VALUE, hcpDetails.get("country"));
         }
     }
 
@@ -509,9 +501,8 @@ public class NewHCPWizardPage extends CommonFunctions {
         }
         clickElementJS(label_accountHistory);
         clickAndMoveToElementClickable(label_systemInfo,shortWait());
-        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
-        waitForElementPresenceBy(azID,shortWait());
+        waitForElementPresenceBy(Values.BYPATH_AZID,shortWait());
         scrollToElementByCoordinates(label_externalID);
-        return label_externalID.getText().replace("Account ID", "").trim();
+        return label_externalID.getText().replace("Account ID", Values.REPLACETO_EMPTY).trim();
     }
 }

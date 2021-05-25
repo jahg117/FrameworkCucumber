@@ -35,7 +35,7 @@ public class CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -108,7 +108,7 @@ public class CommonFunctions {
      * @param webElement       to find
      * @param timeOutInSeconds Time to wait in seconds.
      * @param pollingEvery     Seconds to search a WebElement every specific second.
-     * @throws Exception if the element is not found
+     * @throws Exception selenium Exception if the element is not found
      * @author Alejandro Hernandez
      */
     protected void waitForElementFluentSeconds(WebElement webElement, int timeOutInSeconds, int pollingEvery) throws Exception {
@@ -918,7 +918,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
@@ -941,7 +941,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
@@ -964,7 +964,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
@@ -987,7 +987,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
@@ -1009,7 +1009,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
@@ -1032,7 +1032,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
@@ -1055,7 +1055,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
@@ -1078,7 +1078,7 @@ public class CommonFunctions {
      * @param webElement       contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
 
@@ -1103,7 +1103,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1126,7 +1126,7 @@ public class CommonFunctions {
      *
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1149,7 +1149,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1172,7 +1172,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1195,7 +1195,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1218,7 +1218,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void doubleClickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1241,7 +1241,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void clickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1264,7 +1264,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     public void clickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1286,7 +1286,7 @@ public class CommonFunctions {
      *
      * @param webElement contains the Element to do click
      * @return returns true if the click was done successfully
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean clickMethod(WebElement webElement) throws Exception {
@@ -1319,7 +1319,7 @@ public class CommonFunctions {
      * This method will scroll to the Element using the scroll into view at Top of the element With JS
      *
      * @param webElement It contains the WebElement
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean scrollMethodToWebElement(WebElement webElement) throws Exception {
@@ -1345,7 +1345,7 @@ public class CommonFunctions {
      *
      * @param scrollDirection can be Top or Bottom of the page
      * @param pixels          Is an integer that contains the amount of pixels to scroll up or down when "up" or "down" word are use in the "scrollDirection"
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean scrollMethodByPixels(String scrollDirection, int pixels) throws Exception {
@@ -1383,7 +1383,7 @@ public class CommonFunctions {
 
     /**
      * @param webElement contains the Element to get the coordinates X,Y and scroll base on coordinates
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean scrollToElementByCoordinates(WebElement webElement) throws Exception {
@@ -1405,7 +1405,7 @@ public class CommonFunctions {
      * Scroll to the BOTTOM of the page
      *
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void scrollBottom() throws Exception {
@@ -1423,7 +1423,7 @@ public class CommonFunctions {
      * Scroll to the TOP of the page
      *
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void scrollTop() throws Exception {
@@ -1443,7 +1443,7 @@ public class CommonFunctions {
      *
      * @param webElement to scroll
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void scrollToWebElementJS(WebElement webElement) throws Exception {
@@ -1459,7 +1459,7 @@ public class CommonFunctions {
      * This method is used to move to an element by Action Class
      *
      * @param webElement it contains the WebElement To Move
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean scrollMethodToWebElementByActions(WebElement webElement) throws Exception {
@@ -1481,7 +1481,7 @@ public class CommonFunctions {
      * @param webElement       contains the WebElement to move
      * @param timeOutInSeconds to wait
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void scrollToWebElementVisibleByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1503,7 +1503,7 @@ public class CommonFunctions {
      * @param webElement       contains the WebElement to move
      * @param timeOutInSeconds to wait
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void scrollToWebElementClickableByAction(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -1524,7 +1524,7 @@ public class CommonFunctions {
      *
      * @param webElement contains the Element to do click
      * @return returns true if the click was done successfully
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected void clickElementActions(WebElement webElement) throws Exception {
@@ -1541,7 +1541,7 @@ public class CommonFunctions {
      *
      * @param webElement contains the Element to do click
      * @return returns true if the click was done successfully
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected void clickElementJS(WebElement webElement) throws Exception {
@@ -1561,7 +1561,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysAndMoveToElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1584,7 +1584,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysAndMoveToElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1607,7 +1607,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1630,7 +1630,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1655,7 +1655,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1680,7 +1680,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1705,7 +1705,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
@@ -1730,7 +1730,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
@@ -1753,7 +1753,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void selectDropDownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1771,7 +1771,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
@@ -1795,7 +1795,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
@@ -1818,7 +1818,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
@@ -1841,7 +1841,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
@@ -1864,7 +1864,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
@@ -1888,7 +1888,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
@@ -1911,7 +1911,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
@@ -1934,7 +1934,7 @@ public class CommonFunctions {
      *
      * @param webElementList
      * @param timeOutInSeconds to wait for visible elements
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected WebElement getRandomWebElementFromList(By webElementList, int timeOutInSeconds) throws Exception {
@@ -1956,7 +1956,7 @@ public class CommonFunctions {
      *
      * @param webElementList
      * @param timeOutInSeconds to wait for visible elements
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected WebElement getRandomWebElementFromListExceptFirst(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
@@ -1983,7 +1983,7 @@ public class CommonFunctions {
      * @param webElementList
      * @param attribute      to handle
      * @param attributeValue to search
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected WebElement getWebElementByAttributeFromList(By webElementList, String attribute, String attributeValue) throws Exception {
@@ -2011,7 +2011,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isVisibleElementSelected(By webElement, int timeOutInSeconds) throws Exception {
@@ -2033,7 +2033,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isClickableElementSelected(By webElement, int timeOutInSeconds) throws Exception {
@@ -2056,7 +2056,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isVisibleElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
@@ -2079,7 +2079,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isClickableElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
@@ -2102,7 +2102,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2125,7 +2125,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2148,7 +2148,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
@@ -2172,7 +2172,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2193,7 +2193,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2217,7 +2217,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2241,7 +2241,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2264,7 +2264,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2287,7 +2287,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
@@ -2310,7 +2310,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
@@ -2333,7 +2333,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2356,7 +2356,7 @@ public class CommonFunctions {
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownClickableByText(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
@@ -2380,7 +2380,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
@@ -2404,7 +2404,7 @@ public class CommonFunctions {
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropdownClickableByIndex(WebElement webElement, int index, int timeOutInSeconds) throws Exception {
@@ -2424,7 +2424,7 @@ public class CommonFunctions {
      * Method used to get a random date with format mm/dd/yyyy
      *
      * @return String with the date format
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected String getRandomDate() throws Exception {
@@ -2465,7 +2465,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2488,7 +2488,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropDownVisibleRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2512,7 +2512,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2535,7 +2535,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveDropDownClickableRandomOption(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2558,7 +2558,7 @@ public class CommonFunctions {
      *
      * @param webElementList
      * @param timeOutInSeconds to wait for visible elements
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected WebElement getRandomWebElementFromList(List<WebElement> webElementList, int timeOutInSeconds) throws Exception {
@@ -2582,7 +2582,7 @@ public class CommonFunctions {
      * @param attribute      to handle
      * @param attributeValue to search
      * @return a WebElement
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected WebElement getWebElementByAttributeFromList(List<WebElement> webElementList, String attribute, String attributeValue) throws Exception {
@@ -2609,7 +2609,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isVisibleElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2632,7 +2632,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isClickableElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2655,7 +2655,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isVisibleElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2678,7 +2678,7 @@ public class CommonFunctions {
      * @param webElement
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean isClickableElementEnabled(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -2700,7 +2700,7 @@ public class CommonFunctions {
      *
      * @param frame            WebElement, int or String
      * @param timeOutInSeconds wait only if the WebElement option is used.
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeOutInSeconds) throws Exception {
@@ -2729,7 +2729,7 @@ public class CommonFunctions {
      * Method used to switch to the parent frame
      *
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean switchToParentFrame() throws Exception {
@@ -2750,7 +2750,7 @@ public class CommonFunctions {
      *
      * @param timeOutInSeconds wait for an alter to be visible
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean switchToAlertAccept(int timeOutInSeconds) throws Exception {
@@ -2772,7 +2772,7 @@ public class CommonFunctions {
      *
      * @param timeOutInSeconds wait for an alter to be visible
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean switchToAlertDismiss(int timeOutInSeconds) throws Exception {
@@ -2794,7 +2794,7 @@ public class CommonFunctions {
      *
      * @param timeOutInSeconds wait for an alter to be visible
      * @return String
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected String switchToAlertGetText(int timeOutInSeconds) throws Exception {
@@ -2816,7 +2816,7 @@ public class CommonFunctions {
      * @param text             to be send in the alert
      * @param timeOutInSeconds wait for an alter to be visible
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean switchToAlertSendKeys(String text, int timeOutInSeconds) throws Exception {
@@ -2838,7 +2838,7 @@ public class CommonFunctions {
      *
      * @param tabIndex tab number to switch
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean switchToWindow(int tabIndex) throws Exception {
@@ -2911,7 +2911,7 @@ public class CommonFunctions {
      *
      * @param text
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean sendKeysByActions(String text) throws Exception {
@@ -3060,7 +3060,7 @@ public class CommonFunctions {
      *
      * @param webElement contains the WebElement to move
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     private void scrollToWebElementByAction(WebElement webElement) throws Exception {
@@ -3079,7 +3079,7 @@ public class CommonFunctions {
      * @param webElement
      * @param text       to select from dropdown
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected void selectAndMoveToDropDownByText(WebElement webElement, String text) throws Exception {
@@ -3099,7 +3099,7 @@ public class CommonFunctions {
      * @param webElement
      * @param index      to select from dropdown
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectAndMoveToDropDownByIndex(WebElement webElement, int index) throws Exception {
@@ -3123,7 +3123,7 @@ public class CommonFunctions {
      * @param webElement
      * @param text       to select from dropdown
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByText(WebElement webElement, String text) throws Exception {
@@ -3146,7 +3146,7 @@ public class CommonFunctions {
      * @param webElement
      * @param index      to select from index
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectDropDownByIndex(WebElement webElement, int index) throws Exception {
@@ -3169,7 +3169,7 @@ public class CommonFunctions {
      *
      * @param webElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
     protected boolean selectRandomDropDownOption(WebElement webElement) throws Exception {
@@ -3213,7 +3213,7 @@ public class CommonFunctions {
      * @param name
      * @param timeOutInSeconds
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public boolean switchSubTabByNameSF(String name, int timeOutInSeconds) throws Exception {
@@ -3243,7 +3243,7 @@ public class CommonFunctions {
      * @param index            contains the number of the tab to switch
      * @param timeOutInSeconds is the time to wait until the operation is done
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public void switchSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
@@ -3267,7 +3267,7 @@ public class CommonFunctions {
      * @param index            contains the number of the subtab to close
      * @param timeOutInSeconds is the time to wait until the operation is done
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      */
     protected boolean closeSubTabByIndexSF(int index, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
@@ -3291,7 +3291,7 @@ public class CommonFunctions {
      *
      * @param timeOutInSeconds is the time to wait until the operation is done
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      */
     public boolean closeLastSubTabSF(int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
@@ -3332,7 +3332,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean selectDropDownRandomOptionNone(WebElement webElement, int timeOutInSeconds) throws Exception {
@@ -3354,7 +3354,7 @@ public class CommonFunctions {
      *
      * @param webElement contains the Element to select
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean selectRandomDropDownNotNone(WebElement webElement) throws Exception {
@@ -3498,7 +3498,7 @@ public class CommonFunctions {
      * @param webElement       contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
@@ -3542,7 +3542,7 @@ public class CommonFunctions {
      * @param attribute      it contains the attribute used to get the value
      * @param attributeValue it contains the value for the attribute
      * @return The webelement that matched with the attributeValue
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected WebElement clickAndMoveToElementClickableFromListByAttribute(List<WebElement> webElementList, String attribute, String attributeValue) throws Exception {
@@ -3571,7 +3571,7 @@ public class CommonFunctions {
      * @param webElementList it contains the list with all the elements
      * @param textValue      contains the value used to get the correct element
      * @return The element that matched with the textValue
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> webElementList, String textValue) throws Exception {
@@ -3670,7 +3670,7 @@ public class CommonFunctions {
      * @param value            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean selectAndMoveDropdownByOptionAttributeValue(WebElement webElement, String value, int timeOutInSeconds) throws Exception {
@@ -3740,7 +3740,7 @@ public class CommonFunctions {
      * @param locator          contains the locator that will be used to search the element
      * @param amountOfAttempts it contains a int value with the amount of tries
      * @return it returns a boolean value of the result of the operation
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public boolean retryingFindElementByLocator(By locator, int amountOfAttempts) throws Exception {
@@ -3766,7 +3766,7 @@ public class CommonFunctions {
      * Use to assign the short wait time from the GlobalConfig.properties
      *
      * @return an integer value
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public int shortWait() throws Exception {
@@ -3786,7 +3786,7 @@ public class CommonFunctions {
      * Use to assign the medium wait time from the GlobalConfig.properties
      *
      * @return an integer value
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public int mediumWait() throws Exception {
@@ -3807,7 +3807,7 @@ public class CommonFunctions {
      * Use to assign the long wait time from the GlobalConfig.properties
      *
      * @return an integer value
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public int longWait() throws Exception {
@@ -3827,7 +3827,7 @@ public class CommonFunctions {
      * Use to assign the the Wait Timeout in Seconds for the driver from the GlobalConfig.properties
      *
      * @return an integer value
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public int waitDriverTimeOutInSeconds() throws Exception {
@@ -3848,7 +3848,7 @@ public class CommonFunctions {
      *
      * @param locator contains the locator to search the WebElement
      * @return a boolean value of the statu of the operation
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public boolean autoSwitchIframeByLocator(By locator) throws Exception {
@@ -3880,7 +3880,7 @@ public class CommonFunctions {
      * @param webElementFound  contains the WebElement that we want found at page
      * @param timeOutInSeconds the wait time to give at search
      * @return a boolean value of the status of the operation
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public boolean autoSwitchIframeByWebElement(WebElement webElementFound, int timeOutInSeconds) throws Exception {
@@ -3920,7 +3920,7 @@ public class CommonFunctions {
      * @param counter          counter used to switch between iframes
      * @param timeOutInSeconds the wait time to give at search
      * @return a boolean value of the status of the operation
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public boolean switchingIframeUntilElementFound(WebElement webElementFound, int counter, int timeOutInSeconds) throws Exception {
@@ -3956,7 +3956,7 @@ public class CommonFunctions {
      * Use to assign the amount of tries to find an Iframe it is setup from the GlobalConfig.properties
      *
      * @return an integer value
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     public int iframeTries() throws Exception {
@@ -3979,7 +3979,7 @@ public class CommonFunctions {
      * @param whileTries       it contains an int number of how many times it will try to find the element
      * @param timeOutInSeconds it contains an int value of the wait time in Seconds
      * @return it returns a boolean value true if element was found
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int timeOutInSeconds) throws Exception {
@@ -4011,7 +4011,7 @@ public class CommonFunctions {
      *
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
-     * @throws Exception
+     * @throws Exception selenium Exception
      * @author J.Ruano
      */
     protected String getMessage(String keyValue) throws Exception {
@@ -4026,7 +4026,7 @@ public class CommonFunctions {
      *
      * @param webElement it will contain the WebElement from where the position will be retreive
      * @return a list that contains at position 0 Y coordinates and position 1 X coordinates
-     * @throws Exception selenium exception
+     * @throws Exception selenium Exception selenium exception
      * @author J.Ruano
      */
     protected List<Integer> getXYElementPosition(WebElement webElement) throws Exception {
@@ -4045,7 +4045,7 @@ public class CommonFunctions {
      *
      * @param keyValue used to get the correct value from JSON file
      * @return it returns a string with the corresponding message
-     * @throws Exception JSON object
+     * @throws Exception selenium Exception JSON object
      */
     public String getJSONData(String fileName, String keyValue) throws Exception {
         JsonFiles jsonFiles = new JsonFiles();
@@ -4184,7 +4184,7 @@ public class CommonFunctions {
      * @param dataSeparator it contains the char to be able to split the Data on each record
      * @param recordSeparator it contains the char to be able to split Each Record
      * @return it returns a list of list
-     * @throws Exception
+     * @throws Exception selenium Exception
      */
     public List<List<String>> splitIntoLists(String record, String recordSeparator, String dataSeparator) throws Exception{
         List<List<String>> listOfListWithAllRecords = Lists.newArrayList();

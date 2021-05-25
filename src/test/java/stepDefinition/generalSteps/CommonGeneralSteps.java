@@ -9,6 +9,7 @@ import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.GlobalShareData;
 import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.ProductEnrollment;
+import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class CommonGeneralSteps extends ApplicationInstance {
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
                     accessServices.getProductsPage().selectProductView(filterView);
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         }catch (InvocationTargetException |NullPointerException e) {

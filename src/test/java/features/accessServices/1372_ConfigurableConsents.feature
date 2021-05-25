@@ -1,4 +1,63 @@
 Feature: Setup configurable consents
+"""
+//============Script Purpose:
+Creation Of consents AZ or DSI
+
+//============Script Configuration:
+There are 2 options for creation in can be by DataTable or With Scenario Outline Tables
+
+dummyValue  Options:
+  * Can be any text, used to perform a serach can be any string combination
+
+accountType Options:
+  * HCA = Facility
+  * HCP = Prescribers
+  * CPC = Consumer/Patients/Caregiver
+  * Emp = Internal AZ
+
+consentType Options:
+  * AZ
+  * DSI
+
+accountKeyValueJSON Options:
+  * accountType is the keyName use to get the value from JSON file (it does not required to be change)
+
+consentKeyValueJSON Options:
+  * consentKeyValueJSON is the value that will get from JSON file ConstantData.json (it does not required to be change)
+
+fileNameJSON Options:
+  * fileNameJSON is the name of the JSON File from where it will be extracting all the data (it does not required to be change)
+
+ConsentType Options
+  * DFM = DSI Family Consent
+  * DCC = DSI Copay Consent
+  * APC = AZ Promotional Consent
+  * DPC = DSI Promotional Consent
+  * AFP = AZ Family Consent
+  * ANP = AZ Non-Promotional Consent
+  * DNC = DSI Non-Promotional Consent
+  * ACC = AZ Copay Consent
+
+externalID Options:
+  * it contains an externailID in case theres is already an account that we want to used
+
+selectedView Options:
+  * it will contains the name of the filter that we want to use e.g. Recently Viewed
+
+consentStatus = it contains the status for the creation of the new Consent i.e. "Active", (can be random)
+
+consentDate = it contains the date for the new consent i.e. "3/31/2021", (can be random)
+
+consentSource = it contains the type of source for the new consent i.e. "Fax", (can be random)
+
+consentAuth = it contains the type of authorization for the new consent creation i.e. "Self", (can be random)
+
+product = it contains the drug to be use to create the PE e.g. Calquence
+
+randomSelection = if the column contains RND it will generate all the data randomly
+
+createPE = it creates a PE if the value in column is Y
+"""
 
   Background:
     Given I login according to the account selected from table
@@ -54,11 +113,10 @@ Feature: Setup configurable consents
     And I validate the patient account was created
 
     Examples:
-      | dummyValue  | accountType | consentType | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection |
-      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
-      | dummySearch | CPC         | AZ          | accountType         | consentType         | ConstantData | RND             |
-      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData | N_A             |
-
+      | dummyValue  | accountType | consentType | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON |
+      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData |
+      | dummySearch | CPC         | AZ          | accountType         | consentType         | ConstantData |
+      | dummySearch | CPC         | DSI         | accountType         | consentType         | ConstantData |
 
 
   Scenario Outline: Create an Account with PE to create a Consent at Account level
@@ -111,7 +169,6 @@ Feature: Setup configurable consents
     And I select an existing address option
     And I verify the consent details displayed
 
-  @yes
   Scenario: Create an attestation for DSI
     Given I click on new Account
     When I click on new and I select "Consumer/Patient/Caregiver" account
