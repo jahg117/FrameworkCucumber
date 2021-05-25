@@ -9,13 +9,11 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
-import stepDefinition.shareData.ProductEnrollment;
 import stepDefinition.shareData.ProductServicesProvided;
-
-import java.util.List;
 
 public class CreateAProductMasterCheck extends ApplicationInstance {
     private CommonData commonData;
+    CommonFunctions commonFunctions = new CommonFunctions();
     private Logger logger = Logger.getLogger(CommonFunctions.class);
 
     public CreateAProductMasterCheck(CommonData commonData) {
@@ -68,6 +66,6 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
 
     @And("I close the last tab")
     public void closeLastTab() throws Exception {
-        salesforce.getHomePage().closeLastTabSF(15);
+        salesforce.getHomePage().closeLastTabSF(commonFunctions.mediumWait());
     }
 }

@@ -160,7 +160,7 @@ public class CreateCase extends ApplicationInstance {
     @And("^I validate the correct case interaction information displayed$")
     public void validateCaseInteractionInformation() throws Exception {
         accessServices.getCasePage().isCasePageDisplayed();
-        if (!accessServices.getCasePage().getPatientName().equalsIgnoreCase("")) {
+        if (!accessServices.getCasePage().getPatientName().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
             Assert.assertEquals(accessServices.getCasePage().getPatientName(), commonData.patient.getPatientName(), "The patient name is not matching");
         }
         Assert.assertEquals(accessServices.getCasePage().getCaseStatus(), commonData.interaction.getCaseStatus(), "The case status is not matching");

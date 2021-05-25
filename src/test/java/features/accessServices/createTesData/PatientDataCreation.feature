@@ -22,11 +22,15 @@ NOPI,PMI,PBM with this it will create the three types of insurances if only 2 ar
 NOPI,PMI.
 
 RelationShip Options (HCA-HCP)
-  * Prescribing Physician
-  * Treating Physician
-  * Pharmacist
-  * Office Staff
-  * Other
+  * PP = Prescribing Physician
+  * PF = Prescribing Facility
+  * TP = Treating Physician
+  * TF = Treating Facility
+  * PH = Pharmacist
+  * PM = Pharmacy
+  * OS = Office Staff
+  * OT = Other
+  * OF = Other Facility
 
 ConsentType Options
   * DFM = DSI Family Consent
@@ -46,12 +50,15 @@ dataPMI = array  that contains the data need it to create a PMI insurance
 
 dataPBM = array  that contains the data need it to create a PBM insurance
 
+Case Status For Interactions
+  * Open
+  * Closed
+
 Note: For PMI and PBM if some data is not required it can be ignore, putting in the record layout N_A and if some data needs to be
       random you shall put in the respective index the word RND.
 """
 
   Scenario Outline: Patient Data Creation
-
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app

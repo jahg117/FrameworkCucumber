@@ -8,15 +8,12 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.it.Ma;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
 import utils.Values;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +55,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     }
                     accessServices.getCustomerLookupPage().clickNewAccount();
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
@@ -165,7 +162,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
@@ -187,7 +184,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
@@ -333,7 +330,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     String dropdownOption = accessServices.getNewAccountPage().assignCorrectAccountTypeValue(accountType);
                     accessServices.getNewAccountPage().selectRecordType(dropdownOption);
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {

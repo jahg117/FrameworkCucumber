@@ -13,8 +13,8 @@ Feature: Interactions
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the correct case interaction information displayed
     Examples:
-    | user    |   channel    | caseStatus |
-    | admin   |   random     | Open       |
+      | user  | channel | caseStatus |
+      | admin | RND     | Open       |
 
   Scenario Outline: Create interaction from cases option
     Given I login as an "<user>" user
@@ -26,5 +26,5 @@ Feature: Interactions
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the correct case interaction information displayed
     Examples:
-      | user    |   channel    | caseStatus |
-      | admin   |   random     | Open       |
+      | user  | channel | caseStatus |
+      | admin | RND     | Open       |

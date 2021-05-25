@@ -6,17 +6,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.Values;
-
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class NewCaseOptionsPage extends CommonFunctions {
 
     @FindBy(xpath = "//div[@class='forceChangeRecordType']")
-    private WebElement form_caseOptionsPage;
+    private WebElement formCaseOptionsPage;
 
     @FindBy(xpath = "//div[@class='forceChangeRecordType']//span[contains(@class,'topdown-radio--label')]")
-    private List<WebElement> list_caseOptions;
+    private List<WebElement> listCaseOptions;
 
     @FindBy(xpath = "//*[contains(text(),'New Case')]/following::*[./text()='Next']")
     private WebElement button_next;
@@ -32,27 +30,27 @@ public class NewCaseOptionsPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public boolean isFormCaseOptionsPageDisplayed() throws Exception {
-        return waitForElementVisibility(form_caseOptionsPage, mediumWait());
+        return waitForElementVisibility(formCaseOptionsPage, mediumWait());
     }
 
     public void selectCaseOption(String caseOption) throws Exception {
-        waitForElementListVisible(list_caseOptions, mediumWait());
-        if (!caseOption.equalsIgnoreCase("random")) {
-            for (WebElement el : list_caseOptions) {
+        waitForElementListVisible(listCaseOptions, mediumWait());
+        if (!caseOption.equalsIgnoreCase(Values.TXT_RANDOM)) {
+            for (WebElement el : listCaseOptions) {
                 if (getWebElementText(el).equalsIgnoreCase(caseOption)) {
                     clickAndMoveToElementClickable(el, mediumWait());
                     break;
                 }
             }
         } else {
-            clickAndMoveToElementClickable(getRandomWebElementFromList(list_caseOptions, mediumWait()), mediumWait());
+            clickAndMoveToElementClickable(getRandomWebElementFromList(listCaseOptions, mediumWait()), mediumWait());
         }
         clickAndMoveToElementClickable(button_next, mediumWait());
         }

@@ -7,33 +7,32 @@ import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.Values;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class AccessServicesHomePage extends CommonFunctions {
     @FindBy(css = ".slds-truncate[title='Access Services']")
-    private WebElement label_accessServicesTitle;
+    private WebElement labelAccessServicesTitle;
 
     @FindBy(css = ".appLauncher")
-    private WebElement appLauncher_Button;
+    private WebElement appLauncherButton;
 
     @FindBy(css = "input.slds-input[placeholder^='Search app']")
-    private WebElement appLaucher_SearchBar;
+    private WebElement appLaucherSearchBar;
 
     @FindBy(css = "button[title='Show Navigation Menu']")
-    private WebElement button_navigationMenu;
+    private WebElement buttonNavigationMenu;
 
     @FindBy(css = "#navMenuList")
-    private WebElement list_navigationMenu;
+    private WebElement listNavigationMenu;
 
     @FindBy(css = "#navMenuList a.menuItem")
-    private List<WebElement> list_navigationOptions;
+    private List<WebElement> listNavigationOptions;
 
     @FindBy(css = "a[title='New']")
-    private WebElement button_NewAccount;
+    private WebElement buttonNewAccount;
 
     @FindBy(xpath = "//*[starts-with(@class,'selectedListItem')]/a")
-    private WebElement label_navigationName;
+    private WebElement labelNavigationName;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -46,31 +45,31 @@ public class AccessServicesHomePage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void clickNewAccount() throws Exception {
-        clickAndMoveToElementClickable(button_NewAccount, longWait());
+        clickAndMoveToElementClickable(buttonNewAccount, longWait());
     }
 
 
     public boolean isAccessServicesTitleVisible() throws Exception {
-        return waitForElementVisibility(label_accessServicesTitle, longWait());
+        return waitForElementVisibility(labelAccessServicesTitle, longWait());
     }
 
     public void selectMenuOption(String menuOption) throws Exception {
         waitForPageToLoad();
-        if (waitForElementVisibility(label_navigationName, mediumWait())) {
-            if (!label_navigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
-                clickElementVisible(button_navigationMenu, mediumWait());
-                if (!waitForElementVisibility(list_navigationMenu, mediumWait())) {
-                    clickElementVisible(button_navigationMenu, mediumWait());
-                    waitForElementVisibility(list_navigationMenu, longWait());
+        if (waitForElementVisibility(labelNavigationName, mediumWait())) {
+            if (!labelNavigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
+                clickElementVisible(buttonNavigationMenu, mediumWait());
+                if (!waitForElementVisibility(listNavigationMenu, mediumWait())) {
+                    clickElementVisible(buttonNavigationMenu, mediumWait());
+                    waitForElementVisibility(listNavigationMenu, longWait());
                 }
-                clickAndMoveToElementVisible(getWebElementByAttributeFromList(list_navigationOptions, "title", menuOption), mediumWait());
+                clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, "title", menuOption), mediumWait());
             }
         }
     }

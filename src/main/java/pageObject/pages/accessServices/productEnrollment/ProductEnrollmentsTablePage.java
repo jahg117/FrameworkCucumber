@@ -9,19 +9,19 @@ import java.util.List;
 
 public class ProductEnrollmentsTablePage extends CommonFunctions {
     @FindBy(xpath = "//a[@data-refid='recordId'][contains(@title,'PE-')]")
-    private List<WebElement> list_productEnrollments;
+    private List<WebElement> listProductEnrollments;
 
     @FindBy(xpath = "//h1[@title='Product Enrollments']")
-    private WebElement label_productEnrollments;
+    private WebElement labelProductEnrollments;
 
     public boolean isProductEnrollmentsPageDisplayed() throws Exception {
-        return waitForElementVisibility(label_productEnrollments, longWait());
+        return waitForElementVisibility(labelProductEnrollments, longWait());
     }
 
     public ArrayList<String> getProductEnrollmentsList() throws Exception {
-        waitForElementListVisible(list_productEnrollments, mediumWait());
+        waitForElementListVisible(listProductEnrollments, mediumWait());
         ArrayList<String> productEnrollments = new ArrayList<>();
-        for (WebElement el : list_productEnrollments) {
+        for (WebElement el : listProductEnrollments) {
             productEnrollments.add(getWebElementText(el));
         }
         return productEnrollments;

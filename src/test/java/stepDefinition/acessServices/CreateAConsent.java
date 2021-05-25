@@ -44,7 +44,7 @@ public class CreateAConsent extends ApplicationInstance {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 } else {
                     accessServices.getCustomerLookupPage().searchCPCByID(cpcID);
                 }
@@ -60,7 +60,7 @@ public class CreateAConsent extends ApplicationInstance {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 } else {
                     accessServices.getCustomerLookupPage().selectAndClickAZID();
                 }
@@ -178,11 +178,11 @@ public class CreateAConsent extends ApplicationInstance {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     if (commonData.consentType.getConsentType() != null || !commonData.consentType.getConsentType().isEmpty()) {
-                        if (commonData.consentType.getConsentType().trim().contains("DSI")) {
-                            validPAF = "DSI";
+                        if (commonData.consentType.getConsentType().trim().contains(Values.TXT_DSI)) {
+                            validPAF = Values.TXT_DSI;
                         } else {
-                            if (commonData.consentType.getConsentType().trim().contains("AstraZeneca")) {
-                                validPAF = "AstraZeneca";
+                            if (commonData.consentType.getConsentType().trim().contains(Values.TXT_ASTRAZENECA)) {
+                                validPAF = Values.TXT_ASTRAZENECA;
                             }
                         }
                     }
