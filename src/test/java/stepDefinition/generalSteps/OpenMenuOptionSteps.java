@@ -1,9 +1,6 @@
 package stepDefinition.generalSteps;
 
-import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import org.apache.log4j.Logger;
 import pageObject.ApplicationInstance;
 
 public class OpenMenuOptionSteps extends ApplicationInstance {

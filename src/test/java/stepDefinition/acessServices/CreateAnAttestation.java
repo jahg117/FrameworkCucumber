@@ -15,6 +15,7 @@ public class CreateAnAttestation extends ApplicationInstance {
     @And("^I select the Attestation tab option to click on new consent")
     public void newAttestationConsent() throws Exception {
         Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), "The product enrollment page was not displayed");
+        accessServices.getProductEnrollmentPage().clickAttestationTab();
         accessServices.getProductEnrollmentPage().createNewAttestationConsent();
     }
 

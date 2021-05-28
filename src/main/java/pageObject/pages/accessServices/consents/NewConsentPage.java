@@ -34,7 +34,7 @@ public class NewConsentPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class NewConsentPage extends CommonFunctions {
     public void selectConsentType(String consentTypeOption) throws Exception {
         switchToFrameByWebElementIndexOrName(iframe_pageInformation, longWait());
         waitForElementVisibility(dropdown_consentType, longWait());
-        if (consentTypeOption.trim().equalsIgnoreCase("RND")) {
+        if (consentTypeOption.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
             selectDropDownRandomOptionNone(dropdown_consentType, longWait());
         } else {
             selectAndMoveDropdownByText(dropdown_consentType, consentTypeOption, longWait());

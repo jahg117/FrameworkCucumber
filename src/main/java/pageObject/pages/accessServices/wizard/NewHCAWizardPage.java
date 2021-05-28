@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +89,6 @@ public class NewHCAWizardPage extends CommonFunctions {
     private WebElement linkButton_lastModifiedBy;
 
 
-
     public boolean isNewHCAWizardFormDisplayed() throws Exception {
         return waitForElementVisibility(dropdown_type, longWait());
     }
@@ -116,7 +116,7 @@ public class NewHCAWizardPage extends CommonFunctions {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("HCARecord");
         boolean allDataRND = false;
-        if (randomRecord.trim().equalsIgnoreCase("RND")) {
+        if (randomRecord.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
             hcaDetailsStoreData = fullHCAFormRND(identifier);
         } else {
             hcaDetailsStoreData = hibrydHCAForm(identifier, npi, nameHCA, email, phoneOrFax, addressLine1, state, city, zipCode, country);
@@ -139,16 +139,14 @@ public class NewHCAWizardPage extends CommonFunctions {
     public HashMap<String, String> fullHCAFormRND(String identifier) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         WebElement backUpWElement = null;
         Faker faker = new Faker();
         HashMap<String, String> hcaDetails = new HashMap<String, String>();
-        List<String> stateNames = splitRegex(jsonFile.getRandomFieldArray("statesUS"), "[|]");
+        List<String> stateNames = splitRegex(jsonFile.getRandomFieldArray("statesUS"), Values.REGEX_PIPE);
         hcaDetails.put("npi", String.valueOf(faker.number().randomNumber(10, true)));
-        hcaDetails.put("nameHCA", identifier + faker.name().firstName() + underScore + generateTimeStamp(dateFormat));
-        hcaDetails.put("email", hcaDetails.get("nameHCA") + "@sharklasers.com");
-        hcaDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
+        hcaDetails.put("nameHCA", identifier + faker.name().firstName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
+        hcaDetails.put("email", hcaDetails.get("nameHCA") + Values.ARRAY_FULLEMAILDOMAINVALUES[0]);
+        hcaDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(Values.TXT_DOT, Values.REPLACETO_EMPTY).replace(Values.TXT_HYPHEN, Values.REPLACETO_EMPTY));
         hcaDetails.put("addressLine1", faker.address().streetName());
         hcaDetails.put("city", faker.address().cityName());
         hcaDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
@@ -156,20 +154,20 @@ public class NewHCAWizardPage extends CommonFunctions {
         clickAndMoveToElementVisible(input_hcaName, mediumWait());
         input_hcaName.clear();
         sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), mediumWait());
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_type, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_subType, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
         sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), mediumWait());
         sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), mediumWait());
         sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), mediumWait());
-        clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
-        hcaDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute("data-value"));
+        clickWhileCondition(dropdown_state, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+        hcaDetails.put("stateCode", (backUpWElement = getRandomWebElementFromList(elementList_stateCodesList, mediumWait())).getAttribute(Values.ATTRIBUTE_DATAVALUE_VALUE));
         clickAndMoveToElementClickable(backUpWElement, mediumWait());
         sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), mediumWait());
         sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), mediumWait());
-        clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
-        hcaDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute("data-value"));
+        clickWhileCondition(dropdown_country, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+        hcaDetails.put("country", (backUpWElement = getRandomWebElementFromList(elementList_countriesList, mediumWait())).getAttribute(Values.ATTRIBUTE_DATAVALUE_VALUE));
         clickAndMoveToElementClickable(backUpWElement, mediumWait());
         sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), mediumWait());
         return hcaDetails;
@@ -197,13 +195,11 @@ public class NewHCAWizardPage extends CommonFunctions {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
 
-        HashMap<String, String> hcaDetails = new HashMap<String, String>();
-        List<String> stateNames = splitRegex(jsonFile.getRandomFieldArray("statesUS"), "[|]");
+       HashMap<String, String> hcaDetails = new HashMap<String, String>();
+        List<String> stateNames = splitRegex(jsonFile.getRandomFieldArray("statesUS"), Values.REGEX_PIPE);
         hcaDetails.put("npi", hibrydHCAFormFilter(npi, "npi"));
-        hcaDetails.put("nameHCA", identifier + hibrydHCAFormFilter(nameHCA, "nameHCA") + underScore + generateTimeStamp(dateFormat));
+        hcaDetails.put("nameHCA", identifier + hibrydHCAFormFilter(nameHCA, "nameHCA") + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
         hcaDetails.put("email", hibrydHCAFormFilter(email, "email"));
         hcaDetails.put("phoneOrFax", hibrydHCAFormFilter(phoneOrFax, "phoneOrFax"));
         hcaDetails.put("addressLine1", hibrydHCAFormFilter(addressLine1, "addressLine1"));
@@ -224,18 +220,14 @@ public class NewHCAWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public String hibrydHCAFormFilter(String hcaValue, String nameOfField) throws Exception {
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
-        String notApply = "N_A";
-        String randomOption = "RND";
         String returnedValue = "";
         Faker faker = new Faker();
         switch (nameOfField) {
             case "npi":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().randomNumber(10, true));
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -244,10 +236,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "nameHCA":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().firstName() + underScore + generateTimeStamp(dateFormat);
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().firstName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM);
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -256,10 +248,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "email":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().firstName() + underScore + generateTimeStamp(dateFormat) + "@sharklasers.com";
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().firstName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM) + Values.ARRAY_FULLEMAILDOMAINVALUES[0];
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -268,10 +260,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "phoneOrFax":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.phoneNumber().cellPhone().replace(".", "").replace("-", "");
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.phoneNumber().cellPhone().replace(Values.TXT_DOT, Values.REPLACETO_EMPTY).replace(Values.TXT_HYPHEN, Values.REPLACETO_EMPTY);
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -280,10 +272,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "addressLine1":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().streetName();
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -292,10 +284,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "stateCode":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_stateCodesList.size() - 1));
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -304,10 +296,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "city":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().cityName();
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -316,10 +308,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "zipCode":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().randomNumber(5, true));
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -328,10 +320,10 @@ public class NewHCAWizardPage extends CommonFunctions {
                 break;
 
             case "country":
-                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!hcaValue.trim().isEmpty() && hcaValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_countriesList.size() - 1));
                 } else {
-                    if (hcaValue.trim().equalsIgnoreCase(notApply)) {
+                    if (hcaValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = hcaValue;
                     } else {
                         returnedValue = hcaValue;
@@ -350,41 +342,40 @@ public class NewHCAWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void fillingHybridHCAForm(HashMap<String, String> hcaDetails) throws Exception {
-        String notApply = "N_A";
         clickAndMoveToElementVisible(input_hcaName, mediumWait());
         input_hcaName.clear();
         sendKeysAndMoveToElementVisible(input_hcaName, hcaDetails.get("nameHCA"), mediumWait());
-        clickWhileCondition(dropdown_type, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_type, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_TypeList, "--None--"), mediumWait());
-        clickWhileCondition(dropdown_subType, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_subType, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreIdexValue(dropdown_subTypeList, 0), mediumWait());
-        if (!hcaDetails.get("npi").trim().equalsIgnoreCase(notApply)) {
+        if (!hcaDetails.get("npi").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_npi, hcaDetails.get("npi"), mediumWait());
         }
         sendKeysAndMoveToElementVisible(input_phoneOrFax, hcaDetails.get("phoneOrFax"), mediumWait());
-        if (!hcaDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
+        if (!hcaDetails.get("addressLine1").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_addressLine1, hcaDetails.get("addressLine1"), mediumWait());
         }
 
-        if (!hcaDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_state, "aria-expanded", "false", mediumWait());
-            clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, "data-value", hcaDetails.get("stateCode"));
+        if (!hcaDetails.get("stateCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            clickWhileCondition(dropdown_state, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+            clickAndMoveToElementClickableFromListByAttribute(elementList_stateCodesList, Values.ATTRIBUTE_DATAVALUE_VALUE, hcaDetails.get("stateCode"));
         }
 
-        if (!hcaDetails.get("city").trim().equalsIgnoreCase(notApply)) {
+        if (!hcaDetails.get("city").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_city, hcaDetails.get("city"), mediumWait());
         }
 
-        if (!hcaDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
+        if (!hcaDetails.get("zipCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_zipCode, hcaDetails.get("zipCode"), mediumWait());
         }
 
-        if (!hcaDetails.get("country").trim().equalsIgnoreCase(notApply)) {
-            clickWhileCondition(dropdown_country, "aria-expanded", "false", mediumWait());
-            clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, "data-value", hcaDetails.get("country"));
+        if (!hcaDetails.get("country").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            clickWhileCondition(dropdown_country, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
+            clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, Values.ATTRIBUTE_DATAVALUE_VALUE, hcaDetails.get("country"));
         }
 
-        if (!hcaDetails.get("email").trim().equalsIgnoreCase(notApply)) {
+        if (!hcaDetails.get("email").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_email, hcaDetails.get("email"), mediumWait());
         }
     }
@@ -414,10 +405,9 @@ public class NewHCAWizardPage extends CommonFunctions {
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
         clickMethod(label_accountHistory);
-        clickAndMoveToElementClickable(label_systemInfo,shortWait());
-        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
-        waitForElementPresenceBy(azID,shortWait());
+        clickAndMoveToElementClickable(label_systemInfo, shortWait());
+        waitForElementPresenceBy(Values.BYPATH_AZID, shortWait());
         scrollToElementByCoordinates(label_externalID);
-        return label_externalID.getText().replace("Account ID", "").trim();
+        return label_externalID.getText().replace("Account ID", Values.REPLACETO_EMPTY).trim();
     }
 }

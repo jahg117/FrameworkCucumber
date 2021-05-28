@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import base.functions.CommonFunctions;
 import utils.FileReading;
+import utils.Values;
 
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,11 @@ public class LoginPage extends CommonFunctions {
     @FindBy(css = "#Login")
     private WebElement button_login;
 
-    Class<?> myClass;//JR
+    Class<?> myClass;
 
     {
         try {
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

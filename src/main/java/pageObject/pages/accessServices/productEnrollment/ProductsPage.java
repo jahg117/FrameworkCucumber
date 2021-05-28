@@ -9,6 +9,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import utils.Values;
 
 import java.util.List;
 
@@ -16,31 +17,31 @@ public class ProductsPage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
 
     @FindBy(xpath = "//span[@title='Product Name'] | //span[@title='Product Enrollment Number'] | //span[text()='Name']")
-    private WebElement toggle_pmProductNameColumn;
+    private WebElement togglePmProductNameColumn;
 
     @FindBy(xpath = "//span[contains(@class,'triggerLinkText')]")
-    private WebElement linkButton_pmCurrentView;
+    private WebElement linkButtonPmCurrentView;
 
     @FindBy(xpath = "//div[text()='List Views'] | //div[text()='Recent List Views']")
-    private WebElement label_pmListViews;
+    private WebElement labelPmListViews;
 
     @FindBy(xpath = "//div[contains(text(),'List Views')]/following::li")
-    private List<WebElement> toggleList_pmViewList;
+    private List<WebElement> toggleListPmViewList;
 
     @FindBy(xpath = "//input[contains(@placeholder,'Search this')]")
-    private WebElement input_pmSearchList;
+    private WebElement inputPmSearchList;
 
     @FindBy(xpath = "//*[contains(text(),'No items to display')]")
-    private WebElement label_pmNoItemsMessage;
+    private WebElement labelPmNoItemsMessage;
 
     @FindBy(xpath = "//span[text()='Product Name'][not(@title)]")
-    private WebElement label_pmProductNameLabel;
+    private WebElement labelPmProductNameLabel;
 
     @FindBy(xpath = "//span[text()='Services Provided']/following::span[1][not (@class='assistiveText')]")
-    private WebElement labelList_pmServicesProvidedList;
+    private WebElement labelListPmServicesProvidedList;
 
     @FindBy(xpath = "//*[@id='brandBand_1']//tbody/tr[1]")
-    private WebElement tableRow_pmFirstRow;
+    private WebElement tableRowPmFirstRow;
 
     /**
      * It will select the product view specified i.e. "All Products"
@@ -49,18 +50,18 @@ public class ProductsPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectProductView(String filterView) throws Exception {
+    public void selectProductView(String filterView , boolean selectAgain) throws Exception {
         By toogleListSecondOption = By.xpath("//li//a//*[text()='" + filterView + "']");
         do {
-            waitForElementClickable(toggle_pmProductNameColumn, shortWait());
-        } while (!waitForElementClickable(toggle_pmProductNameColumn, shortWait()));
+            waitForElementClickable(togglePmProductNameColumn, shortWait());
+        } while (!waitForElementClickable(togglePmProductNameColumn, shortWait()));
         try {
-            if (getWebElementText(linkButton_pmCurrentView).trim().equalsIgnoreCase(filterView)) {
+            if (getWebElementText(linkButtonPmCurrentView).trim().equalsIgnoreCase(filterView) && selectAgain) {
                 logger.info("Already At: " + filterView);
             } else {
-                clickAndMoveToElementClickable(linkButton_pmCurrentView, shortWait());
-                waitForElementVisibility(label_pmListViews, shortWait());
-                WebElement filterElement = clickAndMoveToElementClickableFromListByText(toggleList_pmViewList, filterView);
+                clickAndMoveToElementClickable(linkButtonPmCurrentView, shortWait());
+                waitForElementVisibility(labelPmListViews, shortWait());
+                WebElement filterElement = clickAndMoveToElementClickableFromListByText(toggleListPmViewList, filterView);
                 if (filterElement == null) {
                     clickElementJS(getWebElement(toogleListSecondOption));
                 }
@@ -81,8 +82,8 @@ public class ProductsPage extends CommonFunctions {
      */
     public void searchProductOrPE(String productName) throws Exception {
         Actions actions = new Actions(DriverFactory.getDriver());
-        clickAndMoveToElementClickable(input_pmSearchList, shortWait());
-        sendKeysAndMoveToElementClickable(input_pmSearchList, productName, shortWait());
+        clickAndMoveToElementClickable(inputPmSearchList, shortWait());
+        sendKeysAndMoveToElementClickable(inputPmSearchList, productName, shortWait());
         actions.sendKeys(Keys.ENTER).build().perform();
     }
 
@@ -96,23 +97,21 @@ public class ProductsPage extends CommonFunctions {
      */
     public boolean searchAndClickProductFromResults(String productName) throws Exception {
         boolean statusOperation = false;
-        By labelList_pmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
+        By labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName.toUpperCase() + "']");
         try {
-            waitForElementTextPresent(tableRow_pmFirstRow, productName, mediumWait());
-            List<WebElement> productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
-            if (!productNamesFound.isEmpty()) {
-                for (WebElement product : productNamesFound) {
-                    if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
-                        waitForElementVisibility(product, shortWait());
-                        clickAndMoveToElementClickable(product, shortWait());
-                        logger.info("The Product Element was found");
-                        statusOperation = true;
-                        break;
-                    }
-                }
-            } else {
-                if (label_pmNoItemsMessage.isDisplayed()) {
-                    logger.error("No items to display");
+            waitForElementTextPresent(tableRowPmFirstRow, productName, mediumWait());
+            List<WebElement> productNamesFound = getWebElementList(labelListPmServicesProvidedList);
+            if (productNamesFound.isEmpty()) {
+                labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
+                productNamesFound = getWebElementList(labelListPmServicesProvidedList);
+            }
+            for (WebElement product : productNamesFound) {
+                if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
+                    waitForElementVisibility(product, shortWait());
+                    clickAndMoveToElementClickable(product, shortWait());
+                    logger.info("The Product Element was found");
+                    statusOperation = true;
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -131,8 +130,8 @@ public class ProductsPage extends CommonFunctions {
      */
     public List<String> getServicesProvidedList() throws Exception {
         List<String> servicesProvidedList = null;
-        waitForElementVisibility(label_pmProductNameLabel, shortWait());
-        scrollMethodToWebElement(labelList_pmServicesProvidedList);
-        return servicesProvidedList = splitRegex(getWebElementText(labelList_pmServicesProvidedList), "[;]");
+        waitForElementVisibility(labelPmProductNameLabel, shortWait());
+        scrollMethodToWebElement(labelListPmServicesProvidedList);
+        return servicesProvidedList = splitRegex(getWebElementText(labelListPmServicesProvidedList), Values.REGEX_SEMICOLON);
     }
 }

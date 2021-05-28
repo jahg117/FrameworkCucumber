@@ -10,12 +10,25 @@ public class Patient {
     private String date;
     private String pepID;
 
+    private String patientPDC;
+    private String addressPDC;
+    private String cityPDC;
+    private String firstPhoneFax;
+    private String secondPhoneFax;
+    private String datePDC;
+
     public Patient(HashMap <String, String> patientDetails){
         patient = patientDetails.get("firstName") + " " + patientDetails.get("lastName");
         address = patientDetails.get("address");
         city = patientDetails.get("city");
         phoneNumber = patientDetails.get("phoneNumber");
         date = patientDetails.get("date");
+        patientPDC = patientDetails.get("fName") + " " + patientDetails.get("lName");
+        addressPDC = patientDetails.get("address");
+        cityPDC = patientDetails.get("city");
+        firstPhoneFax = patientDetails.get("phoneNumber");
+        secondPhoneFax = patientDetails.get("faxNumber");
+        datePDC = patientDetails.get("date");
     }
 
     public Patient(String pepID) {
@@ -31,6 +44,22 @@ public class Patient {
     public String getPhoneNumber() { return phoneNumber; }
 
     public String getDate() { return date; }
+
+    public String getPatientNamePDC() { return patientPDC; }
+
+    public String getAddressPDC() { return addressPDC; }
+
+    public String getCityPDC() { return cityPDC; }
+
+    public String getFirstPhoneFax() { return firstPhoneFax; }
+
+    public String getSecondPhoneFaxPhoneFax() { return secondPhoneFax; }
+
+    public String getDatePDC() { return datePDC; }
+
+
+
+
 
     public String getPepID() { return pepID; }
 }

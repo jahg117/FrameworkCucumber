@@ -9,13 +9,12 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
-import stepDefinition.shareData.ProductEnrollment;
 import stepDefinition.shareData.ProductServicesProvided;
-
-import java.util.List;
+import utils.Values;
 
 public class CreateAProductMasterCheck extends ApplicationInstance {
     private CommonData commonData;
+    CommonFunctions commonFunctions = new CommonFunctions();
     private Logger logger = Logger.getLogger(CommonFunctions.class);
 
     public CreateAProductMasterCheck(CommonData commonData) {
@@ -25,12 +24,12 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     //============PRODUCT MASTER CHECK By ACCESS SERVICES>PRODUCT SELECTION
     @Given("The product select view title {string} i select the product view filter at Products page")
     public void selectProductView(String productView) throws Exception {
-        accessServices.getProductsPage().selectProductView(productView);
+        accessServices.getProductsPage().selectProductView(productView, false);
     }
 
     @Then("I search and select for the {string} {string} at Products page")
     public void searchProductByName(String productName, String searchFromFile) throws Exception {
-        if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
+        if (searchFromFile.trim().equalsIgnoreCase(Values.TXT_Y_VALUE.trim())) {
             accessServices.getProductsPage().searchProductOrPE(productName = commonData.product.getProduct().trim());
         } else {
             accessServices.getProductsPage().searchProductOrPE(productName);
@@ -46,7 +45,7 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
     //============PRODUCT ENROLLMENTS MASTER CHECK By ACCESS SERVICES>PRODUCT ENROLLMENTS SELECTION
     @Given("a product enrollment i search the PE {string} {string} and click it")
     public void searchPE(String productEnrollment, String searchFromFile) throws Exception {
-        if (searchFromFile.trim().equalsIgnoreCase("Y".trim())) {
+        if (searchFromFile.trim().equalsIgnoreCase(Values.TXT_Y_VALUE)) {
             accessServices.getProductsPage().searchProductOrPE(productEnrollment = commonData.productEnrollment.getProductEnrollment().trim());
         } else {
             accessServices.getProductsPage().searchProductOrPE(productEnrollment);
@@ -68,6 +67,6 @@ public class CreateAProductMasterCheck extends ApplicationInstance {
 
     @And("I close the last tab")
     public void closeLastTab() throws Exception {
-        salesforce.getHomePage().closeLastTabSF(15);
+        salesforce.getHomePage().closeLastTabSF(commonFunctions.mediumWait());
     }
 }

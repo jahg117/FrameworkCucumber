@@ -8,35 +8,33 @@ import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.JsonFiles;
 import utils.Values;
-
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
 public class CreateNewEnrollmentPage extends CommonFunctions {
 
     @FindBy(xpath = "//iframe[@title='New Program Enrollment']")
-    private WebElement iframe_newProgramEnrollment;
+    private WebElement iframeNewProgramEnrollment;
 
     @FindBy(xpath = "//span[@class='lookupInput']")
-    private WebElement input_product;
+    private WebElement inputProduct;
 
     @FindBy(xpath = "//img[@class='lookupIcon']")
-    private WebElement icon_lookUp;
+    private WebElement iconLookUp;
 
     @FindBy(xpath = "//span[@class='dateInput dateOnlyInput']")
-    private WebElement input_programEndDate;
+    private WebElement inputProgramEndDate;
 
     @FindBy(xpath = "//td[@class='pbButtonb ']//input[@value='Enroll']")
-    private WebElement button_enroll;
+    private WebElement buttonEnroll;
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
-    private WebElement button_newCareTeamMember;
+    private WebElement buttonNewCareTeamMember;
 
-    private By icon_loadPage = By.xpath("//span[contains(@id,'actionstatus.stop') and @style='display: none;']");
+    private By iconLoadPage = By.xpath("//span[contains(@id,'actionstatus.stop') and @style='display: none;']");
 
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
-    private WebElement button_loggedOut;
+    private WebElement buttonLoggedOut;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -49,47 +47,47 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public boolean isProductEnrollmentPageDisplayed() throws Exception {
-        return waitForElementVisibility(iframe_newProgramEnrollment, longWait());
+        return waitForElementVisibility(iframeNewProgramEnrollment, longWait());
     }
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
-        waitForElementVisibility(button_loggedOut, mediumWait());
-        if (productType.equalsIgnoreCase("")) {
-            productType = "AZ";
+        waitForElementVisibility(buttonLoggedOut, mediumWait());
+        if (productType.equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+            productType = Values.TXT_AZ;
         }
-        if (productType.equalsIgnoreCase("AZ")
-                || productType.equalsIgnoreCase("DSI")) {
+        if (productType.equalsIgnoreCase(Values.TXT_AZ)
+                || productType.equalsIgnoreCase(Values.TXT_DSI)) {
             JsonFiles file = new JsonFiles();
-            file.setFileName("1372_EnrollmentProducts");
+            file.setFileName(Values.TXT_1372FILENAME);
             statusOperation = file.getRandomFieldArray(productType);
         } else {
             statusOperation = productType;
         }
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-        waitForElementVisibility(input_product, mediumWait());
-        sendKeysAndMoveToElementVisible(input_product, statusOperation, mediumWait());
-        clickElementVisible(input_programEndDate, mediumWait());
+        switchToFrameByWebElementIndexOrName(iframeNewProgramEnrollment, mediumWait());
+        waitForElementVisibility(inputProduct, mediumWait());
+        sendKeysAndMoveToElementVisible(inputProduct, statusOperation, mediumWait());
+        clickElementVisible(inputProgramEndDate, mediumWait());
         switchToParentFrame();
         return statusOperation;
     }
 
     public void clickEnrollButton() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframe_newProgramEnrollment, mediumWait());
-        waitForNumberOfElementsToBe(icon_loadPage, 0, shortWait());
-        waitForElementClickable(button_enroll, mediumWait());
-        scrollMethodToWebElement(button_enroll);
-        if (!button_enroll.isDisplayed()) {
-            scrollMethodToWebElement(button_enroll);
+        switchToFrameByWebElementIndexOrName(iframeNewProgramEnrollment, mediumWait());
+        waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
+        waitForElementClickable(buttonEnroll, mediumWait());
+        scrollMethodToWebElement(buttonEnroll);
+        if (!buttonEnroll.isDisplayed()) {
+            scrollMethodToWebElement(buttonEnroll);
         }
-        clickElementJS(button_enroll);
+        clickElementJS(buttonEnroll);
     }
 
 
@@ -107,9 +105,9 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         boolean rndSelected = false;
         try {
             for (Map<String, String> consentType : consentTypeList) {
-                if (consentTypeList.get(counter).get("consentType").equalsIgnoreCase("RND")) {
-                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
-                        statusOperation = consentTypeList.get(getRandomNumberByLimits(1, consentTypeList.size())).get("consentType");
+                if (consentTypeList.get(counter).get(Values.TXT_CONSENTTYPE).equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
+                        statusOperation = consentTypeList.get(getRandomNumberByLimits(1, consentTypeList.size())).get(Values.TXT_CONSENTTYPE);
                         rndSelected = true;
                         break;
                     }
@@ -119,8 +117,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             counter = 0;
             if (!rndSelected) {
                 for (Map<String, String> consentType : consentTypeList) {
-                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase("Y")) {
-                        statusOperation = consentTypeList.get(counter).get("consentType");
+                    if (consentTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
+                        statusOperation = consentTypeList.get(counter).get(Values.TXT_CONSENTTYPE);
                         break;
                     }
                     counter++;

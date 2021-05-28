@@ -8,69 +8,67 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.Values;
-
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
 public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//button[@title='Save']")
-    private WebElement button_save;
+    private WebElement buttonSave;
 
     @FindBy(xpath = "(//div[contains(@class,'forceDetailPanelDesktop')])[last()]//*[contains(text(),'New Case')]")
-    private WebElement form_caseOptions;
+    private WebElement formCaseOptions;
 
     @FindBy(xpath = "//span[contains(text(),'Case Requested By')]/following::*[@class='select'][1]")
-    private WebElement dropdown_caseRequestedBy;
+    private WebElement dropdownCaseRequestedBy;
 
     @FindBy(xpath = "//span[contains(text(),'Case Information')]/following::*[@class='select'][1]")
-    private WebElement dropdown_channel;
+    private WebElement dropdownChannel;
 
     @FindBy(xpath = "//*[contains(@class,'uiMenuList--short visible')]//a")
-    private List<WebElement> list_dropdownOptions;
+    private List<WebElement> listDropdownOptions;
 
     @FindBy(xpath = "//span[contains(text(),'Case Status')]/../..//a[@class='select'][1]")
-    private WebElement dropdown_caseStatus;
+    private WebElement dropdownCaseStatus;
 
     @FindBy(xpath = "(//span[contains(text(),'Case Sub-Type')]/following::*[@class='select'][1])[last()]")
-    private WebElement dropdown_subType;
+    private WebElement dropdownSubType;
 
     @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//span[@class='slds-truncate']")
-    private List<WebElement> list_discussTopic;
+    private List<WebElement> listDiscussTopic;
 
     @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//div[contains(@class,'dueling-list')]//button[@title='Move selection to Chosen']")
-    private WebElement button_iconRightFlagDiscussionTopic;
+    private WebElement buttonIconRightFlagDiscussionTopic;
 
     @FindBy(xpath = "//ul[@class='lookup__list  visible']")
-    private WebElement list_autocomplete;
+    private WebElement listAutocomplete;
 
     @FindBy(xpath = "//input[@title='Search Product Enrollments']")
-    private WebElement input_searchProductEnrollments;
+    private WebElement inputSearchProductEnrollments;
 
     @FindBy(xpath = "//*[contains(text(),'Card Number')]/../..//input")
-    private WebElement input_cardNumber;
+    private WebElement inputCardNumber;
 
     @FindBy(xpath = "//span[contains(@class,'genericError')]")
-    private WebElement label_genericError;
+    private WebElement labelGenericError;
 
     @FindBy(xpath = "//*[contains(text(),'Product')]/following::*[./text()=\"Product\"]/../..//span[@class='deleteIcon']")
-    private WebElement button_deleteProduct;
+    private WebElement buttonDeleteProduct;
 
     @FindBy(xpath = "//input[@title='Search Products']")
-    private WebElement input_searchProducts;
+    private WebElement inputSearchProducts;
 
     @FindBy(xpath = "//input[@title='Search Cases']")
-    private WebElement input_interactionCase;
+    private WebElement inputInteractionCase;
 
     @FindBy(xpath = "//*[contains(text(),'Enrolled Patient')]/following::*//input[@title='Search Accounts']")
-    private WebElement input_searchAccounts;
+    private WebElement inputSearchAccounts;
 
-    private By list_autocompleteElements = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]");
+    private By listAutocompleteElements = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]");
 
-    private By button_createNewElementList = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span");
+    private By buttonCreateNewElementList = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span");
 
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
-    private WebElement label_productEnrollment;
+    private WebElement labelProductEnrollment;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -83,7 +81,7 @@ public class CaseInformationPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -92,8 +90,8 @@ public class CaseInformationPage extends CommonFunctions {
     public String getProductEnrollment() throws Exception {
         String statusOperation = "";
         try {
-            waitForElementVisibility(label_productEnrollment, mediumWait());
-            statusOperation = getWebElementText(label_productEnrollment);
+            waitForElementVisibility(labelProductEnrollment, mediumWait());
+            statusOperation = getWebElementText(labelProductEnrollment);
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
         }
@@ -103,15 +101,15 @@ public class CaseInformationPage extends CommonFunctions {
     public boolean fillCaseInformationForm() throws Exception {
         boolean statusOperation = false;
         try {
-            selectRandomDropdownOption(dropdown_channel, list_dropdownOptions);
-            selectSpecificDropdownOption(dropdown_caseStatus, list_dropdownOptions, "Open");
-            selectRandomDropdownOption(dropdown_subType, list_dropdownOptions);
-            if (waitForElementListVisible(list_discussTopic, shortWait())) {
-                clickAndMoveToElementClickable(getRandomWebElementFromList(list_discussTopic, mediumWait()), mediumWait());
-                clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, mediumWait());
+            selectRandomDropdownOption(dropdownChannel, listDropdownOptions);
+            selectSpecificDropdownOption(dropdownCaseStatus, listDropdownOptions, "Open");
+            selectRandomDropdownOption(dropdownSubType, listDropdownOptions);
+            if (waitForElementListVisible(listDiscussTopic, shortWait())) {
+                clickAndMoveToElementClickable(getRandomWebElementFromList(listDiscussTopic, mediumWait()), mediumWait());
+                clickAndMoveToElementClickable(buttonIconRightFlagDiscussionTopic, mediumWait());
             }
-            if (waitForElementVisibility(input_cardNumber, shortWait())) {
-                sendKeysAndMoveToElementVisible(input_cardNumber, getRandomNumber(), shortWait());
+            if (waitForElementVisibility(inputCardNumber, shortWait())) {
+                sendKeysAndMoveToElementVisible(inputCardNumber, getRandomNumber(), shortWait());
             }
             statusOperation = true;
         } catch (Exception e) {
@@ -124,38 +122,38 @@ public class CaseInformationPage extends CommonFunctions {
     public HashMap<String, String> fillCaseInteractionForm(HashMap<String, String> interactionForm) throws Exception {
         HashMap<String, String> statusOperation = new HashMap<>();
         String webElementOption;
-        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, interactionForm.get("CaseStatus"));
+        webElementOption = selectDropdownOption(dropdownCaseStatus, listDropdownOptions, interactionForm.get("CaseStatus"));
         statusOperation.put("CaseStatus", webElementOption);
-        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, interactionForm.get("Channel"));
+        webElementOption = selectDropdownOption(dropdownChannel, listDropdownOptions, interactionForm.get("Channel"));
         statusOperation.put("Channel", webElementOption);
         return statusOperation;
     }
 
 
     public void fillSearchProduct(String product) throws Exception {
-        sendKeysAndMoveToElementClickable(input_searchProducts, product, mediumWait());
-        waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, mediumWait());
-        waitForElementListVisible(getWebElementList(list_autocompleteElements), mediumWait());
+        sendKeysAndMoveToElementClickable(inputSearchProducts, product, mediumWait());
+        waitForPresenceOfAllElementsLocatedBy(listAutocompleteElements, mediumWait());
+        waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
         clickAndMoveToElementClickable(By.xpath("//div[@title='"+product+"']"), mediumWait());
     }
 
 
     public void fillPatientProductEnrollmentFields(String patientName, String productEnrollment) throws Exception {
-        if (waitForElementVisibility(input_searchAccounts, shortWait())) {
-            clickAndMoveToElementClickable(input_searchAccounts, mediumWait());
-            waitForElementVisibility(list_autocomplete, mediumWait());
-            waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, shortWait());
-            if (!waitForElementListVisible(getWebElementList(list_autocompleteElements), shortWait())) {
+        if (waitForElementVisibility(inputSearchAccounts, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputSearchAccounts, patientName, mediumWait());
+            waitForElementVisibility(listAutocomplete, mediumWait());
+            waitForPresenceOfAllElementsLocatedBy(listAutocompleteElements, shortWait());
+            if (!waitForElementListVisible(getWebElementList(listAutocompleteElements), shortWait())) {
                 sendKeysByActions(Keys.TAB.toString());
-                clickAndMoveToElementVisible(input_searchAccounts, shortWait());
-                waitForElementListVisible(getWebElementList(list_autocompleteElements), shortWait());
+                clickAndMoveToElementVisible(inputSearchAccounts, shortWait());
+                waitForElementListVisible(getWebElementList(listAutocompleteElements), shortWait());
             }
             clickAndMoveToElementClickable(By.xpath("//div[@title='"+patientName+"']"), mediumWait());
         }
-        if (waitForElementVisibility(input_searchProductEnrollments, shortWait())) {
-            sendKeysAndMoveToElementClickable(input_searchProductEnrollments, productEnrollment, mediumWait());
-            waitForPresenceOfAllElementsLocatedBy(list_autocompleteElements, mediumWait());
-            waitForElementListVisible(getWebElementList(list_autocompleteElements), mediumWait());
+        if (waitForElementVisibility(inputSearchProductEnrollments, shortWait())) {
+            sendKeysAndMoveToElementClickable(inputSearchProductEnrollments, productEnrollment, mediumWait());
+            waitForPresenceOfAllElementsLocatedBy(listAutocompleteElements, mediumWait());
+            waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='"+productEnrollment+"']"), mediumWait());
         }
     }
@@ -164,58 +162,58 @@ public class CaseInformationPage extends CommonFunctions {
     public HashMap<String, String> fillAnonymousCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
         HashMap<String, String> caseInformationForm = new HashMap<>();
         String webElementOption;
-        webElementOption = selectDropdownOption(dropdown_caseRequestedBy, list_dropdownOptions, formDetails.get("Channel"));
+        webElementOption = selectDropdownOption(dropdownCaseRequestedBy, listDropdownOptions, formDetails.get("Channel"));
         caseInformationForm.put("CaseRequested", webElementOption);
-        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
+        webElementOption = selectDropdownOption(dropdownChannel, listDropdownOptions, formDetails.get("Channel"));
         caseInformationForm.put("Channel", webElementOption);
-        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
+        webElementOption = selectDropdownOption(dropdownCaseStatus, listDropdownOptions, formDetails.get("CaseStatus"));
         caseInformationForm.put("CaseStatus", webElementOption);
-        webElementOption = waitForElementVisibility(dropdown_subType, 2) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
+        webElementOption = waitForElementVisibility(dropdownSubType, shortWait()) ? selectDropdownOption(dropdownSubType, listDropdownOptions, formDetails.get("CaseSubType")) : "";
         caseInformationForm.put("CaseSubType", webElementOption);
-        if(waitForElementVisibility(input_interactionCase, 3)) {
-            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 3);
-            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), 10);
+        if(waitForElementVisibility(inputInteractionCase, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
         }
-        if(waitForElementListVisible(list_discussTopic, 3)){
-            if(formDetails.get("DiscussTopic").equalsIgnoreCase("random")){
-                WebElement el = getRandomWebElementFromList(list_discussTopic, 10);
-                waitForElementVisibility(el, 10);
+        if(waitForElementListVisible(listDiscussTopic, shortWait())){
+            if(formDetails.get("DiscussTopic").equalsIgnoreCase(Values.TXT_RANDOM)){
+                WebElement el = getRandomWebElementFromList(listDiscussTopic, mediumWait());
+                waitForElementVisibility(el, mediumWait());
                 scrollToWebElementJS(el);
                 webElementOption = getWebElementText(el);
-                clickAndMoveToElementClickable(el, 10);
+                clickAndMoveToElementClickable(el, mediumWait());
             }else{
-                for (WebElement el : list_discussTopic) {
+                for (WebElement el : listDiscussTopic) {
                     if(getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))){
                         webElementOption = getWebElementText(el);
-                        clickAndMoveToElementClickable(el, 10);
+                        clickAndMoveToElementClickable(el, mediumWait());
                     }
                 }
             }
-            scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
-            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, 10);
+            scrollToWebElementJS(buttonIconRightFlagDiscussionTopic);
+            clickAndMoveToElementClickable(buttonIconRightFlagDiscussionTopic, mediumWait());
         }else{
             webElementOption = "";
         }
-        if(waitForElementVisibility(input_searchProducts, 3)) {
-            sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
-            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
+        if(waitForElementVisibility(inputSearchProducts, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputSearchProducts, formDetails.get("ProductName"), shortWait());
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
         }
         caseInformationForm.put("DiscussTopic", webElementOption);
-        if(waitForElementVisibility(input_cardNumber, 1)){
-            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
+        if(waitForElementVisibility(inputCardNumber, shortWait())){
+            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase(Values.TXT_RANDOM) ? getRandomNumber() : formDetails.get("CardNumber");
             caseInformationForm.put("CardNumber", webElementOption);
-            sendKeysAndMoveToElementVisible(input_cardNumber, webElementOption, 3);
+            sendKeysAndMoveToElementVisible(inputCardNumber, webElementOption, shortWait());
         }else{
             webElementOption = "";
         }
         caseInformationForm.put("CardNumber", webElementOption);
-        if(waitForElementVisibility(input_interactionCase, 1)){
-            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), 5);
-            waitForElementVisibility(list_autocomplete, 10);
-            waitForElementListVisible(getWebElementList(list_autocompleteElements), 10);
-            for(WebElement el : getWebElementList(list_autocompleteElements)){
+        if(waitForElementVisibility(inputInteractionCase, shortWait())){
+            sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
+            waitForElementVisibility(listAutocomplete, mediumWait());
+            waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
+            for(WebElement el : getWebElementList(listAutocompleteElements)){
                 if(getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))){
-                    clickAndMoveToElementClickable(el, 10);
+                    clickAndMoveToElementClickable(el, mediumWait());
                     break;
                 }
             }
@@ -227,54 +225,54 @@ public class CaseInformationPage extends CommonFunctions {
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
         HashMap<String, String> statusOperation = new HashMap<>();
         String webElementOption;
-        webElementOption = selectDropdownOption(dropdown_channel, list_dropdownOptions, formDetails.get("Channel"));
+        webElementOption = selectDropdownOption(dropdownChannel, listDropdownOptions, formDetails.get("Channel"));
         statusOperation.put("Channel", webElementOption);
-        webElementOption = selectDropdownOption(dropdown_caseStatus, list_dropdownOptions, formDetails.get("CaseStatus"));
+        webElementOption = selectDropdownOption(dropdownCaseStatus, listDropdownOptions, formDetails.get("CaseStatus"));
         statusOperation.put("CaseStatus", webElementOption);
-        webElementOption = waitForElementVisibility(dropdown_subType, shortWait()) ? selectDropdownOption(dropdown_subType, list_dropdownOptions, formDetails.get("CaseSubType")) : "";
+        webElementOption = waitForElementVisibility(dropdownSubType, shortWait()) ? selectDropdownOption(dropdownSubType, listDropdownOptions, formDetails.get("CaseSubType")) : "";
         statusOperation.put("CaseSubType", webElementOption);
-        if (waitForElementVisibility(input_searchProductEnrollments, shortWait())) {
-            sendKeysAndMoveToElementVisible(input_searchProductEnrollments, formDetails.get("ProductEnrollment"), shortWait());
+        if (waitForElementVisibility(inputSearchProductEnrollments, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputSearchProductEnrollments, formDetails.get("ProductEnrollment"), shortWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), mediumWait());
         }
-        if (waitForElementListVisible(list_discussTopic, shortWait())) {
-            if (formDetails.get("DiscussTopic").equalsIgnoreCase("random")) {
-                WebElement el = getRandomWebElementFromList(list_discussTopic, mediumWait());
+        if (waitForElementListVisible(listDiscussTopic, shortWait())) {
+            if (formDetails.get("DiscussTopic").equalsIgnoreCase(Values.TXT_RANDOM)) {
+                WebElement el = getRandomWebElementFromList(listDiscussTopic, mediumWait());
                 waitForElementVisibility(el, mediumWait());
                 scrollToWebElementJS(el);
                 webElementOption = getWebElementText(el);
                 clickAndMoveToElementClickable(el, mediumWait());
             } else {
-                for (WebElement el : list_discussTopic) {
+                for (WebElement el : listDiscussTopic) {
                     if (getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))) {
                         webElementOption = getWebElementText(el);
                         clickAndMoveToElementClickable(el, mediumWait());
                     }
                 }
             }
-            scrollToWebElementJS(button_iconRightFlagDiscussionTopic);
-            clickAndMoveToElementClickable(button_iconRightFlagDiscussionTopic, shortWait());
+            scrollToWebElementJS(buttonIconRightFlagDiscussionTopic);
+            clickAndMoveToElementClickable(buttonIconRightFlagDiscussionTopic, shortWait());
         } else {
             webElementOption = "";
         }
-        if(waitForElementVisibility(input_searchProducts, 3)) {
-            sendKeysAndMoveToElementVisible(input_searchProducts, formDetails.get("ProductName"), 3);
-            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), 10);
+        if(waitForElementVisibility(inputSearchProducts, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputSearchProducts, formDetails.get("ProductName"), shortWait());
+            clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
         }
         statusOperation.put("DiscussTopic", webElementOption);
-        if (waitForElementVisibility(input_cardNumber, shortWait())) {
-            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase("random") ? getRandomNumber() : formDetails.get("CardNumber");
+        if (waitForElementVisibility(inputCardNumber, shortWait())) {
+            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase(Values.TXT_RANDOM) ? getRandomNumber() : formDetails.get("CardNumber");
             statusOperation.put("CardNumber", webElementOption);
-            sendKeysAndMoveToElementVisible(input_cardNumber, webElementOption, shortWait());
+            sendKeysAndMoveToElementVisible(inputCardNumber, webElementOption, shortWait());
         } else {
             webElementOption = "";
         }
         statusOperation.put("CardNumber", webElementOption);
-        if (waitForElementVisibility(input_interactionCase, 1)) {
-            sendKeysAndMoveToElementVisible(input_interactionCase, formDetails.get("CaseNumber"), shortWait());
-            waitForElementVisibility(list_autocomplete, mediumWait());
-            waitForElementListVisible(getWebElementList(list_autocompleteElements), mediumWait());
-            for (WebElement el : getWebElementList(list_autocompleteElements)) {
+        if (waitForElementVisibility(inputInteractionCase, shortWait())) {
+            sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
+            waitForElementVisibility(listAutocomplete, mediumWait());
+            waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
+            for (WebElement el : getWebElementList(listAutocompleteElements)) {
                 if (getWebElementText(el).equalsIgnoreCase(formDetails.get("CaseNumber"))) {
                     clickAndMoveToElementClickable(el, mediumWait());
                     break;
@@ -286,16 +284,16 @@ public class CaseInformationPage extends CommonFunctions {
     }
 
     public void clickSaveInteraction() throws Exception {
-        clickAndMoveToElementClickable(button_save, mediumWait());
+        clickAndMoveToElementClickable(buttonSave, mediumWait());
     }
 
     public void clickSaveButton() throws Exception {
-        clickAndMoveToElementClickable(button_save, mediumWait());
+        clickAndMoveToElementClickable(buttonSave, mediumWait());
     }
 
 
     public boolean isCaseOptionPageDisplayed() throws Exception {
-        return waitForElementVisibility(form_caseOptions, longWait());
+        return waitForElementVisibility(formCaseOptions, longWait());
     }
 
 
@@ -303,7 +301,7 @@ public class CaseInformationPage extends CommonFunctions {
         String statusOperation = "";
         clickAndMoveToElementClickable(element, mediumWait());
         waitForElementListVisible(listElement, mediumWait());
-        if (option.equalsIgnoreCase("random")) {
+        if (option.equalsIgnoreCase(Values.TXT_RANDOM)) {
             WebElement el = getRandomWebElementFromListExceptFirst(listElement, mediumWait());
             statusOperation = getWebElementText(el);
             clickAndMoveToElementClickable(el, mediumWait());

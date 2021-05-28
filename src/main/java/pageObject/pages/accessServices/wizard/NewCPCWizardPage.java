@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.JsonFiles;
+import utils.Values;
 
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +139,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         HashMap<String, String> cpcDetailsStoreData = new HashMap<String, String>();
 
         boolean allDataRND = false;
-        if (randomRecord.trim().equalsIgnoreCase("RND")) {
+        if (randomRecord.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
             cpcDetailsStoreData = fullCPCFormRND(identifier, careGiver);
         } else {
             cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBirth, careGiver, email, emailType, phoneOrFax, addressLine1, state, city, zipCode, country);
@@ -162,20 +163,18 @@ public class NewCPCWizardPage extends CommonFunctions {
     public HashMap<String, String> fullCPCFormRND(String identifier, String careGiver) throws Exception {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         Faker faker = new Faker();
 
         //============Storing Data Into cpcDetails
         HashMap<String, String> cpcDetails = new HashMap<String, String>();
         cpcDetails.put("firstName", identifier + faker.name().firstName());
         cpcDetails.put("middleName", faker.name().firstName());
-        cpcDetails.put("lastName", faker.name().lastName() + underScore + generateTimeStamp(dateFormat));
-        cpcDetails.put("careGiver", "");
-        cpcDetails.put("dateOfBirth", getRandomDate().replace("/", ""));
-        cpcDetails.put("email", cpcDetails.get("lastName") + "@sharklasers.com");
+        cpcDetails.put("lastName", faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
+        cpcDetails.put("careGiver", Values.REPLACETO_EMPTY);
+        cpcDetails.put("dateOfBirth", getRandomDate().replace(Values.TXT_SLASH, Values.REPLACETO_EMPTY));
+        cpcDetails.put("email", cpcDetails.get("lastName") + Values.ARRAY_FULLEMAILDOMAINVALUES[getRandomNumberByLimits(0,(Values.ARRAY_FULLEMAILDOMAINVALUES.length-1))]);
         cpcDetails.put("emailType", cpcDetails.get("emailType"));
-        cpcDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
+        cpcDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(Values.TXT_DOT, Values.REPLACETO_EMPTY).replace(Values.TXT_HYPHEN, Values.REPLACETO_EMPTY));
         cpcDetails.put("addressLine1", faker.address().streetName());
         cpcDetails.put("city", faker.address().cityName());
         cpcDetails.put("zipCode", String.valueOf(faker.number().randomNumber(5, true)));
@@ -255,15 +254,13 @@ public class NewCPCWizardPage extends CommonFunctions {
         JsonFiles jsonFile = new JsonFiles();
         jsonFile.setFileName("statesUSCodes");
         Faker faker = new Faker();
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
         //============Storing Data Into cpcDetails
         HashMap<String, String> cpcDetails = new HashMap<String, String>();
         cpcDetails.put("firstName", identifier + hibrydCPCFormFilter(firstName, "firstName"));
         cpcDetails.put("middleName", hibrydCPCFormFilter(middleName, "middleName"));
-        cpcDetails.put("lastName", hibrydCPCFormFilter(lastName, "lastName") + underScore + generateTimeStamp(dateFormat));
-        cpcDetails.put("careGiver", "");
-        cpcDetails.put("dateOfBirth", hibrydCPCFormFilter(dateOfBirth, "dateOfBirth").replace("/", ""));
+        cpcDetails.put("lastName", hibrydCPCFormFilter(lastName, "lastName") + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
+        cpcDetails.put("careGiver", Values.REPLACETO_EMPTY);
+        cpcDetails.put("dateOfBirth", hibrydCPCFormFilter(dateOfBirth, "dateOfBirth").replace("/", Values.REPLACETO_EMPTY));
         cpcDetails.put("email", hibrydCPCFormFilter(email, "email"));
         cpcDetails.put("emailType", hibrydCPCFormFilter(emailType, "emailType"));
         cpcDetails.put("phoneOrFax", hibrydCPCFormFilter(phoneOrFax, "phoneOrFax"));
@@ -286,18 +283,14 @@ public class NewCPCWizardPage extends CommonFunctions {
      */
     public String hibrydCPCFormFilter(String cpcValue, String nameOfField) throws Exception {
         WebElement backUpWElement = null;
-        String underScore = "_";
-        String dateFormat = "MMM.dd.HH.mm";
-        String notApply = "N_A";
-        String randomOption = "RND";
         String returnedValue = "";
         Faker faker = new Faker();
         switch (nameOfField) {
             case "firstName":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.name().firstName();
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -306,10 +299,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "middleName":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.funnyName().name();
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -318,10 +311,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "lastName":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat);
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM);
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -330,10 +323,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "dateOfBirth":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = getRandomDate();
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -342,10 +335,11 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "email":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.name().lastName() + underScore + generateTimeStamp(dateFormat) + "@sharklasers.com";
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM) +
+                            Values.ARRAY_FULLEMAILDOMAINVALUES[getRandomNumberByLimits(0,(Values.ARRAY_FULLEMAILDOMAINVALUES.length-1))];
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -354,10 +348,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "emailType":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementListEmailTypeList.size() - 1));
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -366,10 +360,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "phoneOrFax":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
-                    returnedValue = faker.phoneNumber().cellPhone().replace(".", "").replace("-", "");
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                    returnedValue = faker.phoneNumber().cellPhone().replace(Values.TXT_DOT, Values.REPLACETO_EMPTY).replace(Values.TXT_HYPHEN, Values.REPLACETO_EMPTY);
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -378,10 +372,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "addressLine1":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().streetName();
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -390,10 +384,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "stateCode":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_stateCodesList.size() - 1));
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -402,10 +396,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "city":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = faker.address().cityName();
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -414,10 +408,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "zipCode":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().randomNumber(5, true));
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -426,10 +420,10 @@ public class NewCPCWizardPage extends CommonFunctions {
                 break;
 
             case "country":
-                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(randomOption)) {
+                if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                     returnedValue = String.valueOf(faker.number().numberBetween(0, elementList_countriesList.size() - 1));
                 } else {
-                    if (cpcValue.trim().equalsIgnoreCase(notApply)) {
+                    if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;
                     } else {
                         returnedValue = cpcValue;
@@ -448,21 +442,20 @@ public class NewCPCWizardPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void fillingHybridCPCForm(HashMap<String, String> cpcDetails) throws Exception {
-        String notApply = "N_A";
         Faker faker = new Faker();
         selectAndMoveDropDownVisibleRandomOption(dropdown_subType, mediumWait());
         clickAndMoveToElementVisible(input_firstName, mediumWait());
         input_firstName.clear();
         sendKeysAndMoveToElementVisible(input_firstName, cpcDetails.get("firstName"), mediumWait());
 
-        if (!cpcDetails.get("middleName").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("middleName").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_middleName, cpcDetails.get("middleName"), mediumWait());
         }
         clickAndMoveToElementVisible(input_lastName, mediumWait());
         input_lastName.clear();
         sendKeysAndMoveToElementVisible(input_lastName, cpcDetails.get("lastName"), mediumWait());
 
-        if (!cpcDetails.get("dateOfBirth").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("dateOfBirth").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(datePicker_DOB, mediumWait());
             datePicker_DOB.clear();
             sendKeysAndMoveToElementVisible(datePicker_DOB, cpcDetails.get("dateOfBirth"), mediumWait());
@@ -471,40 +464,40 @@ public class NewCPCWizardPage extends CommonFunctions {
         input_phoneOrFax.clear();
         sendKeysAndMoveToElementVisible(input_phoneOrFax, cpcDetails.get("phoneOrFax"), mediumWait());
 
-        if (!cpcDetails.get("addressLine1").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("addressLine1").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_addressLine1, mediumWait());
             input_addressLine1.clear();
             sendKeysAndMoveToElementVisible(input_addressLine1, cpcDetails.get("addressLine1"), mediumWait());
         }
 
-        if (!cpcDetails.get("city").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("city").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_city, mediumWait());
             input_city.clear();
             sendKeysAndMoveToElementVisible(input_city, cpcDetails.get("city"), mediumWait());
         }
 
-        if (!cpcDetails.get("stateCode").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("stateCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             scrollMethodToWebElement(dropdown_state);
             selectAndMoveDropdownByText(dropdown_state, cpcDetails.get("stateCode"), mediumWait());
         }
 
-        if (!cpcDetails.get("zipCode").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("zipCode").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             clickAndMoveToElementVisible(input_zipCode, mediumWait());
             input_zipCode.clear();
             sendKeysAndMoveToElementVisible(input_zipCode, cpcDetails.get("zipCode"), mediumWait());
         }
 
-        if (!cpcDetails.get("country").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("country").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
 
             scrollMethodToWebElement(dropdown_country);
             selectAndMoveDropdownByText(dropdown_country, cpcDetails.get("country"), mediumWait());
         }
 
-        if (!cpcDetails.get("email").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("email").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(input_email, cpcDetails.get("email"), mediumWait());
         }
 
-        if (!cpcDetails.get("emailType").trim().equalsIgnoreCase(notApply)) {
+        if (!cpcDetails.get("emailType").trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             scrollMethodToWebElement(dropdownEmailType);
             selectAndMoveDropdownByText(dropdownEmailType, cpcDetails.get("emailType"), mediumWait());
         }
@@ -537,10 +530,9 @@ public class NewCPCWizardPage extends CommonFunctions {
         }
         clickMethod(label_accountHistory);
         clickAndMoveToElementClickable(label_systemInfo, shortWait());
-        By azID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
-        waitForElementPresenceBy(azID, shortWait());
+        waitForElementPresenceBy(Values.BYPATH_AZID, shortWait());
         scrollToElementByCoordinates(label_externalID);
-        return label_externalID.getText().replace("Account ID", "").trim();
+        return label_externalID.getText().replace("Account ID", Values.REPLACETO_EMPTY).trim();
     }
 
     /**
@@ -553,17 +545,16 @@ public class NewCPCWizardPage extends CommonFunctions {
      */
     public String selectCareGiver(String careGiver) throws Exception {
         WebElement selectedOption = null;
-        if (careGiver.equalsIgnoreCase("RND")) {
+        if (careGiver.equalsIgnoreCase(Values.TXT_RANDOM)) {
             clickAndMoveToElementClickable(selectedOption = getRandomWebElementFromList(dropdown_searchAccountsList, mediumWait()), mediumWait());
             selectedOption.getAttribute("title");
         } else {
             if (!careGiver.isEmpty()) {
-                By elementLocator = By.xpath("//*[contains(@id,'input')][@role='option']//*[@title])");
-                clickAndMoveToElementClickableFromListByAttribute(getWebElementList(elementLocator), "title", careGiver);
-                selectedOption = clickAndMoveToElementClickableFromListByAttribute(getWebElementList(elementLocator), "title", careGiver);
+                clickAndMoveToElementClickableFromListByAttribute(getWebElementList(Values.CAREGIVERLOCATOR), "title", careGiver);
+                selectedOption = clickAndMoveToElementClickableFromListByAttribute(getWebElementList(Values.CAREGIVERLOCATOR), "title", careGiver);
             }
         }
-        clickWhileCondition(dropdown_careGiverRelationship, "aria-expanded", "false", mediumWait());
+        clickWhileCondition(dropdown_careGiverRelationship, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
         clickAndMoveToElementClickable(getRandomWebElementIgnoreText(dropdown_careGiverRelationshipList, "--None--"), mediumWait());
         return selectedOption.getAttribute("title");
     }

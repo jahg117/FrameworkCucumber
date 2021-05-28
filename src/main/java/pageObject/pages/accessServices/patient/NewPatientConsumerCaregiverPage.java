@@ -10,8 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.JsonFiles;
 import utils.Values;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,67 +17,64 @@ import java.util.List;
 public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
     @FindBy(xpath = "//*[@data-component-id='ACS_PatientWizardParentComponent']")
-    private WebElement form_patientConsumerCaregiver;
+    private WebElement formPatientConsumerCaregiver;
 
     @FindBy(xpath = "//select[@data-name='salutation']")
-    private WebElement dropdown_prefix;
+    private WebElement dropdownPrefix;
 
     @FindBy(xpath = "//input[@data-name='first']")
-    private WebElement input_firstName;
+    private WebElement inputFirstName;
 
     @FindBy(xpath = "//input[@data-name='last']")
-    private WebElement input_lastName;
+    private WebElement inputLastName;
 
     @FindBy(xpath = "//input[@data-name='pname']")
-    private WebElement input_informalName;
-
-    @FindBy(xpath = "//input[@data-name='dob']")
-    private WebElement input_dateOfBirth;
+    private WebElement inputInformalName;
 
     @FindBy(xpath = "//input[@data-name='email']")
-    private WebElement input_emailAddress;
+    private WebElement inputEmailAddress;
 
     @FindBy(xpath = "//input[@data-name='Zip']")
-    private WebElement input_zipCode;
+    private WebElement inputZipCode;
 
     @FindBy(xpath = "//input[@data-name='number']")
-    private WebElement input_phoneNumber;
+    private WebElement inputPhoneNumber;
 
     @FindBy(xpath = "//*[text()='  Phone/Fax 2 ']/following::input[@data-name='number']")
     private WebElement inputSecondPhoneFaxNumber;
 
     @FindBy(xpath = "//input[@placeholder='Search Accounts...']")
-    private WebElement input_searchAccounts;
+    private WebElement inputSearchAccounts;
 
     @FindBy(xpath = "//input[@placeholder='Search Places']")
-    private WebElement input_searchPlaces;
+    private WebElement inputSearchPlaces;
 
     @FindBy(xpath = "//input[@data-name='street1']")
-    private WebElement input_addressLine1;
+    private WebElement inputAddressLine1;
 
     @FindBy(xpath = "//input[@data-name='city']")
-    private WebElement input_city;
+    private WebElement inputCity;
 
     @FindBy(xpath = "//div[@role='listbox']//li")
-    private List<WebElement> label_searchOptions;
+    private List<WebElement> labelSearchOptions;
 
     @FindBy(xpath = "//*[contains(text(),'Email Type')]/following::*[@name='optionSelect']")
-    private WebElement dropdown_emailType;
+    private WebElement dropdownEmailType;
 
     @FindBy(xpath = "//*[contains(text(),'Email Address')]/following::input[@name='ACS_Type__c']")
-    private WebElement dropdown_emailTypeHCA;
+    private WebElement dropdownEmailTypeHCA;
 
     @FindBy(xpath = "//*[contains(text(),'Email Address')]/following::*[@role='combobox']/following::*[@data-value]")
     private List<WebElement> dropdownEmailTypeHCAList;
 
     @FindBy(xpath = "//input[@placeholder='Select an Option']")
-    private WebElement dropdown_phoneType;
+    private WebElement dropdownPhoneType;
 
     @FindBy(xpath = "//*[text()='  Phone/Fax 2 ']/following::input[@placeholder='Select an Option']")
     private WebElement dropdownSecondPhoneFaxType;
 
     @FindBy(xpath = "//footer[@class='slds-modal__footer']//button[@type='submit']")
-    private WebElement button_saveAccount;
+    private WebElement buttonSaveAccount;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -92,15 +87,16 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public boolean isConsumerPatientCaregiverFormDisplayed() throws Exception {
-        return waitForElementVisibility(form_patientConsumerCaregiver, longWait());
+        return waitForElementVisibility(formPatientConsumerCaregiver, longWait());
     }
+//JRR
 
     public HashMap<String, String> fillPatientConsumerCaregiverForm() throws Exception {
         Faker faker = new Faker();
@@ -114,34 +110,34 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
         patientDetails.put("date", getRandomDate());
         patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
-        waitForElementClickable(dropdown_prefix, mediumWait());
-        input_firstName.clear();
-        clickAndMoveToElementClickable(input_firstName, mediumWait());
-        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
-        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        waitForElementClickable(dropdownPrefix, mediumWait());
+        inputFirstName.clear();
+        clickAndMoveToElementClickable(inputFirstName, mediumWait());
+        sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        clickElementVisible(input_informalName, shortWait());
+        clickElementVisible(inputInformalName, shortWait());
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(randomDate);
-        scrollToWebElementJS(input_searchAccounts);
-        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-        scrollToWebElementJS(input_searchPlaces);
-        sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
-        sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
-        scrollToWebElementJS(input_emailAddress);
-        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-        if(waitForElementVisibility(dropdown_emailType, shortWait())){
-            scrollToWebElementJS(dropdown_emailType);
-            selectRandomDropDownNotNone(dropdown_emailType);
+        scrollToWebElementJS(inputSearchAccounts);
+        sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
+        scrollToWebElementJS(inputSearchPlaces);
+        sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
+        sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
+        scrollToWebElementJS(inputEmailAddress);
+        sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
+        if(waitForElementVisibility(dropdownEmailType, shortWait())){
+            scrollToWebElementJS(dropdownEmailType);
+            selectRandomDropDownNotNone(dropdownEmailType);
         }
-        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
-        if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
-            input_firstName.clear();
-            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
+        if (!getWebElementAttribute(inputFirstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
+            inputFirstName.clear();
+            sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         }
-        if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
-            input_lastName.clear();
-            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        if (!getWebElementAttribute(inputLastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
+            inputLastName.clear();
+            sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         }
         return patientDetails;
     }
@@ -158,44 +154,45 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("phoneNumber", patientForm.get("fax"));
         patientDetails.put("date", getRandomDate());
         patientDetails.put("zipcode", patientForm.get("zipcode"));
-        waitForElementClickable(dropdown_prefix, mediumWait());
-        input_firstName.clear();
-        clickAndMoveToElementClickable(input_firstName, mediumWait());
-        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
-        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        waitForElementClickable(dropdownPrefix, mediumWait());
+        inputFirstName.clear();
+        clickAndMoveToElementClickable(inputFirstName, mediumWait());
+        sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        clickElementVisible(input_informalName, shortWait());
+        clickElementVisible(inputInformalName, shortWait());
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(randomDate);
-        scrollToWebElementJS(input_searchAccounts);
-        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-        clickElementClickable(dropdown_phoneType, mediumWait());
+        scrollToWebElementJS(inputSearchAccounts);
+        sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
+        clickElementClickable(dropdownPhoneType, mediumWait());
         clickElementClickable(phoneType, mediumWait());
-        scrollToWebElementJS(input_searchPlaces);
-        sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
-        sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
-        scrollToWebElementJS(input_emailAddress);
-        sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-        waitForElementVisibility(dropdown_emailType, mediumWait());
-        if (waitForElementClickable(dropdown_emailType, mediumWait())) {
-            selectRandomDropDownNotNone(dropdown_emailType);
+        scrollToWebElementJS(inputSearchPlaces);
+        sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
+        sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
+        scrollToWebElementJS(inputEmailAddress);
+        sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
+        waitForElementVisibility(dropdownEmailType, mediumWait());
+        if (waitForElementClickable(dropdownEmailType, mediumWait())) {
+            selectRandomDropDownNotNone(dropdownEmailType);
         }
-        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipcode"), mediumWait());
-        if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
-            input_firstName.clear();
-            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("firstName"), mediumWait());
+        sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
+        if (!getWebElementAttribute(inputFirstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
+            inputFirstName.clear();
+            sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         }
-        if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
-            input_lastName.clear();
-            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lastName"), mediumWait());
+        if (!getWebElementAttribute(inputLastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
+            inputLastName.clear();
+            sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         }
         return patientDetails;
     }
 
+
     public void clickSaveButton() throws Exception {
-        waitForElementVisibility(button_saveAccount, mediumWait());
-        scrollToWebElementJS(button_saveAccount);
-        clickElementClickable(button_saveAccount, mediumWait());
+        waitForElementVisibility(buttonSaveAccount, mediumWait());
+        scrollToWebElementJS(buttonSaveAccount);
+        clickElementClickable(buttonSaveAccount, mediumWait());
     }
 
 
@@ -220,25 +217,25 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         By phoneType = By.xpath("//*[@data-value='" + patientDetails.get("phoneType") + "'][position()=1]");
         By faxType = By.xpath("//*[text()='  Phone/Fax 2 ']/following::input[@placeholder='Select an Option']/following::*[@data-value='" + patientDetails.get("faxType") + "']");
 
-        waitForElementClickable(dropdown_prefix, mediumWait());
+        waitForElementClickable(dropdownPrefix, mediumWait());
         //====================================================================================================FIRST NAME
-        input_firstName.clear();
+        inputFirstName.clear();
         if (!patientDetails.get("identifier").equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             patientDetails.put("fName", (patientDetails.get("identifier") + patientDetails.get("fName")).trim());
         }
-        clickAndMoveToElementClickable(input_firstName, mediumWait());
-        sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("fName"), mediumWait());
+        clickAndMoveToElementClickable(inputFirstName, mediumWait());
+        sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("fName"), mediumWait());
         //=====================================================================================================LAST NAME
-        input_lastName.clear();
-        sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lName"), mediumWait());
+        inputLastName.clear();
+        sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lName"), mediumWait());
         //============DATE OF BIRTH
-        clickElementVisible(input_informalName, shortWait());
+        clickElementVisible(inputInformalName, shortWait());
         sendKeysByActions(Keys.TAB.toString());
         sendKeysByActions(patientDetails.get("date"));
         //========================================================================================FIRST PHONE/FAX NUMBER
-        scrollToWebElementJS(input_searchAccounts);
-        sendKeysElementVisible(input_phoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-        clickElementClickable(dropdown_phoneType, mediumWait());
+        scrollToWebElementJS(inputSearchAccounts);
+        sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
+        clickElementClickable(dropdownPhoneType, mediumWait());
         clickElementClickable(phoneType, mediumWait());
         //=======================================================================================SECOND PHONE/FAX NUMBER
         if (!patientDetails.get("faxNumber").equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
@@ -247,30 +244,30 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
             clickElementClickable(faxType, mediumWait());
         }
         //=======================================================================================================ADDRESS
-        scrollToWebElementJS(input_searchPlaces);
+        scrollToWebElementJS(inputSearchPlaces);
         if (!patientDetails.get("address").equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysElementVisible(input_addressLine1, patientDetails.get("address"), mediumWait());
-            sendKeysElementVisible(input_city, patientDetails.get("city"), mediumWait());
+            sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
+            sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
         }
         //========================================================================================EMAIL ADDRESS CREATION
-        scrollToWebElementJS(input_emailAddress);
+        scrollToWebElementJS(inputEmailAddress);
         if (!patientDetails.get("emailDomain").equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysAndMoveToElementVisible(input_emailAddress, patientDetails.get("fName") +
+            sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("fName") +
                     patientDetails.get("emailDomain"), mediumWait());
-            waitForElementVisibility(dropdown_emailType, mediumWait());
-            if (waitForElementClickable(dropdown_emailType, mediumWait())) {
-                selectRandomDropDownNotNone(dropdown_emailType);
+            waitForElementVisibility(dropdownEmailType, mediumWait());
+            if (waitForElementClickable(dropdownEmailType, mediumWait())) {
+                selectRandomDropDownNotNone(dropdownEmailType);
             }
         }
         //=======================================================================================================ZIPCODE
-        sendKeysAndMoveToElementVisible(input_zipCode, patientDetails.get("zipCode"), mediumWait());
-        if (!getWebElementAttribute(input_firstName, "value").equalsIgnoreCase(patientDetails.get("fName"))) {
-            input_firstName.clear();
-            sendKeysAndMoveToElementClickable(input_firstName, patientDetails.get("fName"), mediumWait());
+        sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipCode"), mediumWait());
+        if (!getWebElementAttribute(inputFirstName, "value").equalsIgnoreCase(patientDetails.get("fName"))) {
+            inputFirstName.clear();
+            sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("fName"), mediumWait());
         }
-        if (!getWebElementAttribute(input_lastName, "value").equalsIgnoreCase(patientDetails.get("lName"))) {
-            input_lastName.clear();
-            sendKeysAndMoveToElementClickable(input_lastName, patientDetails.get("lName"), mediumWait());
+        if (!getWebElementAttribute(inputLastName, "value").equalsIgnoreCase(patientDetails.get("lName"))) {
+            inputLastName.clear();
+            sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lName"), mediumWait());
         }
         return patientDetails;
     }

@@ -7,8 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.JsonFiles;
 import utils.Values;
-
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +26,6 @@ public class NewAccountPage extends CommonFunctions {
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
-    public static int maxNumberOfTries = 0;
 
     Class<?> myClass;
     {
@@ -36,7 +33,7 @@ public class NewAccountPage extends CommonFunctions {
             fileReading.setLog4jFile();
             fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
             maxNumberOfTries = Integer.parseInt(fileReading.getField(Values.TXT_RETRYWHILE));
-            myClass = Class.forName("base.functions" + "." + "CommonFunctions");
+            myClass = Class.forName(Values.REFLECTION_COMMONFUNCTIONSCLASSPATH);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -112,9 +109,9 @@ public class NewAccountPage extends CommonFunctions {
         boolean rndSelected = false;
         try {
             for (Map<String, String> accountType : accountTypeList) {
-                if (accountTypeList.get(counter).get("accountType").equalsIgnoreCase(Values.TXT_RANDOM)) {
+                if (accountTypeList.get(counter).get(Values.TXT_ACCOUNTTYPE).equalsIgnoreCase(Values.TXT_RANDOM)) {
                     if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
-                        statusOperation = accountTypeList.get(getRandomNumberByLimits(1, accountTypeList.size())).get("accountType");
+                        statusOperation = accountTypeList.get(getRandomNumberByLimits(1, accountTypeList.size())).get(Values.TXT_ACCOUNTTYPE);
                         rndSelected = true;
                         break;
                     }
@@ -125,7 +122,7 @@ public class NewAccountPage extends CommonFunctions {
             if (!rndSelected) {
                 for (Map<String, String> accountType : accountTypeList) {
                     if (accountTypeList.get(counter).get("useThisAccount").equalsIgnoreCase(Values.TXT_Y_VALUE)) {
-                        statusOperation = accountTypeList.get(counter).get("accountType");
+                        statusOperation = accountTypeList.get(counter).get(Values.TXT_ACCOUNTTYPE);
                         break;
                     }
                     counter++;

@@ -1,22 +1,21 @@
 package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
-import com.codoid.products.exception.FilloException;
 import io.cucumber.java.en.And;
-import io.cucumber.java.ht.E;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.Patient;
 import utils.ExcelFiles;
+import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class SearchPatient extends ApplicationInstance {
 
     private CommonData commonData;
-    private Logger logger = Logger.getLogger(CommonFunctions.class);
+    private final Logger logger = Logger.getLogger(CommonFunctions.class);
 
     public SearchPatient(CommonData commonData) {
         this.commonData = commonData;
@@ -40,35 +39,35 @@ public class SearchPatient extends ApplicationInstance {
     public void validatePatientAccountCreated() throws Exception {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-                    Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
-            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-            Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
+            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+            Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTFOUND);
         }
     }
 
     @And("I search the patient at Recently View to check the Valid PAF column from Accounts Page")
     public void searchPatientInView() throws Exception {
-        try{
-            if (commonData.globalShareData.getExecutionFlag()!=null) {
-                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-                    Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
                 } else {
-                    logger.info("Does not required to be executed Since Flag Contains : " + commonData.globalShareData.getExecutionFlag().trim());
+                    logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
-        }catch (InvocationTargetException|NullPointerException e) {
-            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-            Assert.assertEquals(commonData.patient.getPatientName(), account, "The patient account created was not found");
+        } catch (InvocationTargetException | NullPointerException e) {
+            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+            Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
         }
     }
 }
