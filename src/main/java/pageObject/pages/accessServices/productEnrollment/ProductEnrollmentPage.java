@@ -123,6 +123,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
         clickElementClickable(buttonNewConsent, longWait());
     }
 
+    public void clickAttestationTab() throws Exception {
+        clickElementClickable(labelAttestationTabOption, longWait());
+    }
+
 
     /**
      * Used to click the New Case button and Product Enrollment Page
@@ -153,6 +157,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
             for (WebElement product : productNamesFound) {
                 waitForElementVisibility(product, shortWait());
                 clickAndMoveToElementClickable(product, shortWait());
+                if (!waitForElementInvisibilityOfElementLocatedBy(labelList_pmServicesProvidedList,shortWait())) {
+                        clickElementJS(product);
+                }
                 logger.info("The Product Enrollment Element was found");
                 statusOperation = true;
                 break;

@@ -1,3 +1,4 @@
+@ChildCasesCreation
 Feature: ChildCases
 
   Scenario Outline: Create child cases
@@ -21,5 +22,5 @@ Feature: ChildCases
     And I fill the child case mandatory fields "<product>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
     Examples:
-    | user    | productName  | caseOption       | product        |  channel    | caseStatus | caseSubType | discussTopic | cardNumber |
-    | admin   | fasenra      | Asset Request    | FASENRA        |  random     | Open       | random      | random       | random     |
+      | user  | productName | caseOption    | product | channel | caseStatus | caseSubType | discussTopic | cardNumber |
+      | admin | fasenra     | Asset Request | FASENRA | RND     | Open       | RND         | RND          | RND        |

@@ -172,7 +172,7 @@ public class NewCPCWizardPage extends CommonFunctions {
         cpcDetails.put("lastName", faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM));
         cpcDetails.put("careGiver", Values.REPLACETO_EMPTY);
         cpcDetails.put("dateOfBirth", getRandomDate().replace(Values.TXT_SLASH, Values.REPLACETO_EMPTY));
-        cpcDetails.put("email", cpcDetails.get("lastName") + Values.ARRAY_FULLEMAILDOMAINVALUES);
+        cpcDetails.put("email", cpcDetails.get("lastName") + Values.ARRAY_FULLEMAILDOMAINVALUES[getRandomNumberByLimits(0,(Values.ARRAY_FULLEMAILDOMAINVALUES.length-1))]);
         cpcDetails.put("emailType", cpcDetails.get("emailType"));
         cpcDetails.put("phoneOrFax", faker.phoneNumber().cellPhone().replace(Values.TXT_DOT, Values.REPLACETO_EMPTY).replace(Values.TXT_HYPHEN, Values.REPLACETO_EMPTY));
         cpcDetails.put("addressLine1", faker.address().streetName());
@@ -336,7 +336,8 @@ public class NewCPCWizardPage extends CommonFunctions {
 
             case "email":
                 if (!cpcValue.trim().isEmpty() && cpcValue.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
-                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM) + Values.ARRAY_FULLEMAILDOMAINVALUES;
+                    returnedValue = faker.name().lastName() + Values.TXT_UNDERSCORE + generateTimeStamp(Values.DATEFORMAT_MMM_DD_HH_MM) +
+                            Values.ARRAY_FULLEMAILDOMAINVALUES[getRandomNumberByLimits(0,(Values.ARRAY_FULLEMAILDOMAINVALUES.length-1))];
                 } else {
                     if (cpcValue.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                         returnedValue = cpcValue;

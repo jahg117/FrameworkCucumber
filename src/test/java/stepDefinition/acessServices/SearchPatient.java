@@ -41,15 +41,15 @@ public class SearchPatient extends ApplicationInstance {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-                    Assert.assertEquals(commonData.patient.getPatientName(), account, Values.TXT_MSGPATIENTNOTFOUND);
+                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
                 } else {
                     logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
-            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-            Assert.assertEquals(commonData.patient.getPatientName(), account, Values.TXT_MSGPATIENTNOTFOUND);
+            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+            Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTFOUND);
         }
     }
 
@@ -59,15 +59,15 @@ public class SearchPatient extends ApplicationInstance {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-                    Assert.assertEquals(commonData.patient.getPatientName(), account, Values.TXT_MSGPATIENTNOTFOUND);
+                    String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
                 } else {
                     logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
-            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientName());
-            Assert.assertEquals(commonData.patient.getPatientName(), account, Values.TXT_MSGPATIENTNOTFOUND);
+            String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
+            Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
         }
     }
 }

@@ -10,7 +10,7 @@ import io.cucumber.testng.CucumberOptions;
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "rerun:target/rerun.txt"},
         publish = true,
-        tags = "@DataCreationPatient")
+        tags = "@1372_ConfigurableConsents")
 
 public class RunCucumberTest extends AbstractTestNGCucumberParallelTests {
 

@@ -2,9 +2,7 @@ package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
-import org.apache.tools.ant.types.selectors.SelectSelector;
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
@@ -76,10 +74,10 @@ public class CreateCase extends ApplicationInstance {
                 productName = commonData.product.getProduct();
             }
         } catch (Exception e) {
-            if (productName.equalsIgnoreCase("AZ")
-                    || productName.equalsIgnoreCase("DSI")) {
+            if (productName.equalsIgnoreCase(Values.TXT_AZ)
+                    || productName.equalsIgnoreCase(Values.TXT_DSI)) {
                 JsonFiles file = new JsonFiles();
-                file.setFileName("1372_EnrollmentProducts");
+                file.setFileName(Values.TXT_1372FILENAME);
                 productName = file.getRandomFieldArray(productName);
             }
         }

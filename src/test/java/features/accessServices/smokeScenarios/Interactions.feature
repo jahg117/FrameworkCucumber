@@ -1,3 +1,4 @@
+@interactionCases
 Feature: Interactions
 
   Scenario Outline: Create interaction from patient

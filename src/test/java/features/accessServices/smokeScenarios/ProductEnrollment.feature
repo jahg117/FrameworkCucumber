@@ -1,3 +1,4 @@
+@productEnrollment
 Feature: Product Enrollment
 
   Scenario Outline: Create product enrollment
@@ -11,8 +12,8 @@ Feature: Product Enrollment
     And I enter a product enrollment in the product enrollment form
       | ProductEnrollment |
       | Fasenra           |
-      | Calquence           |
+      | Calquence         |
       | Enhertu           |
     Examples:
-    | user    |
-    | admin   |
+      | user  |
+      | admin |
