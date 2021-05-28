@@ -60,9 +60,6 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
-            if (!commonData.userDetails.getUsername().equalsIgnoreCase(Values.TXT_ADMIN)) {
-                accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), Values.TXT_HCP);
-            }
             accessServices.getCustomerLookupPage().clickNewAccount();
         }
 
@@ -180,7 +177,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
                     Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
                     String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
-                    Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
+                    Assert.assertTrue(product.equalsIgnoreCase(newProduct),"The product enrollment are matching");
                     Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
                 } else {
@@ -192,7 +189,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
             String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
             Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
             String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
-            Assert.assertEquals(product, newProduct, "The product enrollment is not matching");
+            Assert.assertTrue(product.equalsIgnoreCase(newProduct),"The product enrollment are matching");
             Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
             Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
         }
@@ -379,6 +376,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void fillFieldsAccountFormPDC(String accData) throws Exception {
         accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
         HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverFormPDC(accData);
+        accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
         accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
         commonData.patient = new Patient(patientDetails);
     }

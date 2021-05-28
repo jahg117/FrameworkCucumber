@@ -288,11 +288,15 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void uncheckCheckbox(List<WebElement> checkboxCheckedList) throws Exception {
         int counterWE = 0;
-        do {
-            clickElementClickable(checkboxCheckedList.get(counterWE), mediumWait());
-            counterWE++;
+        if (waitForElementClickable(buttonSearch, mediumWait())) {
+            do {
+                clickElementClickable(checkboxCheckedList.get(counterWE), mediumWait());
+                counterWE++;
+            }
+            while (counterWE <= (checkboxCheckedList.size() - 1));
+        }else {
+            logger.error("Page Was Not Loaded Correctly Review The issue");
         }
-        while (counterWE <= (checkboxCheckedList.size() - 1));
     }
 
     /**
@@ -667,11 +671,12 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void validateSearchResults() throws Exception {
-        if (waitForElementVisibility(messageSearchNoResults, mediumWait())) {
-            logger.info("No Results Were Found");
+        if (waitForElementVisibility(tableResultsTableHeaders, mediumWait())) {
+            logger.info("Results Displayed");
         } else {
-            waitForElementVisibility(tableResultsTableHeaders, longWait());
-            logger.info("What To Validate Here");
+            if (waitForElementVisibility(messageSearchNoResults, mediumWait())) {
+                logger.info("No Results Were Found");
+            }
         }
     }
 

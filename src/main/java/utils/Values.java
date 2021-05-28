@@ -58,6 +58,7 @@ public final class Values {
     public static final String TXT_1372FILENAME = "1372_EnrollmentProducts";
     public static final String TXT_MSGDOESNOTREQUIREDEXECUTE = "Does not required to be executed Since Flag Contains : ";
     public static final String TXT_MSGPATIENTNOTFOUND = "The patient account created was not found";
+    public static final String TXT_MSGPATIENTFOUND = "The patient account created was found";
     public static final String TXT_ASTRAZENECA ="AstraZeneca";
 
 
@@ -112,7 +113,7 @@ public final class Values {
     //============ARRAY VALUES USE FOR DATAPATIENT CREATION
     public static final String[] ARRAY_PHONEFAXVALUES = {"Home Fax", "Home Phone", "International", "Mobile", "Office Fax", "Office Phone"};
     public static final String[] ARRAY_EMAILDOMAINVALUES = {"astrazeneca", "testDomain", "anotherDomain", "mobileDomain", "yesImADomain", "notADomain"};
-    public static final String[] ARRAY_FULLEMAILDOMAINVALUES = {"@sharklasers.com"};
+    public static final String[] ARRAY_FULLEMAILDOMAINVALUES = {"@sharklasers.com","@astrazeneca.com","@testDomain.com"};
     public static final String[] ARRAY_ZIPCODEVALUES = {"06019", "06023"};
 
     //============CONSENT TYPE VALUES

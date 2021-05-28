@@ -6,82 +6,82 @@ import org.openqa.selenium.support.FindBy;
 
 public class NewConsentAttestationPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(@class,'dateInput')]//input")
-    private WebElement input_consentDate;
+    private WebElement inputConsentDate;
 
     @FindBy(xpath = "//*[contains(@id,'consentSource')]")
-    private WebElement dropdown_consentSource;
+    private WebElement dropdownConsentSource;
 
     @FindBy(xpath = "//*[contains(@id,'conProvBy:spp')]")
-    private WebElement checkbox_optionSPP;
+    private WebElement checkboxOptionSPP;
 
     @FindBy(xpath = "//input[@value='Next']")
-    private WebElement button_next;
+    private WebElement buttonNext;
 
     @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
-    private WebElement iframe_consentForm;
+    private WebElement iframeConsentForm;
 
     @FindBy(xpath = "//td[@class='dataCol first']")
-    private WebElement label_patientName;
+    private WebElement labelPatientName;
 
     @FindBy(xpath = "//*[contains(text(),'Primary Company')]/following::*[@class='dataCol'][1]")
-    private WebElement label_primaryCompany;
+    private WebElement labelPrimaryCompany;
 
     @FindBy(xpath = "//*[contains(text(),'Product Enrollment')]/following::*[@class='dataCol'][1]")
-    private WebElement label_productEnrollment;
+    private WebElement labelProductEnrollment;
 
     @FindBy(xpath = "//select[contains(@name,'consentDate')]")
-    private WebElement dropdown_consentStatus;
+    private WebElement dropdownConsentStatus;
 
     public boolean isConsentFormDisplayed() throws Exception {
         switchToParentFrame();
-        if(waitForElementVisibility(iframe_consentForm, 20)){
-            switchToFrameByWebElementIndexOrName(iframe_consentForm, 10);
+        if (waitForElementVisibility(iframeConsentForm, mediumWait())) {
+            switchToFrameByWebElementIndexOrName(iframeConsentForm, mediumWait());
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public String getProductEnrollment() throws Exception{
-        return getWebElementText(label_productEnrollment);
+    public String getProductEnrollment() throws Exception {
+        return getWebElementText(labelProductEnrollment);
     }
 
-    public String getPatientName() throws Exception{
-        return getWebElementText(label_patientName);
+    public String getPatientName() throws Exception {
+        return getWebElementText(labelPatientName);
     }
 
-    public boolean isPrimaryCompanyDisplayed() throws Exception{
-        return waitForElementVisibility(label_primaryCompany, 10);
+    public boolean isPrimaryCompanyDisplayed() throws Exception {
+        return waitForElementVisibility(labelPrimaryCompany, mediumWait());
     }
 
-    public boolean isConsentDateDisplayed()throws Exception {
-        return waitForElementVisibility(input_consentDate, 10);
+    public boolean isConsentDateDisplayed() throws Exception {
+        return waitForElementVisibility(inputConsentDate, mediumWait());
     }
 
-    public boolean isConsentStatusDisplayed()throws Exception {
-        return waitForElementVisibility(dropdown_consentStatus, 10);
+    public boolean isConsentStatusDisplayed() throws Exception {
+        return waitForElementVisibility(dropdownConsentStatus, mediumWait());
     }
 
-    public boolean isConsentSourceDisplayed()throws Exception {
-        return waitForElementVisibility(dropdown_consentSource, 10);
+    public boolean isConsentSourceDisplayed() throws Exception {
+        return waitForElementVisibility(dropdownConsentSource, mediumWait());
     }
 
     public void fillConsentMandatoryFields() throws Exception {
         switchToParentFrame();
-        switchToFrameByWebElementIndexOrName(iframe_consentForm, 20);
-        sendKeysElementVisible(input_consentDate, getRandomDate(),10);
-        selectDropDownRandomOptionNone(dropdown_consentSource, 10);
-        clickAndMoveToElementClickable(checkbox_optionSPP, 10);
-        clickAndMoveToElementClickable(button_next, 10);
+        switchToFrameByWebElementIndexOrName(iframeConsentForm, mediumWait());
+        sendKeysElementVisible(inputConsentDate, getRandomDate(), mediumWait());
+        selectDropDownRandomOptionNone(dropdownConsentSource, mediumWait());
+        clickAndMoveToElementClickable(checkboxOptionSPP, mediumWait());
+        clickAndMoveToElementClickable(buttonNext, mediumWait());
         switchToParentFrame();
     }
 
     public void fillDSIFLSPMandatoryFields() throws Exception {
         switchToParentFrame();
-        switchToFrameByWebElementIndexOrName(iframe_consentForm, 20);
-        sendKeysElementVisible(input_consentDate, getRandomDate(),10);
-        selectDropDownRandomOptionNone(dropdown_consentSource, 10);
-        clickAndMoveToElementClickable(button_next, 10);
+        switchToFrameByWebElementIndexOrName(iframeConsentForm, mediumWait());
+        sendKeysElementVisible(inputConsentDate, getRandomDate(), mediumWait());
+        selectDropDownRandomOptionNone(dropdownConsentSource, mediumWait());
+        clickAndMoveToElementClickable(buttonNext, mediumWait());
         switchToParentFrame();
     }
 }

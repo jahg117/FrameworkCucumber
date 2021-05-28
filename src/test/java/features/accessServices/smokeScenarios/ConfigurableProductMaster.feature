@@ -46,7 +46,7 @@ NOTE:
     Then I fill the mandatory fields from the account form
     And I enter a product enrollment in the product enrollment form
       | ProductEnrollment |
-      | AZ                |
+      | DSI                |
     Then I Validate the product enrollment is displayed at Product Enrollments table
     Then I close all open tabs
     And I select the "Products" menu option
@@ -63,4 +63,4 @@ NOTE:
 
     Examples:
       | accountType | selectProductView | productEnrollmentView | productName | productEnrollment | createPE |
-      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | N_A      |
+      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | N_A        |

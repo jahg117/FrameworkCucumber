@@ -9,16 +9,17 @@ import utils.Values;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Locale;
 
 public class ConsentPage extends CommonFunctions {
-    @FindBy(xpath = "//button[@name='Global.NewContact']")
-    private WebElement button_newContact;
+    @FindBy(xpath = "//img[@title='Consent']")
+    private WebElement buttonNewContact;
 
     @FindBy(xpath = "//*[contains(text(),'Consent No.')]/following::*[@data-output-element-id='output-field']")
-    private List<WebElement> list_consentDetails;
+    private List<WebElement> listConsentDetails;
 
     @FindBy(xpath = "//span[contains(text(),'Consent No.') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
-    private WebElement label_consentID;
+    private WebElement labelConsentID;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -38,21 +39,21 @@ public class ConsentPage extends CommonFunctions {
     }
 
     public String getConsentID() throws Exception {
-        waitForElementVisibility(label_consentID, mediumWait());
-        return getWebElementText(label_consentID);
+        waitForElementVisibility(labelConsentID, mediumWait());
+        return getWebElementText(labelConsentID);
     }
 
     public boolean isConsentPageDisplayed() throws Exception {
-       return waitForElementClickable(button_newContact, longWait());
+       return waitForElementClickable(buttonNewContact, longWait());
     }
 
 
     public boolean isConsentDetailDisplayed(String consentDetail) throws Exception {
         boolean statusOperation = false;
         try {
-            for (WebElement el : list_consentDetails) {
+            for (WebElement el : listConsentDetails) {
                 String consent = getWebElementText(el);
-                if (consent.contains(consentDetail)) {
+                if (consent.toLowerCase().contains(consentDetail.toLowerCase())) {
                     statusOperation = true;
                     break;
                 }

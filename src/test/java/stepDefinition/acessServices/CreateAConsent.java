@@ -229,6 +229,24 @@ public class CreateAConsent extends ApplicationInstance {
         }
     }
 
+    @Then("I click the account created from AccountsPage PDC")
+    public void clickOnAccountCreatedPDC() throws Exception {
+        try {
+            if (commonData.globalShareData.getExecutionFlag() != null) {
+                if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    accessServices.getAccountsPage().clickAccountCreated(commonData.patient.getPatientNamePDC());
+                } else {
+                    logger.info("Does not required to be executed Since Flag: " + executionFlag);
+                }
+            }
+        } catch (InvocationTargetException | NullPointerException e) {
+            accessServices.getAccountsPage().clickAccountCreated(commonData.patient.getPatientNamePDC());
+        }
+    }
+
+
+
     @And("I validate the consent ID is displayed")
     public void consentIDDisplayed() throws Exception {
         accessServices.getConsentPage().getConsentID();

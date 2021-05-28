@@ -82,6 +82,6 @@ public class CreateAnAccount extends ApplicationInstance {
 
     @Given("A {string} i select the view to filter using theProducts page")
     public void selectProductView(String productView) throws Exception {
-        accessServices.getProductsPage().selectProductView(productView);
+        accessServices.getProductsPage().selectProductView(productView, true);
     }
 }

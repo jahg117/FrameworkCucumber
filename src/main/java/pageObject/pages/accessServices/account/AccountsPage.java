@@ -22,8 +22,10 @@ public class AccountsPage extends CommonFunctions {
         String searchAccount="";
         inputSearchAccount.clear();
         waitForElementVisibility(inputSearchAccount, longWait());
-        sendKeysElementVisibleJS(inputSearchAccount, account, shortWait());
-        inputSearchAccount.sendKeys(Keys.ENTER);
+
+        sendKeysAndMoveToElementClickable(inputSearchAccount, account, shortWait());
+        sendKeysByActions(Keys.ENTER.toString());
+
         waitForElementListVisible(listPatients, mediumWait());
         waitUntilAccountIsClickable(account);
         for(WebElement el : listPatients){

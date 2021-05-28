@@ -50,13 +50,13 @@ public class ProductsPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectProductView(String filterView) throws Exception {
+    public void selectProductView(String filterView , boolean selectAgain) throws Exception {
         By toogleListSecondOption = By.xpath("//li//a//*[text()='" + filterView + "']");
         do {
             waitForElementClickable(togglePmProductNameColumn, shortWait());
         } while (!waitForElementClickable(togglePmProductNameColumn, shortWait()));
         try {
-            if (getWebElementText(linkButtonPmCurrentView).trim().equalsIgnoreCase(filterView)) {
+            if (getWebElementText(linkButtonPmCurrentView).trim().equalsIgnoreCase(filterView) && selectAgain) {
                 logger.info("Already At: " + filterView);
             } else {
                 clickAndMoveToElementClickable(linkButtonPmCurrentView, shortWait());
@@ -97,23 +97,21 @@ public class ProductsPage extends CommonFunctions {
      */
     public boolean searchAndClickProductFromResults(String productName) throws Exception {
         boolean statusOperation = false;
-        By labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
+        By labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName.toUpperCase() + "']");
         try {
             waitForElementTextPresent(tableRowPmFirstRow, productName, mediumWait());
             List<WebElement> productNamesFound = getWebElementList(labelListPmServicesProvidedList);
-            if (!productNamesFound.isEmpty()) {
-                for (WebElement product : productNamesFound) {
-                    if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
-                        waitForElementVisibility(product, shortWait());
-                        clickAndMoveToElementClickable(product, shortWait());
-                        logger.info("The Product Element was found");
-                        statusOperation = true;
-                        break;
-                    }
-                }
-            } else {
-                if (labelPmNoItemsMessage.isDisplayed()) {
-                    logger.error("No items to display");
+            if (productNamesFound.isEmpty()) {
+                labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
+                productNamesFound = getWebElementList(labelListPmServicesProvidedList);
+            }
+            for (WebElement product : productNamesFound) {
+                if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
+                    waitForElementVisibility(product, shortWait());
+                    clickAndMoveToElementClickable(product, shortWait());
+                    logger.info("The Product Element was found");
+                    statusOperation = true;
+                    break;
                 }
             }
         } catch (Exception e) {

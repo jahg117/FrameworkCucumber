@@ -50,14 +50,14 @@ public class CommonGeneralSteps extends ApplicationInstance {
         try{
             if (commonData.globalShareData.getExecutionFlag()!=null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("") || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
-                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase("N_A")) {
-                    accessServices.getProductsPage().selectProductView(filterView);
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                    accessServices.getProductsPage().selectProductView(filterView,false);
                 } else {
                     logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }
             }
         }catch (InvocationTargetException |NullPointerException e) {
-            accessServices.getProductsPage().selectProductView(filterView);
+            accessServices.getProductsPage().selectProductView(filterView, false);
         }
     }
 }
