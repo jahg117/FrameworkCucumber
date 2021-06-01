@@ -59,7 +59,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
-        waitForElementVisibility(buttonLoggedOut, mediumWait());
+        //waitForElementVisibility(buttonLoggedOut, mediumWait());
         if (productType.equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
             productType = Values.TXT_AZ;
         }
