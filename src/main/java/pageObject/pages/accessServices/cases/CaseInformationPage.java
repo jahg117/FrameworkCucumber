@@ -148,12 +148,14 @@ public class CaseInformationPage extends CommonFunctions {
                 clickAndMoveToElementVisible(inputSearchAccounts, shortWait());
                 waitForElementListVisible(getWebElementList(listAutocompleteElements), shortWait());
             }
+            waitForElementToBeClickableBy(By.xpath("//div[@title='"+patientName+"']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='"+patientName+"']"), mediumWait());
         }
         if (waitForElementVisibility(inputSearchProductEnrollments, shortWait())) {
             sendKeysAndMoveToElementClickable(inputSearchProductEnrollments, productEnrollment, mediumWait());
             waitForPresenceOfAllElementsLocatedBy(listAutocompleteElements, mediumWait());
             waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
+            waitForElementToBeClickableBy(By.xpath("//div[@title='"+productEnrollment+"']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='"+productEnrollment+"']"), mediumWait());
         }
     }
@@ -172,6 +174,7 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseSubType", webElementOption);
         if(waitForElementVisibility(inputInteractionCase, shortWait())) {
             sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
+            waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
         }
         if(waitForElementListVisible(listDiscussTopic, shortWait())){
@@ -233,6 +236,7 @@ public class CaseInformationPage extends CommonFunctions {
         statusOperation.put("CaseSubType", webElementOption);
         if (waitForElementVisibility(inputSearchProductEnrollments, shortWait())) {
             sendKeysAndMoveToElementVisible(inputSearchProductEnrollments, formDetails.get("ProductEnrollment"), shortWait());
+            waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), mediumWait());
         }
         if (waitForElementListVisible(listDiscussTopic, shortWait())) {
@@ -257,6 +261,7 @@ public class CaseInformationPage extends CommonFunctions {
         }
         if(waitForElementVisibility(inputSearchProducts, shortWait())) {
             sendKeysAndMoveToElementVisible(inputSearchProducts, formDetails.get("ProductName"), shortWait());
+            waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
         }
         statusOperation.put("DiscussTopic", webElementOption);
