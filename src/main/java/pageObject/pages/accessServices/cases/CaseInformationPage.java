@@ -172,6 +172,7 @@ public class CaseInformationPage extends CommonFunctions {
         caseInformationForm.put("CaseSubType", webElementOption);
         if(waitForElementVisibility(inputInteractionCase, shortWait())) {
             sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
+            waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
         }
         if(waitForElementListVisible(listDiscussTopic, shortWait())){
