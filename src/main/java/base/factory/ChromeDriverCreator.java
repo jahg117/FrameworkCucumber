@@ -13,7 +13,7 @@ public class ChromeDriverCreator extends WebDriverCreator{
     public WebDriver createWebDriver() {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
-        WebDriverManager.chromedriver().driverVersion("91.0.4472.77").setup();
+        WebDriverManager.chromedriver().driverVersion("91.0.4472.19").setup();
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation","load-extension"});
         options.addArguments("start-maximized");

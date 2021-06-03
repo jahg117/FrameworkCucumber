@@ -60,6 +60,14 @@ public final class Values {
     public static final String TXT_MSGPATIENTNOTFOUND = "The patient account created was not found";
     public static final String TXT_MSGPATIENTFOUND = "The patient account created was found";
     public static final String TXT_ASTRAZENECA ="AstraZeneca";
+    public static final String TXT_JSEXCACTIONSCLICK ="javascript error:";
+    public static final String TXT_EXCINTERCEPTED ="element click intercepted";
+    public static final String TXT_WEBELEMENTCLICK ="===============webElement.click()===============";
+    public static final String TXT_JSCLICK ="================clickElementJS()================";
+
+
+
+
 
 
 

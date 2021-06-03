@@ -277,4 +277,9 @@ public class CreateAConsent extends ApplicationInstance {
             accessServices.getNewConsentWizard().fillConsentForm(consentDataList.get(0), consentDataList.get(1), consentDataList.get(2), consentDataList.get(3));
         }
     }
+
+    @Given("I login as an {string} users")
+    public void iLoginAsAnUsers(String arg0) {
+    String test = "10";
+    }
 }
