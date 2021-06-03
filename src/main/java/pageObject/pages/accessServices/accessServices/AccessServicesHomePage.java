@@ -69,6 +69,7 @@ public class AccessServicesHomePage extends CommonFunctions {
                     clickElementVisible(buttonNavigationMenu, mediumWait());
                     waitForElementVisibility(listNavigationMenu, longWait());
                 }
+
                 clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, "title", menuOption), mediumWait());
             }
         }

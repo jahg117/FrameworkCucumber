@@ -23,7 +23,6 @@ import utils.Values;
 public class CommonFunctions {
 
     private WebDriver driver = DriverFactory.getDriver();
-
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -915,16 +914,16 @@ public class CommonFunctions {
     /**
      * Method used to click and wait for a clickable WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void clickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
+    protected void clickElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                clickWebElementByActions(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                clickMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -938,16 +937,16 @@ public class CommonFunctions {
     /**
      * Method used to click and wait for a visible WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void clickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
+    protected void clickElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                clickWebElementByActions(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                clickMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not visible");
@@ -961,16 +960,16 @@ public class CommonFunctions {
     /**
      * Method used to double click and wait for a visible WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void doubleClickElementVisible(By webElement, int timeOutInSeconds) throws Exception {
+    protected void doubleClickElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                doubleClickWebElementByActions(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                doubleClickWebElementByActions(getWebElement(locator));
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -984,16 +983,16 @@ public class CommonFunctions {
     /**
      * Method used to double click, move and wait for a visible WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void doubleClickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
+    protected void doubleClickAndMoveToElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                doubleClickAndMoveToWebElementByActions(getWebElement(locator));
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1006,16 +1005,16 @@ public class CommonFunctions {
     /**
      * Method used to double click and wait for a clickable WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void doubleClickElementClickable(By webElement, int timeOutInSeconds) throws Exception {
+    protected void doubleClickElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                doubleClickWebElementByActions(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                doubleClickWebElementByActions(getWebElement(locator));
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1029,16 +1028,16 @@ public class CommonFunctions {
     /**
      * Method used to double click, move and wait for a clickable WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void doubleClickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
+    protected void doubleClickAndMoveToElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                doubleClickAndMoveToWebElementByActions(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                doubleClickAndMoveToWebElementByActions(getWebElement(locator));
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1052,16 +1051,16 @@ public class CommonFunctions {
     /**
      * Method used to click, move and wait for a visible WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void clickAndMoveToElementVisible(By webElement, int timeOutInSeconds) throws Exception {
+    protected void clickAndMoveToElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                clickAndMoveToWebElementByActions(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                clickAndMoveMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not found");
@@ -1075,17 +1074,17 @@ public class CommonFunctions {
     /**
      * Method used to click, move and wait for a clickable WebElement
      *
-     * @param webElement       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
 
-    protected void clickAndMoveToElementClickable(By webElement, int timeOutInSeconds) throws Exception {
+    protected void clickAndMoveToElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                clickAndMoveToWebElementByActions(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                clickAndMoveMethodsByLocator(locator);
                 logger.info("WebElement clicked");
 
             } else {
@@ -1109,7 +1108,7 @@ public class CommonFunctions {
     protected void clickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                clickWebElementByActions(webElement);
+                clickMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
                 logger.error("WebElement not clickable");
@@ -1132,7 +1131,7 @@ public class CommonFunctions {
     protected void clickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                clickWebElementByActions(webElement);
+                clickMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1247,7 +1246,7 @@ public class CommonFunctions {
     protected void clickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                clickAndMoveToWebElementByActions(webElement);
+                clickAndMoveMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1270,7 +1269,7 @@ public class CommonFunctions {
     public void clickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                clickAndMoveToWebElementByActions(webElement);
+                clickAndMoveMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
                 throw new NoSuchElementException("WebElement not clickable");
@@ -1329,10 +1328,8 @@ public class CommonFunctions {
                 + "var elementTop = arguments[0].getBoundingClientRect().top;"
                 + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
         //===========================================================================
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         try {
-            jsExecutor.executeScript(scrollElementIntoMiddle, webElement);
-            statusOperation = true;
+            ((JavascriptExecutor) driver).executeScript(scrollElementIntoMiddle, webElement);
         } catch (Exception e) {
             statusOperation = autoCasting(executeReflection(webElement));
         }
@@ -1343,24 +1340,24 @@ public class CommonFunctions {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).build().perform();
-            logger.info("Scrolled by actions "+ getWebElementLocatorPath(webElement));
+            logger.info("Scrolled by actions " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            if(e.getMessage().contains("javascript error:")){
+            if (e.getMessage().contains(Values.TXT_JSEXCACTIONSCLICK)) {
                 String scrollElement = "arguments[0].scrollIntoView(true); var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
                         + "var elementTop = arguments[0].getBoundingClientRect().top;"
                         + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
                 JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
                 jsExecutor.executeScript(scrollElement, webElement);
-                logger.info("Scrolled by javaScript "+ getWebElementLocatorPath(webElement));
+                logger.info("Scrolled by javaScript " + getWebElementLocatorPath(webElement));
             } else {
-                logger.error("Cannot scroll to webElement: "+getWebElementLocatorPath(webElement));
+                logger.error("Cannot scroll to webElement: " + getWebElementLocatorPath(webElement));
                 executeReflection(webElement);
             }
         }
     }
 
     protected void scrollToVisibleElement(WebElement webElement, int seconds) throws Exception {
-        if(waitForElementVisibility(webElement, seconds)) {
+        if (waitForElementVisibility(webElement, seconds)) {
             scrollToElement(webElement);
         } else {
             logger.error("WebElement not visible or invalid");
@@ -1369,7 +1366,7 @@ public class CommonFunctions {
     }
 
     protected void scrollToClickableElement(WebElement webElement, int seconds) throws Exception {
-        if(waitForElementClickable(webElement, seconds)) {
+        if (waitForElementClickable(webElement, seconds)) {
             scrollToElement(webElement);
         } else {
             logger.error("WebElement not visible or invalid");
@@ -1557,23 +1554,6 @@ public class CommonFunctions {
 
 
     /**
-     * Click to an element with the Actions Class
-     *
-     * @param webElement contains the Element to do click
-     * @return returns true if the click was done successfully
-     * @throws Exception selenium Exception
-     * @author J.Ruano
-     */
-    protected void clickElementActions(WebElement webElement) throws Exception {
-        Actions actions = new Actions(driver);
-        try {
-            actions.click(webElement).build().perform();
-        } catch (ElementClickInterceptedException e) {
-            clickElementJS(webElement);
-        }
-    }
-
-    /**
      * Click to an element with JavaScript
      *
      * @param webElement contains the Element to do click
@@ -1595,17 +1575,17 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                sendKeysAndMoveToWebElementByActions(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1618,17 +1598,17 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysAndMoveToElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(getWebElement(webElement), text);
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                sendKeysAndMoveToWebElementByActions(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1641,17 +1621,17 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisible(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                sendKeysWebElementByActions(getWebElement(webElement), text);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                sendKeysWebElementByActions(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1664,17 +1644,17 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementClickable(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean sendKeysElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                sendKeysWebElementByActions(getWebElement(webElement), text);
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                sendKeysWebElementByActions(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1688,18 +1668,18 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by text
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectDropDownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByText(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectDropDownByText(getWebElement(webElement), text);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                selectDropDownByText(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1713,18 +1693,18 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by text
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropdownByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByText(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectAndMoveToDropDownByText(getWebElement(webElement), text);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                selectAndMoveToDropDownByText(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1738,18 +1718,18 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectDropDownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownByIndex(By locator, int index, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectDropDownByIndex(getWebElement(webElement), index);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                selectDropDownByIndex(getWebElement(locator), index);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1763,18 +1743,18 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropdownByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByIndex(By locator, int index, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                selectAndMoveToDropDownByIndex(getWebElement(locator), index);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1787,15 +1767,15 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by text
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected void selectDropDownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
-        if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-            selectDropDownByText(getWebElement(webElement), text);
+    protected void selectDropDownClickableByText(By locator, String text, int timeOutInSeconds) throws Exception {
+        if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+            selectDropDownByText(getWebElement(locator), text);
         } else {
             logger.info(Values.TXT_EXCREFLECTION);
         }
@@ -1804,18 +1784,18 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by text
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropdownClickableByText(By webElement, String text, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByText(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectAndMoveToDropDownByText(getWebElement(webElement), text);
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                selectAndMoveToDropDownByText(getWebElement(locator), text);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1828,18 +1808,18 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectDropDownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableByIndex(By locator, int index, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectDropDownByIndex(getWebElement(webElement), index);
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                selectDropDownByIndex(getWebElement(locator), index);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1851,18 +1831,18 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropdownClickableByIndex(By webElement, int index, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownClickableByIndex(By locator, int index, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectAndMoveToDropDownByIndex(getWebElement(webElement), index);
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                selectAndMoveToDropDownByIndex(getWebElement(locator), index);
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1875,17 +1855,17 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownVisibleRandomOption(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                selectRandomDropDownOption(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                selectRandomDropDownOption(getWebElement(locator));
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1898,18 +1878,18 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropDownVisibleRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownVisibleRandomOption(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                scrollMethodToWebElementByActions(getWebElement(webElement));
-                selectRandomDropDownOption(getWebElement(webElement));
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                scrollMethodToWebElementByActions(getWebElement(locator));
+                selectRandomDropDownOption(getWebElement(locator));
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1922,17 +1902,17 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectDropDownClickableRandomOption(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                selectRandomDropDownOption(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                selectRandomDropDownOption(getWebElement(locator));
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1945,18 +1925,18 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param webElement       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean selectAndMoveDropDownClickableRandomOption(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropDownClickableRandomOption(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                scrollMethodToWebElementByActions(getWebElement(webElement));
-                selectRandomDropDownOption(getWebElement(webElement));
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                scrollMethodToWebElementByActions(getWebElement(locator));
+                selectRandomDropDownOption(getWebElement(locator));
                 statusOperation = true;
             }
         } catch (Exception e) {
@@ -1969,17 +1949,17 @@ public class CommonFunctions {
     /**
      * Method used to return a random webElement from a List<WebElement>
      *
-     * @param webElementList
+     * @param locatorList
      * @param timeOutInSeconds to wait for visible elements
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getRandomWebElementFromList(By webElementList, int timeOutInSeconds) throws Exception {
+    protected WebElement getRandomWebElementFromList(By locatorList, int timeOutInSeconds) throws Exception {
         WebElement statusOperation = null;
         try {
-            if (waitForPresenceOfAllElementsLocatedBy(webElementList, timeOutInSeconds)) {
+            if (waitForPresenceOfAllElementsLocatedBy(locatorList, timeOutInSeconds)) {
                 Random random = new Random();
-                statusOperation = getWebElementList(webElementList).get(random.nextInt(getWebElementList(webElementList).size()));
+                statusOperation = getWebElementList(locatorList).get(random.nextInt(getWebElementList(locatorList).size()));
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
@@ -2017,16 +1997,16 @@ public class CommonFunctions {
     /**
      * Method used to return a webElement with specific attribute value from a List<WebElement>
      *
-     * @param webElementList
+     * @param locatorList
      * @param attribute      to handle
      * @param attributeValue to search
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected WebElement getWebElementByAttributeFromList(By webElementList, String attribute, String attributeValue) throws Exception {
+    protected WebElement getWebElementByAttributeFromList(By locatorList, String attribute, String attributeValue) throws Exception {
         WebElement statusOperation = null;
         try {
-            for (WebElement webElementFromList : getWebElementList(webElementList)) {
+            for (WebElement webElementFromList : getWebElementList(locatorList)) {
                 if (webElementFromList.getAttribute(attribute).equalsIgnoreCase(attributeValue)) {
                     statusOperation = webElementFromList;
                     break;
@@ -2045,18 +2025,18 @@ public class CommonFunctions {
     /**
      * Method used to validate if a visible webElement is selected or not
      *
-     * @param webElement
+     * @param locator
      * @param timeOutInSeconds
      * @return true if a webElement is selected or false if it is not selected
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementSelected(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean isVisibleElementSelected(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
-                statusOperation = getWebElement(webElement).isSelected();
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(locator)) + ": " + getWebElement(locator).isSelected());
+                statusOperation = getWebElement(locator).isSelected();
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
@@ -2067,18 +2047,18 @@ public class CommonFunctions {
     /**
      * Method used to validate if a visible webElement is selected or not
      *
-     * @param webElement
+     * @param locator
      * @param timeOutInSeconds
      * @return true if a webElement is clickable or false if it is not selected
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementSelected(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean isClickableElementSelected(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
-                statusOperation = getWebElement(webElement).isSelected();
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                logger.info("WebElement selected: " + getWebElementLocatorPath(getWebElement(locator)) + ": " + getWebElement(locator).isSelected());
+                statusOperation = getWebElement(locator).isSelected();
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
@@ -2090,18 +2070,18 @@ public class CommonFunctions {
     /**
      * Method used to validate if a visible webElement is enabled or not
      *
-     * @param webElement
+     * @param locator
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isVisibleElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean isVisibleElementEnabled(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementPresenceBy(webElement, timeOutInSeconds)) {
-                logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
-                statusOperation = getWebElement(webElement).isEnabled();
+            if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
+                logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(locator)) + ": " + getWebElement(locator).isSelected());
+                statusOperation = getWebElement(locator).isEnabled();
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
@@ -2113,18 +2093,18 @@ public class CommonFunctions {
     /**
      * Method used to validate if a clickable webElement is enabled or not
      *
-     * @param webElement
+     * @param locator
      * @param timeOutInSeconds
      * @return true if a webElement is enabled or false if it is not
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean isClickableElementEnabled(By webElement, int timeOutInSeconds) throws Exception {
+    protected boolean isClickableElementEnabled(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            if (waitForElementToBeClickableBy(webElement, timeOutInSeconds)) {
-                logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(webElement)) + ": " + getWebElement(webElement).isSelected());
-                statusOperation = getWebElement(webElement).isEnabled();
+            if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
+                logger.info("WebElement enabled: " + getWebElementLocatorPath(getWebElement(locator)) + ": " + getWebElement(locator).isSelected());
+                statusOperation = getWebElement(locator).isEnabled();
             }
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
@@ -2238,7 +2218,7 @@ public class CommonFunctions {
         boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                clickElementJS(webElement);
+                clickMethodsWebElement(webElement);
                 js.executeScript("arguments[0].value='" + text + "';", webElement);
                 statusOperation = true;
             }
@@ -2733,7 +2713,7 @@ public class CommonFunctions {
 
 
     /**
-     * Method used to switch in a frame By WebElement, Index or Name
+     * Method used to switch in a frame By locator, Index or Name
      *
      * @param frame            WebElement, int or String
      * @param timeOutInSeconds wait only if the WebElement option is used.
@@ -2993,7 +2973,7 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private void clickAndMoveToWebElementByActions(WebElement webElement) throws Exception {
+    private void clickAndMoveToWebElementByActions(WebElement webElement) throws Exception { //NO BORRAR
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).click(webElement).build().perform();
@@ -3011,17 +2991,15 @@ public class CommonFunctions {
      * @return
      * @author Alejandro Hernandez
      */
-    private void clickWebElementByActions(WebElement webElement) throws Exception {
+    private void clickWebElementByActions(WebElement webElement) throws Exception {//NO BORRAR
         try {
             Actions actions = new Actions(driver);
             actions.click(webElement).build().perform();
             logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            logger.warn("WebElement not clicked: " + getWebElementLocatorPath(webElement));
             executeReflection(webElement);
         }
     }
-
 
     /**
      * This method is used to move and double click a WebElement by Action Class
@@ -3499,7 +3477,8 @@ public class CommonFunctions {
      * @return
      * @author J.Ruano
      */
-    protected boolean moveDownUpAction(WebElement webElement, String moveDirection, int ammountOfMoves) throws Exception {
+    protected boolean moveDownUpAction(WebElement webElement, String moveDirection, int ammountOfMoves) throws
+            Exception {
         boolean statusOperation = false;
         Actions actions = new Actions(driver);
         int counter = 0;
@@ -3538,7 +3517,8 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    protected boolean clickWhileCondition(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
+    protected boolean clickWhileCondition(WebElement webElement, String attribute, String attributeValue,
+                                          int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
@@ -3582,13 +3562,14 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    protected WebElement clickAndMoveToElementClickableFromListByAttribute(List<WebElement> webElementList, String attribute, String attributeValue) throws Exception {
+    protected WebElement clickAndMoveToElementClickableFromListByAttribute
+    (List<WebElement> webElementList, String attribute, String attributeValue) throws Exception {
         boolean webElementFound = false;
         WebElement statusOperation = null;
         try {
             for (WebElement webElement : webElementList) {
                 if (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim())) {
-                    clickAndMoveToWebElementByActions(webElement);
+                    clickAndMoveMethodsWebElement(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
                     webElementFound = true;
@@ -3611,13 +3592,14 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> webElementList, String textValue) throws Exception {
+    protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> webElementList, String
+            textValue) throws Exception {
         boolean webElementFound = false;
         WebElement statusOperation = null;
         try {
             for (WebElement webElement : webElementList) {
                 if (webElement.getText().trim().equalsIgnoreCase(textValue.trim())) {
-                    clickMethod(webElement);
+                    clickAndMoveMethodsWebElement(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
                     webElementFound = true;
@@ -3639,7 +3621,8 @@ public class CommonFunctions {
      * @throws IllegalAccessException
      * @author J.Ruano
      */
-    protected WebElement getRandomWebElementIgnoreIdexValue(List<WebElement> webElementList, int ignoreValue) throws Exception {
+    protected WebElement getRandomWebElementIgnoreIdexValue(List<WebElement> webElementList, int ignoreValue) throws
+            Exception {
         WebElement statusOperation = null;
         int randomNumber = 0;
         try {
@@ -3662,7 +3645,8 @@ public class CommonFunctions {
      * @throws IllegalAccessException
      * @author J.Ruano
      */
-    protected WebElement getRandomWebElementIgnoreText(List<WebElement> webElementList, String searchValue) throws Exception {
+    protected WebElement getRandomWebElementIgnoreText(List<WebElement> webElementList, String searchValue) throws
+            Exception {
         WebElement statusOperation = null;
         int randomNumber = 0;
         Random random = new Random();
@@ -3685,7 +3669,8 @@ public class CommonFunctions {
      * @throws IllegalAccessException
      * @author J.Ruano
      */
-    protected WebElement getRandomWebElementIgnoreAttribute(List<WebElement> webElementList, String attributeValue, String searchValue) throws Exception {
+    protected WebElement getRandomWebElementIgnoreAttribute(List<WebElement> webElementList, String
+            attributeValue, String searchValue) throws Exception {
         WebElement statusOperation = null;
         int randomNumber = 0;
         Random random = new Random();
@@ -3710,7 +3695,8 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    protected boolean selectAndMoveDropdownByOptionAttributeValue(WebElement webElement, String value, int timeOutInSeconds) throws Exception {
+    protected boolean selectAndMoveDropdownByOptionAttributeValue(WebElement webElement, String value,
+                                                                  int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
@@ -3912,7 +3898,7 @@ public class CommonFunctions {
 
 
     /**
-     * Use to auto search and switch between iframes to find an element by WebElement
+     * Use to auto search and switch between iframes to find an element By locator
      *
      * @param webElementFound  contains the WebElement that we want found at page
      * @param timeOutInSeconds the wait time to give at search
@@ -3960,7 +3946,8 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    public boolean switchingIframeUntilElementFound(WebElement webElementFound, int counter, int timeOutInSeconds) throws Exception {
+    public boolean switchingIframeUntilElementFound(WebElement webElementFound, int counter, int timeOutInSeconds) throws
+            Exception {
         boolean statusOperation = false;
         try {
             driver.switchTo().defaultContent();
@@ -4019,7 +4006,8 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author J.Ruano
      */
-    protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int timeOutInSeconds) throws Exception {
+    protected boolean waitUntilVisibleLoop(WebElement webElement, int whileTries, int timeOutInSeconds) throws
+            Exception {
         boolean statusOperation = false;
         waitForPageToLoad();
         try {
@@ -4198,7 +4186,8 @@ public class CommonFunctions {
         return returnedValue;
     }
 
-    public List<ArrayList<String>> splitIntoLists2(List<String> listToSplit,String splitCharacter) throws Exception {
+    public List<ArrayList<String>> splitIntoLists2(List<String> listToSplit, String splitCharacter) throws
+            Exception {
         ArrayList<ArrayList<String>> ctmListOfList = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < listToSplit.size(); i++) {
             String[] listToArray = (String[]) splitRegex(listToSplit.get(i), splitCharacter).toArray(new String[splitRegex(listToSplit.get(i), splitCharacter).size()]);
@@ -4206,24 +4195,21 @@ public class CommonFunctions {
         }
 
 
-
-
-
-
         return ctmListOfList;
     }
 
     /**
-     * @author Jonathan Ruano
-     * @method This method creates a list of list with multiple records that are created from the string received to
-     * 		   the method
-     * @param record	it contains the record(s) in a single string
-     * @param dataSeparator it contains the char to be able to split the Data on each record
+     * @param record          it contains the record(s) in a single string
+     * @param dataSeparator   it contains the char to be able to split the Data on each record
      * @param recordSeparator it contains the char to be able to split Each Record
      * @return it returns a list of list
      * @throws Exception selenium Exception
+     * @author Jonathan Ruano
+     * @method This method creates a list of list with multiple records that are created from the string received to
+     * the method
      */
-    public List<List<String>> splitIntoLists(String record, String recordSeparator, String dataSeparator) throws Exception{
+    public List<List<String>> splitIntoLists(String record, String recordSeparator, String dataSeparator) throws
+            Exception {
         List<List<String>> listOfListWithAllRecords = Lists.newArrayList();
         String[] listOfRecords = null;
         String[] arrayDataList = null;
@@ -4241,4 +4227,123 @@ public class CommonFunctions {
     }
 
 
+    /**
+     *
+     * @param webElement contains the WebElement to click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click action by Actions Class, Webelement.click or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the WebElement
+     */
+    public void clickMethodsWebElement(WebElement webElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.click(webElement).build().perform();
+            logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
+        } catch (Exception e) {
+            if (e.getMessage().toLowerCase().trim().contains(Values.TXT_EXCINTERCEPTED.trim().toLowerCase())
+                    || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
+                try {
+                    logger.warn(Values.TXT_WEBELEMENTCLICK);
+                    webElement.click();
+                } catch (Exception e2) {
+                    logger.warn(Values.TXT_JSCLICK);
+                    clickElementJS(webElement);
+                }
+            } else {
+                executeReflection(webElement);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param locator contains the locator path for the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click action by Actions Class, Webelement.click or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the Locator path
+     */
+    public void clickMethodsByLocator(By locator) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.click(getWebElement(locator)).build().perform();
+            logger.info("WebElement clicked: " + getWebElementLocatorPath(getWebElement(locator)));
+        } catch (Exception e) {
+            if (e.getMessage().toLowerCase().trim().contains(Values.TXT_EXCINTERCEPTED.trim().toLowerCase())
+                    || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
+                try {
+                    logger.warn(Values.TXT_WEBELEMENTCLICK);
+                    getWebElement(locator).click();
+                } catch (Exception e2) {
+                    logger.warn(Values.TXT_JSCLICK);
+                    clickElementJS(getWebElement(locator));
+                }
+            } else {
+                executeReflection(locator);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param webElement contains the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click  and move action to the WebElement suing Actions Class, WebElement or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the WebElement
+     */
+    public void clickAndMoveMethodsWebElement(WebElement webElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(webElement).click(webElement).build().perform();
+            logger.info("Element found: " + getWebElementLocatorPath(webElement));
+        } catch (Exception e) {
+            if (e.getMessage().toLowerCase().trim().contains(Values.TXT_EXCINTERCEPTED.trim().toLowerCase())
+                    || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
+                try {
+                    logger.warn(Values.TXT_WEBELEMENTCLICK);
+                    scrollToElement(webElement);
+                    webElement.click();
+                } catch (Exception e2) {
+                    logger.warn(Values.TXT_JSCLICK);
+                    scrollToElement(webElement);
+                    clickElementJS(webElement);
+                }
+            } else {
+                executeReflection(webElement);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param locator contains the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click  and move action to the WebElement suing Actions Class, WebElement or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the locator path
+     */
+    public void clickAndMoveMethodsByLocator(By locator) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(getWebElement(locator)).click(getWebElement(locator)).build().perform();
+            logger.info("Element found: " + getWebElementLocatorPath(getWebElement(locator)));
+        } catch (Exception e) {
+            if (e.getMessage().toLowerCase().trim().contains(Values.TXT_EXCINTERCEPTED.trim().toLowerCase())
+                    || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
+                try {
+                    logger.warn(Values.TXT_WEBELEMENTCLICK);
+                    scrollToElement(getWebElement(locator));
+                    getWebElement(locator).click();
+                } catch (Exception e2) {
+                    logger.warn(Values.TXT_JSCLICK);
+                    scrollToElement(getWebElement(locator));
+                    clickElementJS(getWebElement(locator));
+                }
+            } else {
+                executeReflection(locator);
+            }
+        }
+    }
 }
