@@ -1325,7 +1325,7 @@ public class CommonFunctions {
     protected boolean scrollMethodToWebElement(WebElement webElement) throws Exception {
         boolean statusOperation = false;
         //Arguments to get into the middle of the WebElement, using as arguments in the java script
-        String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+        String scrollElementIntoMiddle = "arguments[0].scrollIntoView(true); var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
                 + "var elementTop = arguments[0].getBoundingClientRect().top;"
                 + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
         //===========================================================================
@@ -1339,6 +1339,43 @@ public class CommonFunctions {
         return statusOperation;
     }
 
+    protected void scrollToElement(WebElement webElement) throws Exception {
+        try {
+            Actions actions = new Actions(driver);
+            actions.moveToElement(webElement).build().perform();
+            logger.info("Scrolled by actions "+ getWebElementLocatorPath(webElement));
+        } catch (Exception e) {
+            if(e.getMessage().contains("javascript error:")){
+                String scrollElement = "arguments[0].scrollIntoView(true); var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+                        + "var elementTop = arguments[0].getBoundingClientRect().top;"
+                        + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
+                JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+                jsExecutor.executeScript(scrollElement, webElement);
+                logger.info("Scrolled by javaScript "+ getWebElementLocatorPath(webElement));
+            } else {
+                logger.error("Cannot scroll to webElement: "+getWebElementLocatorPath(webElement));
+                executeReflection(webElement);
+            }
+        }
+    }
+
+    protected void scrollToVisibleElement(WebElement webElement, int seconds) throws Exception {
+        if(waitForElementVisibility(webElement, seconds)) {
+            scrollToElement(webElement);
+        } else {
+            logger.error("WebElement not visible or invalid");
+            throw new NoSuchElementException("WebElement not visible or invalid");
+        }
+    }
+
+    protected void scrollToClickableElement(WebElement webElement, int seconds) throws Exception {
+        if(waitForElementClickable(webElement, seconds)) {
+            scrollToElement(webElement);
+        } else {
+            logger.error("WebElement not visible or invalid");
+            throw new NoSuchElementException("WebElement not visible or invalid");
+        }
+    }
 
     /**
      * Scroll into the page Up or Down using amount of pixels
