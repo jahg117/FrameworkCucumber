@@ -914,7 +914,7 @@ public class CommonFunctions {
     /**
      * Method used to click and wait for a clickable WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -923,7 +923,6 @@ public class CommonFunctions {
     protected void clickElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
-                //JRR clickWebElementByActions(getWebElement(locator));
                 clickMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
@@ -938,7 +937,7 @@ public class CommonFunctions {
     /**
      * Method used to click and wait for a visible WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -947,7 +946,6 @@ public class CommonFunctions {
     protected void clickElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
-                //JRR clickWebElementByActions(getWebElement(locator));
                 clickMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
@@ -962,7 +960,7 @@ public class CommonFunctions {
     /**
      * Method used to double click and wait for a visible WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -985,7 +983,7 @@ public class CommonFunctions {
     /**
      * Method used to double click, move and wait for a visible WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1007,7 +1005,7 @@ public class CommonFunctions {
     /**
      * Method used to double click and wait for a clickable WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1030,7 +1028,7 @@ public class CommonFunctions {
     /**
      * Method used to double click, move and wait for a clickable WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1053,7 +1051,7 @@ public class CommonFunctions {
     /**
      * Method used to click, move and wait for a visible WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1062,7 +1060,6 @@ public class CommonFunctions {
     protected void clickAndMoveToElementVisible(By locator, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
-                //JRR clickAndMoveToWebElementByActions(getWebElement(webElement));
                 clickAndMoveMethodsByLocator(locator);
                 logger.info("WebElement clicked");
             } else {
@@ -1077,7 +1074,7 @@ public class CommonFunctions {
     /**
      * Method used to click, move and wait for a clickable WebElement
      *
-     * @param locator       contains the By Element to select
+     * @param locator          contains the By Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1087,7 +1084,6 @@ public class CommonFunctions {
     protected void clickAndMoveToElementClickable(By locator, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
-                //JRR clickAndMoveToWebElementByActions(getWebElement(webElement));
                 clickAndMoveMethodsByLocator(locator);
                 logger.info("WebElement clicked");
 
@@ -1112,7 +1108,6 @@ public class CommonFunctions {
     protected void clickElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                //JRR clickWebElementByActions(webElement);
                 clickMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
@@ -1136,7 +1131,6 @@ public class CommonFunctions {
     protected void clickElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                //JRR  clickWebElementByActions(webElement);
                 clickMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
@@ -1252,7 +1246,6 @@ public class CommonFunctions {
     protected void clickAndMoveToElementVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                //JRR clickAndMoveToWebElementByActions(webElement);
                 clickAndMoveMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
@@ -1276,7 +1269,6 @@ public class CommonFunctions {
     public void clickAndMoveToElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                //JRR clickAndMoveToWebElementByActions(webElement);
                 clickAndMoveMethodsWebElement(webElement);
                 logger.info("WebElement clicked");
             } else {
@@ -1337,8 +1329,6 @@ public class CommonFunctions {
                 + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
         //===========================================================================
         try {
-        //JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-
             ((JavascriptExecutor) driver).executeScript(scrollElementIntoMiddle, webElement);
         } catch (Exception e) {
             statusOperation = autoCasting(executeReflection(webElement));
@@ -1350,24 +1340,24 @@ public class CommonFunctions {
         try {
             Actions actions = new Actions(driver);
             actions.moveToElement(webElement).build().perform();
-            logger.info("Scrolled by actions "+ getWebElementLocatorPath(webElement));
+            logger.info("Scrolled by actions " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            if(e.getMessage().contains("javascript error:")){
+            if (e.getMessage().contains(Values.TXT_JSEXCACTIONSCLICK)) {
                 String scrollElement = "arguments[0].scrollIntoView(true); var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
                         + "var elementTop = arguments[0].getBoundingClientRect().top;"
                         + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
                 JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
                 jsExecutor.executeScript(scrollElement, webElement);
-                logger.info("Scrolled by javaScript "+ getWebElementLocatorPath(webElement));
+                logger.info("Scrolled by javaScript " + getWebElementLocatorPath(webElement));
             } else {
-                logger.error("Cannot scroll to webElement: "+getWebElementLocatorPath(webElement));
+                logger.error("Cannot scroll to webElement: " + getWebElementLocatorPath(webElement));
                 executeReflection(webElement);
             }
         }
     }
 
     protected void scrollToVisibleElement(WebElement webElement, int seconds) throws Exception {
-        if(waitForElementVisibility(webElement, seconds)) {
+        if (waitForElementVisibility(webElement, seconds)) {
             scrollToElement(webElement);
         } else {
             logger.error("WebElement not visible or invalid");
@@ -1376,7 +1366,7 @@ public class CommonFunctions {
     }
 
     protected void scrollToClickableElement(WebElement webElement, int seconds) throws Exception {
-        if(waitForElementClickable(webElement, seconds)) {
+        if (waitForElementClickable(webElement, seconds)) {
             scrollToElement(webElement);
         } else {
             logger.error("WebElement not visible or invalid");
@@ -1585,7 +1575,7 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1608,7 +1598,7 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys, move and wait for a visible WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1631,7 +1621,7 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1654,7 +1644,7 @@ public class CommonFunctions {
     /**
      * Method used to sendKeys and wait for a visible WebElement
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1678,7 +1668,7 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by text
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1703,7 +1693,7 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by text
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1728,7 +1718,7 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1753,7 +1743,7 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1777,7 +1767,7 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by text
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @throws Exception selenium Exception
@@ -1794,7 +1784,7 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by text
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param text             to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1818,7 +1808,7 @@ public class CommonFunctions {
     /**
      * Method used to select a dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1841,7 +1831,7 @@ public class CommonFunctions {
     /**
      * Method used to move and select a dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param index            to select from a dropdown
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
@@ -1865,7 +1855,7 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1888,7 +1878,7 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1912,7 +1902,7 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -1935,7 +1925,7 @@ public class CommonFunctions {
     /**
      * Method used to select a random dropdown option by index
      *
-     * @param locator       contains the Element to select
+     * @param locator          contains the Element to select
      * @param timeOutInSeconds time to wait for a WebElement
      * @return
      * @throws Exception selenium Exception
@@ -2228,7 +2218,6 @@ public class CommonFunctions {
         boolean statusOperation = false;
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                //JRR clickElementJS(webElement);
                 clickMethodsWebElement(webElement);
                 js.executeScript("arguments[0].value='" + text + "';", webElement);
                 statusOperation = true;
@@ -2990,7 +2979,7 @@ public class CommonFunctions {
             actions.moveToElement(webElement).click(webElement).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            //JRR executeReflection(webElement);
+            executeReflection(webElement);
         }
     }
 
@@ -3008,7 +2997,7 @@ public class CommonFunctions {
             actions.click(webElement).build().perform();
             logger.info("WebElement clicked: " + getWebElementLocatorPath(webElement));
         } catch (Exception e) {
-            //JRR executeReflection(webElement);
+            executeReflection(webElement);
         }
     }
 
@@ -3580,7 +3569,6 @@ public class CommonFunctions {
         try {
             for (WebElement webElement : webElementList) {
                 if (webElement.getAttribute(attribute).trim().equalsIgnoreCase(attributeValue.trim())) {
-                    //JRR clickAndMoveToWebElementByActions(webElement);
                     clickAndMoveMethodsWebElement(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
@@ -3611,7 +3599,6 @@ public class CommonFunctions {
         try {
             for (WebElement webElement : webElementList) {
                 if (webElement.getText().trim().equalsIgnoreCase(textValue.trim())) {
-                    //JRR clickMethod(webElement);
                     clickAndMoveMethodsWebElement(webElement);
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
@@ -4242,8 +4229,11 @@ public class CommonFunctions {
 
     /**
      *
-     * @param webElement
-     * @throws Exception
+     * @param webElement contains the WebElement to click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click action by Actions Class, Webelement.click or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the WebElement
      */
     public void clickMethodsWebElement(WebElement webElement) throws Exception {
         try {
@@ -4260,7 +4250,7 @@ public class CommonFunctions {
                     logger.warn(Values.TXT_JSCLICK);
                     clickElementJS(webElement);
                 }
-            }else{
+            } else {
                 executeReflection(webElement);
             }
         }
@@ -4268,8 +4258,11 @@ public class CommonFunctions {
 
     /**
      *
-     * @param locator
-     * @throws Exception
+     * @param locator contains the locator path for the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click action by Actions Class, Webelement.click or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the Locator path
      */
     public void clickMethodsByLocator(By locator) throws Exception {
         try {
@@ -4286,7 +4279,7 @@ public class CommonFunctions {
                     logger.warn(Values.TXT_JSCLICK);
                     clickElementJS(getWebElement(locator));
                 }
-            }else{
+            } else {
                 executeReflection(locator);
             }
         }
@@ -4294,8 +4287,11 @@ public class CommonFunctions {
 
     /**
      *
-     * @param webElement
-     * @throws Exception
+     * @param webElement contains the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click  and move action to the WebElement suing Actions Class, WebElement or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the WebElement
      */
     public void clickAndMoveMethodsWebElement(WebElement webElement) throws Exception {
         try {
@@ -4307,14 +4303,14 @@ public class CommonFunctions {
                     || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
                 try {
                     logger.warn(Values.TXT_WEBELEMENTCLICK);
-                    //scrollMethods(webElement);
+                    scrollToElement(webElement);
                     webElement.click();
                 } catch (Exception e2) {
                     logger.warn(Values.TXT_JSCLICK);
-                    //scrollMethods(webElement);
+                    scrollToElement(webElement);
                     clickElementJS(webElement);
                 }
-            }else{
+            } else {
                 executeReflection(webElement);
             }
         }
@@ -4322,8 +4318,11 @@ public class CommonFunctions {
 
     /**
      *
-     * @param locator
-     * @throws Exception
+     * @param locator contains the WebElement to be click
+     * @throws Exception Javascript Error or selenium Exception
+     * @author J.Ruano
+     * @method perform a click  and move action to the WebElement suing Actions Class, WebElement or Javascript click, in case there is an error
+     * with Actions, WebElement click and using as last option Javascript Click. Using the locator path
      */
     public void clickAndMoveMethodsByLocator(By locator) throws Exception {
         try {
@@ -4335,14 +4334,14 @@ public class CommonFunctions {
                     || e.getMessage().toLowerCase().trim().contains(Values.TXT_JSEXCACTIONSCLICK.trim().toLowerCase())) {
                 try {
                     logger.warn(Values.TXT_WEBELEMENTCLICK);
-                    //scrollMethods(getWebElement(locator));
+                    scrollToElement(getWebElement(locator));
                     getWebElement(locator).click();
                 } catch (Exception e2) {
                     logger.warn(Values.TXT_JSCLICK);
-                    //scrollMethods(getWebElement(locator));
+                    scrollToElement(getWebElement(locator));
                     clickElementJS(getWebElement(locator));
                 }
-            }else{
+            } else {
                 executeReflection(locator);
             }
         }
