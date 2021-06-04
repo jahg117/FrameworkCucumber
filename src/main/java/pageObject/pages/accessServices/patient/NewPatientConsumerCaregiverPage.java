@@ -121,13 +121,12 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysByActions(randomDate);
         scrollToWebElementJS(inputSearchAccounts);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
-        scrollToWebElementJS(inputSearchPlaces);
+        scrollToVisibleElement(inputSearchPlaces, shortWait());
         sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
         sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
-        scrollToWebElementJS(inputEmailAddress);
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
         if(waitForElementVisibility(dropdownEmailType, shortWait())){
-            scrollToWebElementJS(dropdownEmailType);
+            scrollToElement(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
         sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
