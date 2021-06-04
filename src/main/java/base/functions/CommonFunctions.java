@@ -1581,17 +1581,35 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(getWebElement(locator), text);
-                statusOperation = true;
+                scrollToElement(getWebElement(locator));
+                sendKeysWebElement(getWebElement(locator), text);
+            } else {
+                throw new NoSuchElementException("");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement invalid or unable to send keys");
         }
-        return statusOperation;
+    }
+
+    protected void sendKeysAndMoveToElement(By locator, String text) throws Exception {
+        try{
+            scrollToElement(getWebElement(locator));
+            sendKeysWebElement(getWebElement(locator), text);
+        } catch (Exception e) {
+            executeReflection(locator, text);
+        }
+    }
+
+    protected void sendKeysAndMoveToElement(WebElement webElement, String text) throws Exception {
+        try{
+            scrollToElement(webElement);
+            sendKeysWebElement(webElement, text);
+        } catch (Exception e) {
+            executeReflection(webElement, text);
+        }
     }
 
 
@@ -1604,17 +1622,17 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(getWebElement(locator), text);
-                statusOperation = true;
+                sendKeysAndMoveToElement(locator, text);
+            } else {
+                throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("Not element found");
         }
-        return statusOperation;
     }
 
 
@@ -1627,17 +1645,17 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementVisible(By locator, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementPresenceBy(locator, timeOutInSeconds)) {
-                sendKeysWebElementByActions(getWebElement(locator), text);
-                statusOperation = true;
+                sendKeysWebElement(locator, text);
+            } else {
+                throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("Not element found");
         }
-        return statusOperation;
     }
 
 
@@ -1650,18 +1668,17 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementClickable(By locator, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementToBeClickableBy(locator, timeOutInSeconds)) {
-                sendKeysWebElementByActions(getWebElement(locator), text);
-                statusOperation = true;
+                sendKeysWebElement(locator, text);
+            } else {
+                throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("Not element found");
         }
-
-        return statusOperation;
     }
 
 
@@ -2122,17 +2139,17 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(webElement, text);
-                statusOperation = true;
+                sendKeysAndMoveToElement(webElement, text);
+            } else {
+                throw new NoSuchElementException("The WebElement is not valid");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("The WebElement is not valid");
         }
-        return statusOperation;
     }
 
 
@@ -2145,17 +2162,18 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysAndMoveToElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                sendKeysAndMoveToWebElementByActions(webElement, text);
-                statusOperation = true;
+                sendKeysAndMoveToElement(webElement, text);
+            } else {
+                throw new NoSuchElementException("The WebElement is not valid");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("The WebElement is not valid");
         }
-        return statusOperation;
+
     }
 
 
@@ -2168,18 +2186,18 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementVisibleWithCoordinates(WebElement webElement, String text, int xOffset, int yOffset, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
                 Actions actions = new Actions(driver);
                 actions.moveToElement(webElement, 5, 5).click().sendKeys(text).perform();
-                statusOperation = true;
+            } else {
+                throw new NoSuchElementException("The WebElement is not valid");
             }
         } catch (Exception e) {
+            logger.error("WebElement not found or invalid");
             logger.info(Values.TXT_EXCREFLECTION);
         }
-        return statusOperation;
     }
 
 
@@ -2195,38 +2213,16 @@ public class CommonFunctions {
     protected void sendKeysElementVisible(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                sendKeysWebElementByActions(webElement, text);
+                sendKeysWebElement(webElement, text);
             } else {
                 throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
+            logger.error("WebElement not found or invalid");
             throw new NoSuchElementException("Not element found");
         }
     }
 
-    /**
-     * Method used to sendKeys and wait for a visible WebElement
-     *
-     * @param webElement       contains the Element to select
-     * @param timeOutInSeconds time to wait for a WebElement
-     * @return
-     * @throws Exception selenium Exception
-     * @author J.Ruano
-     */
-    protected boolean sendKeysElementVisibleJS(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        boolean statusOperation = false;
-        try {
-            if (waitForElementVisibility(webElement, timeOutInSeconds)) {
-                clickMethodsWebElement(webElement);
-                js.executeScript("arguments[0].value='" + text + "';", webElement);
-                statusOperation = true;
-            }
-        } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
-        }
-        return statusOperation;
-    }
 
     /**
      * Method used to sendKeys and wait for a visible WebElement
@@ -2237,17 +2233,17 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected boolean sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
-        boolean statusOperation = false;
+    protected void sendKeysElementClickable(WebElement webElement, String text, int timeOutInSeconds) throws Exception {
         try {
             if (waitForElementClickable(webElement, timeOutInSeconds)) {
-                sendKeysWebElementByActions(webElement, text);
-                statusOperation = true;
+                sendKeysWebElement(webElement, text);
+            } else {
+                throw new NoSuchElementException("Not element found");
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.error("WebElement not found or invalid");
+            throw new NoSuchElementException("Not element found");
         }
-        return statusOperation;
     }
 
 
@@ -2914,7 +2910,7 @@ public class CommonFunctions {
         boolean statusOperation = false;
         try {
             Actions actions = new Actions(driver);
-            actions.click(webElement).sendKeys(webElement, text).build().perform();
+            actions.sendKeys(webElement, text).build().perform();
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             logger.info("Keys sent: " + text);
         } catch (Exception e) {
@@ -2922,7 +2918,61 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
+    /**
+     * This method is used to SendKeys to a WebElement
+     *
+     * @param webElement
+     * @return
+     * @author Alejandro Hernandez
+     */
+    protected void sendKeysWebElement(WebElement webElement, String text) throws Exception {
+        try{
+            Actions actions = new Actions(driver);
+            actions.sendKeys(webElement, text).build().perform();
+            logger.info("Keys sent by actions "+getWebElementLocatorPath(webElement)+" with text: "+text);
+        }catch (Exception e) {
+            try {
+                webElement.sendKeys(text);
+                logger.info("Keys sent "+getWebElementLocatorPath(webElement)+" with text: "+text);
+            } catch (Exception x) {
+                try {
+                    JavascriptExecutor js = (JavascriptExecutor) driver;
 
+                    js.executeScript("arguments[0].value='" + text + "';", webElement);
+                    logger.info("Keys sent by JS " + getWebElementText(webElement) + " with text: " + text);
+                } catch (Exception y) {
+                    logger.error("WebElement not valid: "+getWebElementLocatorPath(webElement));
+                }
+            }
+        }
+    }
+    /**
+     * This method is used to SendKeys to a WebElement
+     *
+     * @param locator
+     * @return
+     * @author Alejandro Hernandez
+     */
+    protected void sendKeysWebElement(By locator, String text) throws Exception {
+        try{
+            Actions actions = new Actions(driver);
+            actions.sendKeys(getWebElement(locator), text).build().perform();
+            logger.info("Keys sent by actions "+locator.toString()+" with text: "+text);
+        }catch (Exception e) {
+            try {
+                getWebElement(locator).sendKeys(text);
+                logger.info("Keys sent "+locator.toString()+" with text: "+text);
+            } catch (Exception x) {
+                try {
+                    JavascriptExecutor js = (JavascriptExecutor) driver;
+                    js.executeScript("arguments[0].value='" + text + "';", getWebElement(locator));
+                    logger.info("Keys sent by JS " + locator.toString() + " with text: " + text);
+                } catch (Exception y) {
+                    logger.error("WebElement not valid: "+locator.toString());
+                }
+            }
+        }
+    }
     /**
      * This method is used to SendKeys without specify a WebElement
      *
