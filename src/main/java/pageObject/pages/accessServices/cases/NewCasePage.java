@@ -33,7 +33,7 @@ public class NewCasePage extends CommonFunctions {
 
     public void selectCaseOption(String caseOption) throws Exception {
         clickElementClickable(dropdown_recordType, 10);
-        if(caseOption.equalsIgnoreCase("random")){
+        if(caseOption.equalsIgnoreCase("RND")){
             clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, 10),10);
         }else{
             for (WebElement el : list_recordTypeList) {
