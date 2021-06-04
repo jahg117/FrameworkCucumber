@@ -16,7 +16,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//iframe[@title='New Program Enrollment']")
     private WebElement iframeNewProgramEnrollment;
 
-    @FindBy(xpath = "//span[@class='lookupInput']")
+    @FindBy(xpath = "//span[@class='lookupInput']//input")
     private WebElement inputProduct;
 
     @FindBy(xpath = "//img[@class='lookupIcon']")

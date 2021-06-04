@@ -1,7 +1,7 @@
 @AnonymousCaseCreation
 Feature: Cases
 
-  Scenario Outline: Create cases from patient
+  Scenario Outline: Create anonymous cases from patient
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app

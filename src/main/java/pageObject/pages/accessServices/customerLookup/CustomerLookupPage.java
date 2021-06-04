@@ -54,7 +54,8 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//legend/following::input[contains(@name,'ext-id')]")
     private WebElement inputExternalID;
 
-    @FindBy(xpath = "//*[@checked='checked']")
+    @FindBy(xpath = "//input[@checked='checked']")//JRR
+
     private List<WebElement> checkboxCheckedList;
 
     @FindBy(xpath = "//a[normalize-space(text())='EBcEenr']")//TBD
