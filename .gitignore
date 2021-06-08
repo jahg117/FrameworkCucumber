@@ -10,3 +10,4 @@ build/
 *.iml
 reports*/
 pdf-report/
+embedded/
