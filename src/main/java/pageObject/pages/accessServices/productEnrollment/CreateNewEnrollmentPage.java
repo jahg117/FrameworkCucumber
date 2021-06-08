@@ -87,7 +87,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
         if (!buttonEnroll.isDisplayed()) {
             scrollMethodToWebElement(buttonEnroll);
         }
-        clickElementJS(buttonEnroll);
+        clickMethodsWebElement(buttonEnroll);
     }
 
 

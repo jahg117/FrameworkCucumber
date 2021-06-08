@@ -75,9 +75,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
             if (!waitForElementClickable(labelAttestationTabOption, shortWait())) {
                 logger.info("Waiting For Attestation To Be Available");
             } else {
-                clickElementJS(labelAttestationTabOption);
+                clickMethodsWebElement(labelAttestationTabOption);
                 waitForElementClickable(labelCareTeamTabOption, shortWait());
-                clickElementJS(labelCareTeamTabOption);
+                clickMethodsWebElement(labelCareTeamTabOption);
                 waitForElementVisibility(buttonNewCareTeamMember, mediumWait());
                 clickElementClickable(buttonNewCareTeamMember, mediumWait());
                 break;
@@ -100,6 +100,7 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * Method to validate the message when No DSI Consent has been created
      * <p>
      * warningNoDSIConsentMessage it will contains the message that will be validating when NO DSI consent has been created
+     *
      * @throws Exception selenium exception related
      * @author J.Ruano
      */
@@ -154,15 +155,17 @@ public class ProductEnrollmentPage extends CommonFunctions {
         waitForElementTextPresent(tableRowPmFirstRow, id_PE, mediumWait());
         List<WebElement> productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
         if (!productNamesFound.isEmpty()) {
-            for (WebElement product : productNamesFound) {
-                waitForElementVisibility(product, shortWait());
-                clickAndMoveToElementClickable(product, shortWait());
-                if (!waitForElementInvisibilityOfElementLocatedBy(labelList_pmServicesProvidedList,shortWait())) {
-                        clickElementJS(product);
+            for (int i = 0; i < productNamesFound.size(); i++) {
+                if (getWebElementAttribute(productNamesFound.get(i), "title").equalsIgnoreCase(id_PE)) {
+                    clickMethodsWebElement(productNamesFound.get(i));
+                    while (!waitForElementInvisibilityOfElementLocatedBy(labelList_pmServicesProvidedList, shortWait())) {
+                        productNamesFound = getWebElementList(labelList_pmServicesProvidedList);
+                        clickMethodsWebElement(productNamesFound.get(i));
+                    }
+                    logger.info("The Product Enrollment Element was found");
+                    statusOperation = true;
+                    break;
                 }
-                logger.info("The Product Enrollment Element was found");
-                statusOperation = true;
-                break;
             }
         } else {
             if (labelPmNoItemsMessage.isDisplayed()) {
