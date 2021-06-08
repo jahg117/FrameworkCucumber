@@ -499,7 +499,7 @@ public class NewHCPWizardPage extends CommonFunctions {
             waitForElementVisibility(linkButton_lastModifiedBy, mediumWait());
             scrollMethodToWebElement(linkButton_lastModifiedBy);
         }
-        clickElementJS(label_accountHistory);
+        clickMethodsWebElement(label_accountHistory);
         clickAndMoveToElementClickable(label_systemInfo,shortWait());
         waitForElementPresenceBy(Values.BYPATH_AZID,shortWait());
         scrollToElementByCoordinates(label_externalID);

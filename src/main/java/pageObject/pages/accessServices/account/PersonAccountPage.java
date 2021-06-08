@@ -60,10 +60,9 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement buttonLoggedOut;
 
-
     private By buttonCloseSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
-    private By linkViewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']");
+    private By linkViewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']//parent::*");
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -84,7 +83,7 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickViewAllProgramEnrollments() throws Exception {
         waitForPresenceOfAllElementsLocatedBy(linkViewAllProgramEnrollment, longWait());
-        clickElementJS(getWebElement(linkViewAllProgramEnrollment));
+        clickMethodsWebElement(getWebElement(linkViewAllProgramEnrollment));
     }
 
     public void clickNewProductEnrollment() throws Exception {
