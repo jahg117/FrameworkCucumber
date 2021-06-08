@@ -2,6 +2,7 @@ package pageObject.pages.accessServices.productEnrollment;
 
 import base.driverInitialize.DriverFactory;
 import base.functions.CommonFunctions;
+import com.codeborne.selenide.SelenideElement;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -10,6 +11,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import utils.Values;
+
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
 
 import java.util.List;
 
@@ -50,7 +54,7 @@ public class ProductsPage extends CommonFunctions {
      * @throws Exception
      * @author J.Ruano
      */
-    public void selectProductView(String filterView , boolean selectAgain) throws Exception {
+    public void selectProductView(String filterView, boolean selectAgain) throws Exception {
         By toogleListSecondOption = By.xpath("//li//a//*[text()='" + filterView + "']");
         do {
             waitForElementClickable(togglePmProductNameColumn, shortWait());
@@ -63,7 +67,7 @@ public class ProductsPage extends CommonFunctions {
                 waitForElementVisibility(labelPmListViews, shortWait());
                 WebElement filterElement = clickAndMoveToElementClickableFromListByText(toggleListPmViewList, filterView);
                 if (filterElement == null) {
-                    clickElementJS(getWebElement(toogleListSecondOption));
+                    clickMethodsWebElement(getWebElement(toogleListSecondOption));
                 }
                 logger.info("It Worked: " + filterView);
             }
@@ -97,18 +101,17 @@ public class ProductsPage extends CommonFunctions {
      */
     public boolean searchAndClickProductFromResults(String productName) throws Exception {
         boolean statusOperation = false;
-        By labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName.toUpperCase() + "']");
+        By labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName.toUpperCase() + "']|//tr//a[@title='" + productName + "']");
         try {
             waitForElementTextPresent(tableRowPmFirstRow, productName, mediumWait());
             List<WebElement> productNamesFound = getWebElementList(labelListPmServicesProvidedList);
-            if (productNamesFound.isEmpty()) {
-                labelListPmServicesProvidedList = By.xpath("//tr//a[@title='" + productName + "']");
-                productNamesFound = getWebElementList(labelListPmServicesProvidedList);
-            }
-            for (WebElement product : productNamesFound) {
-                if (product.getAttribute("title").trim().equalsIgnoreCase(productName.trim())) {
-                    waitForElementVisibility(product, shortWait());
-                    clickAndMoveToElementClickable(product, shortWait());
+            for (int i = 0; i < productNamesFound.size(); i++) {
+                if (getWebElementAttribute(productNamesFound.get(i), "title").equalsIgnoreCase(productName)) {
+                    clickMethodsWebElement(productNamesFound.get(i));
+                    while (!waitForElementInvisibilityOfElementLocatedBy(labelListPmServicesProvidedList, shortWait())) {
+                        productNamesFound = getWebElementList(labelListPmServicesProvidedList);
+                        clickMethodsWebElement(productNamesFound.get(i));
+                    }
                     logger.info("The Product Element was found");
                     statusOperation = true;
                     break;
@@ -130,8 +133,8 @@ public class ProductsPage extends CommonFunctions {
      */
     public List<String> getServicesProvidedList() throws Exception {
         List<String> servicesProvidedList = null;
-        waitForElementVisibility(labelPmProductNameLabel, shortWait());
-        scrollMethodToWebElement(labelListPmServicesProvidedList);
+        waitForElementVisibility(labelPmProductNameLabel, longWait());
+        scrollToElement(labelListPmServicesProvidedList);
         return servicesProvidedList = splitRegex(getWebElementText(labelListPmServicesProvidedList), Values.REGEX_SEMICOLON);
     }
 }
