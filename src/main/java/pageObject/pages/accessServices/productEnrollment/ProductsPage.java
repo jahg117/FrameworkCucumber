@@ -2,7 +2,6 @@ package pageObject.pages.accessServices.productEnrollment;
 
 import base.driverInitialize.DriverFactory;
 import base.functions.CommonFunctions;
-import com.codeborne.selenide.SelenideElement;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -11,9 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import utils.Values;
-
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Condition.*;
 
 import java.util.List;
 
