@@ -126,6 +126,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
         if(waitForElementVisibility(dropdownEmailType, shortWait())){
+            scrollBottom();
             scrollToElement(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
