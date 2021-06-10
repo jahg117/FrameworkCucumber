@@ -17,3 +17,4 @@ Feature: Cases
     Examples:
       | user  | productName | caseType      | caseRequested              | channel | caseStatus | caseSubType | discussTopic | cardNumber |
       | admin | FASENRA     | Asset Request | Patient/Consumer/Caregiver | RND     | Open       | RND         | RND          | RND        |
+      | admin | FASENRA     | Asset Request | Patient/Consumer/Caregiver | RND     | Open       | RND         | RND          | RND        |
