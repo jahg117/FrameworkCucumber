@@ -1595,7 +1595,7 @@ public class CommonFunctions {
     }
 
     protected void sendKeysAndMoveToElement(By locator, String text) throws Exception {
-        try{
+        try {
             scrollToElement(getWebElement(locator));
             sendKeysWebElement(getWebElement(locator), text);
         } catch (Exception e) {
@@ -1604,7 +1604,7 @@ public class CommonFunctions {
     }
 
     protected void sendKeysAndMoveToElement(WebElement webElement, String text) throws Exception {
-        try{
+        try {
             scrollToElement(webElement);
             sendKeysWebElement(webElement, text);
         } catch (Exception e) {
@@ -2918,6 +2918,7 @@ public class CommonFunctions {
         }
         return statusOperation;
     }
+
     /**
      * This method is used to SendKeys to a WebElement
      *
@@ -2926,14 +2927,14 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      */
     protected void sendKeysWebElement(WebElement webElement, String text) throws Exception {
-        try{
+        try {
             Actions actions = new Actions(driver);
             actions.sendKeys(webElement, text).build().perform();
-            logger.info("Keys sent by actions "+getWebElementLocatorPath(webElement)+" with text: "+text);
-        }catch (Exception e) {
+            logger.info("Keys sent by actions " + getWebElementLocatorPath(webElement) + " with text: " + text);
+        } catch (Exception e) {
             try {
                 webElement.sendKeys(text);
-                logger.info("Keys sent "+getWebElementLocatorPath(webElement)+" with text: "+text);
+                logger.info("Keys sent " + getWebElementLocatorPath(webElement) + " with text: " + text);
             } catch (Exception x) {
                 try {
                     JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -2941,11 +2942,12 @@ public class CommonFunctions {
                     js.executeScript("arguments[0].value='" + text + "';", webElement);
                     logger.info("Keys sent by JS " + getWebElementText(webElement) + " with text: " + text);
                 } catch (Exception y) {
-                    logger.error("WebElement not valid: "+getWebElementLocatorPath(webElement));
+                    logger.error("WebElement not valid: " + getWebElementLocatorPath(webElement));
                 }
             }
         }
     }
+
     /**
      * This method is used to SendKeys to a WebElement
      *
@@ -2954,25 +2956,26 @@ public class CommonFunctions {
      * @author Alejandro Hernandez
      */
     protected void sendKeysWebElement(By locator, String text) throws Exception {
-        try{
+        try {
             Actions actions = new Actions(driver);
             actions.sendKeys(getWebElement(locator), text).build().perform();
-            logger.info("Keys sent by actions "+locator.toString()+" with text: "+text);
-        }catch (Exception e) {
+            logger.info("Keys sent by actions " + locator.toString() + " with text: " + text);
+        } catch (Exception e) {
             try {
                 getWebElement(locator).sendKeys(text);
-                logger.info("Keys sent "+locator.toString()+" with text: "+text);
+                logger.info("Keys sent " + locator.toString() + " with text: " + text);
             } catch (Exception x) {
                 try {
                     JavascriptExecutor js = (JavascriptExecutor) driver;
                     js.executeScript("arguments[0].value='" + text + "';", getWebElement(locator));
                     logger.info("Keys sent by JS " + locator.toString() + " with text: " + text);
                 } catch (Exception y) {
-                    logger.error("WebElement not valid: "+locator.toString());
+                    logger.error("WebElement not valid: " + locator.toString());
                 }
             }
         }
     }
+
     /**
      * This method is used to SendKeys without specify a WebElement
      *
@@ -4278,7 +4281,6 @@ public class CommonFunctions {
 
 
     /**
-     *
      * @param webElement contains the WebElement to click
      * @throws Exception Javascript Error or selenium Exception
      * @author J.Ruano
@@ -4307,7 +4309,6 @@ public class CommonFunctions {
     }
 
     /**
-     *
      * @param locator contains the locator path for the WebElement to be click
      * @throws Exception Javascript Error or selenium Exception
      * @author J.Ruano
@@ -4336,7 +4337,6 @@ public class CommonFunctions {
     }
 
     /**
-     *
      * @param webElement contains the WebElement to be click
      * @throws Exception Javascript Error or selenium Exception
      * @author J.Ruano
@@ -4367,7 +4367,6 @@ public class CommonFunctions {
     }
 
     /**
-     *
      * @param locator contains the WebElement to be click
      * @throws Exception Javascript Error or selenium Exception
      * @author J.Ruano
@@ -4395,5 +4394,28 @@ public class CommonFunctions {
                 executeReflection(locator);
             }
         }
+    }
+
+
+    /**
+     * used to submit a form similiar to a Click but it will wait until next page is load
+     *
+     * @param locator it contains the locator to search the Webelement
+     * @throws Exception NoSuchElementException
+     * @author J.Ruano
+     */
+    public void submitWebElementByLocator(By locator) throws Exception {
+        getWebElement(locator).submit();
+    }
+
+    /**
+     * used to submit a form similiar to a Click but it will wait until next page is load
+     *
+     * @param webElement it contains the webElement to be submitted
+     * @throws Exception NoSuchElementException
+     * @author J.Ruano
+     */
+    public void submitByWebElement(WebElement webElement) throws Exception {
+        webElement.submit();
     }
 }
