@@ -128,7 +128,6 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
         if(waitForElementVisibility(dropdownEmailType, shortWait())){
             scrollToWebElementJS(dropdownEmailType);
-            //scrollToElement(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
         sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
@@ -161,10 +160,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        clickElementVisible(inputInformalName, shortWait());
-        sendKeysByActions(Keys.TAB.toString());
-        sendKeysByActions(randomDate);
-        scrollToWebElementJS(inputSearchAccounts);
+        sendKeysAndMoveToElementClickable(inputDateOfBirth, randomDate, shortWait());
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         clickElementClickable(dropdownPhoneType, mediumWait());
         clickElementClickable(phoneType, mediumWait());
@@ -174,7 +170,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToWebElementJS(inputEmailAddress);
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
         waitForElementVisibility(dropdownEmailType, mediumWait());
-        if (waitForElementClickable(dropdownEmailType, mediumWait())) {
+        if (waitForElementClickable(dropdownEmailType, shortWait())) {
+            scrollToWebElementJS(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
         sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
