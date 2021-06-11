@@ -40,8 +40,7 @@ public class LoginPage extends CommonFunctions {
         String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
         sendKeysElementVisible(input_username, usr, shortWait());
         sendKeysElementVisible(input_password, pass, shortWait());
-        clickElementVisible(button_login, shortWait());
-
+        submitByWebElement(input_password);
     }
 
     /**

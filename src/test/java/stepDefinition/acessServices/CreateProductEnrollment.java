@@ -14,6 +14,7 @@ import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
 import utils.Values;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,7 +178,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
                     Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
                     String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
-                    Assert.assertTrue(product.equalsIgnoreCase(newProduct),"The product enrollment are matching");
+                    Assert.assertTrue(product.equalsIgnoreCase(newProduct), "The product enrollment are matching");
                     Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
                     Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
                 } else {
@@ -189,7 +190,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
             String productEnrollment = accessServices.getPersonAccountPage().getProductEnrollmentNumber(product);
             Assert.assertTrue(accessServices.getPersonAccountPage().isRedIconDisplayed(product), "The red icon is displayed");
             String newProduct = accessServices.getPersonAccountPage().clickProductEnrollmentAdded(product);
-            Assert.assertTrue(product.equalsIgnoreCase(newProduct),"The product enrollment are matching");
+            Assert.assertTrue(product.equalsIgnoreCase(newProduct), "The product enrollment are matching");
             Assert.assertTrue(accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed(), Values.TXT_PRODUCTNOTDISPLAYMESSAGE);
             Assert.assertEquals(productEnrollment, accessServices.getProductEnrollmentPage().getProductEnrollmentNumber(), "The product enrollment number is not matching");
         }

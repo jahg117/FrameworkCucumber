@@ -31,6 +31,9 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//input[@data-name='pname']")
     private WebElement inputInformalName;
 
+    @FindBy(xpath = "//input[@data-name='dob']")
+    private WebElement inputDateOfBirth;
+
     @FindBy(xpath = "//input[@data-name='email']")
     private WebElement inputEmailAddress;
 
@@ -116,9 +119,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        clickElementVisible(inputInformalName, shortWait());
-        sendKeysByActions(Keys.TAB.toString());
-        sendKeysByActions(randomDate);
+        sendKeysAndMoveToElementClickable(inputDateOfBirth, randomDate, shortWait());
         scrollToWebElementJS(inputSearchAccounts);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         scrollToVisibleElement(inputSearchPlaces, shortWait());
@@ -126,8 +127,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
         if(waitForElementVisibility(dropdownEmailType, shortWait())){
-            scrollBottom();
-            scrollToElement(dropdownEmailType);
+            scrollToWebElementJS(dropdownEmailType);
+            //scrollToElement(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
         sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
