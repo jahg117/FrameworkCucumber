@@ -60,6 +60,7 @@ public class AccessServices {
     private NewPatientInsuranceNoPI newPatientInsuranceNoPI;
     private NewPatientInsurancePMI newPatientInsurancePMI;
     private NewPatientInsurancePBM newPatientInsurancePBM;
+    private NewAccountAddressPage newAccountAddressPage;
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -98,6 +99,7 @@ public class AccessServices {
         newPatientInsuranceNoPI = PageFactory.initElements(driver, NewPatientInsuranceNoPI.class);
         newPatientInsurancePMI = PageFactory.initElements(driver, NewPatientInsurancePMI.class);
         newPatientInsurancePBM = PageFactory.initElements(driver, NewPatientInsurancePBM.class);
+        newAccountAddressPage = PageFactory.initElements(driver, NewAccountAddressPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -139,4 +141,5 @@ public class AccessServices {
     public NewPatientInsuranceNoPI getNewPatientInsuranceNoPI() { return newPatientInsuranceNoPI; }
     public NewPatientInsurancePMI getNewPatientInsurancePMI() { return newPatientInsurancePMI; }
     public NewPatientInsurancePBM getNewPatientInsurancePBM() { return newPatientInsurancePBM; }
+    public NewAccountAddressPage getNewAccountAddressPage() { return newAccountAddressPage; }
 }
