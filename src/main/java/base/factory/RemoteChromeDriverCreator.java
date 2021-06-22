@@ -17,6 +17,7 @@ public class RemoteChromeDriverCreator extends WebDriverCreator {
 
     @Override
     public WebDriver createWebDriver() throws MalformedURLException {
+        url = "http://localhost:2030";
         return new RemoteWebDriver(new URL(url),new ChromeOptions());
     }
 }
