@@ -20,8 +20,7 @@ public class ChromeDriverCreator extends WebDriverCreator{
         options.addArguments("--disable-notifications");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        //options.addArguments("--remote-debugging-port=9222");
-        options.setHeadless(true);
+        options.setHeadless(Boolean.parseBoolean(fileReading.getField("headless")));
         return new ChromeDriver(options);
     }
 }
