@@ -20,7 +20,11 @@ public class ChromeDriverCreator extends WebDriverCreator{
         options.addArguments("--disable-notifications");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.setHeadless(Boolean.parseBoolean(fileReading.getField("headless")));
+        if(System.getProperty("os.name").equalsIgnoreCase("linux")) {
+            options.setHeadless(true);
+        } else {
+            options.setHeadless(Boolean.parseBoolean(fileReading.getField("headless")));
+        }
         return new ChromeDriver(options);
     }
 }
