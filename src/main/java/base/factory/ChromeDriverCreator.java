@@ -13,15 +13,15 @@ public class ChromeDriverCreator extends WebDriverCreator{
     public WebDriver createWebDriver() {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().driverVersion("89.0.4389.114").setup();
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation","load-extension"});
         options.addArguments("start-maximized");
         options.addArguments("--disable-notifications");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        //options.setHeadless(Boolean.parseBoolean(fileReading.getField("headless")));
+        //options.addArguments("--remote-debugging-port=9222");
+        options.setHeadless(true);
         return new ChromeDriver(options);
     }
 }
