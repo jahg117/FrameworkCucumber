@@ -19,7 +19,7 @@ public class RemoteChromeDriverCreator extends WebDriverCreator {
 
     @Override
     public WebDriver createWebDriver() throws MalformedURLException {
-        url = "http://localhost:2030";
+        url = "http://localhost/127.0.0.1:2030";
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setBrowserName("chrome");
         capabilities.setPlatform(Platform.LINUX);
