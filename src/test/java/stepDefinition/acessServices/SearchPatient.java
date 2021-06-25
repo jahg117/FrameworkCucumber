@@ -42,7 +42,7 @@ public class SearchPatient extends ApplicationInstance {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     String account = accessServices.getAccountsPage().isAccountCreated(commonData.patient.getPatientNamePDC());
-                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTNOTFOUND);
+                    Assert.assertEquals(commonData.patient.getPatientNamePDC(), account, Values.TXT_MSGPATIENTFOUND);
                 } else {
                     logger.info(Values.TXT_MSGDOESNOTREQUIREDEXECUTE + commonData.globalShareData.getExecutionFlag().trim());
                 }

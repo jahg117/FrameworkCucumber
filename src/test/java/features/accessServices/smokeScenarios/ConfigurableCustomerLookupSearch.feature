@@ -1,4 +1,4 @@
-@searchOperation
+@SanityCustomerLookupSearch
 Feature: Setup configurable consents
 """
 //============Script Purpose:

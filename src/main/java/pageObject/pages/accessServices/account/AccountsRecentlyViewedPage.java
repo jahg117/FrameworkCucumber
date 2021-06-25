@@ -12,7 +12,7 @@ public class AccountsRecentlyViewedPage extends CommonFunctions {
     @FindBy(xpath = "//h1//*[normalize-space(text())='Recently Viewed']")
     private WebElement labelAccountsRecentlyViewed;
 
-    @FindBy(xpath = "//*[@role='gridcell'][3]//*[@title]")
+    @FindBy(xpath = "//*[@role='gridcell'][4]//*[@title]")
     private List<WebElement> gridCellPAF;
 
     /**

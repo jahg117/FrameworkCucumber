@@ -1,3 +1,4 @@
+
 Feature: Setup configurable consents
 """
 //============Script Purpose:
@@ -5,7 +6,6 @@ Creation Of consents AZ or DSI
 
 //============Script Configuration:
 There are 2 options for creation in can be by DataTable or With Scenario Outline Tables
-hola
 dummyValue  Options:
   * Can be any text, used to perform a serach can be any string combination
 
@@ -73,35 +73,6 @@ createPE = it creates a PE if the value in column is Y
     Then I search the "Access Services" app
     And I select the "Customer Lookup" menu option
 
-
-  Scenario Outline: Create an (AZ/DSI) product enrollment with DataTable
-    Given "<SFF>" it selects which steps will be execute
-    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
-    Given I click on new Account
-    When I click on new and I select accountType
-      | accountType | useThisAccount |
-      | RND         | N              |
-      | HCA         | N              |
-      | HCP         | N              |
-      | CPC         | Y              |
-      | EMP         | N              |
-    Then I fill the mandatory fields from the account form
-    And I click on new product enrollment button
-    And I enter a valid consentType to get an available product in the product enrollment form
-      | consentType | useThisAccount |
-      | RND         | Y              |
-      | AZ          | N              |
-      | DSI         | N              |
-    And I click on enroll button
-    And I select the created program enrollment
-    And I select the "Accounts" menu option
-    And I validate the patient account was created
-
-    Examples:
-      | dummyValue  | accountType | SFF |
-      | dummySearch | CPC         | N_A |
-
-  @1372_ConfigurableConsents
   Scenario Outline: Create an (AZ/DSI) product enrollment with Outline tables
     Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
     Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps
@@ -127,6 +98,7 @@ createPE = it creates a PE if the value in column is Y
       | dummyValue  | selectedView    | accountType | accData                                                                                    | consentType | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection | createPE |
       | dummySearch | Recently Viewed | CPC         | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:RND,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | DSI         | accountType         | consentType         | ConstantData | N_A             | Y        |
 
+  @SanityConsents
   Scenario Outline: Create an Account with PE to create a Consent at Account level
     Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
     Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps
@@ -206,3 +178,4 @@ createPE = it creates a PE if the value in column is Y
     And I fill the DSI FLSP mandatory fields from the consent form
     And I select an existing HCP
     And I verify the DSI consent details displayed
+

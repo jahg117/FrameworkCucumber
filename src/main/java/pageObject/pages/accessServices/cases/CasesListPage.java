@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class CasesListPage extends CommonFunctions {
-    @FindBy(xpath = "//a[@title='New']")
+    @FindBy(xpath = "//a[@title='New Interaction']")
     private WebElement button_new;
 
     public boolean isCasesListPageDisplayed() throws Exception {
