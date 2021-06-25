@@ -213,7 +213,9 @@ public class PersonAccountPage extends CommonFunctions {
      */
     public void clickOnNewConsent() throws Exception {
         switchToDefaultContentFrame();
+        waitForElementClickable(tabConsent, mediumWait());
         clickAndMoveToElementVisible(tabConsent, mediumWait());
+        waitForElementClickable(buttonNewConsent, mediumWait());
         clickAndMoveToElementVisible(buttonNewConsent, mediumWait());
     }
 

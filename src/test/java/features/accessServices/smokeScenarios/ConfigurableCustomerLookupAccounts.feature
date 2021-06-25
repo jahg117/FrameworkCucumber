@@ -1,4 +1,4 @@
-@ConfigurableCustomerLookupAccounts
+@SanityCustomerLookupAccounts
 Feature: Setup configurable consents
 """
 //============Script Purpose:

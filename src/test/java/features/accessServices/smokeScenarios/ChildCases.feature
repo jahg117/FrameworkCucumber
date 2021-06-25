@@ -1,4 +1,4 @@
-@ChildCasesCreation
+@Sanity230621
 Feature: ChildCases
 
   Scenario Outline: Create child cases

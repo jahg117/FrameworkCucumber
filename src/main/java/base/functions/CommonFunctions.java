@@ -4398,7 +4398,7 @@ public class CommonFunctions {
 
 
     /**
-     * used to submit a form similiar to a Click but it will wait until next page is load
+     * used to submit a form similar to a Click but it will wait until next page is load
      *
      * @param locator it contains the locator to search the Webelement
      * @throws Exception NoSuchElementException
@@ -4409,7 +4409,7 @@ public class CommonFunctions {
     }
 
     /**
-     * used to submit a form similiar to a Click but it will wait until next page is load
+     * used to submit a form similar to a Click but it will wait until next page is load
      *
      * @param webElement it contains the webElement to be submitted
      * @throws Exception NoSuchElementException

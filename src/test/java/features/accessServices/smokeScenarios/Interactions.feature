@@ -1,4 +1,4 @@
-@interactionCases
+@Sanity230621
 Feature: Interactions
 
   Scenario Outline: Create interaction from patient
