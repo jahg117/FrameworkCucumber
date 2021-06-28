@@ -1,6 +1,6 @@
-@Sanity230621
 Feature: Cases
 
+  @test
   Scenario Outline: Create cases from patient
     Given I login as an "<user>" user
     When the salesforce page is displayed
