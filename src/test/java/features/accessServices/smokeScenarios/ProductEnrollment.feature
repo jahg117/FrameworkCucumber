@@ -1,4 +1,4 @@
-@productEnrollment
+@Sanity230621
 Feature: Product Enrollment
 
   Scenario Outline: Create product enrollment

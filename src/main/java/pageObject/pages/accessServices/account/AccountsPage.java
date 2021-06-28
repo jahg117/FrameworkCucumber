@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.concurrent.TransferQueue;
 
 public class AccountsPage extends CommonFunctions {
     @FindBy(xpath = "//input[@name='Account-search-input']")
@@ -22,7 +23,7 @@ public class AccountsPage extends CommonFunctions {
         String searchAccount="";
         inputSearchAccount.clear();
         waitForElementVisibility(inputSearchAccount, longWait());
-
+        Thread.sleep(5000);
         sendKeysAndMoveToElementClickable(inputSearchAccount, account, shortWait());
         sendKeysByActions(Keys.ENTER.toString());
 

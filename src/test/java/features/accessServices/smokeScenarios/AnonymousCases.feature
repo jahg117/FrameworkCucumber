@@ -1,4 +1,4 @@
-@AnonymousCaseCreation
+@SanityAnonymousCases
 Feature: Cases
 
   Scenario Outline: Create anonymous cases from patient
@@ -14,7 +14,8 @@ Feature: Cases
     And I click on new Case from the cases list page
     And I select the case type option "<caseType>"
     And I fill the new anonymous case fields "<productName>" "<caseRequested>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
+
     Examples:
       | user  | productName | caseType      | caseRequested              | channel | caseStatus | caseSubType | discussTopic | cardNumber |
       | admin | FASENRA     | Asset Request | Patient/Consumer/Caregiver | RND     | Open       | RND         | RND          | RND        |
-      | admin | FASENRA     | Asset Request | Patient/Consumer/Caregiver | RND     | Open       | RND         | RND          | RND        |
+

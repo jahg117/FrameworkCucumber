@@ -1,8 +1,9 @@
-@productMasterCheckOperation
+@SanityProductMaster
 Feature: Setup configurable consents
 """
 //============Script Purpose:
-The script is to validate that the ammount of products related to a drug match with the ones displayed
+The script is to validate that the amount of products related to a drug match with the ones that are displayed when creating
+a case from PE
 
 //============Script Configuration:
 For each account there is an number of columns that contains the data available to create that specific account, as mentioned below

@@ -1,4 +1,4 @@
-@CasesCreation
+@Sanity230621
 Feature: Cases
 
   Scenario Outline: Create cases from patient
@@ -21,6 +21,7 @@ Feature: Cases
     And I select the case type "<caseType>"
     And I fill the new case mandatory fields "<productName>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
     And I validate the correct case information is displayed
+
     Examples:
       | user  | productName | caseType | channel | caseStatus | caseSubType | discussTopic | cardNumber |
       | admin | AZ          | RND      | RND     | Open       | RND         | RND          | RND        |

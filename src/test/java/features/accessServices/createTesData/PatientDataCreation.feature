@@ -1,4 +1,4 @@
-@DataCreationPatient
+@SanityPatientDataCreation
 Feature: Patient Data Creation
 """
 //============Script Purpose:
