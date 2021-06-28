@@ -28,7 +28,8 @@ public class HomePage extends CommonFunctions {
         if (waitForNumberOfElementsToBeMoreThanBy(buttonCloseTabsBy, 0, shortWait())) {
             try {
                 for (WebElement close : getWebElementList(buttonCloseTabsBy)) {
-                    clickElementVisible(close, shortWait());
+                    //clickElementVisible(close, shortWait());
+                    clickElementJS(close);
                 }
                 if (waitForNumberOfElementsToBeMoreThanBy(buttonCloseTabsBy, 0, shortWait())) {
                     closeOpenTabs();
