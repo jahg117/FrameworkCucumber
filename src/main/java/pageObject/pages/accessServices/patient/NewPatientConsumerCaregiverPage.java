@@ -119,7 +119,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        sendKeysAndMoveToElementClickable(inputDateOfBirth, randomDate, shortWait());
+        sendKeysWebElement(inputDateOfBirth,randomDate);
         scrollToWebElementJS(inputSearchAccounts);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         scrollToVisibleElement(inputSearchPlaces, shortWait());
@@ -160,7 +160,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        sendKeysAndMoveToElementClickable(inputDateOfBirth, randomDate, shortWait());
+        sendKeysWebElement(inputDateOfBirth,randomDate);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         clickElementClickable(dropdownPhoneType, mediumWait());
         clickElementClickable(phoneType, mediumWait());

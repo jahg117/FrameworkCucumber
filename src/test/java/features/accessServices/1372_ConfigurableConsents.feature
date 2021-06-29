@@ -179,3 +179,29 @@ createPE = it creates a PE if the value in column is Y
     And I select an existing HCP
     And I verify the DSI consent details displayed
 
+  Scenario Outline: Create an (AZ/DSI) product enrollment with DataTable
+    Given "<SFF>" it selects which steps will be execute
+    Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page for a Consent
+    Given I click on new Account
+    When I click on new and I select accountType
+      | accountType | useThisAccount |
+      | RND         | N              |
+      | HCA         | N              |
+      | HCP         | N              |
+      | CPC         | Y              |
+      | EMP         | N              |
+    Then I fill the mandatory fields from the account form
+    And I click on new product enrollment button
+    And I enter a valid consentType to get an available product in the product enrollment form
+      | consentType | useThisAccount |
+      | RND         | Y              |
+      | AZ          | N              |
+      | DSI         | N              |
+    And I click on enroll button
+    And I select the created program enrollment
+    And I select the "Accounts" menu option
+    And I validate the patient account was created
+
+    Examples:
+      | dummyValue  | accountType | SFF |
+      | dummySearch | CPC         | N_A |
