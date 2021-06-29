@@ -1,4 +1,4 @@
-@SanityCaseCreation
+@test
 Feature: Cases
 
   Scenario Outline: Create cases from patient
