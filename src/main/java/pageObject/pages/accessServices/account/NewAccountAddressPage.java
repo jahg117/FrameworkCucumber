@@ -17,31 +17,31 @@ public class NewAccountAddressPage extends CommonFunctions {
     private By firstOpcFromAddressSearchBox = By.xpath("//*[@class='slds-listbox__item']");
 
     @FindBy (xpath = "(//*[@name='progress'])[last()]")
-    private WebElement addressTypeDropdown;
+    private WebElement dropdownAddressType;
 
     @FindBy (xpath = "//*[@data-value='Home']")
-    private WebElement addressTypeHome;
+    private WebElement inputAddressTypeHome;
 
     @FindBy (xpath = "//*[@title='Save']")
-    private WebElement saveButton;
+    private WebElement buttonSave;
 
 
     public void searchAddressWithStateMN() throws Exception {
         sendKeysElementClickable(googleAddressSearchBox,"TCF Bank Stadium", mediumWait());
         waitForNumberOfElementsToBeMoreThanBy(firstOpcFromAddressSearchBox, 1, mediumWait());
         clickAndMoveToElementClickable(getWebElementList(firstOpcFromAddressSearchBox).get(0), mediumWait());
-        clickAndMoveToElementVisible(addressTypeDropdown, mediumWait());
-        clickAndMoveToElementVisible(addressTypeHome, mediumWait());
-        clickAndMoveToElementClickable(saveButton, mediumWait());
+        clickAndMoveToElementVisible(dropdownAddressType, mediumWait());
+        clickAndMoveToElementVisible(inputAddressTypeHome, mediumWait());
+        clickAndMoveToElementClickable(buttonSave, mediumWait());
     }
 
     public void searchAddressWithStateMD() throws Exception {
         sendKeysElementClickable(googleAddressSearchBox,"Berwyn Heights Elementary School", mediumWait());
         waitForNumberOfElementsToBeMoreThanBy(firstOpcFromAddressSearchBox, 1, mediumWait());
         clickAndMoveToElementClickable(getWebElementList(firstOpcFromAddressSearchBox).get(0), mediumWait());
-        clickAndMoveToElementVisible(addressTypeDropdown, mediumWait());
-        clickAndMoveToElementVisible(addressTypeHome, mediumWait());
-        clickAndMoveToElementClickable(saveButton, mediumWait());
+        clickAndMoveToElementVisible(dropdownAddressType, mediumWait());
+        clickAndMoveToElementVisible(inputAddressTypeHome, mediumWait());
+        clickAndMoveToElementClickable(buttonSave, mediumWait());
     }
 
 }
