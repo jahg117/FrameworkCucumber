@@ -2445,7 +2445,7 @@ public class CommonFunctions {
         Faker faker = new Faker();
         try {
             Date randomDate = faker.date().birthday(18, 70);
-            String pattern = "dd/MM/yyyy";
+            String pattern = "MM/dd/yyyy";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             statusOperation = simpleDateFormat.format(randomDate);
         } catch (Exception e) {
