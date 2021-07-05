@@ -1,4 +1,4 @@
-@Sanity230621
+@smoke
 Feature: ChildCases
 
   Scenario Outline: Create child cases
