@@ -1,4 +1,4 @@
-@Sanity230621
+@smoke
 Feature: Product Enrollment
 
   Scenario Outline: Create product enrollment

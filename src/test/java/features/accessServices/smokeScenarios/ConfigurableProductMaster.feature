@@ -1,4 +1,4 @@
-@SanityProductMaster
+@smoke
 Feature: Setup configurable consents
 """
 //============Script Purpose:
