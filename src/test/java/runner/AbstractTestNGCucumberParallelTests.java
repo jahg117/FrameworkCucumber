@@ -7,10 +7,13 @@ import io.cucumber.testng.TestNGCucumberRunner;
 import org.testng.annotations.*;
 import utils.CucumberReport;
 import utils.FileReading;
+import utils.SendEmail;
+import utils.Values;
 
 public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNGCucumberTests {
     private TestNGCucumberRunner testNGCucumberRunner;
     private FileReading fileReading = new FileReading();
+    private SendEmail sendEmail = new SendEmail();
     public static String browser = "";
 
     @BeforeClass(alwaysRun = true)
@@ -42,5 +45,9 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
     @AfterSuite
     public void generateReport() {
         CucumberReport cucumberReport = new CucumberReport();
+        fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+        if (fileReading.getField("sendReport").trim().equalsIgnoreCase(Values.TXT_VALTRUE)) {
+            sendEmail.emailAttachment();
+        }
     }
 }

@@ -1,4 +1,4 @@
-@SanityProductMaster
+@test22
 Feature: Setup configurable consents
 """
 //============Script Purpose:
@@ -64,4 +64,4 @@ NOTE:
 
     Examples:
       | accountType | selectProductView | productEnrollmentView | productName | productEnrollment | createPE |
-      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | Y        |
+      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | N_A        |
