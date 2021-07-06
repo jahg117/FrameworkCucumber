@@ -1,4 +1,4 @@
-@test22
+@smoke
 Feature: Setup configurable consents
 """
 //============Script Purpose:

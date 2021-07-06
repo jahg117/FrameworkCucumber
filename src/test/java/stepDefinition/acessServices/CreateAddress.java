@@ -10,4 +10,10 @@ public class CreateAddress extends ApplicationInstance {
         accessServices.getPersonAccountPage().clickOnNewAddress();
         accessServices.getNewAccountAddressPage().searchAddressWithStateMN();
     }
+
+    @Then("I add another address with state = MD")
+    public void iAddAnotherAddressWithStateMD() throws Exception {
+        accessServices.getPersonAccountPage().clickOnNewAddress();
+        accessServices.getNewAccountAddressPage().searchAddressWithStateMD();
+    }
 }

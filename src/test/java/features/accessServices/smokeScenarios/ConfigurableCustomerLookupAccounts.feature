@@ -1,4 +1,4 @@
-@SanityCustomerLookupAccounts
+@smoke
 Feature: Setup configurable consents
 """
 //============Script Purpose:
