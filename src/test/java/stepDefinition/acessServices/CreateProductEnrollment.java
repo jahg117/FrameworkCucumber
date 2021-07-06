@@ -49,6 +49,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
         try {
             if (commonData.globalShareData.getExecutionFlag() != null) {
                 if (commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.REPLACETO_EMPTY) || commonData.globalShareData.getExecutionFlag().trim().isEmpty()
+                        || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_N_VALUE)
                         || !commonData.globalShareData.getExecutionFlag().trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
                     accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
                     if (!commonData.userDetails.getUsername().equalsIgnoreCase(Values.TXT_ADMIN)) {

@@ -4400,7 +4400,7 @@ public class CommonFunctions {
     /**
      * used to submit a form similar to a Click but it will wait until next page is load
      *
-     * @param locator it contains the locator to search the Webelement
+     * @param locator it contains the locator to search the WebElement
      * @throws Exception NoSuchElementException
      * @author J.Ruano
      */
@@ -4417,5 +4417,45 @@ public class CommonFunctions {
      */
     public void submitByWebElement(WebElement webElement) throws Exception {
         webElement.submit();
+    }
+
+    /**
+     * it gets a date with the following format "Mon Jul 05 15:10:26 CDT 2021"
+     * @return a string value of a date
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public String getCalendarDate() throws Exception {
+        Date date = java.util.Calendar.getInstance().getTime();
+        return String.valueOf(date);
+    }
+
+    /**
+     * use to select if the email use to send the regression results is external or internal. e.g. int or ext
+     * @return a list with the email and password
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public List<String> getEmailData() throws Exception {
+        String dataEmail = "";
+        List<String> emailData;
+        FileReading fileReading = new FileReading();
+        fileReading.setFileName("GlobalConfig.properties");
+
+        switch (fileReading.getField(Values.EMAIL_FIELDNAME).trim().toLowerCase()) {
+            case "ext":
+                dataEmail = Values.ARRAY_EMAILDATA[0];
+                break;
+
+            case "int":
+                dataEmail = Values.ARRAY_EMAILDATA[1];
+                break;
+
+            default:
+                logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
+                break;
+        }
+        emailData = splitRegex(dataEmail, Values.REGEX_COMMA);
+        return emailData;
     }
 }

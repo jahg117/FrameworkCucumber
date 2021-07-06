@@ -9,6 +9,7 @@ import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.GlobalShareData;
 import stepDefinition.shareData.Patient;
 import stepDefinition.shareData.ProductEnrollment;
+import utils.SendEmail;
 import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
@@ -21,6 +22,7 @@ public class CommonGeneralSteps extends ApplicationInstance {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     private CommonData commonData;
     private String product;
+    SendEmail sendEmail = new SendEmail();
 
     public CommonGeneralSteps(CommonData commonData) {
         this.commonData = commonData;
@@ -59,5 +61,10 @@ public class CommonGeneralSteps extends ApplicationInstance {
         }catch (InvocationTargetException |NullPointerException e) {
             accessServices.getProductsPage().selectProductView(filterView, false);
         }
+    }
+
+    @And("Send the results report")
+    public void sendTheResultsReport() {
+        sendEmail.emailAttachment();
     }
 }

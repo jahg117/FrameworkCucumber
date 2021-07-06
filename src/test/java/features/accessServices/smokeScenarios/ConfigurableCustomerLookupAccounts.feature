@@ -97,6 +97,7 @@ NOTE: Accounts can be created using:
       | dummyValue | accountType | accountRecordType   | identifier | npi | nameHCA        | email | phoneOrFax | addressLine1 | state | city         | zipCode | country       | randomRecord |
       | dummy      | HCA         | Health Care Account | AUT_HCA    | RND | DonJuanCamaney | N_A   | 4491234567 | RND          | AA    | Guadalakjara | RND     | United States | RND          |
 
+
   Scenario Outline: Create a new HCP Account from CustomerLookup page
 
     Given A dummyValue I enter the first name of the HCP as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
@@ -107,6 +108,7 @@ NOTE: Accounts can be created using:
     Examples:
       | dummyValue | accountType | accountRecordType    | identifier | npi | firstName | middleName | lastName | dateOfBird  | email | phoneOrFax | addressLine1     | state | city | zipCode | country       | randomRecord |
       | pimpinela  | HCP         | Health Care Provider | AUT_HCP_   | RND | Don       | Juan       | Camaney  | Feb 9, 2021 | AA    | 6666666666 | Emiratos Latinos | AA    | RND  | 90210   | United States | RND          |
+
 
   Scenario Outline: Create a new CPC Account from CustomerLookup page
 
