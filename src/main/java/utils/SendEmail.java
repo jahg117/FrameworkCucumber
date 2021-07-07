@@ -3,6 +3,7 @@ package utils;
 import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -42,6 +43,9 @@ public class SendEmail {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     CommonFunctions commonFunctions = new CommonFunctions();
     List<String> dataEmail = new ArrayList<>();
+    public static String GlobalPathPdf = Paths.get("").toAbsolutePath().toString() +
+            File.separator + "test output"+ File.separator+ "PdfReport" + "" +
+            File.separator + "ExtentPdf.pdf";
 
     public void emailAttachment() {
         Properties properties = new Properties();
@@ -72,8 +76,8 @@ public class SendEmail {
 
             //It will Attach the result report document.
             MimeBodyPart pdfAttachment = new MimeBodyPart();
-            File relativePath = new File(Values.EMAIL_ATTACHPDFFILE);
-            pdfAttachment.attachFile(relativePath.getAbsolutePath());
+            File relativePath = new File(GlobalPathPdf);
+            pdfAttachment.attachFile(relativePath);
 
             //Attached the body and the attachment document
             emailContent.addBodyPart(textBodyPart);
