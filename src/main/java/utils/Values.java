@@ -59,16 +59,13 @@ public final class Values {
     public static final String TXT_MSGDOESNOTREQUIREDEXECUTE = "Does not required to be executed Since Flag Contains : ";
     public static final String TXT_MSGPATIENTNOTFOUND = "The patient account created was not found";
     public static final String TXT_MSGPATIENTFOUND = "The patient account created was found";
-    public static final String TXT_ASTRAZENECA ="AstraZeneca";
-    public static final String TXT_JSEXCACTIONSCLICK ="javascript error:";
-    public static final String TXT_EXCINTERCEPTED ="element click intercepted";
-    public static final String TXT_WEBELEMENTCLICK ="===============webElement.click()===============";
-    public static final String TXT_JSCLICK ="================clickElementJS()================";
-
-
-
-
-
+    public static final String TXT_ASTRAZENECA = "AstraZeneca";
+    public static final String TXT_JSEXCACTIONSCLICK = "javascript error:";
+    public static final String TXT_EXCINTERCEPTED = "element click intercepted";
+    public static final String TXT_WEBELEMENTCLICK = "===============webElement.click()===============";
+    public static final String TXT_JSCLICK = "================clickElementJS()================";
+    public static final String TXT_VALTRUE = "true";
+    public static final String TXT_VALFALSE = "false";
 
 
     //============INTEGER VALUES
@@ -121,7 +118,7 @@ public final class Values {
     //============ARRAY VALUES USE FOR DATAPATIENT CREATION
     public static final String[] ARRAY_PHONEFAXVALUES = {"Home Fax", "Home Phone", "International", "Mobile", "Office Fax", "Office Phone"};
     public static final String[] ARRAY_EMAILDOMAINVALUES = {"astrazeneca", "testDomain", "anotherDomain", "mobileDomain", "yesImADomain", "notADomain"};
-    public static final String[] ARRAY_FULLEMAILDOMAINVALUES = {"@sharklasers.com","@astrazeneca.com","@testDomain.com"};
+    public static final String[] ARRAY_FULLEMAILDOMAINVALUES = {"@sharklasers.com", "@astrazeneca.com", "@testDomain.com"};
     public static final String[] ARRAY_ZIPCODEVALUES = {"06019", "06023"};
 
     //============CONSENT TYPE VALUES
@@ -145,4 +142,19 @@ public final class Values {
     public static final String CTM_TREATINGFACILITY = "Treating Facility";
     public static final String CTM_HCAPHARMACIST = "Pharmacy";
     public static final String CTM_HCAOTHERFACILITY = "Other Facility";
+
+    //============EMAIL BODY CONSTANTS
+    public static final String EMAIL_SUBJECT = "Results From Regression Executed On: ";
+    public static final String EMAIL_BODY = "Hello Team,\n" +
+            "\nHere are the results from the last automatic execution of our automated test suite. This health check is automatically triggered after every new UAT release.\n" +
+            "In case you have any doubt or comment please contact:\n" +
+            "juan.rincon@astrazeneca.com\n" +
+            "jonathanernesto.ruano@astrazeneca.com\n" +
+            "juanalejandro.hernandez@astrazeneca.com";
+
+    public static final String EMAIL_FIELDNAME = "email";
+    public static final String[] ARRAY_EMAILDATA = {"az_automation_gdl@hotmail.com,az_aut_gdl@", "MAILHERE@astrazeneca.net,PASSHERE"};
+    public static final String EMAIL_ATTACHPDFFILE = ".\\test output\\PdfReport\\ExtentPdf.pdf";
+    public static final String EMAIL_TOCCEMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
+    public static final String EMAIL_TOEMAILLIST = "jonathanernesto.ruano@astrazeneca.com";
 }
