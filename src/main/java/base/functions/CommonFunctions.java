@@ -11,7 +11,12 @@ import org.openqa.selenium.support.ui.*;
 import utils.FileReading;
 import utils.JsonFiles;
 
+import java.io.File;
 import java.lang.reflect.*;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -19,6 +24,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import utils.Values;
+import base.functions.CommonFunctions;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
+
 
 public class CommonFunctions {
 
@@ -4421,6 +4445,7 @@ public class CommonFunctions {
 
     /**
      * it gets a date with the following format "Mon Jul 05 15:10:26 CDT 2021"
+     *
      * @return a string value of a date
      * @throws Exception
      * @author J.Ruano
@@ -4432,6 +4457,7 @@ public class CommonFunctions {
 
     /**
      * use to select if the email use to send the regression results is external or internal. e.g. int or ext
+     *
      * @return a list with the email and password
      * @throws Exception
      * @author J.Ruano
@@ -4457,5 +4483,27 @@ public class CommonFunctions {
         }
         emailData = splitRegex(dataEmail, Values.REGEX_COMMA);
         return emailData;
+    }
+
+
+    public boolean searchAFile(String filePath, String fileName) throws Exception {
+
+        boolean statusOperation = false;
+        Path path = Paths.get(System.getProperty("user.dir") + filePath);
+        File pathCreated = new File(String.valueOf(path));
+        String[] filesArray = pathCreated.list();
+        if (filesArray == null) {
+            logger.warn(Values.TXT_FILEDOESNOTEXIST);
+        } else {
+            for (int i = 0; i <= filesArray.length - 1; i++) {
+                String filename = filesArray[i];
+                logger.info(filename);
+                if (filesArray[i].equalsIgnoreCase(filename)) {
+                    statusOperation = true;
+                    break;
+                }
+            }
+        }
+        return statusOperation;
     }
 }

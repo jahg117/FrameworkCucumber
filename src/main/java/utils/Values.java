@@ -2,12 +2,16 @@ package utils;
 
 import org.openqa.selenium.By;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 public final class Values {
     //============STRING VALUES
     public static final String TXT_GLOBAL_PROPERTIES = "GlobalConfig.properties";
     public static final String TXT_RETRYMSG001 = "Invoking Again The Method =================================================> ";
     public static final String TXT_RETRYWHILE = "retryWhileExceptionTries";
     public static final String TXT_SWITCHDEFAULTMESSAGE = "This Value it is not supported or handdle please review the value";
+    public static final String TXT_FILEDOESNOTEXIST = "does not exist or is not a directory";
     public static final String TXT_PRODUCTNOTDISPLAYMESSAGE = "The product enrollment page was not displayed";
     public static final String TXT_NOTAPPLY = "N_A";
     public static final String TXT_RANDOM = "RND";
@@ -144,7 +148,15 @@ public final class Values {
     public static final String CTM_HCAOTHERFACILITY = "Other Facility";
 
     //============EMAIL BODY CONSTANTS
+    public static final String GlobalPathPdf = Paths.get("").toAbsolutePath().toString() +
+            File.separator + "test output" + File.separator + "PdfReport" + "" +
+            File.separator + "ExtentPdf.pdf";
+
+
     public static final String EMAIL_SUBJECT = "Results From Regression Executed On: ";
+    public static final String EMAIL_SUCCESSMESSAGE = "EMAIL WAS SEND SUCCESSFULLY";
+    public static final String EMAIL_ERRORSUBJECT = "THERE WAS AN ISSUE From Regression Executed On: ";
+    public static final String EMAIL_EXCFILENOTFOUND = "The system cannot find the file specified";
     public static final String EMAIL_BODY = "Hello Team,\n" +
             "\nHere are the results from the last automatic execution of our automated test suite. This health check is automatically triggered after every new UAT release.\n" +
             "In case you have any doubt or comment please contact:\n" +
@@ -154,7 +166,9 @@ public final class Values {
 
     public static final String EMAIL_FIELDNAME = "email";
     public static final String[] ARRAY_EMAILDATA = {"az_automation_gdl@hotmail.com,az_aut_gdl@", "MAILHERE@astrazeneca.net,PASSHERE"};
-    public static final String EMAIL_ATTACHPDFFILE = ".\\test output\\PdfReport\\ExtentPdf.pdf";
-    public static final String EMAIL_TOCCEMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
-    public static final String EMAIL_TOEMAILLIST = "jonathanernesto.ruano@astrazeneca.com";
+    public static final String EMAIL_PATHPDF = "/test output/PdfReport";
+    public static final String EMAIL_EXTENTPDF = "ExtentPdf.pdf";
+    public static final String EMAIL_TOCCEMAILLIST = "jonathanernesto.ruano@astrazeneca.com";//,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
+    public static final String EMAIL_TOERROREMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";//,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
+    public static final String EMAIL_TOEMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
 }
