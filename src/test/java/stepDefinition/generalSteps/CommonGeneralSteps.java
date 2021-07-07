@@ -62,9 +62,4 @@ public class CommonGeneralSteps extends ApplicationInstance {
             accessServices.getProductsPage().selectProductView(filterView, false);
         }
     }
-
-    @And("Send the results report")
-    public void sendTheResultsReport() {
-        sendEmail.emailAttachment();
-    }
 }
