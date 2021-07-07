@@ -2,7 +2,6 @@ package utils;
 
 import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,26 +23,30 @@ import java.io.File;
 /**
  * //============Function Purpose:
  * Sent an email with the regression results.
- * <p>
+ *
  * //============Configuration:
  * dataEmail:   contains an array of two types of emails external email and internal email (Astrazeneca email) this data
- * this data comes from the class "src\\main\\java\\utils\\Values.java" in the constant "ARRAY_EMAILDATA".
- * To select which type of email to use the option can be selected from the file "src\\main\\java\\config\\GlobalConfig.properties" at the
- * variable "email" e.g. email = int or email = ext
+ *              this data comes from the class "src\\main\\java\\utils\\Values.java" in the constant "ARRAY_EMAILDATA".
+ *              To select which type of email to use the option can be selected from the file "src\\main\\java\\config\\GlobalConfig.properties" at the
+ *              variable "email" e.g. email = int or email = ext
  * EMAIL_TOEMAILLIST:   it contains the list of the contacts that will receive the email. It can be found in the class
- * "src\\main\\java\\utils\\Values.java"
+ *                      "src\\main\\java\\utils\\Values.java"
  * EMAIL_SUBJECT: contains the Subject of the Email.It can be found in the class "src\\main\\java\\utils\\Values.java"
  * EMAIL_BODY: contains the body of what contains the email.It can be found in the class "src\\main\\java\\utils\\Values.java"
  * EMAIL_ATTACHPDFFILE contains the path of the file with the results to be attach to the email.It can be found in the class "src\\main\\java\\utils\\Values.java"
- * <p>
+ *
  * NOTE:
- * To acivate/deactivate the sent of the email it can be done changing the value of the variable "sendReport" that can be found
+ * To activate/deactivate the sent of the email it can be done changing the value of the variable "sendReport" that can be found
  * in the file "src\\main\\java\\config\\GlobalConfig.properties" e.g. sendReport = true or sendReport = false.
+ *
  */
 public class SendEmail {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     CommonFunctions commonFunctions = new CommonFunctions();
     List<String> dataEmail = new ArrayList<>();
+    public static String GlobalPathPdf = Paths.get("").toAbsolutePath().toString() +
+            File.separator + "test output"+ File.separator+ "PdfReport" + "" +
+            File.separator + "ExtentPdf.pdf";
 
     public void emailAttachment(String filePath, String fileName) throws Exception {
         Properties properties = new Properties();
