@@ -72,6 +72,7 @@ public final class Values {
     public static final String TXT_VALFALSE = "false";
 
 
+
     //============INTEGER VALUES
     public static int globalCounter = 0;
 
@@ -152,23 +153,54 @@ public final class Values {
             File.separator + "test output" + File.separator + "PdfReport" + "" +
             File.separator + "ExtentPdf.pdf";
 
+    //============CC CODES AND MESSAGES
+    public static final String TXT_CCCODE = "cc";
+    public static final String TXT_CCCONTACTSCODE = "ccContactsCode";
+    public static final String TXT_CCSPECIFICCODE = "ccSpecific";
+    public static final String TXT_CCALLCONTACTSCODE = "ccAllContacts";
+    public static final String TXT_CCAUTTEAMCODE = "ccAutTeam";
+    public static final String TXT_CCTESTERSCODE = "ccTesters";
+
+    public static final String MSG_USECCMESSAGE = "CC contacts will be use to send the Email";
+    public static final String MSG_NOCCMESSAGE = "No CC will use to send the Email";
+    public static final String MSG_CCSPECIFICMAIL = "The Specific email contact will receive the Results Report";
+    public static final String MSG_CCALLCONTACTSEMAIL = "The All CC Contacts list will be receiving the Results Report";
+    public static final String MSG_CCAUTTEAMEMAIL = "The CC Automation Team list will be receiving the Results Report";
+    public static final String MSG_CCTESTERSEMAIL = "The CC Testers Team list will be receiving the Results Report";
+
+    //============TO CODES AND MESSAGES
+    public static final String TXT_SENDTOCONTACTSCODE = "toContactsCode";
+    public static final String TXT_SENDTOSPECIFICCODE = "toSpecific";
+    public static final String TXT_SENDTOALLCONTACTSCODE = "toAllContacts";
+    public static final String TXT_SENDTOAUTTEAMCODE = "toAutTeam";
+    public static final String TXT_SENDTOTESTERSCODE = "toTesters";
+
+    public static final String MSG_SENDTOSPECIFICMAIL = "The Specific email contact will receive the Results Report";
+    public static final String MSG_SENDTOALLCONTACTSEMAIL = "The All CC Contacts list will be receiving the Results Report";
+    public static final String MSG_SENDTOAUTTEAMEMAIL = "The CC Automation Team list will be receiving the Results Report";
+    public static final String MSG_SENDTOTESTERSEMAIL = "The CC Testers Team list will be receiving the Results Report";
 
     public static final String EMAIL_SUBJECT = "Results From Regression Executed On: ";
     public static final String EMAIL_SUCCESSMESSAGE = "EMAIL WAS SEND SUCCESSFULLY";
-    public static final String EMAIL_ERRORSUBJECT = "THERE WAS AN ISSUE From Regression Executed On: ";
     public static final String EMAIL_EXCFILENOTFOUND = "The system cannot find the file specified";
     public static final String EMAIL_BODY = "Hello Team,\n" +
             "\nHere are the results from the last automatic execution of our automated test suite. This health check is automatically triggered after every new UAT release.\n" +
-            "In case you have any doubt or comment please contact:\n" +
-            "juan.rincon@astrazeneca.com\n" +
-            "jonathanernesto.ruano@astrazeneca.com\n" +
-            "juanalejandro.hernandez@astrazeneca.com";
+            "In case you have any doubt or comment please contact:\n\n" +
+            "\t- juan.rincon@astrazeneca.com\n" +
+            "\t- jonathanernesto.ruano@astrazeneca.com\n" +
+            "\t- juanalejandro.hernandez@astrazeneca.com";
 
     public static final String EMAIL_FIELDNAME = "email";
     public static final String[] ARRAY_EMAILDATA = {"az_automation_gdl@hotmail.com,az_aut_gdl@", "MAILHERE@astrazeneca.net,PASSHERE"};
     public static final String EMAIL_PATHPDF = "/test output/PdfReport";
     public static final String EMAIL_EXTENTPDF = "ExtentPdf.pdf";
-    public static final String EMAIL_TOCCEMAILLIST = "jonathanernesto.ruano@astrazeneca.com";//,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
-    public static final String EMAIL_TOERROREMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";//,juan.rincon@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
-    public static final String EMAIL_TOEMAILLIST = "jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
+
+    //============EMAIL CONTACT LISTS
+    public static final String EMAIL_CCALLLIST = "catherine.goodis2@astrazeneca.com,anum.aziz@astrazeneca.com,alec.wojack@astrazeneca.com,fernando.morales1@astrazeneca.com,monica.cardenas@astrazeneca.com," +
+            "alixdria.carreon@astrazeneca.com,adriana.ramirez@astrazeneca.com,laura.burgueno@astrazeneca.com,harsh.marwaha@astrazeneca.com,Timothy.Tyler@astrazeneca.com,Peggy.Metzger@astrazeneca.com," +
+            "salvadorantonio.hernandez@astrazeneca.com,ana.garcia3@astrazeneca.com,adolfo.gutierrez@astrazeneca.com,hector.urena@astrazeneca.com,juan.marquez1@astrazeneca.com,pedro.flores@astrazeneca.com," +
+            "viridiana.salinas@astrazeneca.com,alejandra.guiot@astrazeneca.com,cesar.magana@astrazeneca.com,isselsinai.ramirez@astrazeneca.com,roberto.campos@astrazeneca.com,daniela.salazar2@astrazeneca.com";
+    public static final String EMAIL_AUTTEAMLIST = "juan.rincon@astrazeneca.com,jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
+    public static final String EMAIL_TESTERSLIST = "adolfo.gutierrez@astrazeneca.com,hector.urena@astrazeneca.com,juan.marquez1@astrazeneca.com,pedro.flores@astrazeneca.com," +
+            "viridiana.salinas@astrazeneca.com,alejandra.guiot@astrazeneca.com,cesar.magana@astrazeneca.com,isselsinai.ramirez@astrazeneca.com,roberto.campos@astrazeneca.com,daniela.salazar2@astrazeneca.com";
 }
