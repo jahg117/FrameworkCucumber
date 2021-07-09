@@ -109,7 +109,6 @@ NOTE: Accounts can be created using:
       | dummyValue | accountType | accountRecordType    | identifier | npi | firstName | middleName | lastName | dateOfBird  | email | phoneOrFax | addressLine1     | state | city | zipCode | country       | randomRecord |
       | pimpinela  | HCP         | Health Care Provider | AUT_HCP_   | RND | Don       | Juan       | Camaney  | Feb 9, 2021 | AA    | 6666666666 | Emiratos Latinos | AA    | RND  | 90210   | United States | RND          |
 
-
   Scenario Outline: Create a new CPC Account from CustomerLookup page
 
     Given A dummyValue I enter the first name of the CPC as "<dummyValue>" with and account type "<accountType>" at CustomerLookup page
@@ -120,7 +119,6 @@ NOTE: Accounts can be created using:
     Examples:
       | dummyValue | accountType | accountRecordType          | identifier | firstName | middleName | lastName | dateOfBird | careGiver | email | emailType | phoneOrFax | addressLine1      | state | city | zipCode | country       | randomRecord |
       | pimpinela  | CPC         | Consumer/Patient/Caregiver | AUT_CPC_   | Dona      | Federica   | Camaneya | 15/02/2020 | RND       | RND   | Home      | 1111111111 | Emiratos Arabelos | AL    | RND  | 90211   | United States | N_A          |
-
 
   Scenario Outline: Create a new Employee Account from CustomerLookup page
 

@@ -2,17 +2,14 @@ package utils;
 
 import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
+
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -22,37 +19,42 @@ import java.io.File;
 /**
  * //============Function Purpose:
  * Sent an email with the regression results.
- *
+ * <p>
  * //============Configuration:
- * dataEmail:   contains an array of two types of emails external email and internal email (Astrazeneca email) this data
- *              this data comes from the class "src\\main\\java\\utils\\Values.java" in the constant "ARRAY_EMAILDATA".
- *              To select which type of email to use the option can be selected from the file "src\\main\\java\\config\\GlobalConfig.properties" at the
- *              variable "email" e.g. email = int or email = ext
+ * dataEmail:   contains an array of two types of emails external email and internal email (AstraZeneca email) this data
+ * this data comes from the class "src\\main\\java\\utils\\Values.java" in the constant "ARRAY_EMAILDATA".
+ * To select which type of email to use the option can be selected from the file "src\\main\\java\\config\\GlobalConfig.properties" at the
+ * variable "email" e.g. email = int or email = ext
  * EMAIL_TOEMAILLIST:   it contains the list of the contacts that will receive the email. It can be found in the class
- *                      "src\\main\\java\\utils\\Values.java"
+ * "src\\main\\java\\utils\\Values.java"
  * EMAIL_SUBJECT: contains the Subject of the Email.It can be found in the class "src\\main\\java\\utils\\Values.java"
  * EMAIL_BODY: contains the body of what contains the email.It can be found in the class "src\\main\\java\\utils\\Values.java"
  * EMAIL_ATTACHPDFFILE contains the path of the file with the results to be attach to the email.It can be found in the class "src\\main\\java\\utils\\Values.java"
- *
+ * <p>
  * NOTE:
- * To acivate/deactivate the sent of the email it can be done changing the value of the variable "sendReport" that can be found
+ * To activate/deactivate the sent of the email it can be done changing the value of the variable "sendReport" that can be found
  * in the file "src\\main\\java\\config\\GlobalConfig.properties" e.g. sendReport = true or sendReport = false.
- *
  */
 public class SendEmail {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
     CommonFunctions commonFunctions = new CommonFunctions();
     List<String> dataEmail = new ArrayList<>();
-    public static String GlobalPathPdf = Paths.get("").toAbsolutePath().toString() +
-            File.separator + "test output"+ File.separator+ "PdfReport" + "" +
-            File.separator + "ExtentPdf.pdf";
 
-    public void emailAttachment() {
+    /**
+     * use to send the email of the Regression Results Report to specific contacts after each deploy on UAT
+     *
+     * @param filePath contains the file path from where the attach files is located
+     * @param fileName contains the name of file that will be send has a Attach in the email
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public void emailAttachment(String filePath, String fileName) throws Exception {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.office365.com");
         properties.put("mail.smtp.port", "587");
+        dataEmail = commonFunctions.getEmailData();
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(dataEmail.get(0), dataEmail.get(1));
@@ -61,23 +63,22 @@ public class SendEmail {
 
         //Start our mail message to Whom and the subject
         MimeMessage msg = new MimeMessage(session);
+        MimeBodyPart textBodyPart = new MimeBodyPart();
+        MimeBodyPart pdfAttachment = new MimeBodyPart();
+        Multipart emailContent = new MimeMultipart();
         try {
-            dataEmail = commonFunctions.getEmailData();
             msg.setFrom(new InternetAddress(dataEmail.get(0)));
-            msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(Values.EMAIL_TOEMAILLIST));
-            msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(Values.EMAIL_TOCCEMAILLIST));
+            msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(getTOContacts()));
+            msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(getCCContacts()));
             msg.setSubject(Values.EMAIL_SUBJECT + commonFunctions.getCalendarDate());
 
-            Multipart emailContent = new MimeMultipart();
-
             //It contain the text body
-            MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setText(Values.EMAIL_BODY);
+            Path path = Paths.get(System.getProperty("user.dir") + filePath + File.separator + fileName);
+            File pathCreated = new File(String.valueOf(path));
 
             //It will Attach the result report document.
-            MimeBodyPart pdfAttachment = new MimeBodyPart();
-            File relativePath = new File(GlobalPathPdf);
-            pdfAttachment.attachFile(relativePath);
+            pdfAttachment.attachFile(pathCreated);
 
             //Attached the body and the attachment document
             emailContent.addBodyPart(textBodyPart);
@@ -86,14 +87,144 @@ public class SendEmail {
             //Attach multipart to message
             msg.setContent(emailContent);
             Transport.send(msg);
-            logger.info("EMAIL SENT SUCCESSFULLY");
+            logger.info(Values.EMAIL_SUCCESSMESSAGE);
         } catch (MessagingException e) {
             e.printStackTrace();
+            if (e.getCause().toString().contains(Values.EMAIL_EXCFILENOTFOUND)) {
+                logger.error(e.getMessage());
+            }
         } catch (
                 IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Use to get the list of contacts for CC in the send of the email
+     *
+     * @return String value with all the emails
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public String getCCContacts() throws Exception {
+        boolean operation = false;
+        String statusOperation = "";
+        FileReading fileReading = new FileReading();
+        fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+        List<String> ccContactsCode = commonFunctions.splitRegex(fileReading.getField(Values.TXT_CCCONTACTSCODE), Values.REGEX_COMMA);
+        String cc = fileReading.getField(Values.TXT_CCCODE);
+
+        if (cc.trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+            for (String ccCode : ccContactsCode) {
+                //============Validate if Email will contain CC contacts
+                switch (ccCode) {
+                    case Values.TXT_CCCODE:
+                        logger.info(Values.MSG_USECCMESSAGE);
+                        break;
+                    //============Validate if Email is sent to an specific email
+                    case Values.TXT_CCSPECIFICCODE:
+                        if (!fileReading.getField(ccCode).equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                            logger.info(Values.MSG_CCSPECIFICMAIL);
+                            statusOperation = fileReading.getField(ccCode);
+                            operation = true;
+                        }
+                        break;
+                    //============Validate if Email is sent to the whole List of contacts
+                    case Values.TXT_CCALLCONTACTSCODE:
+                        if (fileReading.getField(ccCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                            logger.info(Values.MSG_CCALLCONTACTSEMAIL);
+                            statusOperation = Values.EMAIL_CCALLLIST;
+                            operation = true;
+                            break;
+                        }
+                        //============Validate if Email is sent to the automation team only
+                    case Values.TXT_CCAUTTEAMCODE:
+                        if (fileReading.getField(ccCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                            logger.info(Values.MSG_CCAUTTEAMEMAIL);
+                            statusOperation = Values.EMAIL_AUTTEAMLIST;
+                            operation = true;
+                        }
+                        break;
+                    //============Validate if Email is sent to testers list only
+                    case Values.TXT_CCTESTERSCODE:
+                        if (fileReading.getField(ccCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                            logger.info(Values.MSG_CCTESTERSEMAIL);
+                            statusOperation = Values.EMAIL_TESTERSLIST;
+                            operation = true;
+                        }
+                        break;
+                    default:
+                        logger.info(Values.TXT_SWITCHDEFAULTMESSAGE);
+                        break;
+                }
+                if (operation) {
+                    break;
+                }
+            }
+        } else {
+            logger.info(Values.MSG_NOCCMESSAGE);
+        }
+        return statusOperation;
+    }
+
+    /**
+     * Use to get the list of contacts for SENDTO in the send of the email
+     *
+     * @return String value with all the emails
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public String getTOContacts() throws Exception {
+        boolean operation = false;
+        String statusOperation = "";
+        FileReading fileReading = new FileReading();
+        fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
+        List<String> toContactsCode = commonFunctions.splitRegex(fileReading.getField(Values.TXT_SENDTOCONTACTSCODE), Values.REGEX_COMMA);
+
+        for (String toCode : toContactsCode) {
+            switch (toCode) {
+                //============Validate if Email is sent to an specific email
+                case Values.TXT_SENDTOSPECIFICCODE:
+                    if (!fileReading.getField(toCode).equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+                        logger.info(Values.MSG_SENDTOSPECIFICMAIL);
+                        statusOperation = fileReading.getField(toCode);
+                        operation = true;
+                    }
+                    break;
+                //============Validate if Email is sent to the whole List of contacts
+                case Values.TXT_SENDTOALLCONTACTSCODE:
+                    if (fileReading.getField(toCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                        logger.info(Values.MSG_SENDTOALLCONTACTSEMAIL);
+                        statusOperation = Values.EMAIL_CCALLLIST;
+                        operation = true;
+                        break;
+                    }
+                    //============Validate if Email is sent to the automation team only
+                case Values.TXT_SENDTOAUTTEAMCODE:
+                    if (fileReading.getField(toCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                        logger.info(Values.MSG_SENDTOAUTTEAMEMAIL);
+                        statusOperation = Values.EMAIL_AUTTEAMLIST;
+                        operation = true;
+                    }
+                    break;
+                //============Validate if Email is sent to testers list only
+                case Values.TXT_SENDTOTESTERSCODE:
+                    if (fileReading.getField(toCode).trim().equalsIgnoreCase(Values.TXT_VALTRUE.trim())) {
+                        logger.info(Values.MSG_SENDTOTESTERSEMAIL);
+                        statusOperation = Values.EMAIL_TESTERSLIST;
+                        operation = true;
+                    }
+                    break;
+                default:
+                    logger.info(Values.TXT_SWITCHDEFAULTMESSAGE);
+                    break;
+            }
+            if (operation) {
+                break;
+            }
+        }
+        return statusOperation;
     }
 }

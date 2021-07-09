@@ -84,7 +84,7 @@ public class ProductsPage extends CommonFunctions {
         Actions actions = new Actions(DriverFactory.getDriver());
         clickAndMoveToElementClickable(inputPmSearchList, shortWait());
         sendKeysAndMoveToElementClickable(inputPmSearchList, productName, shortWait());
-        actions.sendKeys(Keys.ENTER).build().perform();
+        inputPmSearchList.sendKeys(Keys.ENTER);
     }
 
     /**
