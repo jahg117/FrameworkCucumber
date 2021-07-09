@@ -4485,9 +4485,16 @@ public class CommonFunctions {
         return emailData;
     }
 
-
+    /**
+     * Use to validate if a file exist on an specific path
+     *
+     * @param filePath contains the path of the folder where the file is stored
+     * @param fileName contains the name of the file to search
+     * @return a boolean value in case the file is found == true and if not found == false
+     * @throws Exception
+     * @author J.Ruano
+     */
     public boolean searchAFile(String filePath, String fileName) throws Exception {
-
         boolean statusOperation = false;
         Path path = Paths.get(System.getProperty("user.dir") + filePath);
         File pathCreated = new File(String.valueOf(path));
@@ -4496,9 +4503,8 @@ public class CommonFunctions {
             logger.warn(Values.TXT_FILEDOESNOTEXIST);
         } else {
             for (int i = 0; i <= filesArray.length - 1; i++) {
-                String filename = filesArray[i];
-                logger.info(filename);
-                if (filesArray[i].equalsIgnoreCase(filename)) {
+                logger.info(filesArray[i]);
+                if (filesArray[i].equalsIgnoreCase(fileName)) {
                     statusOperation = true;
                     break;
                 }
