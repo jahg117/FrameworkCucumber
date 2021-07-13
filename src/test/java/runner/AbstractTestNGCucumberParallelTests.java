@@ -14,6 +14,7 @@ import utils.Values;
 import javax.mail.MessagingException;
 
 public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNGCucumberTests {
+    int reportCounter = 0;
     private TestNGCucumberRunner testNGCucumberRunner;
     private FileReading fileReading = new FileReading();
     private SendEmail sendEmail = new SendEmail();
@@ -51,8 +52,9 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
         CucumberReport cucumberReport = new CucumberReport();
         fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
         if (commonFunctions.searchAFile(Values.EMAIL_PATHPDF, Values.EMAIL_EXTENTPDF) &&
-                fileReading.getField("sendReport").trim().equalsIgnoreCase(Values.TXT_VALTRUE)) {
+                fileReading.getField("sendReport").trim().equalsIgnoreCase(Values.TXT_VALTRUE) && reportCounter==0) {
             sendEmail.emailAttachment(Values.EMAIL_PATHPDF, Values.EMAIL_EXTENTPDF);
+            reportCounter++;
         }
     }
 }
