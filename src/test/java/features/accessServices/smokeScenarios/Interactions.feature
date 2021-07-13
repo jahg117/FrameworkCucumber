@@ -1,6 +1,6 @@
+@smoke
 Feature: Interactions
 
-  @smoke
   Scenario Outline: Create interaction from patient
     Given I login as an "<user>" user
     When the salesforce page is displayed
