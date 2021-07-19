@@ -121,6 +121,23 @@ public class CreateAConsent extends ApplicationInstance {
         accessServices.getNewConsentWizard().selectConsentAddress(true, 0);
     }
 
+    @Then("^I select the first consent address in the new consent wizard page$")
+    public void selectFirstConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 0);
+        accessServices.getSubTabsPage().closeLastSubTab();
+    }
+
+    @Then("^I select the second consent address in the new consent wizard page$")
+    public void selectSecondConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 1);
+        accessServices.getSubTabsPage().closeLastSubTab();
+    }
+
+    @Then("^I select the third consent address in the new consent wizard page$")
+    public void selectThirdConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 2);
+    }
+
     @Then("I click on the product enrollment {string} from the person account page")
     public void clickProductEnrollmentAdded(String product) throws Exception {
         jsonFiles.setFileName("1372_EnrollmentProducts");
