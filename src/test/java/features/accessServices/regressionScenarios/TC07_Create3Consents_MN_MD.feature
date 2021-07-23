@@ -16,14 +16,17 @@ Feature: Consents with 3 different addresses
     And I select the "<consentTypeOption>" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
     And I select the first consent address in the new consent wizard page
+    And I validate that the consent expiration date is correct
     And I click on the consent tab to click the new consent button at person account page
     And I select the "<consentTypeOption>" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
     And I select the second consent address in the new consent wizard page
+    And I validate that the consent expiration date is correct
     And I click on the consent tab to click the new consent button at person account page
     And I select the "<consentTypeOption>" consent type at new consent wizard page
     And I fill the selected consent type form with the following data "<consentStatus>" "<consentDate>" "<consentSource>" "<consentAuth>" at new consent wizard page
     And I select the third consent address in the new consent wizard page
+    And I validate that the consent expiration date is correct
 
     Examples:
       | user  | consentTypeOption | consentStatus | consentDate | consentSource | consentAuth |
