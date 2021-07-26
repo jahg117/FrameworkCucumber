@@ -1,5 +1,5 @@
 @smoke
-Feature: Setup configurable consents
+Feature: Setup Search configurable
 """
 //============Script Purpose:
 Search operation for HCA - HCP - CPC and Employee

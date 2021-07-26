@@ -1,5 +1,5 @@
 @smoke
-Feature: Setup configurable consents
+Feature: Setup Accounts Configurable Creation
 """
 //============Script Purpose:
 Creation Of HCA - HCP - CPC and Employee
