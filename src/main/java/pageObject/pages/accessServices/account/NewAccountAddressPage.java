@@ -25,6 +25,23 @@ public class NewAccountAddressPage extends CommonFunctions {
     @FindBy (xpath = "//*[@title='Save']")
     private WebElement buttonSave;
 
+    @FindBy (xpath = "//*[@title='Edit']")
+    private WebElement buttonEdit;
+
+    @FindBy (xpath = "//*[@name='progress'][1]")
+    private WebElement dropdownAddressState;
+
+    @FindBy (xpath = "//*[@data-value='CA']")
+    private WebElement inputAddressStateCA;
+
+
+
+    public void addStateInDefaultAddress() throws Exception {
+        clickAndMoveToElementClickable(buttonEdit, mediumWait());
+        clickAndMoveToElementClickable(dropdownAddressState, mediumWait());
+        clickAndMoveToElementVisible(inputAddressStateCA, mediumWait());
+        clickAndMoveToElementClickable(buttonSave, mediumWait());
+    }
 
     public void searchAddressWithStateMN() throws Exception {
         sendKeysElementClickable(googleAddressSearchBox,"TCF Bank Stadium", mediumWait());
