@@ -1,5 +1,5 @@
-@smoke1
-Feature: Configurable Product Master Creation
+@smoke
+Feature: Setup configurable consents
 """
 //============Script Purpose:
 The script is to validate that the amount of products related to a drug match with the ones that are displayed when creating
@@ -64,4 +64,4 @@ NOTE:
 
     Examples:
       | accountType | selectProductView | productEnrollmentView | productName | productEnrollment | createPE |
-      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | N_A      |
+      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | Y        |

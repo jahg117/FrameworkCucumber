@@ -33,11 +33,11 @@ public class NewCasePage extends CommonFunctions {
 
     public void selectCaseOption(String caseOption) throws Exception {
         clickElementClickable(dropdown_recordType, 10);
-        if (caseOption.equalsIgnoreCase("RND")) {
-            clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, 10), 10);
-        } else {
+        if(caseOption.equalsIgnoreCase("RND")){
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, 10),10);
+        }else{
             for (WebElement el : list_recordTypeList) {
-                if (getWebElementAttribute(el, "title").equalsIgnoreCase(caseOption)) {
+                if (getWebElementAttribute(el,"title").equalsIgnoreCase(caseOption)) {
                     clickAndMoveToElementClickable(el, 10);
                     break;
                 }
@@ -50,7 +50,7 @@ public class NewCasePage extends CommonFunctions {
         waitForElementClickable(dropdown_recordType, 10);
         waitForElementClickable(button_continue, 10);
         clickAndMoveToElementClickable(button_continue, 10);
-        if (!waitForElementVisibility(form_caseOptions, 10)) {
+        if(!waitForElementVisibility(form_caseOptions, 10)){
             clickAndMoveToElementClickable(button_continue, 10);
         }
     }
