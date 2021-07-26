@@ -66,6 +66,9 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy (xpath = "//a[@data-label='Addresses']")
     private WebElement tabAddresses;
 
+    @FindBy (xpath = "//th[@data-label='Address Line 1']//a/span")
+    private WebElement rowFirstAddressLine1;
+
     private By buttonCloseSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
     private By linkViewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']//parent::*");
@@ -311,5 +314,10 @@ public class PersonAccountPage extends CommonFunctions {
     public void clickOnNewAddress() throws Exception {
         clickAndMoveToElementClickable(tabAddresses, mediumWait());
         clickAndMoveToElementClickable(buttonNewAddress, mediumWait());
+    }
+
+    public void clickFirstAddressLine1() throws Exception {
+        clickAndMoveToElementClickable(tabAddresses, mediumWait());
+        clickAndMoveToElementClickable(rowFirstAddressLine1, mediumWait());
     }
 }

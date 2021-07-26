@@ -121,6 +121,27 @@ public class CreateAConsent extends ApplicationInstance {
         accessServices.getNewConsentWizard().selectConsentAddress(true, 0);
     }
 
+    @Then("^I select the first consent address in the new consent wizard page$")
+    public void selectFirstConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 0);
+    }
+
+    @Then("^I select the second consent address in the new consent wizard page$")
+    public void selectSecondConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 1);
+    }
+
+    @Then("^I select the third consent address in the new consent wizard page$")
+    public void selectThirdConsentAddress() throws Exception {
+        accessServices.getNewConsentWizard().selectConsentAddress(false, 2);
+    }
+
+    @And("^I validate that the consent expiration date is correct$")
+    public void validateConsentExpirationDateIsCorrect() throws Exception {
+        Assert.assertEquals(accessServices.getConsentPage().getConsentDateValidation(),true,"The Consent expiration date is not matching according to the selected state");
+        accessServices.getSubTabsPage().closeLastSubTab();
+    }
+
     @Then("I click on the product enrollment {string} from the person account page")
     public void clickProductEnrollmentAdded(String product) throws Exception {
         jsonFiles.setFileName("1372_EnrollmentProducts");

@@ -21,6 +21,15 @@ public class ConsentPage extends CommonFunctions {
     @FindBy(xpath = "//span[contains(text(),'Consent No.') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
     private WebElement labelConsentID;
 
+    @FindBy(xpath = "//span[contains(text(),'Consent Expiration Date') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
+    private WebElement labelConsentExpDate;
+
+    @FindBy(xpath = "//span[contains(text(),'Consent Date') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
+    private WebElement labelConsentDate;
+
+    @FindBy(xpath = "//span[contains(text(),'State') and contains(@class,'test-id')]/../..//*[@data-output-element-id]")
+    private WebElement labelConsentState;
+
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -92,5 +101,35 @@ public class ConsentPage extends CommonFunctions {
                 break;
         }
         return consentType;
+    }
+
+    public int getConsentExpDateYear() throws Exception {
+        waitForElementVisibility(labelConsentExpDate, mediumWait());
+        String ConsentExpDate = labelConsentExpDate.getText();
+        String[] ConsentExpDateYear = ConsentExpDate.split("/");
+        return Integer.parseInt(ConsentExpDateYear[2]);
+    }
+
+    public int getConsentDateYear() throws Exception {
+        waitForElementVisibility(labelConsentDate, mediumWait());
+        String ConsentDate = labelConsentDate.getText();
+        String[] ConsentDateYear = ConsentDate.split("/");
+        return Integer.parseInt(ConsentDateYear[2]);
+    }
+
+    public boolean getConsentDateValidation() throws Exception {
+        waitForElementVisibility(labelConsentState, mediumWait());
+        if(getWebElementText(labelConsentState).equalsIgnoreCase("MD") || getWebElementText(labelConsentState).equalsIgnoreCase("MN")){
+            if(getConsentExpDateYear() - getConsentDateYear()==1){
+                return true;
+            }
+            else {return false; }
+        }
+        else {
+            if(getConsentExpDateYear() - getConsentDateYear()==2){
+            return true;
+        }
+            else {return false;}
+        }
     }
 }
