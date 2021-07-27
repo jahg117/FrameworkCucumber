@@ -2479,6 +2479,27 @@ public class CommonFunctions {
     }
 
     /**
+     * Method used to get a random date providing a date format e.g. mm/dd/yyyy
+     *
+     * @dateFormat contains the date format
+     * @return String with the date format
+     * @throws Exception selenium Exception
+     * @author Jonathan Ruano
+     */
+    protected String getRandomDate(String dateFormat) throws Exception {
+        String statusOperation = "";
+        Faker faker = new Faker();
+        try {
+            Date randomDate = faker.date().birthday(18, 70);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+            statusOperation = simpleDateFormat.format(randomDate);
+        } catch (Exception e) {
+            logger.info(Values.TXT_EXCREFLECTION);
+        }
+        return statusOperation;
+    }
+
+    /**
      * Return a random number
      *
      * @return a random String number

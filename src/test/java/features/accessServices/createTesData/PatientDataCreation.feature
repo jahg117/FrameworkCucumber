@@ -114,7 +114,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     ====================================================CONSENT DATA====================================================
     consentData = P0:Consent Status,P1:Consent Date,P2:Consent Source,P3:Consent Authorization
     e.g.
-    P0:Open,P1:Active,P2:5/12/2021,P3:RND,P4:Self
+    P0:Active,P1:5/12/2021,P2:RND,P3:Self
     ====================================================INTERACTION DATA================================================
     irData = P0:Channel, P1:CaseStatus
     e.g.
