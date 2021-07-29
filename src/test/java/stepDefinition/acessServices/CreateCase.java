@@ -170,7 +170,6 @@ public class CreateCase extends ApplicationInstance {
         accessServices.getCasePage().isCasePageDisplayed();
         String interactionNumber = accessServices.getCasePage().getCaseNumber();
         commonData.interaction = new Interaction(interactionNumber);
-        accessServices.getSubTabsPage().closeLastSubTab();
     }
 
     @And("^I validate the correct case information is displayed$")
