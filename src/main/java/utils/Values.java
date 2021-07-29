@@ -70,6 +70,7 @@ public final class Values {
     public static final String TXT_JSCLICK = "================clickElementJS()================";
     public static final String TXT_VALTRUE = "true";
     public static final String TXT_VALFALSE = "false";
+    public static final String TXT_ERRORCREATINGRECORD_DOB = "Unable to read SObject's field value[s]";
 
 
 
@@ -108,6 +109,10 @@ public final class Values {
     //============BY Paths
     public static final By BYPATH_AZID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
     public static final By CAREGIVERLOCATOR = By.xpath("//*[contains(@id,'input')][@role='option']//*[@title])");
+    public static final By DATESCRIPFORMAT = By.xpath("//script[contains(text(),\"L : 'MM/DD/YYYY'\")]");
+    public static final By ERRORDOB = By.xpath("//*[contains(text(),\"Unable to read SObject's field value[s]\")]");
+
+    //script[contains(text(),"L : 'MM/DD/YYYY'")]
 
     //============ATTRIBUTE VALUE
     public static final String ATTRIBUTE_FALSE_VALUE = "false";

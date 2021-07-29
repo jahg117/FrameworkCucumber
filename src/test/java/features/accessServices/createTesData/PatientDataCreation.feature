@@ -102,7 +102,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     e.g.
     P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND
     ====================================================INSURANCE PBM===================================================
-    dataPMB = P0:Insurance Rank,P1:Relationship To CardHolde,P2:Cardholder Name,P3:Cardholder DOB,P4:Insurance Payer Name,
+    dataPBM = P0:Insurance Rank,P1:Relationship To CardHolde,P2:Cardholder Name,P3:Cardholder DOB,P4:Insurance Payer Name,
     P5:Insurance Plan Name,P6:Insurance Phone Number,P7:Group Number,P8:Policy ID,P9:Member ID,P10:BIN NUMBER,P11:PCN
     e.g.
     P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A
@@ -123,4 +123,5 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     CONFIG DATA:
       | user  | accData                                                                                    | insuranceType | dataPMI                                                                                                       | dataPBM                                                                                                                       | ctmData                           | consentData                  | azConType | dsiConType | irData         |
       | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:RND,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | NOPI          | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca,P1:internal.facility,P2:PF | Active, 5/12/2021, RND, Self | ANP       | DNC        | P0:RND,P1:Open |
+      | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:RND,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | PMI,PBM       | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca,P1:internal.facility,P2:PF | Active, 5/12/2021, RND, Self | ANP       | DNC        | P0:RND,P1:Open |
 

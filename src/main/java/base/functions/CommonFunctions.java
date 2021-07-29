@@ -540,7 +540,7 @@ public class CommonFunctions {
      *
      * @param locator          it contains the locator (path) to search the element
      * @param timeOutInSeconds Seconds to wait for the WebElement.
-     * @return
+     * @return a boolean value
      * @author J.Ruano
      */
     protected boolean waitForElementPresenceBy(By locator, int timeOutInSeconds) throws Exception {
@@ -888,6 +888,27 @@ public class CommonFunctions {
         return statusOperation;
     }
 
+    /**
+     * Return true if the number of elements is more than the expected
+     *
+     * @param locator          it contains the locator (path) to search an element
+     * @param numberElements   to search
+     * @param timeOutInSeconds Seconds to wait for the WebElement.
+     * @return
+     * @author Alejandro Hernandez
+     */
+    protected boolean waitForNumberOfElementsToBeMoreThanByNoAutoCasting(By locator, int numberElements, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, numberElements));
+            logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
+            statusOperation = true;
+        } catch (Exception e) {
+            logger.warn("Elements not found: " + locator.toString() + " number of elements more than: " + numberElements);
+        }
+        return statusOperation;
+    }
 
     /**
      * Return true if all the elements were found
@@ -2481,9 +2502,9 @@ public class CommonFunctions {
     /**
      * Method used to get a random date providing a date format e.g. mm/dd/yyyy
      *
-     * @dateFormat contains the date format
      * @return String with the date format
      * @throws Exception selenium Exception
+     * @dateFormat contains the date format
      * @author Jonathan Ruano
      */
     protected String getRandomDate(String dateFormat) throws Exception {
@@ -4010,9 +4031,9 @@ public class CommonFunctions {
         int size = 0;
         try {
             By frame = By.tagName("iframe");
-            if (waitForNumberOfElementsToBeMoreThanBy(frame, 0, timeOutInSeconds)) {
+            if (waitForNumberOfElementsToBeMoreThanByNoAutoCasting(frame, 0, timeOutInSeconds)) {
                 for (int i = 0; i <= iframeTries(); i++) {
-                    foundIframeFlag = waitForNumberOfElementsToBeMoreThanBy(frame, 0, timeOutInSeconds);
+                    foundIframeFlag = waitForNumberOfElementsToBeMoreThanByNoAutoCasting(frame, 0, timeOutInSeconds);
                     if (foundIframeFlag) {
                         break;
                     }
@@ -4487,7 +4508,7 @@ public class CommonFunctions {
         String dataEmail = "";
         List<String> emailData;
         FileReading fileReading = new FileReading();
-        fileReading.setFileName("GlobalConfig.properties");
+        fileReading.setFileName(Values.TXT_GLOBAL_PROPERTIES);
 
         switch (fileReading.getField(Values.EMAIL_FIELDNAME).trim().toLowerCase()) {
             case "ext":
@@ -4530,6 +4551,17 @@ public class CommonFunctions {
                     break;
                 }
             }
+        }
+        return statusOperation;
+    }
+
+    public boolean validateErrorMessage(By webLocator, String messageError, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        String webElementText = "";
+        if (waitForElementPresenceBy(webLocator, timeOutInSeconds)) {
+            webElementText = getWebElement(webLocator).getText();
+            logger.warn(webElementText);
+            statusOperation = true;
         }
         return statusOperation;
     }
