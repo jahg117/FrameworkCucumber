@@ -13,7 +13,8 @@ import java.util.Map;
 
 public class CreateNewEnrollmentPage extends CommonFunctions {
 
-    @FindBy(xpath = "//iframe[@title='New Program Enrollment']")
+    //@FindBy(xpath = "//iframe[@title='New Program Enrollment']")
+    @FindBy(xpath = "//iframe[@title='accessibility title'][not(@cd_frame_id_)]")
     private WebElement iframeNewProgramEnrollment;
 
     @FindBy(xpath = "//span[@class='lookupInput']//input")
@@ -80,7 +81,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public void clickEnrollButton() throws Exception {
-        switchToFrameByWebElementIndexOrName(iframeNewProgramEnrollment, mediumWait());
+        autoSwitchIframeByWebElement(buttonEnroll, shortWait());
+        //switchToFrameByWebElementIndexOrName(iframeNewProgramEnrollment, mediumWait());
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         waitForElementClickable(buttonEnroll, mediumWait());
         scrollMethodToWebElement(buttonEnroll);

@@ -79,6 +79,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//footer[@class='slds-modal__footer']//button[@type='submit']")
     private WebElement buttonSaveAccount;
 
+    @FindBy(xpath = "//input[@data-name='dob']")
+    private WebElement dateOfBirth;
+
+
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -111,7 +115,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
         patientDetails.put("phoneNumber", faker.phoneNumber().cellPhone().replace(".", "").replace("-", ""));
-        patientDetails.put("date", getRandomDate());
+        patientDetails.put("date", getRandomDate(Values.DOB_MM_DD_YYYY));
         patientDetails.put("zipcode", jsonFiles.getRandomFieldArray("zip"));
         waitForElementClickable(dropdownPrefix, mediumWait());
         inputFirstName.clear();
@@ -152,7 +156,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         patientDetails.put("address", faker.address().streetName());
         patientDetails.put("city", faker.address().cityName());
         patientDetails.put("phoneNumber", patientForm.get("fax"));
-        patientDetails.put("date", getRandomDate());
+        patientDetails.put("date", getRandomDate(Values.DOB_MM_DD_YYYY));
         patientDetails.put("zipcode", patientForm.get("zipcode"));
         waitForElementClickable(dropdownPrefix, mediumWait());
         inputFirstName.clear();
@@ -227,9 +231,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         inputLastName.clear();
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lName"), mediumWait());
         //============DATE OF BIRTH
-        clickElementVisible(inputInformalName, shortWait());
-        sendKeysByActions(Keys.TAB.toString());
-        sendKeysByActions(patientDetails.get("date"));
+        clickElementClickable(dateOfBirth, mediumWait());
+        sendKeysElementVisible(dateOfBirth, patientDetails.get("date"), mediumWait());
         //========================================================================================FIRST PHONE/FAX NUMBER
         scrollToWebElementJS(inputSearchAccounts);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
@@ -333,10 +336,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
                     break;
                 case 10:
                     //============DATE OF BIRTH Randomly
-                    accData = (accData = getRandomDate()).replace(Values.TXT_SLASH, Values.REPLACETO_EMPTY);
+                    accData = (accData = getRandomDate(Values.DOB_MM_DD_YYYY)).replace(Values.TXT_SLASH, Values.REPLACETO_EMPTY);
                     break;
                 case 11:
-                    //============DATE OF BIRTH Randomly
+                    //============CITY NAME Randomly
                     accData = faker.address().cityName();
                     break;
                 default:

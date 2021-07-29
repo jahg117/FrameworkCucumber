@@ -1,5 +1,5 @@
 @smoke
-Feature: Setup configurable consents
+Feature: Setup Product Master Configurable
 """
 //============Script Purpose:
 The script is to validate that the amount of products related to a drug match with the ones that are displayed when creating

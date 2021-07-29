@@ -70,6 +70,7 @@ public final class Values {
     public static final String TXT_JSCLICK = "================clickElementJS()================";
     public static final String TXT_VALTRUE = "true";
     public static final String TXT_VALFALSE = "false";
+    public static final String TXT_ERRORCREATINGRECORD_DOB = "Unable to read SObject's field value[s]";
 
 
 
@@ -78,6 +79,7 @@ public final class Values {
 
     //============FORMATS
     public static final String DATEFORMAT_MMM_DD_HH_MM = "MMM.dd.HH.mm";
+    public static final String DOB_MM_DD_YYYY = "MM.dd.yyyy";
 
 
     //============CHARACTERS
@@ -107,6 +109,10 @@ public final class Values {
     //============BY Paths
     public static final By BYPATH_AZID = By.xpath("(//*[contains(text(),'Account ID')]//..)[1]");
     public static final By CAREGIVERLOCATOR = By.xpath("//*[contains(@id,'input')][@role='option']//*[@title])");
+    public static final By DATESCRIPFORMAT = By.xpath("//script[contains(text(),\"L : 'MM/DD/YYYY'\")]");
+    public static final By ERRORDOB = By.xpath("//*[contains(text(),\"Unable to read SObject's field value[s]\")]");
+
+    //script[contains(text(),"L : 'MM/DD/YYYY'")]
 
     //============ATTRIBUTE VALUE
     public static final String ATTRIBUTE_FALSE_VALUE = "false";
@@ -196,7 +202,7 @@ public final class Values {
     public static final String EMAIL_EXTENTPDF = "ExtentPdf.pdf";
 
     //============EMAIL CONTACT LISTS
-    public static final String EMAIL_CCALLLIST = "catherine.goodis2@astrazeneca.com,anum.aziz@astrazeneca.com,alec.wojack@astrazeneca.com,fernando.morales1@astrazeneca.com,monica.cardenas@astrazeneca.com," +
+    public static final String EMAIL_CCALLLIST = "catherine.goodis2@astrazeneca.com,amy.hermann1@astrazeneca.com,anum.aziz@astrazeneca.com,alec.wojack@astrazeneca.com,fernando.morales1@astrazeneca.com,monica.cardenas@astrazeneca.com," +
             "alixdria.carreon@astrazeneca.com,adriana.ramirez@astrazeneca.com,laura.burgueno@astrazeneca.com,harsh.marwaha@astrazeneca.com,Timothy.Tyler@astrazeneca.com,Peggy.Metzger@astrazeneca.com," +
             "salvadorantonio.hernandez@astrazeneca.com,ana.garcia3@astrazeneca.com,adolfo.gutierrez@astrazeneca.com,hector.urena@astrazeneca.com,juan.marquez1@astrazeneca.com,pedro.flores@astrazeneca.com," +
             "viridiana.salinas@astrazeneca.com,alejandra.guiot@astrazeneca.com,cesar.magana@astrazeneca.com,isselsinai.ramirez@astrazeneca.com,roberto.campos@astrazeneca.com,daniela.salazar2@astrazeneca.com";
