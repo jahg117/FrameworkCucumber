@@ -84,7 +84,7 @@ public class NewConsentWizardPage extends CommonFunctions {
         do {
             switch (valueCounter) {
                 case 1:
-                    if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase("RND")) {
+                    if (!consentStatus.trim().isEmpty() && !consentStatus.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                         selectAndMoveDropdownByText(dropdown_consentStatus, consentStatus, longWait());
                     } else {
                         selectDropDownRandomOptionNone(dropdown_consentStatus, mediumWait());
@@ -92,7 +92,7 @@ public class NewConsentWizardPage extends CommonFunctions {
                     valueCounter++;
                     break;
                 case 2:
-                    if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase("RND")) {
+                    if (!consentDate.trim().isEmpty() && !consentDate.trim().equalsIgnoreCase(Values.TXT_RANDOM) && !consentDate.trim().equalsIgnoreCase(Values.TXT_TODAY)) {
                         sendKeysAndMoveToElementClickable(datePicker_consentDateManual, consentDate, mediumWait());
                         datePicker_consentDateManual.sendKeys(Keys.ESCAPE);
                     } else {
@@ -101,7 +101,7 @@ public class NewConsentWizardPage extends CommonFunctions {
                     valueCounter++;
                     break;
                 case 3:
-                    if (!consentSource.trim().isEmpty() && !consentSource.trim().equalsIgnoreCase("RND")) {
+                    if (!consentSource.trim().isEmpty() && !consentSource.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                         selectAndMoveDropdownByText(dropdown_consentSource, consentSource, longWait());
                     } else {
                         selectDropDownRandomOptionNone(dropdown_consentSource, mediumWait());
@@ -109,9 +109,9 @@ public class NewConsentWizardPage extends CommonFunctions {
                     valueCounter++;
                     break;
                 case 4:
-                    if (!consentAuth.trim().isEmpty() && consentAuth.trim().equalsIgnoreCase("Self")) {
+                    if (!consentAuth.trim().isEmpty() && consentAuth.trim().equalsIgnoreCase(Values.TXT_SELF)) {
                         clickAndMoveToElementClickable(checkbox_consentSelf, mediumWait());
-                    } else if (consentAuth.trim().equalsIgnoreCase("LAR")) {
+                    } else if (consentAuth.trim().equalsIgnoreCase(Values.TXT_LAR)) {
                         clickAndMoveToElementClickable(checkbox_consentLAF, mediumWait());
                     } else {
                         clickAndMoveToElementClickable(getRandomWebElementFromList(checkbox_consentByList, mediumWait()), mediumWait());

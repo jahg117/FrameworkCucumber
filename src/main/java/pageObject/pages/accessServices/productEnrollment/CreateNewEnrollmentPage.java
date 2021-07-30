@@ -60,7 +60,6 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public String fillProductEnrollmentForm(String productType) throws Exception {
         String statusOperation = "";
-        //waitForElementVisibility(buttonLoggedOut, mediumWait());
         if (productType.equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
             productType = Values.TXT_AZ;
         }
@@ -82,7 +81,6 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
 
     public void clickEnrollButton() throws Exception {
         autoSwitchIframeByWebElement(buttonEnroll, shortWait());
-        //switchToFrameByWebElementIndexOrName(iframeNewProgramEnrollment, mediumWait());
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         waitForElementClickable(buttonEnroll, mediumWait());
         scrollMethodToWebElement(buttonEnroll);
