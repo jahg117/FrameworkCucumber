@@ -15,6 +15,9 @@ public final class Values {
     public static final String TXT_PRODUCTNOTDISPLAYMESSAGE = "The product enrollment page was not displayed";
     public static final String TXT_NOTAPPLY = "N_A";
     public static final String TXT_RANDOM = "RND";
+    public static final String TXT_TODAY = "Today";
+    public static final String TXT_SELF = "Self";
+    public static final String TXT_LAR = "LAR";
     public static final String TXT_ACCOUNTID = "Account ID";
     public static final String TXT_HEALTHCAREACCOUNT = "Health Care Account";
     public static final String TXT_HEALTHCAREPROVIDER = "Health Care Provider";
