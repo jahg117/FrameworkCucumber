@@ -10,8 +10,8 @@ import utils.CucumberReport;
 import utils.FileReading;
 import utils.SendEmail;
 import utils.Values;
-
-import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNGCucumberTests {
     int reportCounter = 0;
@@ -20,6 +20,7 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
     private SendEmail sendEmail = new SendEmail();
     private CommonFunctions commonFunctions = new CommonFunctions();
     public static String browser = "";
+    List<String> suiteTagName = new ArrayList<String>();
 
     @BeforeClass(alwaysRun = true)
     public void setUpClass() {
@@ -34,6 +35,7 @@ public abstract class AbstractTestNGCucumberParallelTests extends AbstractTestNG
 
     @Test(dataProvider = "features", priority = 0)
     public void runTests(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper) {
+        suiteTagName = pickleWrapper.getPickle().getTags();
         testNGCucumberRunner.runScenario(pickleWrapper.getPickle());
     }
 

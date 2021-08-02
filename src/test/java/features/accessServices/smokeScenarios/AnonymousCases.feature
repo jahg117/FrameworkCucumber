@@ -1,4 +1,4 @@
-@smoke
+@smokeScenarios
 Feature: Anonymous Cases
 
   Scenario Outline: Create anonymous cases from patient

@@ -1,4 +1,4 @@
-@smoke
+@smokeScenarios
 Feature: Setup Product Master Configurable
 """
 //============Script Purpose:
