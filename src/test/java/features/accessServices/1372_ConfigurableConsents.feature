@@ -98,7 +98,7 @@ createPE = it creates a PE if the value in column is Y
       | dummyValue  | selectedView    | accountType | accData                                                                                    | consentType | accountKeyValueJSON | consentKeyValueJSON | fileNameJSON | randomSelection | createPE |
       | dummySearch | Recently Viewed | CPC         | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:RND,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | DSI         | accountType         | consentType         | ConstantData | N_A             | Y        |
 
-  @SanityConsents
+  @1372_configurableConsents
   Scenario Outline: Create an Account with PE to create a Consent at Account level
     Given "<createPE>" it selects which steps will be execute using it from CommonGeneralSteps
     Given "<randomSelection>" I verify if random selection is required using it from CommonGeneralSteps

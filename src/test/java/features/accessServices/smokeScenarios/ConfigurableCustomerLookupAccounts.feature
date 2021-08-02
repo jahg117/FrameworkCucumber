@@ -1,4 +1,4 @@
-@smoke
+@smokeScenarios
 Feature: Setup Accounts Configurable Creation
 """
 //============Script Purpose:

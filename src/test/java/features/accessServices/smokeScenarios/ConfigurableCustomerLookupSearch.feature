@@ -1,4 +1,4 @@
-@smoke
+@smokeScenarios
 Feature: Setup Search configurable
 """
 //============Script Purpose:
