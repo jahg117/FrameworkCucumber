@@ -79,6 +79,8 @@ public class SendEmail {
             switch (sendTo) {
                 case Values.TXT_SENDTOSELF:
                     msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(sentoSelfBackUp));
+                    msg.setSubject(Values.EMAIL_SUBJECTTEST + commonFunctions.getCalendarDate());
+                    textBodyPart.setText(Values.EMAIL_TESTBODY);
                     logger.info(Values.MSG_EMAIL_SENDTO + sendTo);
                     break;
                 case Values.TXT_SENDTOAUTOMATIONTEAM:
