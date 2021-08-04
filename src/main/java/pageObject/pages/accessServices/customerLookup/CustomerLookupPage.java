@@ -74,7 +74,7 @@ public class CustomerLookupPage extends CommonFunctions {
     private List<WebElement> rowAddress;
     private By rowAddressElements = By.xpath("//table[@id='cust-table']//td[@data-label='First Name']");
 
-    @FindBy(xpath = "//label[contains(text(),'Relationship')]/following::select")
+    @FindBy(xpath = "//*[contains(text(),'Care Team Member Relationship')]/following::select")
     private WebElement dropdownRelationship;
 
     @FindBy(xpath = "//input[@value='Create CareTeam Member']")
