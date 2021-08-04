@@ -26,7 +26,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//span[@class='dateInput dateOnlyInput']")
     private WebElement inputProgramEndDate;
 
-    @FindBy(xpath = "//td[@class='pbButtonb ']//input[@value='Enroll']")
+    @FindBy(xpath = "//input[@value='Enroll']")
     private WebElement buttonEnroll;
 
     @FindBy(xpath = "//*[@title='New Care Team Member']")
