@@ -23,7 +23,6 @@ Feature: Interactions
     Then I search the "Access Services" app
     And I select the "Cases" menu option
     And I click on new Case from the cases list page
-    And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the correct case interaction information displayed
     Examples:
