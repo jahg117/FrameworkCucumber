@@ -234,12 +234,12 @@ public class CaseInformationPage extends CommonFunctions {
         statusOperation.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdownSubType, shortWait()) ? selectDropdownOption(dropdownSubType, listDropdownOptions, formDetails.get("CaseSubType")) : "";
         statusOperation.put("CaseSubType", webElementOption);
-        if (waitForElementVisibility(inputSearchProductEnrollments, shortWait())) {
+        if (waitForElementVisibility(inputSearchProductEnrollments, 3)) {
             sendKeysAndMoveToElementVisible(inputSearchProductEnrollments, formDetails.get("ProductEnrollment"), shortWait());
             waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductEnrollment") + "']"), mediumWait());
         }
-        if (waitForElementListVisible(listDiscussTopic, shortWait())) {
+        if (waitForElementListVisible(listDiscussTopic, 3)) {
             if (formDetails.get("DiscussTopic").equalsIgnoreCase(Values.TXT_RANDOM)) {
                 WebElement el = getRandomWebElementFromList(listDiscussTopic, mediumWait());
                 waitForElementVisibility(el, mediumWait());
@@ -259,13 +259,13 @@ public class CaseInformationPage extends CommonFunctions {
         } else {
             webElementOption = "";
         }
-        if(waitForElementVisibility(inputSearchProducts, shortWait())) {
+        if(waitForElementVisibility(inputSearchProducts, 3)) {
             sendKeysAndMoveToElementVisible(inputSearchProducts, formDetails.get("ProductName"), shortWait());
             waitForElementToBeClickableBy(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("ProductName") + "']"), mediumWait());
         }
         statusOperation.put("DiscussTopic", webElementOption);
-        if (waitForElementVisibility(inputCardNumber, shortWait())) {
+        if (waitForElementVisibility(inputCardNumber, 3)) {
             webElementOption = formDetails.get("CardNumber").equalsIgnoreCase(Values.TXT_RANDOM) ? getRandomNumber() : formDetails.get("CardNumber");
             statusOperation.put("CardNumber", webElementOption);
             sendKeysAndMoveToElementVisible(inputCardNumber, webElementOption, shortWait());
@@ -273,7 +273,7 @@ public class CaseInformationPage extends CommonFunctions {
             webElementOption = "";
         }
         statusOperation.put("CardNumber", webElementOption);
-        if (waitForElementVisibility(inputInteractionCase, shortWait())) {
+        if (waitForElementVisibility(inputInteractionCase, 3)) {
             sendKeysAndMoveToElementVisible(inputInteractionCase, formDetails.get("CaseNumber"), shortWait());
             waitForElementVisibility(listAutocomplete, mediumWait());
             waitForElementListVisible(getWebElementList(listAutocompleteElements), mediumWait());
