@@ -183,6 +183,27 @@ public class CommonFunctions {
     }
 
     /**
+     * Return true if a WebElement is clickable or false if it's not clickable
+     *
+     * @param webElement       WebElement to find.
+     * @param timeOutInSeconds Seconds to wait for a WebElement.
+     * @return boolean
+     * @author Alejandro Hernandez
+     */
+    protected boolean waitForElementClickableNoReflection(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.elementToBeClickable(webElement));
+            logger.info("Element found " + getWebElementLocatorPath(webElement));
+            statusOperation = true;
+        } catch (Exception e) {
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+        }
+        return statusOperation;
+    }
+
+    /**
      * Return true if a WebElement is visible or false if it's not visible
      *
      * @param webElement       WebElement to find.
@@ -201,6 +222,27 @@ public class CommonFunctions {
             logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
             statusOperation = autoCastingBoolean(executeReflection(webElement, timeOutInSeconds));
         }
+        return statusOperation;
+    }
+
+    /**
+     * Return true if a WebElement is visible or false if it's not visible
+     *
+     * @param webElement       WebElement to find.
+     * @param timeOutInSeconds Seconds to wait for a WebElement.
+     * @return boolean
+     * @author Jonathan Ruano
+     */
+    public boolean waitForElementVisibilityNoReflection(WebElement webElement, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            wait.until(ExpectedConditions.visibilityOf(webElement));
+            logger.info("Element found: " + getWebElementLocatorPath(webElement));
+            statusOperation = true;
+        } catch (Exception e) {
+            logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
+          }
         return statusOperation;
     }
 
@@ -895,7 +937,7 @@ public class CommonFunctions {
      * @param numberElements   to search
      * @param timeOutInSeconds Seconds to wait for the WebElement.
      * @return
-     * @author Alejandro Hernandez
+     * @author Jonathan Ruano
      */
     protected boolean waitForNumberOfElementsToBeMoreThanByNoAutoCasting(By locator, int numberElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
@@ -4031,7 +4073,7 @@ public class CommonFunctions {
         int size = 0;
         try {
             By frame = By.tagName("iframe");
-            if (waitForNumberOfElementsToBeMoreThanByNoAutoCasting(frame, 0, timeOutInSeconds)) {
+            if (!waitForNumberOfElementsToBeMoreThanByNoAutoCasting(frame, 0, timeOutInSeconds)) {
                 for (int i = 0; i <= iframeTries(); i++) {
                     foundIframeFlag = waitForNumberOfElementsToBeMoreThanByNoAutoCasting(frame, 0, timeOutInSeconds);
                     if (foundIframeFlag) {
@@ -4048,7 +4090,7 @@ public class CommonFunctions {
                 }
             }
         } catch (Exception e) {
-            logger.info(Values.TXT_EXCREFLECTION);
+            logger.info("Exception: " + e);
         }
         return statusOperation;
     }
@@ -4075,7 +4117,7 @@ public class CommonFunctions {
                 for (int i = counter; i <= (size - 1); i++) {
                     driver.switchTo().defaultContent();
                     driver.switchTo().frame(i);
-                    if (waitForElementVisibility(webElementFound, timeOutInSeconds) || waitForElementClickable(webElementFound, timeOutInSeconds) || webElementFound.isDisplayed() || webElementFound.isEnabled()) {
+                    if (waitForElementVisibilityNoReflection(webElementFound, timeOutInSeconds) || waitForElementClickableNoReflection(webElementFound, timeOutInSeconds) || webElementFound.isDisplayed() || webElementFound.isEnabled()) {
                         logger.info("Element Found Switching To Iframe: " + i);
                         statusOperation = true;
                         break;
@@ -4084,7 +4126,7 @@ public class CommonFunctions {
                     }
                 }
             } else {
-                if (waitForElementVisibility(webElementFound, timeOutInSeconds) || waitForElementClickable(webElementFound, timeOutInSeconds) || webElementFound.isDisplayed() || webElementFound.isEnabled()) {
+                if (waitForElementVisibilityNoReflection(webElementFound, timeOutInSeconds) || waitForElementClickableNoReflection(webElementFound, timeOutInSeconds) || webElementFound.isDisplayed() || webElementFound.isEnabled()) {
                     logger.info("There are NOT IFRAMES AVAILABLE But The Element Was Found");
                     statusOperation = true;
                 }

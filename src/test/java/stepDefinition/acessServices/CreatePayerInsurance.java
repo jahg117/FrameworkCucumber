@@ -20,10 +20,10 @@ public class CreatePayerInsurance extends ApplicationInstance {
 
 
     @Then("I select the {string} and i fill the insurance form with {string} or {string}")
-    public void iClickOnPayerTabFromAndSelectPersonAccountPage(String insuranceType, String dataPMI, String dataPMB) throws Exception {
+    public void iClickOnPayerTabFromAndSelectPersonAccountPage(String insuranceType, String dataPMI, String dataPBM) throws Exception {
         List<String> insuranceTypeList = commonFunctions.splitRegex(insuranceType, Values.REGEX_COMMA);
         List<String> dataPMIList = commonFunctions.splitRegex(dataPMI = dataPMI.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
-        List<String> dataPBMList = commonFunctions.splitRegex(dataPMB = dataPMB.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
+        List<String> dataPBMList = commonFunctions.splitRegex(dataPBM = dataPBM.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
         for (int i = 0; i <= insuranceTypeList.size() - 1; i++) {
             accessServices.getPersonAccountPage().clickNewPatientInsurances();
             accessServices.getNewPatientInsurance().selectInsuranceType(insuranceTypeList.get(i).trim());

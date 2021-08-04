@@ -1,4 +1,4 @@
-@TC07Consents
+@regressionScenarios
 Feature: Consents with 3 different addresses
 
   Scenario Outline: Create cases from patient

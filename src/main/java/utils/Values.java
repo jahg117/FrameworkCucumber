@@ -15,6 +15,9 @@ public final class Values {
     public static final String TXT_PRODUCTNOTDISPLAYMESSAGE = "The product enrollment page was not displayed";
     public static final String TXT_NOTAPPLY = "N_A";
     public static final String TXT_RANDOM = "RND";
+    public static final String TXT_TODAY = "Today";
+    public static final String TXT_SELF = "Self";
+    public static final String TXT_LAR = "LAR";
     public static final String TXT_ACCOUNTID = "Account ID";
     public static final String TXT_HEALTHCAREACCOUNT = "Health Care Account";
     public static final String TXT_HEALTHCAREPROVIDER = "Health Care Provider";
@@ -71,6 +74,10 @@ public final class Values {
     public static final String TXT_VALTRUE = "true";
     public static final String TXT_VALFALSE = "false";
     public static final String TXT_ERRORCREATINGRECORD_DOB = "Unable to read SObject's field value[s]";
+    public static final String TXT_TAGEMAILMESSAGE_01 = " With the following tag name the email will be send to: ";
+    public static final String TXT_TAGEMAILMESSAGE_02 = "The following is the tag of the current scenarios to be executed: ";
+    public static final String TXT_SENDTO = "sendTo";
+    public static final String TXT_AT = "@";
 
 
 
@@ -167,6 +174,11 @@ public final class Values {
     public static final String TXT_CCAUTTEAMCODE = "ccAutTeam";
     public static final String TXT_CCTESTERSCODE = "ccTesters";
 
+    public static final String TXT_SENDTOSELF = "self";
+    public static final String TXT_SENDTOAUTOMATIONTEAM = "at";
+    public static final String TXT_SENDTOTESTTEAM = "qa";
+    public static final String TXT_SENDTONOTAPPLY = "na";
+
     public static final String MSG_USECCMESSAGE = "CC contacts will be use to send the Email";
     public static final String MSG_NOCCMESSAGE = "No CC will use to send the Email";
     public static final String MSG_CCSPECIFICMAIL = "The Specific email contact will receive the Results Report";
@@ -181,14 +193,23 @@ public final class Values {
     public static final String TXT_SENDTOAUTTEAMCODE = "toAutTeam";
     public static final String TXT_SENDTOTESTERSCODE = "toTesters";
 
+    public static final String TXT_SENDTOAUTOMATONTEAM = " to Automation Team";
+    public static final String TXT_SENDTOSTAKEHOLDERS = " to Stake holders";
+    public static final String TXT_SENDTOQA = " to QA team";
+
+    public static final String[] TXT_SMOKESCENARIOS = {"@smokeScenarios", "@regressionScenarios","@createTesData","@1372_configurableConsents"};
+
     public static final String MSG_SENDTOSPECIFICMAIL = "The Specific email contact will receive the Results Report";
     public static final String MSG_SENDTOALLCONTACTSEMAIL = "The All CC Contacts list will be receiving the Results Report";
     public static final String MSG_SENDTOAUTTEAMEMAIL = "The CC Automation Team list will be receiving the Results Report";
     public static final String MSG_SENDTOTESTERSEMAIL = "The CC Testers Team list will be receiving the Results Report";
+    public static final String MSG_EMAIL_SENDTO = "The email was send to: ";
 
     public static final String EMAIL_SUBJECT = "Results From Regression Executed On: ";
+    public static final String EMAIL_SUBJECTTEST = "THIS IS A TEST PLEASE DO NOT REPLY. Executed On: ";
     public static final String EMAIL_SUCCESSMESSAGE = "EMAIL WAS SEND SUCCESSFULLY";
     public static final String EMAIL_EXCFILENOTFOUND = "The system cannot find the file specified";
+    public static final String EMAIL_TESTBODY = "This is just a test executed by the Automation Team.";
     public static final String EMAIL_BODY = "Hello Team,\n" +
             "\nHere are the results from the last automatic execution of our automated test suite. This health check is automatically triggered after every new UAT release.\n" +
             "In case you have any doubt or comment please contact:\n\n" +
@@ -198,6 +219,7 @@ public final class Values {
 
     public static final String EMAIL_FIELDNAME = "email";
     public static final String[] ARRAY_EMAILDATA = {"az_automation_gdl@hotmail.com,az_aut_gdl@", "MAILHERE@astrazeneca.net,PASSHERE"};
+    public static final String[] ARRAY_SUITETAGNAMES = {"@smokeScenarios", "@regressionScenarios","@createTesData","@1372_configurableConsents"};
     public static final String EMAIL_PATHPDF = "/test output/PdfReport";
     public static final String EMAIL_EXTENTPDF = "ExtentPdf.pdf";
 

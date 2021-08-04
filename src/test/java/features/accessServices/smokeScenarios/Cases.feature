@@ -1,6 +1,6 @@
-@smoke
 Feature: Cases
 
+  @testCase
   Scenario Outline: Create cases from patient
     Given I login as an "<user>" user
     When the salesforce page is displayed
@@ -13,6 +13,7 @@ Feature: Cases
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
     And I validate the interaction case number is displayed
+    And I close the last sub tab
     And I click on new product enrollment button
     And I enter a valid "<productName>" product in the product enrollment form
     And I click on enroll button
@@ -23,8 +24,9 @@ Feature: Cases
     And I validate the correct case information is displayed
 
     Examples:
-      | user  | productName | caseType | channel | caseStatus | caseSubType | discussTopic | cardNumber |
-      | admin | AZ          | RND      | RND     | Open       | RND         | RND          | RND        |
+      | user  | productName       | caseType               | channel   | caseStatus | caseSubType | discussTopic | cardNumber |
+      | admin | Saphnelo          | Pharmacy Coordination  | RND       | Open       | RND         | RND          | RND        |
+      | admin | Saphnelo          | Denied Patient Savings | RND       | Open       | RND         | RND          | RND        |
 
   Scenario Outline: Create case from product enrollment
     Given I login as an "<user>" user
