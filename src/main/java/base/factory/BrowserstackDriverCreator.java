@@ -16,7 +16,7 @@ public class BrowserstackDriverCreator {
     public WebDriver createWebDriver(String scenarioDetails) throws MalformedURLException {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("GlobalConfig.properties");
-        String URL = "https://" + new String(Base64.decodeBase64(fileReading.getField("AUTOMATE_USERNAME").getBytes())) + ":" +         new String(Base64.decodeBase64(fileReading.getField("AUTOMATE_ACCESS_KEY").getBytes()))+ "@hub-cloud.browserstack.com/wd/hub";
+        String URL = "https://" + new String(fileReading.getField("AUTOMATE_USERNAME").getBytes()) + ":" +         new String(fileReading.getField("AUTOMATE_ACCESS_KEY").getBytes())+ "@hub-cloud.browserstack.com/wd/hub";
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
