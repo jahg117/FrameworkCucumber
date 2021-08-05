@@ -36,8 +36,8 @@ public class LoginPage extends CommonFunctions {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
         waitForPageToLoad();
-        String usr = new String(Base64.decodeBase64(fileReading.getField(salesforceUser).getBytes()));
-        String pass = new String(Base64.decodeBase64(fileReading.getField(salesforceUser + "Password").getBytes()));
+        String usr = fileReading.getField(salesforceUser);
+        String pass = fileReading.getField(salesforceUser + "Password");
         sendKeysElementVisible(input_username, usr, shortWait());
         sendKeysElementVisible(input_password, pass, shortWait());
         submitByWebElement(input_password);
