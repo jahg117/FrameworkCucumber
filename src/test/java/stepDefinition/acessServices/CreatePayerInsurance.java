@@ -16,6 +16,8 @@ import java.util.Locale;
 public class CreatePayerInsurance extends ApplicationInstance {
 
     CommonFunctions commonFunctions = new CommonFunctions();
+    private Logger logger = Logger.getLogger(CommonFunctions.class);
+
 
 
 
@@ -25,6 +27,7 @@ public class CreatePayerInsurance extends ApplicationInstance {
         List<String> dataPMIList = commonFunctions.splitRegex(dataPMI = dataPMI.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
         List<String> dataPBMList = commonFunctions.splitRegex(dataPBM = dataPBM.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
         for (int i = 0; i <= insuranceTypeList.size() - 1; i++) {
+            if (!insuranceTypeList.get(i).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             accessServices.getPersonAccountPage().clickNewPatientInsurances();
             accessServices.getNewPatientInsurance().selectInsuranceType(insuranceTypeList.get(i).trim());
             switch (insuranceTypeList.get(i).trim().toLowerCase()) {
@@ -37,9 +40,13 @@ public class CreatePayerInsurance extends ApplicationInstance {
                 case "pbm":
                     accessServices.getNewPatientInsurancePBM().fillPBMForm(dataPBMList);
                     break;
+                default:
+                    logger.info(Values.TXT_NOINSURANCE);
+                    break;
             }
             Assert.assertTrue(!accessServices.getNewPatientInsurance().getPatientInsuranceNumber().isEmpty(), "Insurance Created");
             commonFunctions.closeLastSubTabSF(commonFunctions.mediumWait());
+            }
         }
         accessServices.getPersonAccountPage().clickOnProgramEnrollments();
     }

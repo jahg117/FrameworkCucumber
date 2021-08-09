@@ -1439,6 +1439,9 @@ public class CustomerLookupPage extends CommonFunctions {
             case "PM":
                 ctmRelationship = Values.CTM_PHARMACIST;
                 break;
+            case "NR":
+                ctmRelationship = Values.CTM_NURSE;
+                break;
             case "OS":
                 ctmRelationship = Values.CTM_OFFICESTAFF;
                 break;
