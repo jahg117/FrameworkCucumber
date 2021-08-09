@@ -78,6 +78,7 @@ public final class Values {
     public static final String TXT_TAGEMAILMESSAGE_02 = "The following is the tag of the current scenarios to be executed: ";
     public static final String TXT_SENDTO = "sendTo";
     public static final String TXT_AT = "@";
+    public static final String TXT_NOINSURANCE = "No Insurance Will Be Created";
 
 
 
@@ -87,6 +88,7 @@ public final class Values {
     //============FORMATS
     public static final String DATEFORMAT_MMM_DD_HH_MM = "MMM.dd.HH.mm";
     public static final String DOB_MM_DD_YYYY = "MM.dd.yyyy";
+    public static final String DOB_DD_MM_YYYY = "dd.MM.yyyy";
 
 
     //============CHARACTERS
@@ -153,6 +155,7 @@ public final class Values {
     public static final String CTM_PRESCRIBINGPHYSICIAN = "Prescribing Physician";
     public static final String CTM_TREATINGPHYSICIAN = "Treating Physician";
     public static final String CTM_PHARMACIST = "Pharmacist";
+    public static final String CTM_NURSE = "Nurse";
     public static final String CTM_OFFICESTAFF = "Office Staff";
     public static final String CTM_OTHER = "Other";
 
