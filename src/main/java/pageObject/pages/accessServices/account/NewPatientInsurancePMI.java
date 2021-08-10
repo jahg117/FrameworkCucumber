@@ -145,7 +145,7 @@ public class NewPatientInsurancePMI extends CommonFunctions {
                 case 3:
                     //============CardHolder DOB
                     clickAndMoveToElementClickable(inputCardHolderDOB, mediumWait());
-                    sendKeysAndMoveToElementVisible(inputCardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
+                    sendKeysAndMoveToElementVisible(inputCardHolderDOB, String.valueOf(getRandomDate(Values.DOB_DD_MM_YYYY)), mediumWait());
                     statusOperation = true;
                     break;
                 case 4:
@@ -232,9 +232,9 @@ public class NewPatientInsurancePMI extends CommonFunctions {
                     statusOperation = true;
                     break;
                 case 3:
-                    //============CardHolder DOB
+                    //============SPECIFIC CardHolder DOB
                     clickAndMoveToElementClickable(inputCardHolderDOB, mediumWait());
-                    sendKeysAndMoveToElementVisible(inputCardHolderDOB, String.valueOf(getRandomDate()), mediumWait());
+                    sendKeysAndMoveToElementVisible(inputCardHolderDOB,dataPMI, mediumWait());
                     statusOperation = true;
                     break;
                 case 4:
