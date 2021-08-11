@@ -246,7 +246,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                         accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
                         accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
                         productEnrollments.add(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
-                        accessServices.getSubTabsPage().closeSubTab(0);
+                        accessServices.getSubTabsPage().closeLastSubTab();
                     }
                     accessServices.getPersonAccountPage().clickViewAllProgramEnrollments();
                     accessServices.getProductEnrollmentsTablePage().isProductEnrollmentsPageDisplayed();

@@ -80,8 +80,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public void clickEnrollButton() throws Exception {
-        autoSwitchIframeByWebElement(buttonEnroll, shortWait());
-        waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
+        autoSwitchIframeByWebElement(buttonEnroll, 5);
+        waitForNumberOfElementsToBe(iconLoadPage, 0, 5);
         waitForElementClickable(buttonEnroll, mediumWait());
         scrollMethodToWebElement(buttonEnroll);
         if (!buttonEnroll.isDisplayed()) {
