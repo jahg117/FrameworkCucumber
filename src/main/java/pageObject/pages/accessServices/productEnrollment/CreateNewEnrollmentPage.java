@@ -17,6 +17,9 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//iframe[@title='accessibility title'][not(@cd_frame_id_)]")
     private WebElement iframeNewProgramEnrollment;
 
+    @FindBy(xpath = "(//iframe[@title='accessibility title'])[last()]")
+    private WebElement iframeEnrollButton;
+
     @FindBy(xpath = "//span[@class='lookupInput']//input")
     private WebElement inputProduct;
 
@@ -80,7 +83,8 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
     }
 
     public void clickEnrollButton() throws Exception {
-        autoSwitchIframeByWebElement(buttonEnroll, 5);
+        switchToFrameByWebElementIndexOrName(iframeEnrollButton, shortWait());
+        //autoSwitchIframeByWebElement(buttonEnroll, 5);
         waitForNumberOfElementsToBe(iconLoadPage, 0, 5);
         waitForElementClickable(buttonEnroll, mediumWait());
         scrollMethodToWebElement(buttonEnroll);
@@ -88,6 +92,7 @@ public class CreateNewEnrollmentPage extends CommonFunctions {
             scrollMethodToWebElement(buttonEnroll);
         }
         clickMethodsWebElement(buttonEnroll);
+        switchToParentFrame();
     }
 
 
