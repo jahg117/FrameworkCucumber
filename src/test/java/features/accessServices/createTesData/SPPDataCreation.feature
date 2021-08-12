@@ -1,5 +1,5 @@
-@createTesData
-Feature: Patient Data Creation
+@SPPDataCreation
+Feature: SPP Data Creation
 """
 //============Script Purpose:
 It creates a Patient with:
@@ -122,6 +122,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     ====================================================================================================================
     CONFIG DATA:
       | user  | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                                             | consentData                 | azConType | dsiConType | irData         |
+      | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        | P0:RND,P1:Open |
       | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        | P0:RND,P1:Open |
 
 

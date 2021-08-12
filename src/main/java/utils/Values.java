@@ -79,6 +79,10 @@ public final class Values {
     public static final String TXT_SENDTO = "sendTo";
     public static final String TXT_AT = "@";
     public static final String TXT_NOINSURANCE = "No Insurance Will Be Created";
+    public static final String TXT_UAT = "UAT";
+    public static final String TXT_INT = "INT";
+
+
 
 
 
@@ -134,6 +138,8 @@ public final class Values {
     public static final String REGEX_REPLACEINDEXLABEL = "P[\\d:]*(.):";
     public static final String REGEX_WITHESPACE = "[(\\s)]";
     public static final String REGEX_PIPE = "[|]";
+    public static final String REGEX_STARTSWITH = "^[A-Za-z]*_";//example AUT_TEST it will get AUT_
+
 
     //============ARRAY VALUES USE FOR DATAPATIENT CREATION
     public static final String[] ARRAY_PHONEFAXVALUES = {"Home Fax", "Home Phone", "International", "Mobile", "Office Fax", "Office Phone"};
