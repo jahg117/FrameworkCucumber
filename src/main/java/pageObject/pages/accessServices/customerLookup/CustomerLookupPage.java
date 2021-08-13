@@ -625,9 +625,6 @@ public class CustomerLookupPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void doAFacilitySearch(HashMap<String, String> hcaDetails) throws Exception {
-        if (!hcaDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysAndMoveToElementVisible(inputSearchExternalID, hcaDetails.get(Values.TXT_EXTERNALID), mediumWait());
-        }
 
         if (!hcaDetails.get(Values.TXT_NPI).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(inputSearchNPI, hcaDetails.get(Values.TXT_NPI), mediumWait());
@@ -664,6 +661,10 @@ public class CustomerLookupPage extends CommonFunctions {
         if (!hcaDetails.get(Values.TXT_COUNTRY).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             selectAndMoveDropdownByOptionAttributeValue(inputSearchCountry, hcaDetails.get(Values.TXT_COUNTRY), mediumWait());
         }
+
+        if (!hcaDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            sendKeysAndMoveToElementVisible(inputSearchExternalID, hcaDetails.get(Values.TXT_EXTERNALID), mediumWait());
+        }
     }
 
     public void clickOnSearch() throws Exception {
@@ -682,6 +683,10 @@ public class CustomerLookupPage extends CommonFunctions {
         } else {
             if (waitForElementVisibility(messageSearchNoResults, mediumWait())) {
                 logger.info("No Results Were Found");
+            } else{
+                if (autoSwitchIframeByWebElement(tableResultsTableHeaders,mediumWait())) {
+                    logger.info("Results Displayed");
+                }
             }
         }
     }
@@ -934,9 +939,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doAHCPSearch(HashMap<String, String> hcpDetails) throws Exception {
 
-        if (!hcpDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysAndMoveToElementVisible(inputSearchExternalID, hcpDetails.get(Values.TXT_EXTERNALID), mediumWait());
-        }
 
         if (!hcpDetails.get(Values.TXT_NPI).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(inputSearchNPI, hcpDetails.get(Values.TXT_NPI), mediumWait());
@@ -984,6 +986,10 @@ public class CustomerLookupPage extends CommonFunctions {
 
         if (!hcpDetails.get(Values.TXT_COUNTRY).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             selectAndMoveDropdownByOptionAttributeValue(inputSearchCountry, hcpDetails.get(Values.TXT_COUNTRY), mediumWait());
+        }
+
+        if (!hcpDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            sendKeysAndMoveToElementVisible(inputSearchExternalID, hcpDetails.get(Values.TXT_EXTERNALID), mediumWait());
         }
     }
 
@@ -1235,10 +1241,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doACPCSearch(HashMap<String, String> cpcDetails) throws Exception {
 
-        if (!cpcDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysAndMoveToElementVisible(inputSearchExternalID, cpcDetails.get(Values.TXT_EXTERNALID), mediumWait());
-        }
-
         if (!cpcDetails.get(Values.TXT_FIRSTNAME).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(inputSearchFirstName, cpcDetails.get(Values.TXT_FIRSTNAME), mediumWait());
         }
@@ -1280,6 +1282,10 @@ public class CustomerLookupPage extends CommonFunctions {
 
         if (!cpcDetails.get(Values.TXT_COUNTRY).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             selectAndMoveDropdownByOptionAttributeValue(inputSearchCountry, cpcDetails.get(Values.TXT_COUNTRY), mediumWait());
+        }
+
+        if (!cpcDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            sendKeysAndMoveToElementVisible(inputSearchExternalID, cpcDetails.get(Values.TXT_EXTERNALID), mediumWait());
         }
     }
 
@@ -1394,10 +1400,6 @@ public class CustomerLookupPage extends CommonFunctions {
      */
     public void doAEmployeeSearch(HashMap<String, String> employeeDetails) throws Exception {
 
-        if (!employeeDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            sendKeysAndMoveToElementVisible(inputSearchExternalID, employeeDetails.get(Values.TXT_EXTERNALID), mediumWait());
-        }
-
         if (!employeeDetails.get(Values.TXT_FIRSTNAME).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(inputSearchFirstName, employeeDetails.get(Values.TXT_FIRSTNAME), mediumWait());
         }
@@ -1408,6 +1410,10 @@ public class CustomerLookupPage extends CommonFunctions {
 
         if (!employeeDetails.get(Values.TXT_LASTNAME).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             sendKeysAndMoveToElementVisible(inputSearchLastName, employeeDetails.get(Values.TXT_LASTNAME), mediumWait());
+        }
+
+        if (!employeeDetails.get(Values.TXT_EXTERNALID).trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            sendKeysAndMoveToElementVisible(inputSearchExternalID, employeeDetails.get(Values.TXT_EXTERNALID), mediumWait());
         }
     }
 
