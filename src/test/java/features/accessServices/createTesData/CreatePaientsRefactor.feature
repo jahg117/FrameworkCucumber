@@ -66,6 +66,9 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I click on new Account
     And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the fields from the account form PDC Using "<accData>"
+    And I validate the patient ID is displayed
+    And I click on Payer tab from PersonAccountPage
+    And I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPBM>"
     And I click on new Case from the person account page
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
@@ -84,7 +87,8 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I select the consent address in the new consent wizard page
     And I validate the consent ID is displayed
     And I close the last sub tab
+    And I save the displayed patient ID
 
     Examples: Patient Creation Table
-      | user  | channel | caseStatus | caseSubType | discussTopic | cardNumber | productEnrollment | cases                       | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                                             | consentData                 | azConType | dsiConType | irData         |
-      | admin | RND     | Open       | RND         | RND          | RND        | Saphnelo,Fasenra  | P0:RND_RND,P1:Asset Request | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        | P0:RND,P1:Open |
+      | user  | channel | caseStatus | caseSubType | discussTopic | cardNumber | productEnrollment | cases       | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                                             | consentData                 | azConType | dsiConType |
+      | admin | RND     | Open       | RND         | RND          | RND        | Saphnelo,Fasenra  | P0:NA,P1:NA | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        |
