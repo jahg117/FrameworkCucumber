@@ -174,4 +174,8 @@ public class ProductEnrollmentPage extends CommonFunctions {
         }
         return statusOperation;
     }
+
+    public List<String> getProductEnrollmentList(String productEnrollment) throws Exception {
+        return splitRegex(productEnrollment, Values.REGEX_COMMA);
+    }
 }
