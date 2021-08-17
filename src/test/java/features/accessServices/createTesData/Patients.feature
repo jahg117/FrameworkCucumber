@@ -67,6 +67,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I fill the fields from the account form
       | name    | fax        | phoneType | zipcode |
       | AutoSPP | 2403061405 | Home Fax  | 06023   |
+    And I validate the patient ID is displayed
     And I save the displayed patient ID
     Then I click on Payer tab from PersonAccountPage
     Then I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPMB>"

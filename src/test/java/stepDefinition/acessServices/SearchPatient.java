@@ -30,9 +30,7 @@ public class SearchPatient extends ApplicationInstance {
     @And("^I save the displayed patient ID$")
     public void savePatientIntoExcelFile() throws Exception {
         ExcelFiles excelFiles = new ExcelFiles();
-        String pepID = accessServices.getPersonAccountPage().getPEPId();
-        excelFiles.savePEPId(pepID);
-        commonData.patient = new Patient(pepID);
+        excelFiles.savePEPId(commonData.patient.getPepID());
     }
 
     @And("^I validate the patient account was created$")

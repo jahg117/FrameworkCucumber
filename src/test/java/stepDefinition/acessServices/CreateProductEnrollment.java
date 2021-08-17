@@ -404,6 +404,77 @@ public class CreateProductEnrollment extends ApplicationInstance {
         commonData.patient = new Patient(patientDetails);
     }
 
+    @And("I create product enrollments {string} with cases {string} {string} {string} {string} {string} {string} and care team members {string}")
+    public void createProductEnrollmentFlowPDC(String productEnrollment, String cases, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber, String ctmData) throws Exception {
+        List<String> productList = accessServices.getProductEnrollmentPage().getProductEnrollmentList(productEnrollment);
+        List<List<String>> casesList = accessServices.getPersonAccountPage().getCasesList(cases);
+        String productName = "";
+        int index = 0, indexy = 0;
+        for(String product : productList) {
+            productName = product;
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                try {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+
+                } catch (Exception e) {
+                }
+            }
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
+
+            //////// cases
+            for(int i = 0; i < casesList.get(index).size(); i++ ) {
+                if(!casesList.get(index).get(indexy).equalsIgnoreCase("NA")){
+                accessServices.getProductEnrollmentPage().clickOnNewCase();
+                accessServices.getNewCasePage().isNewCaseFormDisplayed();
+                accessServices.getNewCasePage().selectCaseOption(casesList.get(index).get(indexy));
+                accessServices.getNewCasePage().clickContinueButton();
+                ////////////
+                HashMap<String, String> caseForm = new HashMap<>();
+                caseForm.put("ProductName", productName);
+                caseForm.put("Channel", channel);
+                caseForm.put("CaseStatus", caseStatus);
+                caseForm.put("CaseSubType", caseSubType);
+                caseForm.put("DiscussTopic", discussTopic);
+                caseForm.put("CardNumber", cardNumber);
+                caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
+                caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+                accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+                accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
+                accessServices.getCaseInformationPage().clickSaveButton();
+                accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
+                accessServices.getCasePage().isCasePageDisplayed();
+                accessServices.getSubTabsPage().closeLastSubTab();
+                }
+                indexy++;
+            }
+
+            //////////care team member
+            List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+
+            for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                String type = ctmListOfList.get(0).get(i);
+                String email = ctmListOfList.get(1).get(i);
+                String relation = ctmListOfList.get(2).get(i);
+                accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
+                accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                accessServices.getCustomerLookupPage().selectCaseContactOption();
+                accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            }
+            accessServices.getSubTabsPage().closeSubTab(0);
+
+            indexy = 0;
+            index++;
+            accessServices.getSubTabsPage().closeLastSubTab();
+        }
+    }
+
     @And("I create a list of product enrollments with a care team member Using for PDC")
     public void createProductEnrollmentFlowPDC(DataTable dataTable) throws Exception {
         JsonFiles file = new JsonFiles();
