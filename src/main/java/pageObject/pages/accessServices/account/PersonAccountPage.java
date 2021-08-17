@@ -320,4 +320,8 @@ public class PersonAccountPage extends CommonFunctions {
         clickAndMoveToElementClickable(tabAddresses, mediumWait());
         clickAndMoveToElementClickable(rowFirstAddressLine1, mediumWait());
     }
+
+    public List<List<String>> getCasesList(String cases) throws Exception {
+        return splitIntoLists(cases = cases.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+    }
 }
