@@ -267,7 +267,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 }
             }
         } catch (InvocationTargetException | NullPointerException e) {
-             List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
+            List<Map<String, String>> list = dataTable.asMaps(String.class, String.class);
             ArrayList<String> productEnrollments = new ArrayList<>();
             for (Map<String, String> el : list) {
                 String product = el.get("ProductEnrollment");
@@ -445,5 +445,40 @@ public class CreateProductEnrollment extends ApplicationInstance {
     public void createCTMForPDC(String ctmData) {
         commonData.globalShareData = new GlobalShareData(ctmData);
         commonData.globalShareData.getRecordData();
+    }
+
+    @And("I create a list of product enrollments with {string} with a care team member Using {string}")
+    public void createPEAndCTM(String drugs, String ctmData) throws Exception {
+        List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
+        for (String drug : drugList) {
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(drug));
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                try {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                } catch (Exception e) {
+                }
+            }
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+            if (ctmListOfList.size() == 1 && (ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY) || ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_N_VALUE))) {
+                logger.info(Values.TXT_NOINSURANCE);
+            } else {
+                for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                    String type = ctmListOfList.get(0).get(i);
+                    String email = ctmListOfList.get(1).get(i);
+                    String relation = ctmListOfList.get(2).get(i);
+                    accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
+                    accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                    accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                    accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                    accessServices.getCustomerLookupPage().selectCaseContactOption();
+                    accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                    accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+                }
+            }
+            accessServices.getSubTabsPage().closeSubTab(0);
+        }
     }
 }

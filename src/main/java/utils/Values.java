@@ -81,6 +81,7 @@ public final class Values {
     public static final String TXT_NOINSURANCE = "No Insurance Will Be Created";
     public static final String TXT_UAT = "UAT";
     public static final String TXT_INT = "INT";
+    public static final String TXT_RNDCONSENT = "Consent will be created complety randomly";
 
 
 
@@ -240,4 +241,8 @@ public final class Values {
     public static final String EMAIL_AUTTEAMLIST = "juan.rincon@astrazeneca.com,jonathanernesto.ruano@astrazeneca.com,juanalejandro.hernandez@astrazeneca.com";
     public static final String EMAIL_TESTERSLIST = "adolfo.gutierrez@astrazeneca.com,hector.urena@astrazeneca.com,juan.marquez1@astrazeneca.com,pedro.flores@astrazeneca.com," +
             "viridiana.salinas@astrazeneca.com,alejandra.guiot@astrazeneca.com,cesar.magana@astrazeneca.com,isselsinai.ramirez@astrazeneca.com,roberto.campos@astrazeneca.com,daniela.salazar2@astrazeneca.com";
+
+    //============CONSENT TYPE
+    public static final String[] ARRAY_AZTYPES_CODES = {"APC","AFP","ANP","ACC"};
+    public static final String[] ARRAY_DSITYPES_CODES = {"DFM","DCC","DPC","DNC"};
 }

@@ -6,10 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pageObject.pages.accessServices.account.PersonAccountPage;
+import pageObject.pages.accessServices.tabs.SubTabsPage;
 import utils.FileReading;
 import utils.Values;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class NewConsentWizardPage extends CommonFunctions {
@@ -50,6 +51,10 @@ public class NewConsentWizardPage extends CommonFunctions {
     private WebElement tab_newConsentWizard;
 
     protected FileReading fileReading = new FileReading();
+    PersonAccountPage personAccountPage = new PersonAccountPage();
+    ConsentPage consentPage = new ConsentPage();
+    NewConsentPage newConsentPage = new NewConsentPage();
+    SubTabsPage subTabsPage = new SubTabsPage();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
 
@@ -118,10 +123,10 @@ public class NewConsentWizardPage extends CommonFunctions {
                     }
                     valueCounter++;
                     break;
-                }
-            } while (valueCounter <= requiredValues);
-            clickAndMoveToElementVisible(button_next, mediumWait());
-        }
+            }
+        } while (valueCounter <= requiredValues);
+        clickAndMoveToElementVisible(button_next, mediumWait());
+    }
 
 
     /**
@@ -148,5 +153,15 @@ public class NewConsentWizardPage extends CommonFunctions {
         }
         clickAndMoveToElementClickable(button_addressSave, mediumWait());
         waitForElementInvisibilityOfElementLocatedBy(newConsentTab, mediumWait());
+    }
+
+    public void createConsentData(String consentData) throws Exception {
+        List<String> consentDataList = splitRegex(consentData = consentData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
+        if (consentDataList.size() == 1 && consentDataList.get(0).equalsIgnoreCase(Values.TXT_RANDOM)) {
+            logger.info(Values.TXT_RNDCONSENT);
+            fillConsentForm(consentDataList.get(0), consentDataList.get(0), consentDataList.get(0), consentDataList.get(0));
+        } else {
+            fillConsentForm(consentDataList.get(1), consentDataList.get(2), consentDataList.get(3), consentDataList.get(4));
+        }
     }
 }

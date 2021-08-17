@@ -58,7 +58,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
       random you shall put in the respective index the word RND.
 """
 
-  Scenario Outline: Patient Data Creation
+  Scenario Outline: SPP Data Creation
     Given I login as an "<user>" user
     When the salesforce page is displayed
     Then I search the "Access Services" app
@@ -67,24 +67,10 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the fields from the account form PDC Using "<accData>"
     And I save the displayed patient ID
-    Then I click on Payer tab from PersonAccountPage
-    Then I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPBM>"
-    Then I create the Care Team Member data using "<ctmData>" for PDC
-    And I create a list of product enrollments with a care team member Using for PDC
-      | ProductEnrollment |
-      | Saphnelo          |
-    And I click on the consent tab to click the new consent button at person account page
-    And I select the "<azConType>" consent type at new consent wizard page
-    And I fill the selected consent type form with the following data "<consentData>" at new consent wizard page for PDC
-    And I select the consent address in the new consent wizard page
-    And I validate the consent ID is displayed
-    And I close the last sub tab
-    And I click on the consent tab to click the new consent button at person account page
-    And I select the "<dsiConType>" consent type at new consent wizard page
-    And I fill the selected consent type form with the following data "<consentData>" at new consent wizard page for PDC
-    And I select the consent address in the new consent wizard page
-    And I validate the consent ID is displayed
-    And I close the last sub tab
+    Given the "<insuranceType>" will create the types of insurance with "<dataPMI>" or "<dataPBM>"
+    And I create a list of product enrollments with "<productEnrollment>" with a care team member Using "<ctmData>"
+    Given the "<consentDataAZ>" i create the consent type and validate it for "AZ"
+    Given the "<consentDataDSI>" i create the consent type and validate it for "DSI"
     And I click on new Case from the person account page
     And I select the case type option "Interaction"
     And I fill the new interaction mandatory fields "<irData>" for PDC
@@ -121,8 +107,10 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     P0:RND,P1:Active
     ====================================================================================================================
     CONFIG DATA:
-      | user  | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                                             | consentData                 | azConType | dsiConType | irData         |
-      | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        | P0:RND,P1:Open |
-      | admin | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A,PMI,N_A   | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility@hospital.com_hcp.specialty@astrazeneca.com,P2:PF_PP | Active, Today, RND, Self    | ANP       | DNC        | P0:RND,P1:Open |
+      | user  | productEnrollment | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                        | consentDataAZ       | consentDataDSI | irData         |
+      | admin | Saphnelo          | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A           | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca,P1:internal.facility@hospital.com,P2:PF | ANP,RND,RND,RND,RND | N_A            | P0:RND,P1:Open |
+
+
+
 
 

@@ -53,7 +53,7 @@ public class ConsentPage extends CommonFunctions {
     }
 
     public boolean isConsentPageDisplayed() throws Exception {
-       return waitForElementClickable(buttonNewContact, longWait());
+        return waitForElementClickable(buttonNewContact, longWait());
     }
 
 
@@ -74,6 +74,40 @@ public class ConsentPage extends CommonFunctions {
     }
 
     public String consentTypeFilter(String consentType) throws Exception {
+
+        switch (consentType.trim().toUpperCase()) {
+            case "DFM":
+                consentType = Values.TXT_DFM;
+                break;
+            case "DCC":
+                consentType = Values.TXT_DCC;
+                break;
+            case "APC":
+                consentType = Values.TXT_APC;
+                break;
+            case "DPC":
+                consentType = Values.TXT_DPC;
+                break;
+            case "AFP":
+                consentType = Values.TXT_AFP;
+                break;
+            case "ANP":
+                consentType = Values.TXT_ANP;
+                break;
+            case "DNC":
+                consentType = Values.TXT_DNC;
+                break;
+            case "ACC":
+                consentType = Values.TXT_ACC;
+                break;
+        }
+        return consentType;
+    }
+
+    public String consentTypeFilter(String consentType, String consent) throws Exception {
+        if (consentType.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+            consentType = rndConsentType(consent);
+        }
         switch (consentType.trim().toUpperCase()) {
             case "DFM":
                 consentType = Values.TXT_DFM;
@@ -119,17 +153,32 @@ public class ConsentPage extends CommonFunctions {
 
     public boolean getConsentDateValidation() throws Exception {
         waitForElementVisibility(labelConsentState, mediumWait());
-        if(getWebElementText(labelConsentState).equalsIgnoreCase("MD") || getWebElementText(labelConsentState).equalsIgnoreCase("MN")){
-            if(getConsentExpDateYear() - getConsentDateYear()==1){
+        if (getWebElementText(labelConsentState).equalsIgnoreCase("MD") || getWebElementText(labelConsentState).equalsIgnoreCase("MN")) {
+            if (getConsentExpDateYear() - getConsentDateYear() == 1) {
                 return true;
+            } else {
+                return false;
             }
-            else {return false; }
+        } else {
+            if (getConsentExpDateYear() - getConsentDateYear() == 2) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        else {
-            if(getConsentExpDateYear() - getConsentDateYear()==2){
-            return true;
+    }
+
+    public String rndConsentType(String typeOfConsent) throws Exception {
+        String consentType = "";
+        switch (typeOfConsent.trim().toUpperCase()) {
+            case "AZ":
+                consentType = Values.ARRAY_AZTYPES_CODES[getRandomNumberByLimits(0, Values.ARRAY_AZTYPES_CODES.length)];
+                break;
+            case "DSI":
+                consentType = Values.ARRAY_DSITYPES_CODES[getRandomNumberByLimits(0, Values.ARRAY_DSITYPES_CODES.length)];
+                break;
+
         }
-            else {return false;}
-        }
+        return consentType;
     }
 }

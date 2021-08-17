@@ -138,7 +138,7 @@ public class CreateAConsent extends ApplicationInstance {
 
     @And("^I validate that the consent expiration date is correct$")
     public void validateConsentExpirationDateIsCorrect() throws Exception {
-        Assert.assertEquals(accessServices.getConsentPage().getConsentDateValidation(),true,"The Consent expiration date is not matching according to the selected state");
+        Assert.assertEquals(accessServices.getConsentPage().getConsentDateValidation(), true, "The Consent expiration date is not matching according to the selected state");
         accessServices.getSubTabsPage().closeLastSubTab();
     }
 
@@ -267,7 +267,6 @@ public class CreateAConsent extends ApplicationInstance {
     }
 
 
-
     @And("I validate the consent ID is displayed")
     public void consentIDDisplayed() throws Exception {
         accessServices.getConsentPage().getConsentID();
@@ -299,8 +298,20 @@ public class CreateAConsent extends ApplicationInstance {
         }
     }
 
-    @Given("I login as an {string} users")
-    public void iLoginAsAnUsers(String arg0) {
-    String test = "10";
+    @Given("the {string} i create the consent type and validate it for {string}")
+    public void createConsent(String consentData,String consent) throws Exception {
+        String[] consentDataList = consentData.split(Values.REGEX_COMMA);
+        if (consentDataList.length == 1 && consentDataList[0].equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            logger.info(Values.TXT_NOINSURANCE);
+        } else {
+            accessServices.getPersonAccountPage().clickOnNewConsent();
+            String consentTypeOption = accessServices.getConsentPage().consentTypeFilter(consentDataList[0],consent);
+            accessServices.getNewConsentPage().selectConsentType(consentTypeOption);
+            commonData.consentType = new ConsentType(consentTypeOption);
+            accessServices.getNewConsentWizard().createConsentData(consentData);
+            accessServices.getNewConsentWizard().selectConsentAddress(true, 0);
+            accessServices.getConsentPage().getConsentID();
+            accessServices.getSubTabsPage().closeLastSubTab();
+        }
     }
 }
