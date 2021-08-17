@@ -427,6 +427,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
 
             //////// cases
             for(int i = 0; i < casesList.get(index).size(); i++ ) {
+                if(!casesList.get(index).get(indexy).equalsIgnoreCase("NA")){
                 accessServices.getProductEnrollmentPage().clickOnNewCase();
                 accessServices.getNewCasePage().isNewCaseFormDisplayed();
                 accessServices.getNewCasePage().selectCaseOption(casesList.get(index).get(indexy));
@@ -447,6 +448,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                 accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
                 accessServices.getCasePage().isCasePageDisplayed();
                 accessServices.getSubTabsPage().closeLastSubTab();
+                }
                 indexy++;
             }
 

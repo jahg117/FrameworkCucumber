@@ -66,6 +66,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I click on new Account
     And I click on new and I select "Consumer/Patient/Caregiver" account
     And I fill the fields from the account form PDC Using "<accData>"
+    And I validate the patient ID is displayed
     And I save the displayed patient ID
     Then I click on Payer tab from PersonAccountPage
     Then I select the "<insuranceType>" and i fill the insurance form with "<dataPMI>" or "<dataPBM>"
