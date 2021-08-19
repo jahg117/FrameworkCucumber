@@ -176,9 +176,6 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public void selectCareTeamMemberAddressDetails() throws Exception {
         switchToFrameByWebElementIndexOrName(iframePageInformation, mediumWait());
-        /*if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-            waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-        }*/
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         waitForNumberOfElementsToBeMoreThanBy(rowAddressElements, 0, shortWait());
         waitForElementVisibility(checkboxUsernameAddress, shortWait());
@@ -189,11 +186,8 @@ public class CustomerLookupPage extends CommonFunctions {
 
     public void selectCaseContactOption() throws Exception {
         switchToFrameByWebElementIndexOrName(iframePageInformation, mediumWait());
-        /*if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-            waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-        }*/
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
-        if (waitForElementVisibility(checkboxCaseContact, shortWait())) {
+        if (waitForElementVisibility(checkboxCaseContact, 5)) {
             waitForElementClickable(checkboxCaseContact, shortWait());
             scrollToWebElementJS(checkboxCaseContact);
             clickAndMoveToElementClickable(checkboxCaseContact, mediumWait());
@@ -222,25 +216,16 @@ public class CustomerLookupPage extends CommonFunctions {
         waitForElementVisibility(dropdownRelationship, mediumWait());
         scrollToWebElementJS(dropdownRelationship);
         selectAndMoveDropdownClickableByText(dropdownRelationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
-        /*if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-            waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-        }*/
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         switchToParentFrame();
     }
 
     public void clickCreateCareTeamMember() throws Exception {
         switchToFrameByWebElementIndexOrName(iframePageInformation, longWait());
-        /*if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-            waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-        }*/
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         scrollToWebElementJS(buttonCreateCareTeamMember);
         clickAndMoveToElementClickable(buttonCreateCareTeamMember, mediumWait());
         waitForPageToLoad();
-        /*if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-            waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-        }*/
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         switchToParentFrame();
     }
@@ -383,9 +368,7 @@ public class CustomerLookupPage extends CommonFunctions {
             case "hca":
                 waitForElementClickable(inputSearchFacilityName, mediumWait());
                 clickAndMoveToElementVisible(inputSearchEmail, mediumWait());
-                if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
-                    waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
-                }
+                waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
                 sendKeysAndMoveToElementClickable(inputSearchEmail, searchValue, mediumWait());
                 break;
 
@@ -409,7 +392,7 @@ public class CustomerLookupPage extends CommonFunctions {
                 break;
         }
         clickElementVisible(buttonSearch, mediumWait());
-        if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, shortWait())) {
+        if (waitForPresenceOfAllElementsLocatedBy(iconLoadPage, 3)) {
             waitForNumberOfElementsToBe(iconLoadPage, 0, mediumWait());
         }
         switchToDefaultContentFrame();
