@@ -37,6 +37,6 @@ public class SubTabsPage extends CommonFunctions {
     }
 
     public void closeLastSubTab() throws Exception {
-        closeLastSubTabSF(mediumWait());
+        closeLastSubTabSF(5);
     }
 }
