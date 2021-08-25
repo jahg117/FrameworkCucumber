@@ -34,6 +34,15 @@ public class AccessServicesHomePage extends CommonFunctions {
     @FindBy(xpath = "//*[starts-with(@class,'selectedListItem')]/a")
     private WebElement labelNavigationName;
 
+    @FindBy(xpath = "//input[@placeholder='Search Accounts and more...']")
+    private WebElement labelSearchCases;
+
+    @FindBy(xpath = "//div[contains(@class, 'lookup__menu')]//ul[contains(@class, 'visible')]")
+    private WebElement labelResultCases;
+
+    @FindBy(xpath = "//div[contains(@class, 'lookup__menu')]//ul[contains(@class, 'visible')]//div[contains(@class, 'mruDescription')]")
+    private List<WebElement> listSearchResults;
+
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -55,6 +64,17 @@ public class AccessServicesHomePage extends CommonFunctions {
         clickAndMoveToElementClickable(buttonNewAccount, longWait());
     }
 
+    public void searchPatient(String patientId) throws Exception {
+        sendKeysElementClickable(labelSearchCases, patientId, mediumWait());
+        waitForElementClickable(labelResultCases, shortWait());
+        waitForElementListVisible(listSearchResults, shortWait());
+        for(WebElement el : listSearchResults) {
+            if(getWebElementText(el).contains(patientId)) {
+                clickElementVisible(el, shortWait());
+                break;
+            }
+        }
+    }
 
     public boolean isAccessServicesTitleVisible() throws Exception {
         return waitForElementVisibility(labelAccessServicesTitle, longWait());
