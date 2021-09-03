@@ -242,7 +242,7 @@ public class CommonFunctions {
             statusOperation = true;
         } catch (Exception e) {
             logger.warn("Element not found: " + getWebElementLocatorPath(webElement));
-          }
+        }
         return statusOperation;
     }
 
@@ -3911,9 +3911,11 @@ public class CommonFunctions {
     public int getRandomNumberByLimits(int min, int max) throws Exception {
         int statusOperation = 0;
         try {
-            statusOperation = (int) (Math.floor(Math.random() * (1 + max - 1)));
+            if (min == max) {
+                min = min - 1;
+            }
+            statusOperation = (int) Math.floor(Math.random() * (max - min) + min);
         } catch (Exception e) {
-            statusOperation = autoCasting(executeReflection(min, max));
         }
         return statusOperation;
     }
@@ -4606,5 +4608,16 @@ public class CommonFunctions {
             statusOperation = true;
         }
         return statusOperation;
+    }
+
+    public String searchIntoArray(String valueToSearch, String[] arrayList) throws Exception {
+        for (int i = 0; i <= (arrayList.length - 1); i++) {
+            if (arrayList[i].trim().startsWith(valueToSearch.trim())) {
+                valueToSearch = arrayList[i];
+                break;
+            }
+        }
+        logger.info(Values.TXT_DRUG_USEFOR_PE + valueToSearch);
+        return valueToSearch;
     }
 }

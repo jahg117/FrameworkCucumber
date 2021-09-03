@@ -40,6 +40,15 @@ public class LoginPage extends CommonFunctions {
         if(!environment.equalsIgnoreCase("UAT")&&!environment.equalsIgnoreCase("INT")){
             environment = "UAT";
         }
+        if (salesforceUser.trim().startsWith(Values.TXT_UAT)) {
+            environment = Values.TXT_UAT;
+            salesforceUser = salesforceUser.replaceAll(Values.REGEX_STARTSWITH,Values.REPLACETO_EMPTY);
+        }else{
+            if (salesforceUser.trim().startsWith(Values.TXT_INT)) {
+                environment = Values.TXT_INT;
+                salesforceUser = salesforceUser.replaceAll(Values.REGEX_STARTSWITH, Values.REPLACETO_EMPTY);
+            }
+        }
         String usr = fileReading.getField(salesforceUser + "" + environment);
         String pass = fileReading.getField(salesforceUser + "Password" + environment);
         sendKeysElementVisible(input_username, usr, shortWait());
