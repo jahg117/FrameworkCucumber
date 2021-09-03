@@ -68,12 +68,12 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I fill the fields from the account form PDC Using "<accData>"
     And I save the displayed patient ID
     Given the "<insuranceType>" will create the types of insurance with "<dataPMI>" or "<dataPBM>"
-    And I create a list of product enrollments with "<productEnrollment>" with a care team member Using "<ctmData>"
+    And I create a new "<irCase>" case with "<irData>"
+    And I create a list of product enrollments with "<drugPE>" "<ctmData>" "<cases>" "<caseData>"
     Given the "<consentDataAZ>" i create the consent type and validate it for "AZ"
     Given the "<consentDataDSI>" i create the consent type and validate it for "DSI"
-    And I click on new Case from the person account page
-    And I select the case type option "Interaction"
-    And I fill the new interaction mandatory fields "<irData>" for PDC
+
+
 
     Examples: Patient Creation Table
     ====================================================COMMENTS========================================================
@@ -95,7 +95,7 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     ====================================================CARETEAM MEMBER DATA============================================
     ctmData = P0:Careteam member type,P1:Careteam member type Email,P2:Careteam member RelationShip
     e.g.
-    P0:hca_hcp,P1:internal.facility_hcp.specialty,P2:TF_PF
+    P0:hca_hcp,P1:internal.facility_hcp.specialty,P2:TF_PP
     Note: After the underscore (_) means that the script will be execute with that option too
     ====================================================CONSENT DATA====================================================
     consentData = P0:Consent Status,P1:Consent Date(mm/dd/yyyy),P2:Consent Source,P3:Consent Authorization
@@ -107,10 +107,6 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     P0:RND,P1:Active
     ====================================================================================================================
     CONFIG DATA:
-      | user  | productEnrollment | accData                                                                                       | insuranceType | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                        | consentDataAZ       | consentDataDSI | irData         |
-      | admin | Saphnelo          | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | N_A           | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca,P1:internal.facility@hospital.com,P2:PF | ANP,RND,RND,RND,RND | N_A            | P0:RND,P1:Open |
 
-
-
-
-
+      | user  | drugPE | cases | caseData             | insuranceType | irCase | consentDataAZ           | consentDataDSI          | accData                                                                                       | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                | irData         |
+      | admin | P3     | RND   | RND,Open,RND,RND,RND | N_A           | Y      | ANP,RND,RND,RND,self,P4 | DNC,RND,RND,RND,self,P4 | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility_hcp.specialty,P2:TF_PP | P0:RND,P1:Open |

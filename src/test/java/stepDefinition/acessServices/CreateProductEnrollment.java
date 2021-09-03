@@ -10,16 +10,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import org.testng.internal.annotations.IAnnotationFinder;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
 import utils.JsonFiles;
 import utils.Values;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreateProductEnrollment extends ApplicationInstance {
     private CommonData commonData;
@@ -410,7 +408,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
         List<List<String>> casesList = accessServices.getPersonAccountPage().getCasesList(cases);
         String productName = "";
         int index = 0, indexy = 0;
-        for(String product : productList) {
+        for (String product : productList) {
             productName = product;
             accessServices.getPersonAccountPage().clickNewProductEnrollment();
             accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
@@ -426,28 +424,28 @@ public class CreateProductEnrollment extends ApplicationInstance {
             commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
 
             //////// cases
-            for(int i = 0; i < casesList.get(index).size(); i++ ) {
-                if(!casesList.get(index).get(indexy).equalsIgnoreCase("NA")){
-                accessServices.getProductEnrollmentPage().clickOnNewCase();
-                accessServices.getNewCasePage().isNewCaseFormDisplayed();
-                accessServices.getNewCasePage().selectCaseOption(casesList.get(index).get(indexy));
-                accessServices.getNewCasePage().clickContinueButton();
-                ////////////
-                HashMap<String, String> caseForm = new HashMap<>();
-                caseForm.put("ProductName", productName);
-                caseForm.put("Channel", channel);
-                caseForm.put("CaseStatus", caseStatus);
-                caseForm.put("CaseSubType", caseSubType);
-                caseForm.put("DiscussTopic", discussTopic);
-                caseForm.put("CardNumber", cardNumber);
-                caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
-                caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
-                accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
-                accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
-                accessServices.getCaseInformationPage().clickSaveButton();
-                accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
-                accessServices.getCasePage().isCasePageDisplayed();
-                accessServices.getSubTabsPage().closeLastSubTab();
+            for (int i = 0; i < casesList.get(index).size(); i++) {
+                if (!casesList.get(index).get(indexy).equalsIgnoreCase("NA")) {
+                    accessServices.getProductEnrollmentPage().clickOnNewCase();
+                    accessServices.getNewCasePage().isNewCaseFormDisplayed();
+                    accessServices.getNewCasePage().selectCaseOption(casesList.get(index).get(indexy));
+                    accessServices.getNewCasePage().clickContinueButton();
+                    ////////////
+                    HashMap<String, String> caseForm = new HashMap<>();
+                    caseForm.put("ProductName", productName);
+                    caseForm.put("Channel", channel);
+                    caseForm.put("CaseStatus", caseStatus);
+                    caseForm.put("CaseSubType", caseSubType);
+                    caseForm.put("DiscussTopic", discussTopic);
+                    caseForm.put("CardNumber", cardNumber);
+                    caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
+                    caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+                    accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+                    accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
+                    accessServices.getCaseInformationPage().clickSaveButton();
+                    accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
+                    accessServices.getCasePage().isCasePageDisplayed();
+                    accessServices.getSubTabsPage().closeLastSubTab();
                 }
                 indexy++;
             }
@@ -521,35 +519,151 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("I create a list of product enrollments with {string} with a care team member Using {string}")
     public void createPEAndCTM(String drugs, String ctmData) throws Exception {
         List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
-        for (String drug : drugList) {
-            accessServices.getPersonAccountPage().clickNewProductEnrollment();
-            commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(drug));
-            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
-                try {
+        if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0)) {
+            for (String drug : drugList) {
+                if (!(drug = commonFunctions.searchIntoArray(drug, Values.ARRAY_DRUGLIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
+                    if (drug.trim().startsWith(Values.IDX_VAL_P1)) {
+                        drug = Values.ARRAY_DRUGLIST[commonFunctions.getRandomNumberByLimits(2, Values.ARRAY_DRUGLIST.length)];
+                    }
+                    accessServices.getPersonAccountPage().clickNewProductEnrollment();
+                    commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(drug.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY)));
                     accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
-                } catch (Exception e) {
-                }
-            }
-            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
-            List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
-            if (ctmListOfList.size() == 1 && (ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY) || ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_N_VALUE))) {
-                logger.info(Values.TXT_NOINSURANCE);
-            } else {
-                for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
-                    String type = ctmListOfList.get(0).get(i);
-                    String email = ctmListOfList.get(1).get(i);
-                    String relation = ctmListOfList.get(2).get(i);
-                    accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
-                    accessServices.getCustomerLookupPage().doDummySearch(email, type);
-                    accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
-                    accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
-                    accessServices.getCustomerLookupPage().selectCaseContactOption();
-                    accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                    if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                        try {
+                            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                        } catch (Exception e) {
+                        }
+                    }
                     accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+                    List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+                    if (ctmListOfList.size() == 1 && (ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY) || ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_N_VALUE))) {
+                        logger.info(Values.TXT_NOINSURANCE);
+                    } else {
+                        for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                            String type = ctmListOfList.get(0).get(i);
+                            String email = ctmListOfList.get(1).get(i);
+                            String relation = ctmListOfList.get(2).get(i);
+                            accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
+                            accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                            accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                            accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                            accessServices.getCustomerLookupPage().selectCaseContactOption();
+                            accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+                        }
+                    }
+                    accessServices.getSubTabsPage().closeSubTab(0);
+                } else {
+                    logger.info(Values.TXT_NOPECREATED + drug);
                 }
             }
-            accessServices.getSubTabsPage().closeSubTab(0);
+        } else {
+            logger.info(Values.TXT_NOPENEEDIT);
+        }
+
+
+    }
+
+
+    @And("I create a list of product enrollments with {string} {string} {string} {string}")
+    public void createPEAndCTM(String drugs, String ctmData, String cases, String caseData) throws Exception {
+        List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
+        List<List<String>> casesList = accessServices.getPersonAccountPage().getCasesList(cases);
+        List<String> caseDataList;
+        String drugName = "";
+        String caseTypeOption = "";
+        HashMap<String, String> caseForm = new HashMap<>();
+        int index = 0, indexy = 0;
+//=======FIRST FILTER TO KNOW IF NOT PE WILL BE CREATED. IF IT HAS N_A OR JUST ONE P0 THIS WILL BE TAKE AS NO PE NEED IT
+        if (drugList.size() == 1 && drugList.get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            logger.info(Values.TXT_NOINSURANCE);
+        } else {
+//=====================================================================================================PE CREATION LOGIC
+            if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0)) {
+                for (String drug : drugList) {
+                    if (!(drug = commonFunctions.searchIntoArray(drug, Values.ARRAY_DRUGLIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
+                        if (drug.trim().startsWith(Values.IDX_VAL_P1)||drug.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                            drug = Values.ARRAY_DRUGLIST[commonFunctions.getRandomNumberByLimits(3, Values.ARRAY_DRUGLIST.length)];
+                        }
+                        accessServices.getPersonAccountPage().clickNewProductEnrollment();
+                        commonData.product = new Product(accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(drugName = drug.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY)));
+                        accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                        if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                            try {
+                                accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+                            } catch (Exception e) {
+                            }
+                        }
+                        accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+                        commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
+
+//====================================================================================================CTM CREATION LOGIC
+//===================CTM WILL BE CREATED ONLY IF A PE IS CREATED
+                        List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+                        if (ctmListOfList.size() == 1 && (ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY) || ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_N_VALUE))) {
+                            logger.info(Values.TXT_NOINSURANCE);
+                        } else {
+                            for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                                String type = ctmListOfList.get(0).get(i);
+                                String email = ctmListOfList.get(1).get(i);
+                                String relation = ctmListOfList.get(2).get(i);
+                                accessServices.getProductEnrollmentPage().clickNewCareTeamMember();
+                                accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                                accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                                accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                                accessServices.getCustomerLookupPage().selectCaseContactOption();
+                                accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                                accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+                            }
+                        }
+
+//===========================================================================================CASE CREATION FROM PE LOGIC
+                        if (casesList.size() == 1 && casesList.get(0).get(0).trim().equalsIgnoreCase(Values.TXT_N_VALUE)) {
+                            logger.info(Values.TXT_NOCASENEEDIT);
+                        } else {
+                            for (int i = 0; i < casesList.get(index).size(); i++) {
+                                if (!casesList.get(index).get(indexy).equalsIgnoreCase(Values.IDX_VAL_P0)) {
+                                    caseDataList = Arrays.asList(caseData.trim().split(Values.REGEX_COMMA));
+                                    accessServices.getProductEnrollmentPage().clickOnNewCase();
+                                    accessServices.getNewCasePage().isNewCaseFormDisplayed();
+                                    if ((caseTypeOption = commonFunctions.searchIntoArray(casesList.get(index).get(indexy), Values.ARRAY_CASETYPELIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
+                                        logger.info(Values.TXT_NOCASETYPEFOUND);
+                                    } else {
+                                        if (casesList.get(index).get(indexy).trim().startsWith(Values.IDX_VAL_P1)) {
+                                            accessServices.getNewCasePage().selectCaseOption(Values.ARRAY_CASETYPELIST[index].replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
+                                        } else {
+                                            accessServices.getNewCasePage().selectCaseOption(caseTypeOption.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
+                                        }
+                                        accessServices.getNewCasePage().clickContinueButton();
+                                        caseForm.put("ProductName", drugName);
+                                        caseForm.put("Channel", caseDataList.get(0));
+                                        caseForm.put("CaseStatus", caseDataList.get(1));
+                                        caseForm.put("CaseSubType", caseDataList.get(2));
+                                        caseForm.put("DiscussTopic", caseDataList.get(3));
+                                        caseForm.put("CardNumber", caseDataList.get(4));
+                                        caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
+                                        caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+                                        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+                                        accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
+                                        accessServices.getCaseInformationPage().clickSaveButton();
+                                        accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
+                                        accessServices.getCasePage().isCasePageDisplayed();
+                                        accessServices.getSubTabsPage().closeLastSubTab();
+                                    }
+                                } else {
+                                    accessServices.getSubTabsPage().closeSubTab(0);//closing PE Tab
+                                }
+                            }
+                            indexy = 0;
+                            index++;
+                            logger.info(Values.TXT_CASENEEDIT + caseTypeOption);
+                            accessServices.getSubTabsPage().closeSubTab(0);//closing PE Tab
+                        }
+                    }
+                }
+            } else {
+                logger.info(Values.TXT_NOPECREATED + drugList.get(0));
+            }
         }
     }
 }

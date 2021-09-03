@@ -302,7 +302,7 @@ public class CreateAConsent extends ApplicationInstance {
     public void createConsent(String consentData,String consent) throws Exception {
         String[] consentDataList = consentData.split(Values.REGEX_COMMA);
         if (consentDataList.length == 1 && consentDataList[0].equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            logger.info(Values.TXT_NOINSURANCE);
+            logger.info(Values.TXT_NOCONSENT);
         } else {
             accessServices.getPersonAccountPage().clickOnNewConsent();
             String consentTypeOption = accessServices.getConsentPage().consentTypeFilter(consentDataList[0],consent);
@@ -311,6 +311,12 @@ public class CreateAConsent extends ApplicationInstance {
             accessServices.getNewConsentWizard().createConsentData(consentData);
             accessServices.getNewConsentWizard().selectConsentAddress(true, 0);
             accessServices.getConsentPage().getConsentID();
+
+            accessServices.getConsentPage().attachfileToConsent(consentDataList[5]);
+
+
+
+
             accessServices.getSubTabsPage().closeLastSubTab();
         }
     }

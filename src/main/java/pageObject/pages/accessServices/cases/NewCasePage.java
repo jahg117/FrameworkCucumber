@@ -5,13 +5,14 @@ import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.Values;
 
+import javax.management.ValueExp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewCasePage extends CommonFunctions {
     private Logger logger = Logger.getLogger(CommonFunctions.class);
-    int shortTimeOutInSeconds = 10;
 
     @FindBy(xpath = "//button[@title='Record Type Selection']")
     private WebElement button_continue;
@@ -25,20 +26,22 @@ public class NewCasePage extends CommonFunctions {
     @FindBy(xpath = "(//div[contains(@class,'forceDetailPanelDesktop')])[last()]//*[contains(text(),'New Case')]")
     private WebElement form_caseOptions;
 
+    //*[contains(text(),'Select Record Type')]/following::span[@title][not(@title='Offline Status')]
+
 
     public boolean isNewCaseFormDisplayed() throws Exception {
         waitForPageToLoad();
-        return waitForElementVisibility(dropdown_recordType, 20);
+        return waitForElementVisibility(dropdown_recordType, mediumWait());
     }
 
     public void selectCaseOption(String caseOption) throws Exception {
-        clickElementClickable(dropdown_recordType, 10);
-        if(caseOption.equalsIgnoreCase("RND")){
-            clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, 10),10);
+        clickElementClickable(dropdown_recordType, shortWait());
+        if(caseOption.equalsIgnoreCase(Values.TXT_RANDOM)){
+            clickAndMoveToElementClickable(getRandomWebElementFromList(list_recordTypeList, shortWait()),shortWait());
         }else{
             for (WebElement el : list_recordTypeList) {
                 if (getWebElementAttribute(el,"title").equalsIgnoreCase(caseOption)) {
-                    clickAndMoveToElementClickable(el, 10);
+                    clickAndMoveToElementClickable(el, shortWait());
                     break;
                 }
             }
@@ -47,11 +50,11 @@ public class NewCasePage extends CommonFunctions {
 
     public void clickContinueButton() throws Exception {
         waitForPageToLoad();
-        waitForElementClickable(dropdown_recordType, 10);
-        waitForElementClickable(button_continue, 10);
-        clickAndMoveToElementClickable(button_continue, 10);
-        if(!waitForElementVisibility(form_caseOptions, 10)){
-            clickAndMoveToElementClickable(button_continue, 10);
+        waitForElementClickable(dropdown_recordType, shortWait());
+        waitForElementClickable(button_continue, shortWait());
+        clickAndMoveToElementClickable(button_continue, shortWait());
+        if(!waitForElementVisibility(form_caseOptions, shortWait())){
+            clickAndMoveToElementClickable(button_continue, shortWait());
         }
     }
 
@@ -71,7 +74,7 @@ public class NewCasePage extends CommonFunctions {
         int counter = 0;
         boolean serviceFound = false;
         boolean statusOperation = false;
-        clickAndMoveToElementClickable(dropdown_recordType, shortTimeOutInSeconds);
+        clickAndMoveToElementClickable(dropdown_recordType, shortWait());
         for (WebElement recordType : list_recordTypeList) {
             serviceFound = false;
             while (counter <= (serviceProvidedList.size() - 1)) {

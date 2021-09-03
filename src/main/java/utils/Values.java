@@ -79,9 +79,24 @@ public final class Values {
     public static final String TXT_SENDTO = "sendTo";
     public static final String TXT_AT = "@";
     public static final String TXT_NOINSURANCE = "No Insurance Will Be Created";
+    public static final String TXT_NOCONSENT = "No Consent will be crated";
     public static final String TXT_UAT = "UAT";
     public static final String TXT_INT = "INT";
     public static final String TXT_RNDCONSENT = "Consent will be created complety randomly";
+    public static final String TXT_DRUG_USEFOR_PE = "The PE will be created with the following drug: ";
+    public static final String TXT_EMPTY = "";
+    public static final String TXT_NOPECREATED = "The PE was not created since the drug was not found on the array list, the drug was: ";
+    public static final String TXT_NOPENEEDIT = "No PE will be created since it was configured as N_A ";
+    public static final String TXT_NOCASENEEDIT = "No Cases will be created since it was configured as N_A ";
+    public static final String TXT_CASENEEDIT = "The following type of case was created: ";
+    public static final String TXT_NOINTERACTIONFORM = "The case form option was not displayed";
+    public static final String TXT_NOCASETYPEFOUND = "The case type selected was not found in the array: ";
+    public static final String TXT_VALUE_P = "P";
+    public static final String TXT_NOTTACHMENT = "No files will be added to the consent: ";
+    public static final String TXT_NOFILEWASFOUND = "No file was found with this name selecting random: ";
+    public static final String TXT_FILEADDED = "File Added Successfully ";
+    public static final String TXT_FILENOTADDED = "File Was NOT Added Successfully ";
+
 
 
 
@@ -245,4 +260,27 @@ public final class Values {
     //============CONSENT TYPE
     public static final String[] ARRAY_AZTYPES_CODES = {"APC","AFP","ANP","ACC"};
     public static final String[] ARRAY_DSITYPES_CODES = {"DFM","DCC","DPC","DNC"};
+
+    //============DRUG LIST
+    public static final String[] ARRAY_DRUGLIST = {"P0:N_A","P1:RND","P2:ACCOLATE","P3:ARIMIDEX","P4:ATACAND","P5:AZD1222","P6:AZD7442","P7:BEVESPI AEROSPHERE","P8:BRAZIKUMAB","P9:BREZTRI AEROSPHERE",
+            "P10:BRILINTA","P11:BUDESONIDE","P12:BUDESONIDE AND FORMOTEROL AEROSOL","P13:BYDUREON","P14:BYDUREON BCISE","P15:BYDUREON PEN","P16:BYETTA","P17:CALQUENCE","P18:CANDESARTAN CILEXETIL","P19:CAPRELSA",
+            "P20:CASODEX","P21:CRESTOR","P22:DALIRESP","P23:DUAKLIR PRESSAIR","P24:ENHERTU","P25:ENTOCORT EC","P26:EPANOVA","P27:ESOMEPRAZOLE MAGNESIUM","P28:ESOMEPRAZOLE STRONTIUM","P29:FARXIGA","P30:FASENRA",
+            "P31:FASLODEX","P32:Faslodex/Ibrance Combo Therapy","P33:Faslodex/Kisqali Combo Therapy","P34:Faslodex/Verzenio Combo Therapy","P35:FLUMIST QUADRIVALENT","P36:FULVESTRANT","P37:HIFRENZO","P38:IMFINZI",
+            "P39:INVESTIGATIONAL PRODUCT","P40:IRESSA","P41:KOMBIGLYZE XR","P42:Koselugo","P43:LOKELMA","P44:LUMOXITI","P45:LYNPARZA","P46:METOPROLOL SUCCINATE","P47:MOVANTIK","P48:NEXIUM","P49:NIRSEVIMAB",
+            "P50:NO PRODUCT MENTIONED","P51:ONGLYZA","P52:PULMICORT FLEXHALER","P53:PULMICORT RESPULES","P54:QTERN","P55:QTERNMET XR","P56:QUETIAPINE FUMARATE XR","P57:SAPHNELO","P58:SEROQUEL","P59:SYMBICORT",
+            "P60:SYMLIN","P61:SYNAGIS","P62:TAGRISSO","P63:TENORETIC","P64:TENORMIN","P65:TEZEPELUMAB","P66:TOPROL-XL","P67:TREMELIMUMAB","P68:TUDORZA PRESSAIR","P69:UNSPECIFIED - CARDIOVASCULAR","P70:XIGDUO XR",
+            "P71:ZESTORETIC","P72:ZESTRIL","P73:ZOLADEX","P74:ZOLMITRIPTAN","P75:ZOMIG"};
+
+    //============CASE TYPES LIST
+    public static final String[] ARRAY_CASETYPELIST = {"P0:N_A","P1:RND","P2:Interaction","P3:Asset Request","P4:Benefit Investigation","P5:Claims Support","P6:Denied Patient Savings",
+            "P7:Free Limited Supply Program","P8:General Inquiry","P9:In-Home Nurse Support","P10:Insurance Authorization","P11:Marketing Opt-In","P12:Medical Inquiry","P13:Nurse Support",
+            "P14:Patient Savings Program","P15:Pharmacy Coordination","P16:Referral"};
+
+    //============FILE FOR CONSENT ATTACHMENT FILES
+    public static final String[] ARRAY_FILESATTACHMENTNAMES = {"P0:N_A","P1:RND","P2:Aut_PNG001","P3:Aut_PDF001","P4:Aut_WORD001","P5:Aut_TXT001"};
+
+    //============INDEXES VALUES
+    public static final String IDX_VAL_P0 = "P0";
+    public static final String IDX_VAL_P1 = "P1";
+    public static final String IDX_VAL_P2 = "P2";
 }
