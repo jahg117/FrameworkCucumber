@@ -41,6 +41,7 @@ public final class Values {
     public static final String TXT_EMP = "emp";
     public static final String TXT_HYPHEN = "-";
     public static final String TXT_DOT = ".";
+    public static final String TXT_COLON = ":";
     public static final String TXT_SEARCHFROMFILE = "SFF";
     public static final String TXT_EXTERNALID = "externalID";
     public static final String TXT_NAMEHCA = "nameHCA";
