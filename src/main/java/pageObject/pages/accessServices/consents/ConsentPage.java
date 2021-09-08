@@ -212,7 +212,7 @@ public class ConsentPage extends CommonFunctions {
 
     public void attachfileToConsent(String typeOfAttachment) throws Exception {
         try {
-            if (typeOfAttachment.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            if (typeOfAttachment.trim().equalsIgnoreCase(Values.TXT_NOTAPPLY) || typeOfAttachment.trim().equalsIgnoreCase(Values.IDX_VAL_P0)) {
                 logger.info(Values.TXT_NOINSURANCE);
             } else {
                 if (waitForElementVisibility(relatedTab, mediumWait())) {
@@ -238,16 +238,16 @@ public class ConsentPage extends CommonFunctions {
                                 logger.warn(Values.TXT_SWITCHDEFAULTMESSAGE);
                                 break;
                         }
-                        if (waitForElementClickable(searchFileForAttachment,shortWait())) {
+                        if (waitForElementClickable(searchFileForAttachment, shortWait())) {
                             sendKeysAndMoveToElement(searchFileForAttachment, typeOfAttachment);
                         }
-                        if (waitForElementToBeClickableBy(By.xpath("//*[normalize-space(text())='Select Files']/following::span[@title='" + typeOfAttachment + "']"),shortWait())) {
+                        if (waitForElementToBeClickableBy(By.xpath("//*[normalize-space(text())='Select Files']/following::span[@title='" + typeOfAttachment + "']"), shortWait())) {
                             clickElementClickable(getWebElement(By.xpath("//*[normalize-space(text())='Select Files']/following::span[@title='" + typeOfAttachment + "']")), shortWait());
                         } else {
                             logger.warn(Values.TXT_NOFILEWASFOUND);
                             if (waitForElementClickable(clearButton, shortWait())) {
                                 clickElementClickable(clearButton, shortWait());
-                                if (waitForElementClickable(getRandomWebElementFromList(addFileList, shortWait()),shortWait())) {
+                                if (waitForElementClickable(getRandomWebElementFromList(addFileList, shortWait()), shortWait())) {
                                     clickAndMoveToElementClickable((getRandomWebElementFromList(addFileList, shortWait())), shortWait());
                                 }
                             }
@@ -257,7 +257,7 @@ public class ConsentPage extends CommonFunctions {
                 clickAndMoveToElementClickable(addFileButton, shortWait());
                 if (waitForElementClickable(fileAdded, shortWait())) {
                     logger.warn(Values.TXT_FILEADDED);
-                }else{
+                } else {
                     logger.warn(Values.TXT_FILENOTADDED);
                 }
             }

@@ -519,10 +519,10 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("I create a list of product enrollments with {string} with a care team member Using {string}")
     public void createPEAndCTM(String drugs, String ctmData) throws Exception {
         List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
-        if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0)) {
+        if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0 + ":")) {
             for (String drug : drugList) {
                 if (!(drug = commonFunctions.searchIntoArray(drug, Values.ARRAY_DRUGLIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
-                    if (drug.trim().startsWith(Values.IDX_VAL_P1)) {
+                    if (drug.trim().startsWith(Values.IDX_VAL_P1 + ":")) {
                         drug = Values.ARRAY_DRUGLIST[commonFunctions.getRandomNumberByLimits(2, Values.ARRAY_DRUGLIST.length)];
                     }
                     accessServices.getPersonAccountPage().clickNewProductEnrollment();
@@ -570,19 +570,20 @@ public class CreateProductEnrollment extends ApplicationInstance {
         List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
         List<List<String>> casesList = accessServices.getPersonAccountPage().getCasesList(cases);
         List<String> caseDataList;
+        String currentDrug = "";
         String drugName = "";
         String caseTypeOption = "";
         HashMap<String, String> caseForm = new HashMap<>();
         int index = 0, indexy = 0;
-//=======FIRST FILTER TO KNOW IF NOT PE WILL BE CREATED. IF IT HAS N_A OR JUST ONE P0 THIS WILL BE TAKE AS NO PE NEED IT
-        if (drugList.size() == 1 && drugList.get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
-            logger.info(Values.TXT_NOINSURANCE);
-        } else {
-//=====================================================================================================PE CREATION LOGIC
-            if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0)) {
-                for (String drug : drugList) {
+//=======NONE PE WILL BE CREATED
+        if (drugList.size() >= 1 && ((!drugList.get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY)) && !drugList.get(0).equalsIgnoreCase(Values.IDX_VAL_P0))) {
+
+//=========================================================================================PE CREATION LOGIC
+            for (String drug : drugList) {
+                currentDrug = drug;
+                if (!drug.trim().startsWith(Values.IDX_VAL_P0)) {
                     if (!(drug = commonFunctions.searchIntoArray(drug, Values.ARRAY_DRUGLIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
-                        if (drug.trim().startsWith(Values.IDX_VAL_P1)||drug.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
+                        if (drug.trim().startsWith(Values.IDX_VAL_P1 + Values.TXT_COLON) || drug.trim().equalsIgnoreCase(Values.TXT_RANDOM)) {
                             drug = Values.ARRAY_DRUGLIST[commonFunctions.getRandomNumberByLimits(3, Values.ARRAY_DRUGLIST.length)];
                         }
                         accessServices.getPersonAccountPage().clickNewProductEnrollment();
@@ -630,7 +631,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                                         logger.info(Values.TXT_NOCASETYPEFOUND);
                                     } else {
                                         if (casesList.get(index).get(indexy).trim().startsWith(Values.IDX_VAL_P1)) {
-                                            accessServices.getNewCasePage().selectCaseOption(Values.ARRAY_CASETYPELIST[index].replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
+                                            accessServices.getNewCasePage().selectCaseOption(commonFunctions.searchIntoArray(Values.IDX_VAL_P1, Values.ARRAY_CASETYPELIST).replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
                                         } else {
                                             accessServices.getNewCasePage().selectCaseOption(caseTypeOption.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
                                         }
@@ -653,17 +654,24 @@ public class CreateProductEnrollment extends ApplicationInstance {
                                 } else {
                                     accessServices.getSubTabsPage().closeSubTab(0);//closing PE Tab
                                 }
+                                indexy++;
                             }
-                            indexy = 0;
                             index++;
-                            logger.info(Values.TXT_CASENEEDIT + caseTypeOption);
-                            accessServices.getSubTabsPage().closeSubTab(0);//closing PE Tab
                         }
                     }
                 }
-            } else {
-                logger.info(Values.TXT_NOPECREATED + drugList.get(0));
+                //NO PE FOR THIS DRUG WILL BE CREATED
+                else {
+                    logger.info(Values.TXT_NOPENEEDIT + currentDrug);
+                }
+                indexy = 0;
+                accessServices.getSubTabsPage().closeLastSubTab();
+
             }
+        }
+        //NONE PROGRAM ENROLLMENT NEED IT
+        else {
+            logger.info(Values.TXT_NOPENEEDIT);
         }
     }
 }

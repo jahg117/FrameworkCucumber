@@ -108,5 +108,20 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     ====================================================================================================================
     CONFIG DATA:
 
-      | user  | drugPE | cases | caseData             | insuranceType | irCase | consentDataAZ           | consentDataDSI          | accData                                                                                       | dataPMI                                                                                                              | dataPBM                                                                                                                       | ctmData                                                | irData         |
-      | admin | P3     | RND   | RND,Open,RND,RND,RND | N_A           | Y      | ANP,RND,RND,RND,self,P4 | DNC,RND,RND,RND,self,P4 | P0:AutTest_,P1:RND,P2:RND,P3:RND,P4:Mobile,P5:RND,P6:RND,P7:RND,P8:RND,P9:RND,P10:RND,P11:RND | P0:RND,P1:Self,P2:N_A,P3:24/11/2021,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND | P0:RND,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:13019658622,P7:RND,P8:RND,P9:RND,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility_hcp.specialty,P2:TF_PP | P0:RND,P1:Open |
+      | user      | drugPE | cases | caseData                | insuranceType | irCase | consentDataAZ                | consentDataDSI               | accData                                                                                                      | dataPMI                                                                                                    | dataPBM                                                                                                              | ctmData                           | irData           |
+      | UAT_admin | P10    | P3    | CMM,Open,RND,RND,123456 | N_A,PMI,N_A   | P2     | ANP,Active,Today,Fax,Self,P2 | N_A,Active,Today,Fax,Self,P0 | P0:AutSPPData_,P1:Patient,P2:RND,P3:RND,P4:RND,P5:RND,P6:N_A,P7:N_A,P8:RND,P9:RND,P10:RND,P11:RND,P12:Mexico | P0:Tertiary,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A | P0:RND,P1:N_A,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A,P10:N_A,P11:N_A | P0:hca,P1:internal.facility,P2:PF | P0:Email,P1:Open |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

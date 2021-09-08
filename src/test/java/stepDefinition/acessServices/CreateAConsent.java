@@ -299,13 +299,13 @@ public class CreateAConsent extends ApplicationInstance {
     }
 
     @Given("the {string} i create the consent type and validate it for {string}")
-    public void createConsent(String consentData,String consent) throws Exception {
+    public void createConsent(String consentData, String consent) throws Exception {
         String[] consentDataList = consentData.split(Values.REGEX_COMMA);
-        if (consentDataList.length == 1 && consentDataList[0].equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+        if (consentDataList.length == 1 && consentDataList[0].equalsIgnoreCase(Values.TXT_NOTAPPLY) || consentDataList[0].equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
             logger.info(Values.TXT_NOCONSENT);
         } else {
             accessServices.getPersonAccountPage().clickOnNewConsent();
-            String consentTypeOption = accessServices.getConsentPage().consentTypeFilter(consentDataList[0],consent);
+            String consentTypeOption = accessServices.getConsentPage().consentTypeFilter(consentDataList[0], consent);
             accessServices.getNewConsentPage().selectConsentType(consentTypeOption);
             commonData.consentType = new ConsentType(consentTypeOption);
             accessServices.getNewConsentWizard().createConsentData(consentData);
@@ -313,8 +313,6 @@ public class CreateAConsent extends ApplicationInstance {
             accessServices.getConsentPage().getConsentID();
 
             accessServices.getConsentPage().attachfileToConsent(consentDataList[5]);
-
-
 
 
             accessServices.getSubTabsPage().closeLastSubTab();
