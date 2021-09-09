@@ -43,6 +43,10 @@ public class ProductsPage extends CommonFunctions {
     @FindBy(xpath = "//*[@id='brandBand_1']//tbody/tr[1]")
     private WebElement tableRowPmFirstRow;
 
+    @FindBy(xpath = "//*[normalize-space(text())='1 item •']")
+    private WebElement oneItemFound;
+
+
     /**
      * It will select the product view specified i.e. "All Products"
      *
@@ -81,10 +85,12 @@ public class ProductsPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void searchProductOrPE(String productName) throws Exception {
-        Actions actions = new Actions(DriverFactory.getDriver());
         clickAndMoveToElementClickable(inputPmSearchList, shortWait());
         sendKeysAndMoveToElementClickable(inputPmSearchList, productName, shortWait());
         inputPmSearchList.sendKeys(Keys.ENTER);
+        if (waitForElementVisibility(oneItemFound,shortWait())) {
+            logger.info(oneItemFound.getText());
+        }
     }
 
     /**
