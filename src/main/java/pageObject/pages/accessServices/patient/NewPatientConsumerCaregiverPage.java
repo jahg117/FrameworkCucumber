@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
 import utils.JsonFiles;
 import utils.Values;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +83,8 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
     @FindBy(xpath = "//input[@data-name='dob']")
     private WebElement dateOfBirth;
 
+    @FindBy(xpath = "//*[@data-id='SubType']")
+    private WebElement accountSubType;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -123,14 +126,14 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        sendKeysWebElement(inputDateOfBirth,randomDate);
+        sendKeysWebElement(inputDateOfBirth, randomDate);
         scrollToWebElementJS(inputSearchAccounts);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         scrollToVisibleElement(inputSearchPlaces, shortWait());
         sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
         sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
         sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-        if(waitForElementVisibility(dropdownEmailType, shortWait())){
+        if (waitForElementVisibility(dropdownEmailType, shortWait())) {
             scrollToWebElementJS(dropdownEmailType);
             selectRandomDropDownNotNone(dropdownEmailType);
         }
@@ -164,7 +167,7 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         sendKeysAndMoveToElementClickable(inputFirstName, patientDetails.get("firstName"), mediumWait());
         sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
         String randomDate = patientDetails.get("date").replace("/", "");
-        sendKeysWebElement(inputDateOfBirth,randomDate);
+        sendKeysWebElement(inputDateOfBirth, randomDate);
         sendKeysElementVisible(inputPhoneNumber, patientDetails.get("phoneNumber"), mediumWait());
         clickElementClickable(dropdownPhoneType, mediumWait());
         clickElementClickable(phoneType, mediumWait());
@@ -204,22 +207,25 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         List<String> accDataList = splitRegex(accData = accData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
         List<String> patientData = generateAccRecord(accDataList);
         patientDetails.put("identifier", patientData.get(0));
-        patientDetails.put("fName", patientData.get(1));
-        patientDetails.put("lName", patientData.get(2));
-        patientDetails.put("phoneNumber", patientData.get(3));
-        patientDetails.put("phoneType", patientData.get(4));
-        patientDetails.put("faxNumber", patientData.get(5));
-        patientDetails.put("faxType", patientData.get(6));
-        patientDetails.put("zipCode", patientData.get(7));
-        patientDetails.put("emailDomain", patientData.get(8));
-        patientDetails.put("address", patientData.get(9));
-        patientDetails.put("date", patientData.get(10));
-        patientDetails.put("city", patientData.get(11));
+        patientDetails.put("subType", patientData.get(1));
+        patientDetails.put("fName", patientData.get(2));
+        patientDetails.put("lName", patientData.get(3));
+        patientDetails.put("phoneNumber", patientData.get(4));
+        patientDetails.put("phoneType", patientData.get(5));
+        patientDetails.put("faxNumber", patientData.get(6));
+        patientDetails.put("faxType", patientData.get(7));
+        patientDetails.put("zipCode", patientData.get(8));
+        patientDetails.put("emailDomain", Values.CHAR_AT + patientData.get(9) + Values.TXT_COM);
+        patientDetails.put("address", patientData.get(10));
+        patientDetails.put("date", patientData.get(11));
+        patientDetails.put("city", patientData.get(12));
 
         By phoneType = By.xpath("//*[@data-value='" + patientDetails.get("phoneType") + "'][position()=1]");
         By faxType = By.xpath("//*[text()='  Phone/Fax 2 ']/following::input[@placeholder='Select an Option']/following::*[@data-value='" + patientDetails.get("faxType") + "']");
 
         waitForElementClickable(dropdownPrefix, mediumWait());
+        //=======================================================================================================SUBTYPE
+        selectAndMoveDropdownByText(accountSubType, patientDetails.get("subType"), shortWait());
         //====================================================================================================FIRST NAME
         inputFirstName.clear();
         if (!patientDetails.get("identifier").equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
@@ -297,48 +303,48 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
                     //============Identifier Name Randomly
                     accData = Values.TXT_ACCDATAIDENTIFIER;
                     break;
-                case 1:
+                case 2:
                     //============First Name Randomly
                     accData = faker.name().firstName();
                     break;
-                case 2:
+                case 3:
                     //============Last Name Randomly
                     accData = faker.name().lastName();
                     break;
-                case 3:
+                case 4:
                     //============Phone Number
                     accData = String.valueOf(faker.number().randomNumber(11, true));
                     break;
-                case 4:
+                case 5:
                     //============Phone Type
                     accData = Values.ARRAY_PHONEFAXVALUES[getRandomNumberByLimits(0, (Values.ARRAY_PHONEFAXVALUES.length - 1))];
                     break;
-                case 5:
+                case 6:
                     //============Fax Number
                     accData = String.valueOf(faker.number().randomNumber(11, true));
                     break;
-                case 6:
+                case 7:
                     //============Fax Type
                     accData = Values.ARRAY_PHONEFAXVALUES[getRandomNumberByLimits(0, (Values.ARRAY_PHONEFAXVALUES.length - 1))];
                     break;
-                case 7:
+                case 8:
                     //============ZipCode Randomly
                     accData = Values.ARRAY_ZIPCODEVALUES[getRandomNumberByLimits(0, (Values.ARRAY_ZIPCODEVALUES.length - 1))];
                     break;
-                case 8:
-                    //============emailDomain Randomly
-                    accData = Values.CHAR_AT + Values.ARRAY_EMAILDOMAINVALUES[getRandomNumberByLimits
-                            (0, (Values.ARRAY_EMAILDOMAINVALUES.length - 1))].trim() + Values.TXT_COM;
-                    break;
                 case 9:
+                    //============emailDomain Randomly
+                    accData = Values.ARRAY_EMAILDOMAINVALUES[getRandomNumberByLimits
+                            (0, (Values.ARRAY_EMAILDOMAINVALUES.length - 1))].trim();
+                    break;
+                case 10:
                     //============Address Randomly
                     accData = faker.address().streetName();
                     break;
-                case 10:
+                case 11:
                     //============DATE OF BIRTH Randomly
                     accData = (accData = getRandomDate(Values.DOB_MM_DD_YYYY)).replace(Values.TXT_SLASH, Values.REPLACETO_EMPTY);
                     break;
-                case 11:
+                case 12:
                     //============CITY NAME Randomly
                     accData = faker.address().cityName();
                     break;

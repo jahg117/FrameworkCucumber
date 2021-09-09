@@ -2,6 +2,7 @@ package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.*;
@@ -15,6 +16,7 @@ public class CreateCase extends ApplicationInstance {
 
     private CommonData commonData;
     CommonFunctions commonFunctions = new CommonFunctions();
+    private Logger logger = Logger.getLogger(CommonFunctions.class);
 
     public CreateCase(CommonData commonData) {
         this.commonData = commonData;
@@ -210,4 +212,30 @@ public class CreateCase extends ApplicationInstance {
         commonData.interaction = new Interaction(interactionForm);
     }
 
+    @And("I create a new {string} case with {string}")
+    public void createInteractionCaseSPP(String caseType, String caseData) throws Exception {
+        List<String> caseTypeList = commonFunctions.splitRegex(caseType, Values.REGEX_COMMA);
+        if (caseTypeList.size() == 1 && caseTypeList.get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY)) {
+            logger.info(Values.TXT_NOINSURANCE);
+        } else {
+            accessServices.getPersonAccountPage().clickNewCase();
+            Assert.assertTrue(accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed(), Values.TXT_NOINTERACTIONFORM);
+            if (caseType.trim().equalsIgnoreCase(Values.IDX_VAL_P2)) {
+                caseType = Values.ARRAY_CASETYPELIST[Integer.parseInt(Values.IDX_VAL_P2.replace(Values.TXT_VALUE_P,Values.REPLACETO_EMPTY))];
+            }
+            accessServices.getNewCaseOptionsPage().selectCaseOption(caseType);
+            List<String> irDataList = commonFunctions.splitRegex(caseData = caseData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
+            HashMap<String, String> interaction = new HashMap<>();
+            interaction.put("Channel", irDataList.get(0));
+            interaction.put("CaseStatus", irDataList.get(1));
+            accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+            HashMap<String, String> interactionForm = accessServices.getCaseInformationPage().fillCaseInteractionForm(interaction);
+            accessServices.getCaseInformationPage().clickSaveInteraction();
+            commonData.interaction = new Interaction(interactionForm);
+            accessServices.getCasePage().isCasePageDisplayed();
+            String interactionNumber = accessServices.getCasePage().getCaseNumber();
+            commonData.interaction = new Interaction(interactionNumber);
+            accessServices.getSubTabsPage().closeLastSubTab();
+        }
+    }
 }
