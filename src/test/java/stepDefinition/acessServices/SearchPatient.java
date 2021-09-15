@@ -29,6 +29,8 @@ public class SearchPatient extends ApplicationInstance {
 
     @And("^I save the displayed patient ID$")
     public void savePatientIntoExcelFile() throws Exception {
+        String pepID = accessServices.getPersonAccountPage().getPEPId();
+        commonData.patient = new Patient(pepID);
         ExcelFiles excelFiles = new ExcelFiles();
         excelFiles.savePEPId(commonData.patient.getPepID());
     }
