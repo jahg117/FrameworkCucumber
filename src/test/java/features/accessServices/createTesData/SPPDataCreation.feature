@@ -69,9 +69,10 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     And I save the displayed patient ID
     Given the "<insuranceType>" will create the types of insurance with "<dataPMI>" or "<dataPBM>"
     And I create a new "<irCase>" case with "<irData>"
-    And I create a list of product enrollments with "<drugPE>" "<ctmData>" "<cases>" "<caseData>"
     Given the "<consentDataAZ>" i create the consent type and validate it for "AZ"
     Given the "<consentDataDSI>" i create the consent type and validate it for "DSI"
+    And I create a list of product enrollments with "<drugPE>" "<ctmData>" "<cases>" "<caseData>"
+
 
 
 
@@ -108,8 +109,16 @@ Note: For PMI and PBM if some data is not required it can be ignore, putting in 
     ====================================================================================================================
     CONFIG DATA:
 
-      | user      | drugPE | cases | caseData                | insuranceType | irCase | consentDataAZ                | consentDataDSI               | accData                                                                                                      | dataPMI                                                                                                    | dataPBM                                                                                                              | ctmData                           | irData           |
-      | UAT_admin | P10    | P3    | CMM,Open,RND,RND,123456 | N_A,PMI,N_A   | P2     | ANP,Active,Today,Fax,Self,P2 | N_A,Active,Today,Fax,Self,P0 | P0:AutSPPData_,P1:Patient,P2:RND,P3:RND,P4:RND,P5:RND,P6:N_A,P7:N_A,P8:RND,P9:RND,P10:RND,P11:RND,P12:Mexico | P0:Tertiary,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A | P0:RND,P1:N_A,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A,P10:N_A,P11:N_A | P0:hca,P1:internal.facility,P2:PF | P0:Email,P1:Open |
+      | user      | drugPE  | cases         | caseData                             | insuranceType | irCase | consentDataAZ                | consentDataDSI               | accData                                                                                                                           | dataPMI                                                                                              | dataPBM                                                                                                                   | ctmData                                                | irData         |
+      | UAT_admin | P30,P57 | P15_P6,P15_P6 | RND,Open,Triage and Tracking,RND,RND | N_A,N_A,PBM   | P2     | ANP,Active,Today,Fax,Self,P3 | N_A,Active,Today,Fax,Self,P0 | P0:AutSPPData_,P1:Patient,P2:RND,P3:RND,P4:RND,P5:Home Phone,P6:2403061405,P7:Home Fax,P8:RND,P9:RND,P10:RND,P11:01121990,P12:RND | P0:RND,P1:N_A,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A | P0:Primary,P1:Self,P2:N_A,P3:N_A,P4:UAT Test Payer 1,P5:UAT Payer Test Plan 1,P6:N_A,P7:N_A,P8:N_A,P9:N_A,P10:N_A,P11:N_A | P0:hca_hcp,P1:internal.facility_hcp.specialty,P2:PF_PP | P0:RND,P1:Open |
+
+
+
+
+
+
+
+
 
 
 

@@ -27,10 +27,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@data-component-id='ACS_ConsentWarning']//p")
     private WebElement messageMsgNoDSIConsent;
 
-    @FindBy(xpath = "//li[@title='Attestations']/a")
+    @FindBy(xpath = "//li[@title='Care Team']/..//li[@title='Authorization']")
     private WebElement labelAttestationTabOption;
 
-    @FindBy(xpath = "//*[@title='New Consent']//button")
+    @FindBy(xpath = "//li[@title='Care Team']/following::*[normalize-space(text())='New Authorization']")
     private WebElement buttonNewConsent;
 
     @FindBy(xpath = "//input[contains(@placeholder,'Search this')]")

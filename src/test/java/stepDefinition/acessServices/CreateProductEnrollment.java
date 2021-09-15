@@ -519,10 +519,10 @@ public class CreateProductEnrollment extends ApplicationInstance {
     @And("I create a list of product enrollments with {string} with a care team member Using {string}")
     public void createPEAndCTM(String drugs, String ctmData) throws Exception {
         List<String> drugList = commonFunctions.splitRegex(drugs, Values.REGEX_COMMA);
-        if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0 + ":")) {
+        if (!drugList.get(0).trim().startsWith(Values.IDX_VAL_P0 + Values.TXT_COLON)) {
             for (String drug : drugList) {
                 if (!(drug = commonFunctions.searchIntoArray(drug, Values.ARRAY_DRUGLIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
-                    if (drug.trim().startsWith(Values.IDX_VAL_P1 + ":")) {
+                    if (drug.trim().startsWith(Values.IDX_VAL_P1 + Values.TXT_COLON)) {
                         drug = Values.ARRAY_DRUGLIST[commonFunctions.getRandomNumberByLimits(2, Values.ARRAY_DRUGLIST.length)];
                     }
                     accessServices.getPersonAccountPage().clickNewProductEnrollment();
@@ -630,7 +630,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                                     if ((caseTypeOption = commonFunctions.searchIntoArray(casesList.get(index).get(indexy), Values.ARRAY_CASETYPELIST)).equalsIgnoreCase(Values.TXT_EMPTY)) {
                                         logger.info(Values.TXT_NOCASETYPEFOUND);
                                     } else {
-                                        if (casesList.get(index).get(indexy).trim().startsWith(Values.IDX_VAL_P1)) {
+                                        if (casesList.get(index).get(indexy).trim().startsWith(Values.IDX_VAL_P1 + Values.TXT_COLON)) {
                                             accessServices.getNewCasePage().selectCaseOption(commonFunctions.searchIntoArray(Values.IDX_VAL_P1, Values.ARRAY_CASETYPELIST).replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
                                         } else {
                                             accessServices.getNewCasePage().selectCaseOption(caseTypeOption.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
