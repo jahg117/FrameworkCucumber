@@ -60,6 +60,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
             }
         } catch (InvocationTargetException | NullPointerException e) {
             accessServices.getAccessServicesHomePage().isAccessServicesTitleVisible();
+            if (!commonData.userDetails.getUsername().equalsIgnoreCase(Values.TXT_ADMIN)) {
+                accessServices.getCustomerLookupPage().doDummySearch(faker.name().firstName(), Values.TXT_HCA);
+            }
             accessServices.getCustomerLookupPage().clickNewAccount();
         }
 
