@@ -99,8 +99,8 @@ public class CreateCase extends ApplicationInstance {
         commonData.product = new Product(productName);
     }
 
-    @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void fillNewCaseMandatoryFields(String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+    @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+    public void fillNewCaseMandatoryFields(String caseName,String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
         if (commonData.product.getProduct() != null) {
             productName = commonData.product.getProduct();
@@ -113,6 +113,8 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CardNumber", cardNumber);
         caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
         caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+        caseForm.put("CaseName", caseName);
+        caseForm.put("PatientName", commonData.patient.getPatientName());
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
         accessServices.getCaseInformationPage().clickSaveButton();
