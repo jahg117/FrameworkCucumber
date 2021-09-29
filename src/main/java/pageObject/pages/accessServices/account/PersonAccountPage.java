@@ -39,10 +39,10 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//td[@data-label='PAF']//*[contains(@src,'red')]")
     private List<WebElement> listRedPAFIcon;
 
-    @FindBy(xpath = "//a[@data-label='Consent']")
+    @FindBy(xpath = "//a[@data-label='Authorization']")
     private WebElement tabConsent;
 
-    @FindBy(xpath = "//*[@title='New Consent']")
+    @FindBy(xpath = "//button[normalize-space(text())='New Authorization']")
     private WebElement buttonNewConsent;
 
     @FindBy(xpath = "//a[@data-label='Product Enrollments']")

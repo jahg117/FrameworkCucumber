@@ -33,6 +33,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "(//span[contains(text(),'Case Sub-Type')]/following::*[@class='select'][1])[last()]")
     private WebElement dropdownSubType;
 
+    @FindBy(xpath = "//span[contains(text(),'IA Formulation Type')]/../..//a[@class='select'][1]")
+    private WebElement dropdownIAFormulationType;
+
     @FindBy(xpath = "//div[contains(text(),'Discussion Topic')]/..//span[@class='slds-truncate']")
     private List<WebElement> listDiscussTopic;
 
@@ -69,6 +72,35 @@ public class CaseInformationPage extends CommonFunctions {
 
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
     private WebElement labelProductEnrollment;
+
+    @FindBy(xpath = "//input[@title='Search Patient Insurances']")
+    private WebElement inputSearchPatientInsurance;
+
+    private By buttonNewPatientInsurance = By.xpath("//input[@title='Search Patient Insurances']/..//div[contains(@class,'createNew')]");
+
+    @FindBy(xpath = "//div[contains(@class,'changeRecordTypeRightColumn')]//span[contains(text(),'Patient Medical Insurance')]/../..//div[contains(@class,'Left')]")
+    private WebElement radioPatientMedicalInsurance;
+
+    @FindBy(xpath = "//div[contains(@class,'modal-footer')]//*[contains(text(),'Next')]")
+    private WebElement buttonNextPatientInsurance;
+
+    @FindBy(xpath = "//div[contains(@class,'modal-container')]//span[contains(text(),'Patient')]/../..//input[@title='Search Accounts']")
+    private WebElement inputSearchAccount;
+
+    @FindBy(xpath = "//span[contains(text(),'Insurance Rank')]/following::*[@class='select'][1]")
+    private WebElement dropdownInsuranceRank;
+
+    @FindBy(xpath = "//div[contains(@class,'modal-container')]//span[contains(text(),'Insurance Payer')]/../..//input[@title='Search Accounts']")
+    private WebElement inputSearchInsurancePayerName;
+
+    @FindBy(xpath = "//div[contains(@class,'modal-footer')]//button[@title='Save']")
+    private WebElement buttonSavePatientInsurance;
+
+    @FindBy(xpath = "//span[contains(text(),'Patient Insurance')]/../..//a[contains(@class,'pill')]")
+    private WebElement labelPatientInsuranceResult;
+
+    @FindBy(xpath = "//*[contains(@class,'inlineTitle')]")
+    private WebElement labelCaseTitle;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -228,6 +260,8 @@ public class CaseInformationPage extends CommonFunctions {
     public HashMap<String, String> fillCaseInformationForm(HashMap<String, String> formDetails) throws Exception {
         HashMap<String, String> statusOperation = new HashMap<>();
         String webElementOption;
+        waitForElementVisibility(labelCaseTitle, mediumWait());
+        String caseName = getWebElementText(labelCaseTitle);
         webElementOption = selectDropdownOption(dropdownChannel, listDropdownOptions, formDetails.get("Channel"));
         statusOperation.put("Channel", webElementOption);
         webElementOption = selectDropdownOption(dropdownCaseStatus, listDropdownOptions, formDetails.get("CaseStatus"));
@@ -281,7 +315,37 @@ public class CaseInformationPage extends CommonFunctions {
             clickAndMoveToElementClickable(By.xpath("//div[@title='" + formDetails.get("CaseNumber") + "']"), mediumWait());
             statusOperation.put("CaseNumber", formDetails.get("CaseNumber"));
         }
+        if(caseName.contains("Insurance Authorization")){
+            fillInsuranceAuthorizationForm(formDetails);
+        }
         return statusOperation;
+    }
+
+    public void fillInsuranceAuthorizationForm(HashMap<String, String> formDetails) throws Exception {
+        if(waitForElementClickable(dropdownIAFormulationType, 1)){
+            selectDropdownOption(dropdownIAFormulationType, listDropdownOptions, "RND");
+        }
+        if(waitForElementVisibility(inputSearchPatientInsurance,1)){
+            clickAndMoveToElementClickable(inputSearchPatientInsurance, shortWait());
+            clickElementClickable(buttonNewPatientInsurance, shortWait());
+            clickElementClickable(radioPatientMedicalInsurance, shortWait());
+            clickElementClickable(buttonNextPatientInsurance, shortWait());
+            if(waitForElementVisibility(inputSearchAccount, 1)) {
+                sendKeysAndMoveToElementVisible(inputSearchAccount, formDetails.get("PatientName"), shortWait());
+                waitForElementToBeClickableBy(By.xpath("//div[@title='"+formDetails.get("PatientName")+"' and contains(@class,'primary')]"), shortWait());
+                clickElementClickable(By.xpath("//div[@title='"+formDetails.get("PatientName")+"' and contains(@class,'primary')]"), shortWait());
+            }
+        selectDropdownOption(dropdownInsuranceRank, listDropdownOptions, "RND");
+            if(waitForElementVisibility(inputSearchInsurancePayerName, 1)) {
+                sendKeysAndMoveToElementVisible(inputSearchInsurancePayerName, "TestUAT payerplan", shortWait());
+                sendKeysAndMoveToElementVisible(inputSearchInsurancePayerName, Keys.TAB.toString(), shortWait());
+                clickAndMoveToElementClickable(inputSearchInsurancePayerName, shortWait());
+                waitForElementToBeClickableBy(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]"), shortWait());
+                clickAndMoveToElementClickable(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]"), shortWait());
+            }
+            clickElementClickable(buttonSavePatientInsurance, shortWait());
+            waitForElementVisibility(labelPatientInsuranceResult, shortWait());
+        }
     }
 
     public void clickSaveInteraction() throws Exception {
