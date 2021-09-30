@@ -476,6 +476,62 @@ public class CreateProductEnrollment extends ApplicationInstance {
         }
     }
 
+    @And("I create product enrollments {string} with cases {string} {string} {string} {string} {string} {string}")
+    public void createProductEnrollmentWtihCases(String productEnrollment, String cases, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+        List<String> productList = accessServices.getProductEnrollmentPage().getProductEnrollmentList(productEnrollment);
+        List<List<String>> casesList = accessServices.getPersonAccountPage().getCasesList(cases);
+        String productName = "";
+        int index = 0, indexy = 0;
+        for (String product : productList) {
+            productName = product;
+            accessServices.getPersonAccountPage().clickNewProductEnrollment();
+            accessServices.getCreateNewEnrollmentPage().fillProductEnrollmentForm(product);
+            accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+            if (accessServices.getProductEnrollmentPage().getProductEnrollmentNumber().equalsIgnoreCase(Values.REPLACETO_EMPTY)) {
+                try {
+                    accessServices.getCreateNewEnrollmentPage().clickEnrollButton();
+
+                } catch (Exception e) {
+                }
+            }
+            accessServices.getProductEnrollmentPage().isProductEnrollmentPageDisplayed();
+            commonData.productEnrollment = new ProductEnrollment(accessServices.getProductEnrollmentPage().getProductEnrollmentNumber());
+
+            //////// cases
+            for (int i = 0; i < casesList.get(index).size(); i++) {
+                if (!casesList.get(index).get(indexy).equalsIgnoreCase("NA")) {
+                    accessServices.getProductEnrollmentPage().clickOnNewCase();
+                    accessServices.getNewCasePage().isNewCaseFormDisplayed();
+                    accessServices.getNewCasePage().selectCaseOption(casesList.get(index).get(indexy));
+                    accessServices.getNewCasePage().clickContinueButton();
+                    ////////////
+                    HashMap<String, String> caseForm = new HashMap<>();
+                    caseForm.put("ProductName", productName);
+                    caseForm.put("Channel", channel);
+                    caseForm.put("CaseStatus", caseStatus);
+                    caseForm.put("CaseSubType", caseSubType);
+                    caseForm.put("DiscussTopic", discussTopic);
+                    caseForm.put("CardNumber", cardNumber);
+                    caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
+                    caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+                    caseForm.put("CaseName", casesList.get(index).get(indexy));
+                    caseForm.put("PatientName", commonData.patient.getPatientName());
+                    accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+                    accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
+                    accessServices.getCaseInformationPage().clickSaveButton();
+                    accessServices.getUpdateCaseContactWizardPage().closeCaseContactWizardPage();
+                    accessServices.getCasePage().isCasePageDisplayed();
+                    accessServices.getSubTabsPage().closeLastSubTab();
+                }
+                indexy++;
+            }
+
+            indexy = 0;
+            index++;
+            accessServices.getSubTabsPage().closeLastSubTab();
+        }
+    }
+
     @And("I create a list of product enrollments with a care team member Using for PDC")
     public void createProductEnrollmentFlowPDC(DataTable dataTable) throws Exception {
         JsonFiles file = new JsonFiles();
@@ -622,6 +678,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                         }
 
 //===========================================================================================CASE CREATION FROM PE LOGIC
+                        String caseOption = "";
                         if (casesList.size() == 1 && casesList.get(0).get(0).trim().equalsIgnoreCase(Values.TXT_N_VALUE)) {
                             logger.info(Values.TXT_NOCASENEEDIT);
                         } else {
@@ -636,6 +693,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                                         if (casesList.get(index).get(indexy).trim().startsWith(Values.IDX_VAL_P1 + Values.TXT_COLON)) {
                                             accessServices.getNewCasePage().selectCaseOption(commonFunctions.searchIntoArray(Values.IDX_VAL_P1, Values.ARRAY_CASETYPELIST).replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
                                         } else {
+                                            caseOption = caseTypeOption.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY);
                                             accessServices.getNewCasePage().selectCaseOption(caseTypeOption.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY));
                                         }
                                         accessServices.getNewCasePage().clickContinueButton();
@@ -647,6 +705,9 @@ public class CreateProductEnrollment extends ApplicationInstance {
                                         caseForm.put("CardNumber", caseDataList.get(4));
                                         caseForm.put("CaseNumber", commonData.interaction.getInteractionNumber());
                                         caseForm.put("ProductEnrollment", commonData.productEnrollment.getProductEnrollment());
+                                        caseForm.put("CaseName", caseOption);
+                                        System.out.println(commonData.patient.getPatientNamePDC());
+                                        caseForm.put("PatientName", commonData.patient.getPatientNamePDC());
                                         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
                                         accessServices.getCaseInformationPage().fillCaseInformationForm(caseForm);
                                         accessServices.getCaseInformationPage().clickSaveButton();
