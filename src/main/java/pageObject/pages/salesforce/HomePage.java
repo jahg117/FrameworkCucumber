@@ -8,7 +8,11 @@ import java.util.List;
 
 public class HomePage extends CommonFunctions {
     @FindBy(css = ".uiAutocomplete")
+    private WebElement inputSearchBarBKP;
+
+    @FindBy(xpath = "//*[@placeholder='Search...']|//button[@aria-label='Search']")
     private WebElement inputSearchBar;
+
 
     @FindBy(xpath = "//div[contains(@class,'secondary')]//div[starts-with(@class,'close')]")
     private List<WebElement> buttonCloseTabs;

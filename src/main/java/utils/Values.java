@@ -97,6 +97,7 @@ public final class Values {
     public static final String TXT_NOFILEWASFOUND = "No file was found with this name selecting random: ";
     public static final String TXT_FILEADDED = "File Added Successfully ";
     public static final String TXT_FILENOTADDED = "File Was NOT Added Successfully ";
+    public static final String TXT_NOITEMSDISPLAY = "No items to display ";
 
 
 
@@ -284,4 +285,14 @@ public final class Values {
     public static final String IDX_VAL_P0 = "P0";
     public static final String IDX_VAL_P1 = "P1";
     public static final String IDX_VAL_P2 = "P2";
+
+
+    //ENVIRONMENT VARIABLES
+    public static String ENVIRONMENT ="";
+
+    //============ATTRIBUTES NAMES
+    public static final String ATR_TITLE = "title";
+    public static final String ATR_DATAITEMID = "data-itemid";
+    public static final String ATR_DATALABEL = "data-label";
+
 }

@@ -3755,19 +3755,21 @@ public class CommonFunctions {
      */
     protected WebElement clickAndMoveToElementClickableFromListByText(List<WebElement> webElementList, String
             textValue) throws Exception {
-        boolean webElementFound = false;
         WebElement statusOperation = null;
+        WebElement webElementBKP = null;
         try {
             for (WebElement webElement : webElementList) {
+                webElementBKP = webElement;
                 if (webElement.getText().trim().equalsIgnoreCase(textValue.trim())) {
-                    clickAndMoveMethodsWebElement(webElement);
+                    webElement.click();
                     statusOperation = webElement;
                     logger.info("WebElement clicked");
-                    webElementFound = true;
                     break;
                 }
             }
         } catch (Exception e) {
+            clickAndMoveMethodsWebElement(webElementBKP);
+            statusOperation = webElementBKP;
             logger.info(Values.TXT_EXCREFLECTION);
         }
         return statusOperation;
@@ -4619,5 +4621,28 @@ public class CommonFunctions {
         }
         logger.info(Values.TXT_DRUG_USEFOR_PE + valueToSearch);
         return valueToSearch;
+    }
+
+
+    /**
+     * It clicks the save button after all the data required for the HCP account is populated
+     *
+     * @throws Exception
+     */
+    public void clickSaveButton(WebElement buttonSaveAccount) throws Exception {
+        try {
+            if (isClickableElementEnabled(buttonSaveAccount, shortWait())) {
+                clickElementJS(buttonSaveAccount);
+            } else {
+                if (waitForElementVisibility(buttonSaveAccount, mediumWait())) {
+                    scrollToClickableElement(buttonSaveAccount, shortWait());
+                    clickElementClickable(buttonSaveAccount, mediumWait());
+                } else {
+                    buttonSaveAccount.click();
+                }
+            }
+        } catch (Exception e) {
+            clickAndMoveMethodsWebElement(buttonSaveAccount);
+        }
     }
 }

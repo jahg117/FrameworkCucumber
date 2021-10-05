@@ -82,7 +82,7 @@ public class NewEmployeeWizardPage extends CommonFunctions {
             fillingHybridEmployeeForm(employeeDetailsStoreData);
         }
         scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton();
+        clickSaveButton(button_saveAccount);
         //employeeDetailsStoreData.put("externalID", getExternalID());DO NOT DELETE THIS LINE WAITING FOR CONFIRMATION IF ID WILL BE CREATED
         jsonFile.storeDataIntoJSON(employeeDetailsStoreData);
     }
