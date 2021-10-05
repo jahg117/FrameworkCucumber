@@ -21,6 +21,7 @@ public class LoginPage extends CommonFunctions {
     @FindBy(css = "#Login")
     private WebElement button_login;
 
+    String environment = "";
     Class<?> myClass;
 
     {
@@ -32,11 +33,11 @@ public class LoginPage extends CommonFunctions {
     }
 
 
-    public void enterUserPassword(String salesforceUser) throws Exception {
+    public String enterUserPassword(String salesforceUser) throws Exception {
         FileReading fileReading = new FileReading();
         fileReading.setFileName("SalesforceCredentials.properties");
         waitForPageToLoad();
-        String environment = fileReading.getField("environment").toUpperCase();
+        environment = fileReading.getField("environment").toUpperCase();
         if(!environment.equalsIgnoreCase("UAT")&&!environment.equalsIgnoreCase("INT")){
             environment = "UAT";
         }
@@ -54,6 +55,7 @@ public class LoginPage extends CommonFunctions {
         sendKeysElementVisible(input_username, usr, shortWait());
         sendKeysElementVisible(input_password, pass, shortWait());
         submitByWebElement(input_password);
+        return environment;
     }
 
     /**

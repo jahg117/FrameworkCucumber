@@ -4,6 +4,7 @@ import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pageObject.application.Salesforce;
 import utils.FileReading;
 import utils.Values;
 
@@ -89,8 +90,11 @@ public class AccessServicesHomePage extends CommonFunctions {
                     clickElementVisible(buttonNavigationMenu, mediumWait());
                     waitForElementVisibility(listNavigationMenu, longWait());
                 }
-
-                clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, "title", menuOption), mediumWait());
+                if (Values.ENVIRONMENT.equalsIgnoreCase(Values.TXT_UAT)) {
+                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_TITLE, menuOption), mediumWait());
+                }else {
+                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_DATALABEL, menuOption), mediumWait());
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ import org.testng.Assert;
 import pageObject.ApplicationInstance;
 import stepDefinition.shareData.CommonData;
 import stepDefinition.shareData.UserDetails;
+import utils.FileReading;
 import utils.Values;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class SalesforceLoginSteps extends ApplicationInstance {
     @Given("^I login as an \"([^\"]*)\" user$")
     public void loginPageCredentials(String salesForceUser) throws Throwable {
         salesforce.goTo();
-        salesforce.getLoginPage().enterUserPassword(salesForceUser);
+        Values.ENVIRONMENT = salesforce.getLoginPage().enterUserPassword(salesForceUser);
         commonData.userDetails = new UserDetails(salesForceUser);
     }
 
