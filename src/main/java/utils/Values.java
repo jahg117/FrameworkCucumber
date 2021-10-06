@@ -295,4 +295,9 @@ public final class Values {
     public static final String ATR_DATAITEMID = "data-itemid";
     public static final String ATR_DATALABEL = "data-label";
 
+    //============BROWSERSTACK ACCOUNTS
+    public static final String[] ARRAY_BROWSERSTACKACCOUNTS = {"ja1,juanalejandroher1,NnfLE4q6YJ8xk7rCnUD3", "jr1,jonathanruano1,DQwBGuJzfRZpzMzhzgnq"};
+    public static final String BROWSERSTACK_DEFAULTUSER = "ja1";
+
+
 }
