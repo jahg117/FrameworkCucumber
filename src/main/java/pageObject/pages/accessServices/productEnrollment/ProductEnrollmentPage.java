@@ -137,7 +137,16 @@ public class ProductEnrollmentPage extends CommonFunctions {
      * @author J.Ruano
      */
     public void clickOnNewCase() throws Exception {
-        clickAndMoveToElementClickable(buttonNewCase, longWait());
+        try {
+            if (waitForElementVisibility(buttonNewCase, longWait())){
+                buttonNewCase.click();
+            }else{
+                scrollToWebElementJS(buttonNewCase);
+                buttonNewCase.click();
+            }
+        } catch (Exception e) {
+            clickAndMoveToElementClickable(buttonNewCase, mediumWait());
+        }
     }
 
 
