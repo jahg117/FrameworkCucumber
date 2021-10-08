@@ -64,4 +64,4 @@ NOTE:
 
     Examples:
       | accountType | selectProductView | productEnrollmentView | productName | productEnrollment | createPE |
-      | CPC         | All Products      | Recently Viewed       | ENHERTU     | PE-001504         | Y        |
+      | CPC         | Brands      | Recently Viewed       | ENHERTU     | PE-001504         | Y        |

@@ -3,6 +3,7 @@ package pageObject.pages.accessServices.account;
 import base.functions.CommonFunctions;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.FileReading;
@@ -102,9 +103,16 @@ public class PersonAccountPage extends CommonFunctions {
     }
 
     public void clickNewCase() throws Exception {
-        waitForElementVisibility(buttonNewCase, longWait());
-        scrollToWebElementJS(buttonNewCase);
-        clickAndMoveToElementClickable(buttonNewCase, mediumWait());
+        try {
+            if (waitForElementVisibility(buttonNewCase, longWait())){
+                buttonNewCase.click();
+            }else{
+                scrollToWebElementJS(buttonNewCase);
+                buttonNewCase.click();
+            }
+        } catch (Exception e) {
+            clickAndMoveToElementClickable(buttonNewCase, mediumWait());
+        }
     }
 
 

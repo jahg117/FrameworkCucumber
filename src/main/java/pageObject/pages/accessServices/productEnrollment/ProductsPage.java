@@ -86,10 +86,18 @@ public class ProductsPage extends CommonFunctions {
      */
     public void searchProductOrPE(String productName) throws Exception {
         clickAndMoveToElementClickable(inputPmSearchList, shortWait());
-        sendKeysAndMoveToElementClickable(inputPmSearchList, productName, shortWait());
+        sendKeysAndMoveToElementClickable(inputPmSearchList, productName.toUpperCase(), shortWait());
         inputPmSearchList.sendKeys(Keys.ENTER);
         if (waitForElementVisibility(oneItemFound,shortWait())) {
             logger.info(oneItemFound.getText());
+        }else{
+            if (labelPmNoItemsMessage.isDisplayed()) {
+                clickAndMoveToElementClickable(inputPmSearchList, shortWait());
+                sendKeysAndMoveToElementClickable(inputPmSearchList, productName, shortWait());
+                inputPmSearchList.sendKeys(Keys.ENTER);
+            }else{
+                logger.info(Values.TXT_NOITEMSDISPLAY);
+            }
         }
     }
 

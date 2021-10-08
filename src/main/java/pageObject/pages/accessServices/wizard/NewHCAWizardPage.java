@@ -123,7 +123,7 @@ public class NewHCAWizardPage extends CommonFunctions {
             fillingHybridHCAForm(hcaDetailsStoreData);
         }
         scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton();
+        clickSaveButton(button_saveAccount);
         hcaDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(hcaDetailsStoreData);
     }

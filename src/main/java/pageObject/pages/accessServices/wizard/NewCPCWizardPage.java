@@ -146,7 +146,7 @@ public class NewCPCWizardPage extends CommonFunctions {
             fillingHybridCPCForm(cpcDetailsStoreData);
         }
         scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton();
+        clickSaveButton(button_saveAccount);
         cpcDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(cpcDetailsStoreData);
     }

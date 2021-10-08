@@ -132,7 +132,7 @@ public class NewHCPWizardPage extends CommonFunctions {
             fillingHybridHCPForm(hcpDetailsStoreData);
         }
         scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton();
+        clickSaveButton(button_saveAccount);
         hcpDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(hcpDetailsStoreData);
     }

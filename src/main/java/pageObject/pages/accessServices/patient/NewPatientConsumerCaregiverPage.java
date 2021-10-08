@@ -132,11 +132,6 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         scrollToVisibleElement(inputSearchPlaces, shortWait());
         sendKeysElementVisible(inputAddressLine1, patientDetails.get("address"), mediumWait());
         sendKeysElementVisible(inputCity, patientDetails.get("city"), mediumWait());
-        sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
-        if (waitForElementVisibility(dropdownEmailType, shortWait())) {
-            scrollToWebElementJS(dropdownEmailType);
-            selectRandomDropDownNotNone(dropdownEmailType);
-        }
         sendKeysAndMoveToElementVisible(inputZipCode, patientDetails.get("zipcode"), mediumWait());
         if (!getWebElementAttribute(inputFirstName, "value").equalsIgnoreCase(patientDetails.get("firstName"))) {
             inputFirstName.clear();
@@ -145,6 +140,11 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         if (!getWebElementAttribute(inputLastName, "value").equalsIgnoreCase(patientDetails.get("lastName"))) {
             inputLastName.clear();
             sendKeysAndMoveToElementClickable(inputLastName, patientDetails.get("lastName"), mediumWait());
+        }
+        sendKeysAndMoveToElementVisible(inputEmailAddress, patientDetails.get("firstName") + "@astrazeneca.com", mediumWait());
+        if (waitForElementVisibility(dropdownEmailType, shortWait())) {
+            scrollToWebElementJS(dropdownEmailType);
+            selectRandomDropDownNotNone(dropdownEmailType);
         }
         return patientDetails;
     }
@@ -195,9 +195,20 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
 
 
     public void clickSaveButton() throws Exception {
-        waitForElementVisibility(buttonSaveAccount, mediumWait());
-        scrollToWebElementJS(buttonSaveAccount);
-        clickElementClickable(buttonSaveAccount, mediumWait());
+        try {
+            if (isClickableElementEnabled(buttonSaveAccount, shortWait())) {
+                clickElementJS(buttonSaveAccount);
+            } else {
+                if (waitForElementVisibility(buttonSaveAccount, mediumWait())) {
+                    scrollToClickableElement(buttonSaveAccount, shortWait());
+                    clickElementClickable(buttonSaveAccount, mediumWait());
+                } else {
+                    buttonSaveAccount.click();
+                }
+            }
+        } catch (Exception e) {
+            clickAndMoveMethodsWebElement(buttonSaveAccount);
+        }
     }
 
 

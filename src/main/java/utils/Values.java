@@ -97,6 +97,7 @@ public final class Values {
     public static final String TXT_NOFILEWASFOUND = "No file was found with this name selecting random: ";
     public static final String TXT_FILEADDED = "File Added Successfully ";
     public static final String TXT_FILENOTADDED = "File Was NOT Added Successfully ";
+    public static final String TXT_NOITEMSDISPLAY = "No items to display ";
 
 
 
@@ -275,7 +276,7 @@ public final class Values {
     //============CASE TYPES LIST
     public static final String[] ARRAY_CASETYPELIST = {"P0:N_A","P1:RND","P2:Interaction","P3:Asset Request","P4:Benefit Investigation","P5:Claims Support","P6:Denied Patient Savings",
             "P7:Free Limited Supply Program","P8:General Inquiry","P9:In-Home Nurse Support","P10:Insurance Authorization","P11:Marketing Opt-In","P12:Medical Inquiry","P13:Nurse Support",
-            "P14:Patient Savings Program","P15:Pharmacy Coordination","P16:Referral"};
+            "P14:Patient Savings Program","P15:Pharmacy Coordination","P16:Referral","P17:Reverification"};
 
     //============FILE FOR CONSENT ATTACHMENT FILES
     public static final String[] ARRAY_FILESATTACHMENTNAMES = {"P0:N_A","P1:RND","P2:Aut_PNG001","P3:Aut_PDF001","P4:Aut_WORD001","P5:Aut_TXT001"};
@@ -284,4 +285,19 @@ public final class Values {
     public static final String IDX_VAL_P0 = "P0";
     public static final String IDX_VAL_P1 = "P1";
     public static final String IDX_VAL_P2 = "P2";
+
+
+    //ENVIRONMENT VARIABLES
+    public static String ENVIRONMENT ="";
+
+    //============ATTRIBUTES NAMES
+    public static final String ATR_TITLE = "title";
+    public static final String ATR_DATAITEMID = "data-itemid";
+    public static final String ATR_DATALABEL = "data-label";
+
+    //============BROWSERSTACK ACCOUNTS
+    public static final String[] ARRAY_BROWSERSTACKACCOUNTS = {"ja1,juanalejandroher1,NnfLE4q6YJ8xk7rCnUD3", "jr1,jonathanruano1,DQwBGuJzfRZpzMzhzgnq"};
+    public static final String BROWSERSTACK_DEFAULTUSER = "ja1";
+
+
 }
