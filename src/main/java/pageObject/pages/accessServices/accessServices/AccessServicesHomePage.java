@@ -83,19 +83,23 @@ public class AccessServicesHomePage extends CommonFunctions {
 
     public void selectMenuOption(String menuOption) throws Exception {
         waitForPageToLoad();
-        if (waitForElementVisibility(labelNavigationName, mediumWait())) {
-            if (!labelNavigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
-                clickElementVisible(buttonNavigationMenu, mediumWait());
-                if (!waitForElementVisibility(listNavigationMenu, mediumWait())) {
+        try {
+            if (waitForElementVisibility(labelNavigationName, mediumWait())) {
+                if (!labelNavigationName.getAttribute("title").trim().equalsIgnoreCase(menuOption.trim())) {
                     clickElementVisible(buttonNavigationMenu, mediumWait());
-                    waitForElementVisibility(listNavigationMenu, longWait());
-                }
-                if (Values.ENVIRONMENT.equalsIgnoreCase(Values.TXT_UAT)) {
-                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_TITLE, menuOption), mediumWait());
-                }else {
-                    clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_DATALABEL, menuOption), mediumWait());
+                    if (!waitForElementVisibility(listNavigationMenu, mediumWait())) {
+                        clickElementVisible(buttonNavigationMenu, mediumWait());
+                        waitForElementVisibility(listNavigationMenu, longWait());
+                    }
+                    if (Values.ENVIRONMENT.equalsIgnoreCase(Values.TXT_UAT)) {
+                        clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_DATALABEL, menuOption), mediumWait());
+                    } else {
+                        clickAndMoveToElementVisible(getWebElementByAttributeFromList(listNavigationOptions, Values.ATR_DATALABEL, menuOption), mediumWait());
+                    }
                 }
             }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
