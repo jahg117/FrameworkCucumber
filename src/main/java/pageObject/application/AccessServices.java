@@ -16,6 +16,7 @@ import pageObject.pages.accessServices.general.GlobalCommonGeneralStepsPage;
 import pageObject.pages.accessServices.patient.NewPatientConsumerCaregiverPage;
 import pageObject.pages.accessServices.productEnrollment.*;
 import pageObject.pages.accessServices.provider.NewProviderPage;
+import pageObject.pages.accessServices.selenium4.NewS4FunctionalitiesPage;
 import pageObject.pages.accessServices.tabs.SubTabsPage;
 import pageObject.pages.accessServices.wizard.NewCPCWizardPage;
 import pageObject.pages.accessServices.wizard.NewEmployeeWizardPage;
@@ -61,6 +62,8 @@ public class AccessServices {
     private NewPatientInsurancePMI newPatientInsurancePMI;
     private NewPatientInsurancePBM newPatientInsurancePBM;
     private NewAccountAddressPage newAccountAddressPage;
+    private NewS4FunctionalitiesPage newS4FunctionalitiesPage;
+
 
     public AccessServices(){
         this.driver = DriverFactory.getDriver();
@@ -100,6 +103,7 @@ public class AccessServices {
         newPatientInsurancePMI = PageFactory.initElements(driver, NewPatientInsurancePMI.class);
         newPatientInsurancePBM = PageFactory.initElements(driver, NewPatientInsurancePBM.class);
         newAccountAddressPage = PageFactory.initElements(driver, NewAccountAddressPage.class);
+        newS4FunctionalitiesPage = PageFactory.initElements(driver, NewS4FunctionalitiesPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
@@ -142,4 +146,5 @@ public class AccessServices {
     public NewPatientInsurancePMI getNewPatientInsurancePMI() { return newPatientInsurancePMI; }
     public NewPatientInsurancePBM getNewPatientInsurancePBM() { return newPatientInsurancePBM; }
     public NewAccountAddressPage getNewAccountAddressPage() { return newAccountAddressPage; }
+    public NewS4FunctionalitiesPage getNewS4FunctionalitiesPage() { return newS4FunctionalitiesPage; }
 }
