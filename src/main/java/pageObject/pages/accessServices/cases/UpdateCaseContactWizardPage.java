@@ -4,7 +4,7 @@ import base.functions.CommonFunctions;
 import org.openqa.selenium.By;
 
 public class UpdateCaseContactWizardPage extends CommonFunctions {
-    private By label_caseContact = By.xpath("//span[contains(text(),'Case Contact')]/following::*[@class='dt-outer-container']");
+    private By label_caseContact = By.xpath("//span[contains(text(),'Case Contact')]/following::*//p[normalize-space(text())='Select Primary Contact for the Case']");
 
     public void closeCaseContactWizardPage() throws Exception {
         if(waitForNumberOfElementsToBeMoreThanBy(label_caseContact, 0,mediumWait())){
