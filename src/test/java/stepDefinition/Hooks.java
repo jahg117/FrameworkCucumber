@@ -32,30 +32,30 @@ public class Hooks {
         fileReading.setFileName("GlobalConfig.properties");
         passed = fileReading.getField("screenshotPass");
         failed = fileReading.getField("screenshotFail");
-        SharedDriver df = new SharedDriver(browser,featureName+","+scenario.getName());
+        SharedDriver df = new SharedDriver(browser, featureName + "," + scenario.getName());
         driver = DriverFactory.getDriver();
         driver.manage().window().maximize();
-        logger.info("Scenario started: "+scenario.getName());
+        logger.info("Scenario started: " + scenario.getName());
     }
 
     @AfterStep
     public void takeScreenShot(Scenario scenario) {
-        if(!scenario.isFailed()&&passed.equalsIgnoreCase("true")||scenario.isFailed()&&failed.equalsIgnoreCase("true")) {
+        if (!scenario.isFailed() && passed.equalsIgnoreCase("true") || scenario.isFailed() && failed.equalsIgnoreCase("true")) {
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName());
         }
     }
 
     @After
-    public void CloseDriver(Scenario scenario){
-        logger.info("Scenario completed: "+scenario.getName());
+    public void CloseDriver(Scenario scenario) {
+        logger.info("Scenario completed: " + scenario.getName());
         DriverFactory.getDriver().quit();
         DriverFactory.removeDriver();
     }
 
     private String getFeatureFileNameFromScenarioId(Scenario scenario) {
-        String []rawFeatureName = scenario.getId().split("/");
-        String featureName = rawFeatureName[rawFeatureName.length-1].split(":")[0].replace("feature","");
-        return "Test suite: "+featureName;
+        String[] rawFeatureName = scenario.getId().split("/");
+        String featureName = rawFeatureName[rawFeatureName.length - 1].split(":")[0].replace("feature", "");
+        return "Test suite: " + featureName;
     }
 }

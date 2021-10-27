@@ -14,7 +14,7 @@ import java.util.List;
 public class CucumberReport {
     public CucumberReport() {
         File reportOutputDirectory = new File("target"); //
-        List<String> jsonFiles = new ArrayList<String>();
+        List<String> jsonFiles = new ArrayList<>();
         jsonFiles.add("target/cucumber/cucumber.json");
 
         String buildNumber = "1";
