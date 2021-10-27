@@ -340,8 +340,9 @@ public class CaseInformationPage extends CommonFunctions {
                 sendKeysAndMoveToElementVisible(inputSearchInsurancePayerName, "TestUAT payerplan", shortWait());
                 sendKeysAndMoveToElementVisible(inputSearchInsurancePayerName, Keys.TAB.toString(), shortWait());
                 clickAndMoveToElementClickable(inputSearchInsurancePayerName, shortWait());
-                waitForElementToBeClickableBy(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]"), shortWait());
-                clickAndMoveToElementClickable(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]"), shortWait());
+                if(waitForElementToBeClickableBy(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]"), shortWait())){
+                    clickElementJS(getWebElement(By.xpath("//div[@title='"+"TestUAT payerplan"+"' and contains(@class,'primary')]")));
+                }
             }
             clickElementClickable(buttonSavePatientInsurance, shortWait());
             waitForElementVisibility(labelPatientInsuranceResult, shortWait());
