@@ -3,7 +3,7 @@
 <test name="Cucumber suite">
     <parameter name="browser" value="chrome"/>
     <packages>
-        <package name=".*"/>
+        <package name="runner"/>
     </packages>
 </test>
 </suite>
