@@ -142,6 +142,24 @@ public class CreateCase extends ApplicationInstance {
         commonData.product = new Product(getProduct);
     }
 
+    @And("^I fill the child case mandatory fields without name and product enrollment \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+    public void fillChildCaseMandatoryFieldsWitoutNameProductEnrollment(String caseRequestedType, String productType, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+        HashMap<String, String> caseForm = new HashMap<>();
+        caseForm.put("CaseRequestedType", caseRequestedType);
+        caseForm.put("Channel", channel);
+        caseForm.put("CaseStatus", caseStatus);
+        caseForm.put("CaseSubType", caseSubType);
+        caseForm.put("DiscussTopic", discussTopic);
+        caseForm.put("CardNumber", cardNumber);
+        accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
+        String getProduct = accessServices.getNewProductEnrollmentForm().getProduct(productType);
+        accessServices.getCaseInformationPage().fillSearchProduct(getProduct);
+        HashMap<String, String> caseFormInformation = accessServices.getCaseInformationPage().fillCaseFormWithoutPatientProductEnrollment(caseForm);
+        accessServices.getCaseInformationPage().clickSaveButton();
+        commonData.caseForm = new Case(caseFormInformation);
+        commonData.product = new Product(getProduct);
+    }
+
     @And("^I fill the new interaction mandatory fields \"([^\"]*)\" \"([^\"]*)\"$")
     public void fillNewInteractionMandatoryFields(String channel, String caseStatus) throws Exception {
         HashMap<String, String> interaction = new HashMap<>();
