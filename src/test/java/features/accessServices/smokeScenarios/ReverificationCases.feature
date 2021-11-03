@@ -1,4 +1,4 @@
-@reverification
+@smokeScenarios
 Feature: Reverification
 
   Scenario Outline: Create reverification cases
