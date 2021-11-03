@@ -321,6 +321,54 @@ public class CaseInformationPage extends CommonFunctions {
         return statusOperation;
     }
 
+    public HashMap<String, String> fillCaseFormWithoutPatientProductEnrollment(HashMap<String, String> formDetails) throws Exception {
+        HashMap<String, String> statusOperation = new HashMap<>();
+        String webElementOption;
+        waitForElementVisibility(labelCaseTitle, mediumWait());
+        String caseName = getWebElementText(labelCaseTitle);
+        webElementOption = selectDropdownOption(dropdownCaseRequestedBy, listDropdownOptions, formDetails.get("CaseRequestedType"));
+        statusOperation.put("CaseRequestedType", webElementOption);
+        webElementOption = selectDropdownOption(dropdownChannel, listDropdownOptions, formDetails.get("Channel"));
+        statusOperation.put("Channel", webElementOption);
+        webElementOption = selectDropdownOption(dropdownCaseStatus, listDropdownOptions, formDetails.get("CaseStatus"));
+        statusOperation.put("CaseStatus", webElementOption);
+        webElementOption = waitForElementVisibility(dropdownSubType, shortWait()) ? selectDropdownOption(dropdownSubType, listDropdownOptions, formDetails.get("CaseSubType")) : "";
+        statusOperation.put("CaseSubType", webElementOption);
+        if (waitForElementListVisible(listDiscussTopic, 1)) {
+            if (formDetails.get("DiscussTopic").equalsIgnoreCase(Values.TXT_RANDOM)) {
+                WebElement el = getRandomWebElementFromList(listDiscussTopic, mediumWait());
+                waitForElementVisibility(el, mediumWait());
+                scrollToWebElementJS(el);
+                webElementOption = getWebElementText(el);
+                clickAndMoveToElementClickable(el, mediumWait());
+            } else {
+                for (WebElement el : listDiscussTopic) {
+                    if (getWebElementText(el).equalsIgnoreCase(formDetails.get("DiscussTopic"))) {
+                        webElementOption = getWebElementText(el);
+                        clickAndMoveToElementClickable(el, mediumWait());
+                    }
+                }
+            }
+            scrollToWebElementJS(buttonIconRightFlagDiscussionTopic);
+            clickAndMoveToElementClickable(buttonIconRightFlagDiscussionTopic, shortWait());
+        } else {
+            webElementOption = "";
+        }
+        statusOperation.put("DiscussTopic", webElementOption);
+        if (waitForElementVisibility(inputCardNumber, 1)) {
+            webElementOption = formDetails.get("CardNumber").equalsIgnoreCase(Values.TXT_RANDOM) ? getRandomNumber() : formDetails.get("CardNumber");
+            statusOperation.put("CardNumber", webElementOption);
+            sendKeysAndMoveToElementVisible(inputCardNumber, webElementOption, shortWait());
+        } else {
+            webElementOption = "";
+        }
+        statusOperation.put("CardNumber", webElementOption);
+        if(caseName.contains("Insurance Authorization")){
+            fillInsuranceAuthorizationForm(formDetails);
+        }
+        return statusOperation;
+    }
+
     public void fillInsuranceAuthorizationForm(HashMap<String, String> formDetails) throws Exception {
         if(waitForElementClickable(dropdownIAFormulationType, 1)){
             selectDropdownOption(dropdownIAFormulationType, listDropdownOptions, "RND");
