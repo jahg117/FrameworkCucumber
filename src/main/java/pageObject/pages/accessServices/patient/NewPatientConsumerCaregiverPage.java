@@ -211,6 +211,10 @@ public class NewPatientConsumerCaregiverPage extends CommonFunctions {
         }
     }
 
+    public void clickPatientCreated(String patientName) throws Exception{
+        By tabPatientName = By.xpath("//span[contains(text(),'"+patientName+"') and contains(@class,'title')]");
+        clickElementClickable(tabPatientName, shortWait());
+    }
 
     public HashMap<String, String> fillPatientConsumerCaregiverFormPDC(String accData) throws Exception {
         Faker faker = new Faker();

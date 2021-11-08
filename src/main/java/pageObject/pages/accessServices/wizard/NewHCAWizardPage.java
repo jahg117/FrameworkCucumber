@@ -124,10 +124,14 @@ public class NewHCAWizardPage extends CommonFunctions {
         }
         scrollMethodToWebElement(button_saveAccount);
         clickSaveButton(button_saveAccount);
+        clickPatientCreated(hcaDetailsStoreData.get("nameHCA"));
         hcaDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(hcaDetailsStoreData);
     }
-
+    public void clickPatientCreated(String patientName) throws Exception{
+        By tabPatientName = By.xpath("//span[contains(text(),'"+patientName+"') and contains(@class,'title')]");
+        clickElementClickable(tabPatientName, shortWait());
+    }
     /**
      * This method is to create a new HCA account completely with random data
      *
