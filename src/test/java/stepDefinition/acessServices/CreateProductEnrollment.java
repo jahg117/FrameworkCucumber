@@ -404,6 +404,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
         accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
         HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverFormPDC(accData);
         accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        accessServices.getNewPatientConsumerCaregiverPage().clickPatientCreated(patientDetails.get("fName"));
         commonData.patient = new Patient(patientDetails);
     }
 
