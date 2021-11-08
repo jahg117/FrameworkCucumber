@@ -131,12 +131,13 @@ public class NewHCPWizardPage extends CommonFunctions {
             hcpDetailsStoreData = hibrydHCPForm(identifier, npi, firstName, middleName, lastName, dateOfBirth, email, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridHCPForm(hcpDetailsStoreData);
         }
-        scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton(button_saveAccount);
         hcpDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(hcpDetailsStoreData);
     }
-
+    public void clickPatientCreated(String patientName) throws Exception{
+        By tabPatientName = By.xpath("//span[contains(text(),'"+patientName+"') and contains(@class,'title')]");
+        clickElementClickable(tabPatientName, shortWait());
+    }
     /**
      * This method is to create a new HCP account completely with random data
      *
@@ -203,6 +204,10 @@ public class NewHCPWizardPage extends CommonFunctions {
         clickAndMoveToElementVisible(input_email, mediumWait());
         input_email.clear();
         sendKeysAndMoveToElementVisible(input_email, hcpDetails.get("email"), mediumWait());
+
+        scrollMethodToWebElement(button_saveAccount);
+        clickSaveButton(button_saveAccount);
+        clickPatientCreated(hcpDetails.get("firstName"));
         return hcpDetails;
     }
 
@@ -473,6 +478,9 @@ public class NewHCPWizardPage extends CommonFunctions {
             clickWhileCondition(dropdown_country, Values.ATTRIBUTE_ARIAEXPANDED_VALUE, "false", mediumWait());
             clickAndMoveToElementClickableFromListByAttribute(elementList_countriesList, Values.ATTRIBUTE_DATAVALUE_VALUE, hcpDetails.get("country"));
         }
+        scrollMethodToWebElement(button_saveAccount);
+        clickSaveButton(button_saveAccount);
+        clickPatientCreated(hcpDetails.get("firstName"));
     }
 
     /**
