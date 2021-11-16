@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pageObject.application.AccessServices;
+import pageObject.pages.accessServices.cases.BenefitInvestigationPage;
 import utils.FileReading;
 import utils.Values;
 
@@ -13,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class PersonAccountPage extends CommonFunctions {
+    BenefitInvestigationPage benefitInvestigationPage = new BenefitInvestigationPage();
     @FindBy(xpath = "//slot[@name='primaryField']")
     private WebElement labelAccountPersonName;
 
@@ -61,19 +64,35 @@ public class PersonAccountPage extends CommonFunctions {
     @FindBy(xpath = "//span[normalize-space(text())='Logged out']")
     private WebElement buttonLoggedOut;
 
-    @FindBy (xpath = "//*[contains(@data-label,'Addresses')]/following::*[@apiname='New']")
+    @FindBy(xpath = "//*[contains(@data-label,'Addresses')]/following::*[@apiname='New']")
     private WebElement buttonNewAddress;
 
-    @FindBy (xpath = "//a[@data-label='Addresses']")
+    @FindBy(xpath = "//a[@data-label='Addresses']")
     private WebElement tabAddresses;
 
-    @FindBy (xpath = "//th[@data-label='Address Line 1']//a/span")
+    @FindBy(xpath = "//th[@data-label='Address Line 1']//a/span")
     private WebElement rowFirstAddressLine1;
+
+    @FindBy(xpath = "//*[starts-with(@data-row-key-value,'500')]")
+    private List<WebElement> caseOfEnrolledPatientsTable;
+
+    @FindBy(xpath = "//th[@data-label='Case Number']")
+    private List<WebElement> colCaseNumberList;
+
+    @FindBy(xpath = "//label[normalize-space(text())='Case Address']/following::select")
+    private List<WebElement> caseRVFilters;
+
+    @FindBy(xpath = "//span[@title='Active']/following::span[contains(text(),'PI-')][not(@class='slds-assistive-text')]")
+    private List<WebElement> patientInsuranceNumber;
+
+    @FindBy(xpath = "//*[@class=' checked']")
+    private WebElement activePayerCheckBox;
+
 
     private By buttonCloseSubTabs = By.xpath("//ul[@class='tabBarItems slds-tabs--default__nav']//div[starts-with(@class,'close')]");
 
     private By linkViewAllProgramEnrollment = By.xpath("//*[contains(@href,'Enrollment')]//span[@class='view-all-label']//parent::*");
-
+    NewPatientInsurance newPatientInsurance = new NewPatientInsurance();
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -104,9 +123,9 @@ public class PersonAccountPage extends CommonFunctions {
 
     public void clickNewCase() throws Exception {
         try {
-            if (waitForElementVisibility(buttonNewCase, longWait())){
+            if (waitForElementVisibility(buttonNewCase, longWait())) {
                 buttonNewCase.click();
-            }else{
+            } else {
                 scrollToWebElementJS(buttonNewCase);
                 buttonNewCase.click();
             }
@@ -331,5 +350,23 @@ public class PersonAccountPage extends CommonFunctions {
 
     public List<List<String>> getCasesList(String cases) throws Exception {
         return splitIntoLists(cases = cases.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+    }
+
+    public String getPayerName() throws Exception {
+        String insurancePayerName = "";
+        if (waitForElementClickable(tabButtonPayer, shortWait())) {
+            clickMethodsWebElement(tabButtonPayer);
+        }
+        if (patientInsuranceNumber.isEmpty()) {
+            patientInsuranceNumber.addAll(getWebElementList(By.xpath("//span[@title='Active']/following::span[contains(text(),'PI-')][not(@class='slds-assistive-text')]")));
+        }
+        for (int i = 0; i < patientInsuranceNumber.size(); i++) {
+            if (insurancePayerName.trim().isEmpty()) {
+                clickMethodsWebElement(patientInsuranceNumber.get(i));
+                insurancePayerName = newPatientInsurance.getActivePIName();
+                break;
+            }
+        }
+        return insurancePayerName;
     }
 }

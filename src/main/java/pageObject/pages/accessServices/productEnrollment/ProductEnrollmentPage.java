@@ -45,6 +45,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
     @FindBy(xpath = "//*[@id='brandBand_1']//tbody/tr[1]")
     private WebElement tableRowPmFirstRow;
 
+    @FindBy(xpath = "//h3//span[normalize-space(text())='Enrollment']/following::*[starts-with(@class,'test-id__field-value')][1]")
+    private WebElement peProductNameValue;
+
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
     public static int maxNumberOfTries = 0;
@@ -138,9 +141,9 @@ public class ProductEnrollmentPage extends CommonFunctions {
      */
     public void clickOnNewCase() throws Exception {
         try {
-            if (waitForElementVisibility(buttonNewCase, longWait())){
+            if (waitForElementVisibility(buttonNewCase, longWait())) {
                 buttonNewCase.click();
-            }else{
+            } else {
                 scrollToWebElementJS(buttonNewCase);
                 buttonNewCase.click();
             }
@@ -186,5 +189,10 @@ public class ProductEnrollmentPage extends CommonFunctions {
 
     public List<String> getProductEnrollmentList(String productEnrollment) throws Exception {
         return splitRegex(productEnrollment, Values.REGEX_COMMA);
+    }
+
+    public String getProductEnrollmentValues(WebElement peValue) throws Exception {
+        waitForElementClickable(peValue, shortWait());
+        return peValue.getText();
     }
 }

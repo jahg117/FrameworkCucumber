@@ -21,6 +21,7 @@ import pageObject.pages.accessServices.wizard.NewCPCWizardPage;
 import pageObject.pages.accessServices.wizard.NewEmployeeWizardPage;
 import pageObject.pages.accessServices.wizard.NewHCAWizardPage;
 import pageObject.pages.accessServices.wizard.NewHCPWizardPage;
+import pageObject.pages.accessServices.cases.BenefitInvestigationPage;
 
 public class AccessServices {
     private WebDriver driver;
@@ -61,8 +62,11 @@ public class AccessServices {
     private NewPatientInsurancePMI newPatientInsurancePMI;
     private NewPatientInsurancePBM newPatientInsurancePBM;
     private NewAccountAddressPage newAccountAddressPage;
+    private ReverificationSearch reverificationSearch;
+    private BenefitInvestigationPage benefitInvestigationPage;
 
-    public AccessServices(){
+
+    public AccessServices() {
         this.driver = DriverFactory.getDriver();
         accessServicesHomePage = PageFactory.initElements(driver, AccessServicesHomePage.class);
         customerLookupPage = PageFactory.initElements(driver, CustomerLookupPage.class);
@@ -100,46 +104,159 @@ public class AccessServices {
         newPatientInsurancePMI = PageFactory.initElements(driver, NewPatientInsurancePMI.class);
         newPatientInsurancePBM = PageFactory.initElements(driver, NewPatientInsurancePBM.class);
         newAccountAddressPage = PageFactory.initElements(driver, NewAccountAddressPage.class);
+        reverificationSearch = PageFactory.initElements(driver, ReverificationSearch.class);
+        benefitInvestigationPage = PageFactory.initElements(driver, BenefitInvestigationPage.class);
     }
 
     public AccessServicesHomePage getAccessServicesHomePage() {
         return accessServicesHomePage;
     }
+
     public CustomerLookupPage getCustomerLookupPage() {
         return customerLookupPage;
     }
-    public NewAccountPage getNewAccountPage() { return newAccountPage; }
-    public NewPatientConsumerCaregiverPage getNewPatientConsumerCaregiverPage() { return newPatientConsumerCaregiverPage; }
-    public PersonAccountPage getPersonAccountPage() { return personAccountPage; }
-    public CreateNewEnrollmentPage getCreateNewEnrollmentPage() { return  createNewEnrollmentPage; }
-    public ProductEnrollmentPage getProductEnrollmentPage() { return  productEnrollmentPage; }
-    public NewConsentWizardPage getNewConsentWizard() { return  newConsentWizardPage; }
-    public AccountsRecentlyViewedPage getAccountsRecentlyViewedPage() { return  accountsRecentlyViewedPage; }
-    public AccountsPage getAccountsPage() { return accountsPage; }
-    public NewConsentPage getNewConsentPage() { return  newConsentPage; }
-    public NewConsentAttestationPage getNewConsentAttestationPage() { return newConsentAttestationPage; }
-    public NewProviderPage getNewProviderPage() { return newProviderPage; }
-    public ConsentPage getConsentPage() { return consentPage; }
-    public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() { return newDSIFLSPAttestationPage; }
-    public SubTabsPage getSubTabsPage() { return subTabsPage; }
-    public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() { return productEnrollmentsTablePage; }
-    public NewCasePage getNewCasePage() { return newCasePage; }
-    public CasePage getCasePage() { return casePage; }
-    public CaseInformationPage getCaseInformationPage() { return caseInformationPage; }
-    public CasesListPage getCasesListPage() { return casesListPage; }
-    public NewCaseOptionsPage getNewCaseOptionsPage() { return newCaseOptionsPage; }
-    public NewChildCasePage getNewChildCasePage() { return newChildCasePage; }
-    public NewHCAWizardPage getNewHCAWizardPage() { return newHCAWizardPage; }
-    public NewHCPWizardPage getNewHCPWizardPage() { return newHCPWizardPage; }
-    public NewCPCWizardPage getNewCPCWizardPage() { return newCPCWizardPage; }
-    public NewEmployeeWizardPage getNewEmployeeWizardPage() { return newEmployeeWizardPage; }
-    public ProductsPage getProductsPage() { return productsPage; }
-    public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() { return updateCaseContactWizardPage; }
-    public GlobalCommonGeneralStepsPage getGlobalCommonGeneralStepsPage() { return globalCommonGeneralSteps; }
-    public NewProductEnrollmentForm getNewProductEnrollmentForm() { return newProductEnrollmentForm; }
-    public NewPatientInsurance getNewPatientInsurance() { return newPatientInsurance; }
-    public NewPatientInsuranceNoPI getNewPatientInsuranceNoPI() { return newPatientInsuranceNoPI; }
-    public NewPatientInsurancePMI getNewPatientInsurancePMI() { return newPatientInsurancePMI; }
-    public NewPatientInsurancePBM getNewPatientInsurancePBM() { return newPatientInsurancePBM; }
-    public NewAccountAddressPage getNewAccountAddressPage() { return newAccountAddressPage; }
+
+    public NewAccountPage getNewAccountPage() {
+        return newAccountPage;
+    }
+
+    public NewPatientConsumerCaregiverPage getNewPatientConsumerCaregiverPage() {
+        return newPatientConsumerCaregiverPage;
+    }
+
+    public PersonAccountPage getPersonAccountPage() {
+        return personAccountPage;
+    }
+
+    public CreateNewEnrollmentPage getCreateNewEnrollmentPage() {
+        return createNewEnrollmentPage;
+    }
+
+    public ProductEnrollmentPage getProductEnrollmentPage() {
+        return productEnrollmentPage;
+    }
+
+    public NewConsentWizardPage getNewConsentWizard() {
+        return newConsentWizardPage;
+    }
+
+    public AccountsRecentlyViewedPage getAccountsRecentlyViewedPage() {
+        return accountsRecentlyViewedPage;
+    }
+
+    public AccountsPage getAccountsPage() {
+        return accountsPage;
+    }
+
+    public NewConsentPage getNewConsentPage() {
+        return newConsentPage;
+    }
+
+    public NewConsentAttestationPage getNewConsentAttestationPage() {
+        return newConsentAttestationPage;
+    }
+
+    public NewProviderPage getNewProviderPage() {
+        return newProviderPage;
+    }
+
+    public ConsentPage getConsentPage() {
+        return consentPage;
+    }
+
+    public NewDSIFLSPAttestationPage getNewDSIFLSPAttestationPage() {
+        return newDSIFLSPAttestationPage;
+    }
+
+    public SubTabsPage getSubTabsPage() {
+        return subTabsPage;
+    }
+
+    public ProductEnrollmentsTablePage getProductEnrollmentsTablePage() {
+        return productEnrollmentsTablePage;
+    }
+
+    public NewCasePage getNewCasePage() {
+        return newCasePage;
+    }
+
+    public CasePage getCasePage() {
+        return casePage;
+    }
+
+    public CaseInformationPage getCaseInformationPage() {
+        return caseInformationPage;
+    }
+
+    public CasesListPage getCasesListPage() {
+        return casesListPage;
+    }
+
+    public NewCaseOptionsPage getNewCaseOptionsPage() {
+        return newCaseOptionsPage;
+    }
+
+    public NewChildCasePage getNewChildCasePage() {
+        return newChildCasePage;
+    }
+
+    public NewHCAWizardPage getNewHCAWizardPage() {
+        return newHCAWizardPage;
+    }
+
+    public NewHCPWizardPage getNewHCPWizardPage() {
+        return newHCPWizardPage;
+    }
+
+    public NewCPCWizardPage getNewCPCWizardPage() {
+        return newCPCWizardPage;
+    }
+
+    public NewEmployeeWizardPage getNewEmployeeWizardPage() {
+        return newEmployeeWizardPage;
+    }
+
+    public ProductsPage getProductsPage() {
+        return productsPage;
+    }
+
+    public UpdateCaseContactWizardPage getUpdateCaseContactWizardPage() {
+        return updateCaseContactWizardPage;
+    }
+
+    public GlobalCommonGeneralStepsPage getGlobalCommonGeneralStepsPage() {
+        return globalCommonGeneralSteps;
+    }
+
+    public NewProductEnrollmentForm getNewProductEnrollmentForm() {
+        return newProductEnrollmentForm;
+    }
+
+    public NewPatientInsurance getNewPatientInsurance() {
+        return newPatientInsurance;
+    }
+
+    public NewPatientInsuranceNoPI getNewPatientInsuranceNoPI() {
+        return newPatientInsuranceNoPI;
+    }
+
+    public NewPatientInsurancePMI getNewPatientInsurancePMI() {
+        return newPatientInsurancePMI;
+    }
+
+    public NewPatientInsurancePBM getNewPatientInsurancePBM() {
+        return newPatientInsurancePBM;
+    }
+
+    public NewAccountAddressPage getNewAccountAddressPage() {
+        return newAccountAddressPage;
+    }
+
+    public ReverificationSearch getReverificationSearch() {
+        return reverificationSearch;
+    }
+
+    public BenefitInvestigationPage getBenefitInvestigationPage() {
+        return benefitInvestigationPage;
+    }
 }
