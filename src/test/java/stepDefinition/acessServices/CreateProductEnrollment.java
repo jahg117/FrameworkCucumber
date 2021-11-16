@@ -97,6 +97,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
                     HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
                     accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
                     commonData.patient = new Patient(patientDetails);
+                    accessServices.getNewPatientConsumerCaregiverPage().clickPatientCreated(commonData.patient.getPatientName());
                 } else {
                     logger.info("Does not required to be executed Since Flag: " + executionFlag);
                 }
@@ -107,6 +108,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
             HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverForm();
             accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
             commonData.patient = new Patient(patientDetails);
+            accessServices.getNewPatientConsumerCaregiverPage().clickPatientCreated(commonData.patient.getPatientName());
         }
     }
 
@@ -402,6 +404,7 @@ public class CreateProductEnrollment extends ApplicationInstance {
         accessServices.getNewPatientConsumerCaregiverPage().isConsumerPatientCaregiverFormDisplayed();
         HashMap<String, String> patientDetails = accessServices.getNewPatientConsumerCaregiverPage().fillPatientConsumerCaregiverFormPDC(accData);
         accessServices.getNewPatientConsumerCaregiverPage().clickSaveButton();
+        accessServices.getNewPatientConsumerCaregiverPage().clickPatientCreated(patientDetails.get("fName"));
         commonData.patient = new Patient(patientDetails);
     }
 

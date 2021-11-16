@@ -145,8 +145,6 @@ public class NewCPCWizardPage extends CommonFunctions {
             cpcDetailsStoreData = hibrydCPCForm(identifier, firstName, middleName, lastName, dateOfBirth, careGiver, email, emailType, phoneOrFax, addressLine1, state, city, zipCode, country);
             fillingHybridCPCForm(cpcDetailsStoreData);
         }
-        scrollMethodToWebElement(button_saveAccount);
-        clickSaveButton(button_saveAccount);
         cpcDetailsStoreData.put("externalID", getExternalID());
         jsonFile.storeDataIntoJSON(cpcDetailsStoreData);
     }
@@ -226,9 +224,15 @@ public class NewCPCWizardPage extends CommonFunctions {
         scrollMethodToWebElement(dropdownEmailType);
         cpcDetails.put("emailType", (getRandomWebElementFromList(elementListEmailTypeList, mediumWait())).getAttribute("value"));
         selectAndMoveDropdownByText(dropdownEmailType, cpcDetails.get("emailType"), mediumWait());
+        scrollMethodToWebElement(button_saveAccount);
+        clickSaveButton(button_saveAccount);
+        clickPatientCreated(cpcDetails.get("firstName"));
         return cpcDetails;
     }
-
+    public void clickPatientCreated(String patientName) throws Exception{
+        By tabPatientName = By.xpath("//span[contains(text(),'"+patientName+"') and contains(@class,'title')]");
+        clickElementClickable(tabPatientName, shortWait());
+    }
     /**
      * This method is used to prepare the data for the CPC account creation, it handle if the data will be generated randomly or it will contains an specific
      * data from the ConfigurableCustomerLookup feature
@@ -501,6 +505,9 @@ public class NewCPCWizardPage extends CommonFunctions {
             scrollMethodToWebElement(dropdownEmailType);
             selectAndMoveDropdownByText(dropdownEmailType, cpcDetails.get("emailType"), mediumWait());
         }
+        scrollMethodToWebElement(button_saveAccount);
+        clickSaveButton(button_saveAccount);
+        clickPatientCreated(cpcDetails.get("firstName"));
     }
 
     /**

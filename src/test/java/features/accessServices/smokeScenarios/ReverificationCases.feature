@@ -1,5 +1,22 @@
-@reverification
+@smokeScenarios
 Feature: Reverification
+
+  Scenario Outline: Create reverification cases
+    Given I login as an "<user>" user
+    When the salesforce page is displayed
+    Then I search the "Access Services" app
+    And I select the "Cases" menu option
+    And I click on new Case from the cases list page
+    And I fill the new interaction mandatory fields "<channel>" "<caseStatus>"
+    And I validate the correct case interaction information displayed
+    And I click on the child case button
+    And I select the case type option "<caseOption>" from the child case form
+    And I fill the child case mandatory fields without name and product enrollment "<caseRequestedType>" "<product>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
+    Examples:
+      | user    | channel | caseStatus | caseOption     | caseRequestedType    | product | channel | caseStatus | caseSubType      | discussTopic | cardNumber |
+      | admin   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
+      | agent   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
+      | manager | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
 
   Scenario Outline: Add and validate case contacts
     Given I login as an "<user>" user
@@ -17,7 +34,6 @@ Feature: Reverification
     Then I select the checkbox for the patients click Create RV case and validate message RV created
     And I validate the BI data with the RV cases are with the status "<status>" "<ntd>"
 
-
     Examples:
-      | user  | channel | caseStatus | caseOption     | product | channel | caseStatus | caseSubType | discussTopic | cardNumber | ctm                          | sd              | amntPatients | ntd                    | status  |
-      | admin | RND     | Open       | Reverification | FASENRA | RND     | Open       | RND         | RND          | RND        | P0:hca,P1:internal.frm,P2:PF | N_A,N_A,N_A,RND | 2            | 06/11/2021, 1:30 PM_NE | On Hold |
+      | user  | ctm                          | sd              | amntPatients | ntd                    | status  |
+      | admin | P0:hca,P1:internal.frm,P2:PF | N_A,N_A,N_A,RND | 2            | 06/11/2021, 1:30 PM_NE | On Hold |
