@@ -1,185 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!--Selenium 4.0.0 With Maven Updates-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>org.example</groupId>
   <artifactId>PEPAutomation_Framework</artifactId>
   <version>1.0-SNAPSHOT</version>
-
   <name>PEPAutomation_Framework</name>
-
+  <!--PROPERTIES SECTION ==========================================================================================-->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-    <cucumber.version>6.9.1</cucumber.version>
-    <junit.version>4.13</junit.version>
-    <selenium.version>4.0.0</selenium.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>9</java.version>
+    <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+    <maven.compiler.source.version>${java.version}</maven.compiler.source.version>
+    <maven.compiler.target.version>${java.version}</maven.compiler.target.version>
+    <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+    <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
+    <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+    <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+    <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
+    <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
+    <maven.site.plugin.version>3.7.1</maven.site.plugin.version>
+    <maven.project-info-reports.plugin.version>3.0.0</maven.project-info-reports.plugin.version>
+    <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
+    <maven.exec.plugin.version>3.0.0</maven.exec.plugin.version>
+    <cucumber.pdf.plugin.version>1.4.1</cucumber.pdf.plugin.version>
+    <!--DEPENDENCIES SECTION ====================================================================================-->
+    <dependency.selenium.version>4.0.0</dependency.selenium.version>
+    <dependency.slf4j.version>1.7.32</dependency.slf4j.version>
+    <dependency.fillo.version>1.21</dependency.fillo.version>
+    <dependency.slf4j-simple.version>1.7.32</dependency.slf4j-simple.version>
+    <dependency.extentreports-cucumber6-adapter.version>2.8.4</dependency.extentreports-cucumber6-adapter.version>
+    <dependency.webdrivermanager.version>5.0.3</dependency.webdrivermanager.version>
+    <dependency.commons-io.version>2.11.0</dependency.commons-io.version>
+    <dependency.cucumber-testng.version>6.9.1</dependency.cucumber-testng.version>
+    <dependency.cucumber-picocontainer.version>6.9.1</dependency.cucumber-picocontainer.version>
+    <dependency.cucumber-java.version>6.9.1</dependency.cucumber-java.version>
+    <dependency.cucumber-junit.version>6.9.1</dependency.cucumber-junit.version>
+    <dependency.cucumber-reporting.version>5.4.0</dependency.cucumber-reporting.version>
+    <dependency.junit.version>4.13.2</dependency.junit.version>
+    <dependency.testng.version>7.3.0</dependency.testng.version>
+    <dependency.log4j.version>1.2.17</dependency.log4j.version>
+    <dependency.javafaker.version>1.0.2</dependency.javafaker.version>
+    <dependency.json-simple.version>1.1.1</dependency.json-simple.version>
+    <dependency.commons-codec.version>1.15</dependency.commons-codec.version>
+    <dependency.annotations.version>22.0.0</dependency.annotations.version>
+    <dependency.selenide.version>5.25.0-selenium-4.0.0</dependency.selenide.version>
+    <dependency.apache-commons-email.version>1.5</dependency.apache-commons-email.version>
+    <dependency.guice-servlet.version>5.0.1</dependency.guice-servlet.version>
+    <dependency.javax-inject.version>1</dependency.javax-inject.version>
+    <dependency.guice.version>5.0.1</dependency.guice.version>
+    <dependency.guava.version>31.0.1-jre</dependency.guava.version>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.codoid.products</groupId>
-      <artifactId>fillo</artifactId>
-      <version>1.21</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>tech.grasshopper</groupId>
-      <artifactId>extentreports-cucumber6-adapter</artifactId>
-      <version>2.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
-    <dependency>
-      <groupId>io.github.bonigarcia</groupId>
-      <artifactId>webdrivermanager</artifactId>
-      <version>5.0.3</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>${selenium.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-testng</artifactId>
-      <version>${cucumber.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-picocontainer</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>7.3.0</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting -->
-    <dependency>
-      <groupId>net.masterthought</groupId>
-      <artifactId>cucumber-reporting</artifactId>
-      <version>5.4.0</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
-    <dependency>
-      <groupId>com.github.javafaker</groupId>
-      <artifactId>javafaker</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.15</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
-    <dependency>
-      <groupId>org.jetbrains</groupId>
-      <artifactId>annotations</artifactId>
-      <version>20.1.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.codeborne</groupId>
-      <artifactId>selenide</artifactId>
-      <version>5.21.0</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-email</artifactId>
-      <version>1.5</version>
-    </dependency>
+  <!--================================END SECTION OF PROPERTIES SECTION =============================================-->
 
 
-
-  </dependencies>
-
+  <!--BUILD SECTION =================================================================================================-->
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+            <source>9</source>
+            <target>9</target>
+          </configuration>
         </plugin>
+        <!-- CLEAN MAVEN-->
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven.clean.plugin.version}</version>
+        </plugin>
+        <!-- RESOURCES MAVEN -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven.resources.plugin.version}</version>
+        </plugin>
+        <!-- SUREFIRE MAVEN -->
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${maven.surefire.plugin.version}</version>
           <configuration>
+            <argLine>
+              --illegal-access=permit
+            </argLine>
             <!-- Activate the use of TCP to transmit events to the plugin -->
             <!-- <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/> -->
             <testFailureIgnore>true</testFailureIgnore>
@@ -189,58 +95,243 @@
             <rerunFailingTestsCount>1</rerunFailingTestsCount>
           </configuration>
         </plugin>
+        <!-- JAR MAVEN -->
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>${maven.jar.plugin.version}</version>
         </plugin>
+        <!-- INSTALL MAVEN -->
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>${maven.install.plugin.version}</version>
         </plugin>
+        <!-- DEPLOY MAVEN -->
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>${maven.deploy.plugin.version}</version>
         </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+        <!-- SITE MAVEN -->
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>${maven.site.plugin.version}</version>
         </plugin>
+        <!-- REPORTS MAVEN -->
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>${maven.project-info-reports.plugin.version}</version>
+        </plugin>
+        <!-- FAILSAFE MAVEN -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven.failsafe.plugin.version}</version>
+          <configuration>
+            <argLine>
+              --illegal-access=permit
+            </argLine>
+          </configuration>
+        </plugin>
+        <!-- CUCUMBER PDF -->
+        <plugin>
+          <groupId>tech.grasshopper</groupId>
+          <artifactId>cucumber-pdf-plugin</artifactId>
+          <version>${cucumber.pdf.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>report</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>pdfreport</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <cucumberJsonReportDirectory>${project.build.directory}
+            </cucumberJsonReportDirectory>
+            <cucumberPdfReportDirectory>pdf-report</cucumberPdfReportDirectory>
+            <strictCucumber6Behavior>true</strictCucumber6Behavior>
+          </configuration>
+        </plugin>
+        <!-- MOJO MAVEN EXEC -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
           <version>3.0.0</version>
+          <executions>
+            <execution>
+              <phase>test</phase> <!-- ADDED -->
+              <goals>
+                <goal>java</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <mainClass>test.java.com.utilities.TestController</mainClass>
+            <classpathScope>test</classpathScope> <!-- ADDED -->
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>9</source>
-          <target>9</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>tech.grasshopper</groupId>
-        <artifactId>cucumber-pdf-plugin</artifactId>
-        <version>1.4.1</version>
-        <executions>
-          <execution>
-            <id>report</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>pdfreport</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <cucumberJsonReportDirectory>${project.build.directory}
-          </cucumberJsonReportDirectory>
-          <cucumberPdfReportDirectory>pdf-report</cucumberPdfReportDirectory>
-          <strictCucumber6Behavior>true</strictCucumber6Behavior>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
+  <!--================================END OF BUILD SECTION ========================================================-->
+  <!--DEPENDENCIES SECTION ========================================================================================-->
+  <dependencies>
+    <!-- SLF4J DEPENDENCY -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${dependency.slf4j.version}</version>
+    </dependency>
+    <!-- FILLO DEPENDENCY -->
+    <dependency>
+      <groupId>com.codoid.products</groupId>
+      <artifactId>fillo</artifactId>
+      <version>${dependency.fillo.version}</version>
+    </dependency>
+    <!-- SLF4J-SIMPLE DEPENDENCY -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${dependency.slf4j-simple.version}</version>
+    </dependency>
+    <!-- EXTENT REPORTS CUCUMBER7 DEPENDENCY -->
+    <dependency>
+      <groupId>tech.grasshopper</groupId>
+      <artifactId>extentreports-cucumber6-adapter</artifactId>
+      <version>${dependency.extentreports-cucumber6-adapter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- WEBDRIVER MANAGER DEPENDENCY -->
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${dependency.webdrivermanager.version}</version>
+    </dependency>
+    <!-- SELENIUM VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${dependency.selenium.version}</version>
+    </dependency>
+    <!-- COMMONS-IO VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${dependency.commons-io.version}</version>
+    </dependency>
+    <!-- CUCUMBER TESTNG VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>${dependency.cucumber-testng.version}</version>
+    </dependency>
+    <!-- CUCUMBER PICCONTAINER VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <version>${dependency.cucumber-picocontainer.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- CUCUMBER JAVA VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${dependency.cucumber-java.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- CUCUMBER JUNIT VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${dependency.cucumber-junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- JUNIT VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${dependency.junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- TESTNG VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${dependency.testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- LOG4J VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${dependency.log4j.version}</version>
+    </dependency>
+    <!-- CUCUMBER REPORTING VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>net.masterthought</groupId>
+      <artifactId>cucumber-reporting</artifactId>
+      <version>${dependency.cucumber-reporting.version}</version>
+    </dependency>
+    <!-- JAVAFAKER VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>${dependency.javafaker.version}</version>
+    </dependency>
+    <!-- JSON SIMPLE VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>${dependency.json-simple.version}</version>
+    </dependency>
+    <!-- COMMONS CODEC VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${dependency.commons-codec.version}</version>
+    </dependency>
+    <!-- ANNOTATIONS VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>${dependency.annotations.version}</version>
+    </dependency>
+    <!-- SELENIDE VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.codeborne</groupId>
+      <artifactId>selenide</artifactId>
+      <version>${dependency.selenide.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- APACHE COMMONS EMAIL VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-email</artifactId>
+      <version>${dependency.apache-commons-email.version}</version>
+    </dependency>
+    <!-- GUICE SERVLET VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-servlet</artifactId>
+      <version>${dependency.guice-servlet.version}</version>
+    </dependency>
+    <!-- JAVAX INJECT VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${dependency.javax-inject.version}</version>
+    </dependency>
+    <!-- GUICE VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${dependency.guice.version}</version>
+    </dependency>
+    <!-- GUAVA VERSION DEPENDENCY -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${dependency.guava.version}</version>
+    </dependency>
+  </dependencies>
 </project>

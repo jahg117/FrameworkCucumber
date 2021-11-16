@@ -13,8 +13,6 @@ import utils.JsonFiles;
 
 import java.io.File;
 import java.lang.reflect.*;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -24,24 +22,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import utils.Values;
-import base.functions.CommonFunctions;
-import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import java.io.File;
+
+import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
 
 public class CommonFunctions {
@@ -75,6 +60,7 @@ public class CommonFunctions {
     protected WebElement getWebElement(By locator) throws Exception {
         WebElement webElement = null;
         try {
+            Thread.sleep(2000);
             webElement = driver.findElement(locator);
         } catch (Exception e) {
             webElement = autoCasting(executeReflection(locator));
@@ -171,7 +157,7 @@ public class CommonFunctions {
     protected boolean waitForElementClickable(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -193,7 +179,7 @@ public class CommonFunctions {
     protected boolean waitForElementClickableNoReflection(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -214,7 +200,7 @@ public class CommonFunctions {
     public boolean waitForElementVisibility(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -236,7 +222,7 @@ public class CommonFunctions {
     public boolean waitForElementVisibilityNoReflection(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.visibilityOf(webElement));
             logger.info("Element found: " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -257,7 +243,7 @@ public class CommonFunctions {
     protected boolean waitForElementNotVisible(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.invisibilityOf(webElement));
             //logger.info("Element not visible " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -279,7 +265,7 @@ public class CommonFunctions {
     protected boolean waitForElementListNotVisible(List<WebElement> webElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.invisibilityOfAllElements(webElements));
             logger.info("List of web elements is not visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
@@ -301,7 +287,7 @@ public class CommonFunctions {
     protected boolean waitForElementListVisible(List<WebElement> webElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.visibilityOfAllElements(webElements));
             logger.info("List of web elements is visible " + getWebElementLocatorPath(webElements));
             statusOperation = true;
@@ -322,7 +308,7 @@ public class CommonFunctions {
     protected boolean waitForAlertVisible(int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.alertIsPresent());
             logger.info("Alert is visible");
             statusOperation = true;
@@ -347,7 +333,7 @@ public class CommonFunctions {
     protected boolean waitForElementAttributeContains(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.attributeContains(webElement, attribute, attributeValue));
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -370,7 +356,7 @@ public class CommonFunctions {
     protected boolean waitForElementAttributeNotEmpty(WebElement webElement, String attribute, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.attributeToBeNotEmpty(webElement, attribute));
             logger.info("Element not found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -395,7 +381,7 @@ public class CommonFunctions {
     protected boolean waitForElementAttributeToBe(WebElement webElement, String attribute, String attributeValue, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.attributeToBe(webElement, attribute, attributeValue));
             logger.info("Element found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -418,7 +404,7 @@ public class CommonFunctions {
     protected boolean waitForElementPageTitle(String title, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.titleIs(title));
             logger.info("The page with title " + title + "is displayed");
             statusOperation = true;
@@ -440,7 +426,7 @@ public class CommonFunctions {
     protected boolean waitForElementUrlToBe(String url, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.urlToBe(url));
             logger.info("The page with URL " + url + "is displayed");
             statusOperation = true;
@@ -462,7 +448,7 @@ public class CommonFunctions {
     protected boolean waitForElementFrameAndSwitchToIt(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(webElement));
             logger.info("Element frame found " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -485,7 +471,7 @@ public class CommonFunctions {
     protected boolean waitForElementSelected(WebElement webElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementToBeSelected(webElement));
             logger.info("WebElement is selected " + getWebElementLocatorPath(webElement));
             statusOperation = true;
@@ -509,7 +495,7 @@ public class CommonFunctions {
     protected boolean waitForElementTextPresent(WebElement webElement, String textElement, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.textToBePresentInElement(webElement, textElement));
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text " + textElement + " is displayed");
             statusOperation = true;
@@ -533,7 +519,7 @@ public class CommonFunctions {
     protected boolean waitForElementTextPresentValue(WebElement webElement, String textElementValue, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.textToBePresentInElementValue(webElement, textElementValue));
             logger.info("WebElement " + getWebElementLocatorPath(webElement) + " with text in attribute " + textElementValue + " is displayed");
             statusOperation = true;
@@ -588,7 +574,7 @@ public class CommonFunctions {
     protected boolean waitForElementPresenceBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.presenceOfElementLocated(locator));
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
@@ -610,7 +596,7 @@ public class CommonFunctions {
     protected boolean waitForElementTextToBeBy(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.textToBe(locator, text));
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
@@ -634,7 +620,7 @@ public class CommonFunctions {
     protected boolean waitForElementTextToBePresentInElementValueBy(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.textToBePresentInElementValue(locator, text));
             logger.info("Element found: " + locator.toString() + " with value: " + text);
             statusOperation = true;
@@ -657,7 +643,7 @@ public class CommonFunctions {
     protected boolean waitForElementToBeSelectedBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementToBeSelected(locator));
             logger.info("Element already selected: " + locator.toString());
             statusOperation = true;
@@ -680,7 +666,7 @@ public class CommonFunctions {
     protected boolean waitForElementFrameToBeAvailableAndSwitchToItBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
             logger.info("iFrame found and switch to it: " + locator.toString());
             statusOperation = true;
@@ -705,7 +691,7 @@ public class CommonFunctions {
     protected boolean waitForElementAttributeToBeBy(By locator, String attribute, String value, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.attributeToBe(locator, attribute, value));
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
@@ -730,7 +716,7 @@ public class CommonFunctions {
     protected boolean waitForElementAttributeContainsBy(By locator, String attribute, String value, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.attributeContains(locator, attribute, value));
             logger.info("Element found: " + locator.toString() + " with attribute: " + attribute + " and value: " + value);
             statusOperation = true;
@@ -753,7 +739,7 @@ public class CommonFunctions {
     protected boolean waitForElementToBeClickableBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementToBeClickable(locator));
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
@@ -776,7 +762,7 @@ public class CommonFunctions {
     protected boolean waitForElementVisibilityOfElementLocatedBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
@@ -800,7 +786,7 @@ public class CommonFunctions {
     protected boolean waitForElementSelectionStateToBeBy(By locator, boolean selectionState, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.elementSelectionStateToBe(locator, selectionState));
             logger.info("Element found: " + locator.toString());
             statusOperation = true;
@@ -823,7 +809,7 @@ public class CommonFunctions {
     protected boolean waitForElementInvisibilityOfElementLocatedBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
@@ -847,7 +833,7 @@ public class CommonFunctions {
     protected boolean waitForElementInvisibilityOfElementWithTextBy(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.invisibilityOfElementWithText(locator, text));
             logger.info("Element not found: " + locator.toString());
             statusOperation = true;
@@ -871,7 +857,7 @@ public class CommonFunctions {
     protected boolean waitForNumberOfElementsToBe(By locator, int numberElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.numberOfElementsToBe(locator, numberElements));
             logger.info("Elements found: " + locator.toString() + " number of elements: " + numberElements);
             statusOperation = true;
@@ -895,7 +881,7 @@ public class CommonFunctions {
     protected boolean waitForNumberOfElementsToBeLessThanBy(By locator, int numberElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.numberOfElementsToBeLessThan(locator, numberElements));
             logger.info("Elements found: " + locator.toString() + " number of elements less than: " + numberElements);
             statusOperation = true;
@@ -919,7 +905,7 @@ public class CommonFunctions {
     protected boolean waitForNumberOfElementsToBeMoreThanBy(By locator, int numberElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, numberElements));
             logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
             statusOperation = true;
@@ -942,7 +928,7 @@ public class CommonFunctions {
     protected boolean waitForNumberOfElementsToBeMoreThanByNoAutoCasting(By locator, int numberElements, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, numberElements));
             logger.info("Elements found: " + locator.toString() + " number of elements more than: " + numberElements);
             statusOperation = true;
@@ -963,7 +949,7 @@ public class CommonFunctions {
     protected boolean waitForPresenceOfAllElementsLocatedBy(By locator, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
             logger.info("Elements found: " + locator.toString());
             statusOperation = true;
@@ -987,7 +973,7 @@ public class CommonFunctions {
     protected boolean waitForTextToBePresentInElementLocatedBy(By locator, String text, int timeOutInSeconds) throws Exception {
         boolean statusOperation = false;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds));
             wait.until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
             statusOperation = true;
         } catch (Exception e) {
@@ -2824,17 +2810,21 @@ public class CommonFunctions {
      * @throws Exception selenium Exception
      * @author Alejandro Hernandez
      */
-    protected <f> void switchToFrameByWebElementIndexOrName(f frame, int timeOutInSeconds) throws Exception {
+    protected <f> boolean switchToFrameByWebElementIndexOrName(f frame, int timeOutInSeconds) throws Exception {
+        boolean statusOperation = false;
         try {
             String frameType = frame.getClass().getName();
             if (frameType.contains("Integer")) {
                 driver.switchTo().frame((Integer) frame);
+                statusOperation = true;
             } else {
                 if (frameType.contains("String")) {
                     driver.switchTo().frame(frame.toString());
+                    statusOperation = true;
                 } else {
                     if (waitForElementVisibility((WebElement) frame, timeOutInSeconds)) {
                         driver.switchTo().frame((WebElement) frame);
+                        statusOperation = true;
                     } else {
                         logger.error("The Web Element was not found");
                         throw new NoSuchElementException("Element not valid");
@@ -2844,6 +2834,7 @@ public class CommonFunctions {
         } catch (Exception e) {
             logger.info(Values.TXT_EXCREFLECTION);
         }
+        return statusOperation;
     }
 
     /**
@@ -3054,6 +3045,23 @@ public class CommonFunctions {
                 }
             }
         }
+    }
+
+    /**
+     * This method is used to SendKeys to a WebElement
+     *
+     * @param webElement
+     * @return
+     * @author J.Ruano
+     */
+    protected void sendKeysWebElementJS(WebElement webElement, String text) throws Exception {
+            try {
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+                js.executeScript("arguments[0].value='" + text + "';", webElement);
+                logger.info("Keys sent by JS " + getWebElementText(webElement) + " with text: " + text);
+            } catch (Exception y) {
+                logger.error("WebElement not valid: " + getWebElementLocatorPath(webElement));
+            }
     }
 
     /**
@@ -4644,5 +4652,86 @@ public class CommonFunctions {
         } catch (Exception e) {
             clickAndMoveMethodsWebElement(buttonSaveAccount);
         }
+    }
+
+    /**
+     * use to search webelement with relative locators toRightOf, toLeftOf, above and below
+     *
+     * @param tagName         the tagname is related to the webelement that has to be found example button, input etc
+     * @param relativeLocator toRightOf = right or r, toLeftOf = left or l, for above = above or a, for below = below or b
+     * @param webElementPath  this is the path for the webeelement reference to find the one that we need
+     * @return a WebElementList
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public WebElement findRelativeLocatorsByXpath(String tagName, String relativeLocator, By webElementPath) throws Exception {
+        List<WebElement> webElementList = null;
+        WebElement webElement = null;
+        try {
+            switch (relativeLocator.toLowerCase().trim()) {
+                case "left":
+                case "l":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).toLeftOf(driver.findElement(webElementPath))));
+                    break;
+
+                case "right":
+                case "r":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).toRightOf(driver.findElement(webElementPath))));
+                    break;
+
+                case "above":
+                case "a":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).above(driver.findElement(webElementPath))));
+                    break;
+
+                case "below":
+                case "b":
+                    webElement = driver.findElement(with(By.tagName(tagName)).below(driver.findElement(webElementPath)));
+                    break;
+            }
+        } catch (Exception e) {
+
+        }
+        return webElement;
+    }
+
+    /**
+     * use to search webelement with relative locators toRightOf, toLeftOf, above and below
+     *
+     * @param tagName             the tagname is related to the webelement that has to be found example button, input etc
+     * @param relativeLocator     toRightOf = right or r, toLeftOf = left or l, for above = above or a, for below = below or b
+     * @param webElementReference this is the path for the webeelement reference to find the one that we need
+     * @return a WebElementList
+     * @throws Exception
+     * @author J.Ruano
+     */
+    public WebElement findRelativeLocatorsWebElement(String tagName, String relativeLocator, WebElement webElementReference) throws Exception {
+        WebElement webElement = null;
+        try {
+            switch (relativeLocator.toLowerCase().trim()) {
+                case "left":
+                case "l":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).toLeftOf(webElementReference)));
+                    break;
+
+                case "right":
+                case "r":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).toRightOf(webElementReference)));
+                    break;
+
+                case "above":
+                case "a":
+                    webElement = (driver.findElement(with(By.tagName(tagName)).above(webElementReference)));
+                    break;
+
+                case "below":
+                case "b":
+                    webElement = driver.findElement(with(By.tagName(tagName)).below(webElementReference));
+                    break;
+            }
+        } catch (Exception e) {
+
+        }
+        return webElement;
     }
 }

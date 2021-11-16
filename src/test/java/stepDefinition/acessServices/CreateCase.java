@@ -2,6 +2,8 @@ package stepDefinition.acessServices;
 
 import base.functions.CommonFunctions;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import pageObject.ApplicationInstance;
@@ -100,7 +102,7 @@ public class CreateCase extends ApplicationInstance {
     }
 
     @And("^I fill the new case mandatory fields \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void fillNewCaseMandatoryFields(String caseName,String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+    public void fillNewCaseMandatoryFields(String caseName, String productName, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
         if (commonData.product.getProduct() != null) {
             productName = commonData.product.getProduct();
@@ -241,7 +243,7 @@ public class CreateCase extends ApplicationInstance {
             accessServices.getPersonAccountPage().clickNewCase();
             Assert.assertTrue(accessServices.getNewCaseOptionsPage().isFormCaseOptionsPageDisplayed(), Values.TXT_NOINTERACTIONFORM);
             if (caseType.trim().equalsIgnoreCase(Values.IDX_VAL_P2)) {
-                caseType = Values.ARRAY_CASETYPELIST[Integer.parseInt(Values.IDX_VAL_P2.replace(Values.TXT_VALUE_P,Values.REPLACETO_EMPTY))];
+                caseType = Values.ARRAY_CASETYPELIST[Integer.parseInt(Values.IDX_VAL_P2.replace(Values.TXT_VALUE_P, Values.REPLACETO_EMPTY))];
             }
             accessServices.getNewCaseOptionsPage().selectCaseOption(caseType);
             List<String> irDataList = commonFunctions.splitRegex(caseData = caseData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA);
@@ -257,5 +259,55 @@ public class CreateCase extends ApplicationInstance {
             commonData.interaction = new Interaction(interactionNumber);
             accessServices.getSubTabsPage().closeLastSubTab();
         }
+    }
+
+    @Then("I open the RV case")
+    public void iOpenTheRVCase() throws Exception {
+        String rvCaseNumber = accessServices.getCasePage().getRVCaseNumber();
+        accessServices.getCasePage().searchCaseOnSF(rvCaseNumber);
+
+    }
+
+    @And("I add a new case team member {string} and validate it")
+    public void iAddANewCaseTeam(String ctmData) throws Exception {
+        //====================================================================================================CTM CREATION LOGIC
+//===================CTM WILL BE CREATED ONLY IF A PE IS CREATED
+        List<List<String>> ctmListOfList = commonFunctions.splitIntoLists(ctmData = ctmData.replaceAll(Values.REGEX_REPLACEINDEXLABEL, Values.REPLACETO_EMPTY), Values.REGEX_COMMA, Values.TXT_UNDERSCORE);
+        if (ctmListOfList.size() == 1 && (ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_NOTAPPLY) || ctmListOfList.get(0).get(0).equalsIgnoreCase(Values.TXT_N_VALUE))) {
+            logger.info(Values.TXT_NOINSURANCE);
+        } else {
+            for (int i = 0; i < ctmListOfList.get(1).size(); i++) {
+                String type = ctmListOfList.get(0).get(i);
+                String email = ctmListOfList.get(1).get(i);
+                String relation = ctmListOfList.get(2).get(i);
+                accessServices.getCasePage().clickOnAddCaseTeam();
+                accessServices.getCustomerLookupPage().doDummySearch(email, type);
+                accessServices.getCustomerLookupPage().selectCareTeamMemberAddressDetails();
+                String memberRoleCaseTeam = accessServices.getCustomerLookupPage().selectRelationshipOption(relation);
+                accessServices.getCustomerLookupPage().selectCaseContactOption();
+                accessServices.getCustomerLookupPage().clickCreateCareTeamMember();
+                Assert.assertEquals(accessServices.getCasePage().validateAddedCaseTeamRV(memberRoleCaseTeam), true, Values.TXT_CASETEAMADDED + memberRoleCaseTeam);
+            }
+        }
+    }
+
+    @Then("I validate that the patients selected are displayed on the patient section")
+    public void iValidatePatientsSelectedOnPatientSection() throws Exception {
+        Assert.assertEquals(accessServices.getCasePage().validatePEPID(Values.globalStringList),true, Values.TXT_CASETEAMADDED);
+    }
+
+    @Given("a Next treatment date {string} i will update the date in the patient section")
+    public void aNextTreatmentDateUpdateInThePatientSection(String nextTreatmentDate) throws Exception {
+        Values.globalNTDValidationList.addAll(accessServices.getCasePage().editNextTreatmentDate(nextTreatmentDate, Values.globalStringList));
+    }
+
+    @Then("I click on create RV case without selecting any of the patients to validate warning message No patients selected")
+    public void iValidateCreateRVCasesMessage() throws Exception {
+        Assert.assertEquals(accessServices.getCasePage().validateCreateRVCasesMessage(),true,Values.TXT_NOPATIENTSSELECTED);
+    }
+
+    @Then("I select the checkbox for the patients click Create RV case and validate message RV created")
+    public void iSelectThePatientsAndValidateMessageRVCreated() throws Exception {
+        Assert.assertEquals(accessServices.getCasePage().selectAndCreateRVCases(),true,Values.TXT_SUCCESSFULLCREATIONRVCASES);
     }
 }
