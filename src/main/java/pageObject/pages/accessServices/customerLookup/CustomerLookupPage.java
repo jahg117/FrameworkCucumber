@@ -77,7 +77,7 @@ public class CustomerLookupPage extends CommonFunctions {
     @FindBy(xpath = "//*[contains(text(),'Care Team Member Relationship')]/following::select")
     private WebElement dropdownRelationship;
 
-    @FindBy(xpath = "//input[@value='Create CareTeam Member']")
+    @FindBy(xpath = "//input[@value='Create CareTeam Member'] | //input[@value='Create Case CareTeam Member']")
     private WebElement buttonCreateCareTeamMember;
 
     @FindBy(xpath = "//input[contains(@class,'input name')]")
@@ -210,7 +210,7 @@ public class CustomerLookupPage extends CommonFunctions {
         switchToParentFrame();
     }
 
-    public void selectRelationshipOption(String option) throws Exception {
+    public String selectRelationshipOption(String option) throws Exception {
         String relationShipValue = "";
         switchToFrameByWebElementIndexOrName(iframePageInformation, mediumWait());
         waitForElementVisibility(dropdownRelationship, mediumWait());
@@ -218,6 +218,7 @@ public class CustomerLookupPage extends CommonFunctions {
         selectAndMoveDropdownClickableByText(dropdownRelationship, relationShipValue = ctmRelationShipFilter(option), mediumWait());
         waitForNumberOfElementsToBe(iconLoadPage, 0, shortWait());
         switchToParentFrame();
+        return relationShipValue;
     }
 
     public void clickCreateCareTeamMember() throws Exception {

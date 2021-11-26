@@ -68,6 +68,8 @@ public class CaseInformationPage extends CommonFunctions {
 
     private By listAutocompleteElements = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@class,'primaryLabel')]");
 
+    private By listAutocompletePatients = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@title,'PEP_ID')]");
+
     private By buttonCreateNewElementList = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//div[contains(@class,'createNew')]//span");
 
     @FindBy(xpath = "//span[contains(text(),'Product Enrollment')]/../..//span[contains(text(),'PE-')]")
@@ -87,6 +89,9 @@ public class CaseInformationPage extends CommonFunctions {
     @FindBy(xpath = "//div[contains(@class,'modal-container')]//span[contains(text(),'Patient')]/../..//input[@title='Search Accounts']")
     private WebElement inputSearchAccount;
 
+    @FindBy(xpath = "//span[contains(text(),'Patient')]/../..//input[@title='Search Accounts']")
+    private WebElement inputSearchEnrolledPatient;
+
     @FindBy(xpath = "//span[contains(text(),'Insurance Rank')]/following::*[@class='select'][1]")
     private WebElement dropdownInsuranceRank;
 
@@ -101,6 +106,9 @@ public class CaseInformationPage extends CommonFunctions {
 
     @FindBy(xpath = "//*[contains(@class,'inlineTitle')]")
     private WebElement labelCaseTitle;
+
+    @FindBy(xpath = "//span[contains(text(),'Anonymous')]/../..//input[@type='checkbox']")
+    private WebElement checkboxAnonymous;
 
     protected FileReading fileReading = new FileReading();
     private final Logger logger = Logger.getLogger(CommonFunctions.class);
@@ -334,6 +342,29 @@ public class CaseInformationPage extends CommonFunctions {
         statusOperation.put("CaseStatus", webElementOption);
         webElementOption = waitForElementVisibility(dropdownSubType, shortWait()) ? selectDropdownOption(dropdownSubType, listDropdownOptions, formDetails.get("CaseSubType")) : "";
         statusOperation.put("CaseSubType", webElementOption);
+        if(formDetails.get("Anonymous").equalsIgnoreCase("true")){
+            if(!isClickableElementSelected(checkboxAnonymous, shortWait())){
+                clickElementJS(checkboxAnonymous);
+            }
+        }else{
+            if(isClickableElementSelected(checkboxAnonymous, shortWait())){
+                clickElementJS(checkboxAnonymous);
+            }
+        }
+        if(formDetails.get("PatientID").equalsIgnoreCase("NA")){
+            clickAndMoveToElementClickable(inputSearchEnrolledPatient, mediumWait());
+            waitForPresenceOfAllElementsLocatedBy(listAutocompletePatients, mediumWait());
+            waitForElementListVisible(getWebElementList(listAutocompletePatients), mediumWait());
+            clickAndMoveToElementClickable(getWebElementList(listAutocompletePatients).get(0), mediumWait());
+        } else{
+            By autocompletePatient = By.xpath("//div[contains(@class,'lookup__menu uiAbstractList')]//li[contains(@class,'default uiAutocompleteOption')]//div[contains(@title,'"+formDetails.get("PatientID")+"')]");
+            sendKeysAndMoveToElementClickable(inputSearchEnrolledPatient, formDetails.get("PatientID"), shortWait());
+            waitForPresenceOfAllElementsLocatedBy(listAutocompletePatients, mediumWait());
+            waitForElementListVisible(getWebElementList(listAutocompletePatients), mediumWait());
+            clickAndMoveToElementClickable(autocompletePatient, shortWait());
+        }
+
+
         if (waitForElementListVisible(listDiscussTopic, 1)) {
             if (formDetails.get("DiscussTopic").equalsIgnoreCase(Values.TXT_RANDOM)) {
                 WebElement el = getRandomWebElementFromList(listDiscussTopic, mediumWait());

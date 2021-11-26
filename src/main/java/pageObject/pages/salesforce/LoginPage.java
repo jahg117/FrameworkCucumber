@@ -1,6 +1,7 @@
 package pageObject.pages.salesforce;
 
 import org.apache.commons.codec.binary.Base64;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import base.functions.CommonFunctions;
@@ -20,6 +21,13 @@ public class LoginPage extends CommonFunctions {
 
     @FindBy(css = "#Login")
     private WebElement button_login;
+
+    @FindBy(xpath = "//button[contains(@class,'search-button')]")
+    private WebElement searchBarSF;
+
+    @FindBy(xpath = "//input[@type='search'][not(starts-with(@id,'global-search'))]")
+    private WebElement secondSearchBar;
+
 
     String environment = "";
     Class<?> myClass;

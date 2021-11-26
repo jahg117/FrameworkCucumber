@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Values {
     //============STRING VALUES
@@ -98,6 +100,28 @@ public final class Values {
     public static final String TXT_FILEADDED = "File Added Successfully ";
     public static final String TXT_FILENOTADDED = "File Was NOT Added Successfully ";
     public static final String TXT_NOITEMSDISPLAY = "No items to display ";
+    public static final String TXT_CASETEAMADDED = "The Case Team Was Added As A Member Role Of: ";
+    public static final String TXT_RVSCREENSEARCH = "The Reverification screen was displayed correctly: ";
+    public static final String TXT_RVFILTERNOTREQUIRED = "The Filter Was Not Required: ";
+    public static final String TXT_RVNOPATIENTFOUND = "No Patients were found with this search: ";
+    public static final String TXT_RVPEPIDMATCHED = "The PEP-ID MATCHED: ";
+    public static final String TXT_CHECKED = "checked";
+    public static final String TXT_NOPATIENTSSELECTED = "The message - No Patients Selected - was displayed successfully: ";
+    public static final String TXT_ERRORCREATINGRVCASES = "An error ocurred while creating RV Cases";
+    public static final String TXT_SUCCESSFULLCREATIONRVCASES = "RV Cases were created.";
+    public static final String TXT_NOMESSAGEDISPLAYED = "No message was displayed when creating RV Cases";
+    public static final String TXT_NTDNOEDIT = "02/28/2022";
+    public static final String TXT_BICORRECTVALUE = "The value matched with the one captured: ";
+    public static final String TXT_BIINCORRECTVALUE = "The value DOES NOT MATCHED with the one captured: ";
+    public static final String TXT_CASESUBTYPEVALUE = "Annual Reverification";
+    public static final String TXT_CASEOWNERVALUE = "Reverification BI Queue";
+    public static final String TXT_TASKBINEXTSTEP = "Verify benefits based on anticipated treatment date";
+    public static final String TXT_TASKPRIORITYNORMAL = "Normal";
+
+
+
+
+
 
 
 
@@ -106,6 +130,15 @@ public final class Values {
 
     //============INTEGER VALUES
     public static int globalCounter = 0;
+
+    //============STRING VALUES
+    public static String globalStringValues = "";
+    public static String globalPayerName = "";
+
+
+    //===========PUBLIC GLOBAL LIST
+    public static List<String> globalStringList = new ArrayList<>();
+    public static List<String> globalNTDValidationList = new ArrayList<>();
 
     //============FORMATS
     public static final String DATEFORMAT_MMM_DD_HH_MM = "MMM.dd.HH.mm";
@@ -142,6 +175,8 @@ public final class Values {
     public static final By CAREGIVERLOCATOR = By.xpath("//*[contains(@id,'input')][@role='option']//*[@title])");
     public static final By DATESCRIPFORMAT = By.xpath("//script[contains(text(),\"L : 'MM/DD/YYYY'\")]");
     public static final By ERRORDOB = By.xpath("//*[contains(text(),\"Unable to read SObject's field value[s]\")]");
+    public static final By CHECKBOXLISTRV = By.xpath("//th/div[normalize-space(text())='A360 Patient ID']/following::input[@type='checkbox'][not(@disabled='disabled')]");
+
 
     //script[contains(text(),"L : 'MM/DD/YYYY'")]
 
@@ -150,8 +185,10 @@ public final class Values {
     public static final String ATTRIBUTE_ARIAEXPANDED_VALUE = "aria-expanded";
     public static final String ATTRIBUTE_DATAVALUE_VALUE = "data-value";
 
+
     //============REGEX RULES
     public static final String REGEX_COMMA = "[,]";
+    public static final String REGEX_UNDERSCORE = "[_]";
     public static final String REGEX_SEMICOLON = "[;]";
     public static final String REGEX_REPLACEINDEXLABEL = "P[\\d:]*(.):";
     public static final String REGEX_WITHESPACE = "[(\\s)]";
@@ -294,6 +331,8 @@ public final class Values {
     public static final String ATR_TITLE = "title";
     public static final String ATR_DATAITEMID = "data-itemid";
     public static final String ATR_DATALABEL = "data-label";
+    public static final String ATR_CHECKED = "checked";
+    public static final String ATR_ARIAROWCOUNT = "aria-rowcount";
 
     //============BROWSERSTACK ACCOUNTS
     public static final String[] ARRAY_BROWSERSTACKACCOUNTS = {"ja1,juanalejandroher1,NnfLE4q6YJ8xk7rCnUD3", "jr1,jonathanruano1,DQwBGuJzfRZpzMzhzgnq"};
