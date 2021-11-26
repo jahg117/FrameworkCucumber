@@ -142,8 +142,8 @@ public class CreateCase extends ApplicationInstance {
         commonData.product = new Product(getProduct);
     }
 
-    @And("^I fill the child case mandatory fields without name and product enrollment \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-    public void fillChildCaseMandatoryFieldsWitoutNameProductEnrollment(String caseRequestedType, String productType, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber) throws Exception {
+    @And("^I fill the child case mandatory fields without name and product enrollment \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
+    public void fillChildCaseMandatoryFieldsWitoutNameProductEnrollment(String caseRequestedType, String productType, String channel, String caseStatus, String caseSubType, String discussTopic, String cardNumber, String anonymous, String patientID) throws Exception {
         HashMap<String, String> caseForm = new HashMap<>();
         caseForm.put("CaseRequestedType", caseRequestedType);
         caseForm.put("Channel", channel);
@@ -151,6 +151,8 @@ public class CreateCase extends ApplicationInstance {
         caseForm.put("CaseSubType", caseSubType);
         caseForm.put("DiscussTopic", discussTopic);
         caseForm.put("CardNumber", cardNumber);
+        caseForm.put("Anonymous", anonymous);
+        caseForm.put("PatientID", patientID);
         accessServices.getCaseInformationPage().isCaseOptionPageDisplayed();
         String getProduct = accessServices.getNewProductEnrollmentForm().getProduct(productType);
         accessServices.getCaseInformationPage().fillSearchProduct(getProduct);

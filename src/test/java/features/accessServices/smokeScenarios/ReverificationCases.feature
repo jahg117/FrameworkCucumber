@@ -1,4 +1,4 @@
-@smokeScenarios
+@smokeScenarioss
 Feature: Reverification
 
   Scenario Outline: Create reverification cases
@@ -11,10 +11,10 @@ Feature: Reverification
     And I validate the correct case interaction information displayed
     And I click on the child case button
     And I select the case type option "<caseOption>" from the child case form
-    And I fill the child case mandatory fields without name and product enrollment "<caseRequestedType>" "<product>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>"
+    And I fill the child case mandatory fields without name and product enrollment "<caseRequestedType>" "<product>" "<channel>" "<caseStatus>" "<caseSubType>" "<discussTopic>" "<cardNumber>" "<anonymous>" "<patientID>"
     Examples:
-      | user    | channel | caseStatus | caseOption     | caseRequestedType    | product | channel | caseStatus | caseSubType      | discussTopic | cardNumber |
-      | admin   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
-      | agent   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
-      | manager | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        |
+      | user    | channel | caseStatus | caseOption     | caseRequestedType    | product | channel | caseStatus | caseSubType      | discussTopic | cardNumber | anonymous | patientID |
+      | admin   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        | true      | NA        |
+      | agent   | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        | true      | NA        |
+      | manager | RND     | Open       | Reverification | Health Care Provider | FASENRA | RND     | Open       | Reverification   | Initiated    | RND        | true      | NA        |
 
